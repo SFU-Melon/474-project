@@ -6,5 +6,5 @@
 - cd .. (to go back to root dir)
 - npm run dev (from root dir)
 
-# For first time cloning, run:
+# For Second time cloning, run:
 - npm run dev (from root dir)

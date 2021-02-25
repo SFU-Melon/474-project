@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Nav from './components/Nav';
 import Home from './pages/Home/index';
 import Login from './pages/Login/index';
-
 import SignUp from './pages/SignUp/index';
 import Profile from './pages/Profile';
 import Post from './pages/Post';
@@ -12,7 +11,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <Nav />
         <div className="content">
           <Switch>
             <Route path="/login">

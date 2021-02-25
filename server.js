@@ -4,9 +4,9 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Index");
-});
+const router = require("./routes/router");
+
+app.use("/api", router);
 
 const port = process.env.PORT || 5000;
 

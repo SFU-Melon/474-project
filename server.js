@@ -1,11 +1,43 @@
+// change this for production
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
+const passport = require("passport");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
+const initializeStrategy = require("./passport-config");
+initializeStrategy(passport);
+
+// Express session
+// Create an .env and add: SESSION_SECRET_KEY=daksjdhdkxncbkdu (any random string will do)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser(process.env.SESSION_SECRET_KEY));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+//API routes
 const router = require("./routes/router");
-
 app.use("/api", router);
 
 const port = process.env.PORT || 5000;

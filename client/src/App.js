@@ -1,17 +1,18 @@
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import Login from "./Login";
+import SignUp from "./SignUp";
+import Home from "./Home";
 import axios from "axios";
 
 function App() {
   return (
-    <div className="">
-      <h1>App</h1>
-      <button
-        onClick={() => {
-          axios.get("/api/user/register");
-        }}
-      >
-        Click me
-      </button>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" render={(props) => <Login {...props} />} />
+        <Route path="/signup" exact render={(props) => <SignUp {...props} />} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

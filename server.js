@@ -25,12 +25,12 @@ initializeStrategy(passport);
 // Create an .env and add: SESSION_SECRET_KEY=daksjdhdkxncbkdu (any random string will do)
 app.use(
   session({
-    secret: process.env.SESSION_SECRET_KEY,
+    secret: "SWqsVQjkcOocjZVVguJB",
     resave: true,
     saveUninitialized: true,
   })
 );
-app.use(cookieParser(process.env.SESSION_SECRET_KEY));
+app.use(cookieParser("SWqsVQjkcOocjZVVguJB"));
 
 // Passport middleware
 app.use(passport.initialize());

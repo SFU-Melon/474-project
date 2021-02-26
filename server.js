@@ -28,6 +28,7 @@ app.use(
     secret: "SWqsVQjkcOocjZVVguJB",
     resave: true,
     saveUninitialized: true,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
   })
 );
 app.use(cookieParser("SWqsVQjkcOocjZVVguJB"));

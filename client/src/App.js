@@ -1,8 +1,7 @@
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Home from "./Home";
-import axios from "axios";
 
 function App() {
   return (

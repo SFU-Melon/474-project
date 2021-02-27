@@ -22,7 +22,6 @@ const initializeStrategy = require("./passport-config");
 initializeStrategy(passport);
 
 // Express session
-// Create an .env and add: SESSION_SECRET_KEY=daksjdhdkxncbkdu (any random string will do)
 app.use(
   session({
     secret: "SWqsVQjkcOocjZVVguJB",

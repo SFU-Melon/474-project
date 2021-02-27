@@ -1,8 +1,17 @@
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Login from "./Login";
+import SignUp from "./SignUp";
+import Home from "./Home";
+
 function App() {
   return (
-    <div className="">
-      <h1>App</h1>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" render={(props) => <Login {...props} />} />
+        <Route path="/signup" exact render={(props) => <SignUp {...props} />} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

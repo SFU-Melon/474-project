@@ -14,12 +14,6 @@ function App() {
         <Nav />
         <div className="content">
           <Switch>
-            <Route path="/login">
-              <Login></Login>
-            </Route>
-            <Route path="/signup">
-              <SignUp></SignUp>
-            </Route>
             <Route path="/profile/:username">
               <Profile></Profile>
             </Route>
@@ -29,9 +23,17 @@ function App() {
             <Route path="/plant/:id">
               <Plant></Plant>
             </Route>
-            <Route exact path="/">
-              <Home></Home>
-            </Route>
+            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/login"
+              render={(props) => <Login {...props} />}
+            />
+            <Route
+              path="/signup"
+              exact
+              render={(props) => <SignUp {...props} />}
+            />
           </Switch>
         </div>
       </div>

@@ -1,27 +1,29 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
-export default function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function SignUp(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
+    console.log("Email", email);
     if (email && password) {
       axios
-        .post('/api/login', { email: email, password: password })
+        .post("/api/signup", { email: email, password: password })
         .then((res) => {
+          console.log(res);
           if (res.data.success) {
-            props.history.push('/');
+            props.history.push("/login");
+          } else {
+            console.log("failed");
           }
-          console.log('res: ', res.data.success);
         });
     }
   };
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Sign Up</h1>
       <input
         type="email"
         placeholder="Email"
@@ -36,8 +38,7 @@ export default function Login(props) {
           setPassword(e.target.value);
         }}
       />
-      <button onClick={handleSubmit}>Login</button>
-      <Link to="/signup">SIGN UP </Link>
+      <button onClick={handleSubmit}>Sign Up</button>
     </div>
   );
 }

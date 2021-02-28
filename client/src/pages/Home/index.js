@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Home() {
+  const id = 4;
   const [user, setUser] = useState(null);
 
   const authenticateUser = async () => {
     try {
-      const res = await axios.get("/api/user");
+      const res = await axios.get('/api/user');
       console.log(res);
       if (res) {
         setUser(res.data.user);
@@ -22,7 +24,7 @@ export default function Home() {
 
   const logout = async () => {
     try {
-      const res = await axios.get("/api/logout");
+      const res = await axios.get('/api/logout');
       console.log(res);
       setUser(null);
     } catch (err) {
@@ -39,6 +41,7 @@ export default function Home() {
           <button onClick={logout}>Logout</button>
         </div>
       )}
+      <Link to={`/post/${id}`}>POST - {id}</Link>
     </div>
   );
 }

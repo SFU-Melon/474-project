@@ -6,38 +6,35 @@ import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import Post from './pages/Post';
 import Plant from './pages/Plant';
+import { UserProvider } from './contexts/UserContext';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Nav />
-        <div className="content">
-          <Switch>
-            <Route path="/profile/:username">
-              <Profile></Profile>
-            </Route>
-            <Route path="/post/:id">
-              <Post></Post>
-            </Route>
-            <Route path="/plant/:id">
-              <Plant></Plant>
-            </Route>
-            <Route exact path="/" component={Home} />
-            <Route
-              exact
-              path="/login"
-              render={(props) => <Login {...props} />}
-            />
-            <Route
-              path="/signup"
-              exact
-              render={(props) => <SignUp {...props} />}
-            />
-          </Switch>
+    <UserProvider>
+      <Router>
+        <div className="App">
+          <Nav />
+          <div className="content">
+            <Switch>
+              <Route path="/profile/:username" component={Profile} />
+              <Route path="/post/:id" component={Post} />
+              <Route path="/plant/:id" component={Plant} />
+              <Route exact path="/" component={Home} />
+              <Route
+                exact
+                path="/login"
+                render={(props) => <Login {...props} />}
+              />
+              <Route
+                path="/signup"
+                exact
+                render={(props) => <SignUp {...props} />}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </UserProvider>
   );
 }
 

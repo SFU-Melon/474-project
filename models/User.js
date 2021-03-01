@@ -10,7 +10,6 @@ User.save = async (data) => {
         "INSERT INTO users (username, password) VALUES ($1, $2)",
         [username, hashed]
       );
-      console.log(res);
     } catch (err) {
       console.log(err.message);
     }
@@ -22,7 +21,6 @@ User.getUserByUsername = async (username) => {
     const res = await pool.query("SELECT * FROM users WHERE username = $1", [
       username,
     ]);
-    console.log("Res: ", res);
     return res.rows.length > 0 ? res.rows[0] : null;
   } catch (err) {
     console.log(err.message);
@@ -32,7 +30,6 @@ User.getUserByUsername = async (username) => {
 User.getUserById = async (id) => {
   try {
     const res = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-    console.log("Res: ", res);
     return res.rows.length > 0 ? res.rows[0] : null;
   } catch (err) {
     console.log(err.message);

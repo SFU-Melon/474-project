@@ -12,3 +12,5 @@ CREATE TABLE users(
 
 /* Delete all rows inside users table */
 DELETE FROM users;
+/* See all rows inside users table */
+SELECT * FROM users;

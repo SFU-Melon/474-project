@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { useUserContext } from '../../contexts/UserContext';
 
 export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user, setUser } = useUserContext();
 
   const handleSubmit = () => {
     if (email && password) {
@@ -12,6 +14,7 @@ export default function Login(props) {
         .post('/api/login', { email: email, password: password })
         .then((res) => {
           if (res.data.success) {
+            setUser(res.data.user);
             props.history.push('/');
           }
           console.log('res: ', res.data.success);
@@ -21,6 +24,7 @@ export default function Login(props) {
 
   return (
     <div>
+      {user && user.email}
       <h1>Login</h1>
       <input
         type="email"

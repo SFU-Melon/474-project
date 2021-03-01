@@ -5,9 +5,9 @@ const User = require("./models/User");
 function initializeStrategy(passport) {
   console.log("local strategy initialized");
 
-  const authenticateUser = async (email, password, done) => {
-    console.log(email, password);
-    const user = await User.getUserByEmail(email);
+  const authenticateUser = async (username, password, done) => {
+    console.log(username, password);
+    const user = await User.getUserByUsername(username);
     if (user) {
       bcrypt.compare(password, user.password, (err, matched) => {
         if (err) throw err;
@@ -21,14 +21,14 @@ function initializeStrategy(passport) {
       });
     } else {
       return done(null, false, {
-        message: "Email is not registered",
+        message: "Username is not registered",
       });
     }
   };
 
   passport.use(
     new LocalStrategy(
-      { usernameField: "email", passwordField: "password" },
+      { usernameField: "username", passwordField: "password" },
       authenticateUser
     )
   );
@@ -39,7 +39,7 @@ function initializeStrategy(passport) {
   // decrypt cookie to get userId
   passport.deserializeUser(async (id, done) => {
     const user = await User.getUserById(id);
-    console.log(`deserializing user: ${user.id}, ${user.email}`);
+    console.log(`deserializing user: ${user.id}, ${user.username}`);
     return done(null, user);
   });
 }

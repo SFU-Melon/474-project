@@ -3,12 +3,12 @@ const pool = require("../db");
 const User = {};
 
 User.save = async (data) => {
-  const { email, hashed } = data;
-  if (email && hashed) {
+  const { username, hashed } = data;
+  if (username && hashed) {
     try {
       const res = await pool.query(
-        "INSERT INTO users (email, password) VALUES ($1, $2)",
-        [email, hashed]
+        "INSERT INTO users (username, password) VALUES ($1, $2)",
+        [username, hashed]
       );
       console.log(res);
     } catch (err) {
@@ -17,10 +17,10 @@ User.save = async (data) => {
   }
 };
 
-User.getUserByEmail = async (email) => {
+User.getUserByUsername = async (username) => {
   try {
-    const res = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
+    const res = await pool.query("SELECT * FROM users WHERE username = $1", [
+      username,
     ]);
     console.log("Res: ", res);
     return res.rows.length > 0 ? res.rows[0] : null;

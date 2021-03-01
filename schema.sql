@@ -2,9 +2,9 @@ CREATE DATABASE db354;
 
 CREATE TABLE users(
     id BIGSERIAL PRIMARY KEY NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    username VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
-    UNIQUE (email)
+    UNIQUE (username)
 );
 
 

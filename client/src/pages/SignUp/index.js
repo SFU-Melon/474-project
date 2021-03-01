@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
 export default function SignUp(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    console.log('Email', email);
-    if (email && password) {
+    console.log("username: ", username);
+    if (username && password) {
       axios
-        .post('/api/signup', { email: email, password: password })
+        .post("/api/signup", { username: username, password: password })
         .then((res) => {
           console.log(res);
           if (res.data.success) {
-            props.history.push('/login');
+            props.history.push("/login");
           } else {
-            console.log('failed');
+            console.log("failed");
           }
         });
     }
@@ -25,10 +25,10 @@ export default function SignUp(props) {
     <div>
       <h1>Sign Up</h1>
       <input
-        type="email"
-        placeholder="Email"
+        type="text"
+        placeholder="Username"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setUsername(e.target.value);
         }}
       />
       <input

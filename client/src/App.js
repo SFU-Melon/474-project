@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Post from './pages/Post';
 import Plant from './pages/Plant';
 import { UserProvider } from './contexts/UserContext';
+import ProtectedRoutes from './protected-routes/ProtectedRoutes';
 
 function App() {
   return (
@@ -16,19 +17,26 @@ function App() {
           <Nav />
           <div className="content">
             <Switch>
-              <Route path="/profile/:username" component={Profile} />
-              <Route path="/post/:id" component={Post} />
-              <Route path="/plant/:id" component={Plant} />
+              <Route exact path="/post/:id" component={Post} />
+              <Route exact path="/plant/:id" component={Plant} />
               <Route exact path="/" component={Home} />
-              <Route
+              <ProtectedRoutes
+                exact
+                path="/profile/:username"
+                component={Profile}
+                template={'accessibleAfterLogin'}
+              />
+              <ProtectedRoutes
                 exact
                 path="/login"
-                render={(props) => <Login {...props} />}
+                component={Login}
+                template={'accessibleBeforeLogin'}
               />
-              <Route
+              <ProtectedRoutes
                 path="/signup"
                 exact
-                render={(props) => <SignUp {...props} />}
+                component={SignUp}
+                template={'accessibleBeforeLogin'}
               />
             </Switch>
           </div>

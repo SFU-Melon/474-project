@@ -14,7 +14,6 @@ export function UserProvider({ children }) {
   const authenticateUser = async () => {
     try {
       const res = await axios.get('/api/user');
-      console.log(res);
       if (res) {
         setUser(res.data.user);
       }
@@ -30,7 +29,6 @@ export function UserProvider({ children }) {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {console.log(user)}
       {children}
     </UserContext.Provider>
   );

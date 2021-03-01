@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUserContext } from "../../contexts/UserContext";
 
@@ -9,8 +8,7 @@ export default function Home() {
 
   const logout = async () => {
     try {
-      const res = await axios.get("/api/logout");
-      console.log(res);
+      await axios.get("/api/logout");
       setUser(null);
     } catch (err) {
       console.log(err);

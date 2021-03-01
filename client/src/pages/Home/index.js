@@ -1,26 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useUserContext } from '../../contexts/UserContext';
 
 export default function Home() {
   const id = 4;
-  const [user, setUser] = useState(null);
-
-  const authenticateUser = async () => {
-    try {
-      const res = await axios.get('/api/user');
-      console.log(res);
-      if (res) {
-        setUser(res.data.user);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
+  const { user, setUser } = useUserContext();
 
   const logout = async () => {
     try {

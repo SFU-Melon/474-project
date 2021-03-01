@@ -1,4 +1,4 @@
-import { useState, useContext, createContext, useEffect } from 'react';
+import { useState, useContext, createContext, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
 const UserContext = createContext(null);
@@ -10,6 +10,7 @@ export function useUserContext() {
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   const authenticateUser = async () => {
     try {
@@ -28,7 +29,7 @@ export function UserProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={providerValue}>
       {children}
     </UserContext.Provider>
   );

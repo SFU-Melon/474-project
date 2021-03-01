@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
 import Error from '../pages/Error';
 
@@ -7,38 +7,42 @@ export default function ProtectedRoutes({
   template,
   ...rest
 }) {
-  const { user, setUser } = useUserContext();
+  const { user } = useUserContext();
 
+  // I can't use Redirect for the first case bc the it reads states slowly -> Any ways around this?
   const switchRoute = () => {
     switch (template) {
       case 'accessibleAfterLogin':
-        return user ? (
+        return (
           <Route
             {...rest}
             render={(props) => {
-              return <Component {...props} />;
-            }}
-          />
-        ) : (
-          <Route
-            render={() => {
-              return <Error msg={'User not logged in'} />;
+              return user ? (
+                <Component {...props} />
+              ) : (
+                <Error msg={'Not logged in'} />
+              );
             }}
           />
         );
 
       case 'accessibleBeforeLogin':
-        return !user ? (
+        return (
           <Route
             {...rest}
             render={(props) => {
-              return <Component {...props} />;
-            }}
-          />
-        ) : (
-          <Route
-            render={() => {
-              return <Error msg={'User already logged in'} />;
+              return !user ? (
+                <Component {...props} />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: '/',
+                    state: {
+                      from: props.location,
+                    },
+                  }}
+                />
+              );
             }}
           />
         );

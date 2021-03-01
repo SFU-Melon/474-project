@@ -3,7 +3,7 @@ import { useUserContext } from '../../contexts/UserContext';
 
 const Post = () => {
   const { id } = useParams();
-  const { user, setUser } = useUserContext();
+  const { user } = useUserContext();
 
   return (
     <div>

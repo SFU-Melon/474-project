@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import Post from './pages/Post';
 import Plant from './pages/Plant';
+import Error from './pages/Error';
 import { UserProvider } from './contexts/UserContext';
 import ProtectedRoutes from './protected-routes/ProtectedRoutes';
 
@@ -37,6 +38,10 @@ function App() {
                 exact
                 component={SignUp}
                 template={'accessibleBeforeLogin'}
+              />
+              <Route
+                path="*"
+                component={() => <Error msg={'404 NOT FOUND'} />}
               />
             </Switch>
           </div>

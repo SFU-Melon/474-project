@@ -4,6 +4,7 @@ import axios from "axios";
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
+
   const logout = async () => {
     try {
       await axios.get("/api/logout");
@@ -16,7 +17,9 @@ const Nav = () => {
     <nav className="container">
       <Link to="/">HOME</Link>
       {user ? (
-        <button onClick={logout}>Logout</button>
+        <Link to="/" onClick={logout}>
+          Logout
+        </Link>
       ) : (
         <Link to="/login">LOGIN</Link>
       )}

@@ -1,36 +1,40 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { user, setUser } = useUserContext();
 
   const handleSubmit = () => {
-    if (email && password) {
+    if (username && password) {
       axios
-        .post('/api/login', { email: email, password: password })
+        .post("/api/login", { username: username, password: password })
         .then((res) => {
           if (res.data.success) {
             setUser(res.data.user);
-            props.history.push('/');
+            props.history.push("/");
+          } else {
+            setErrorMessage("Username or Password is incorrect. Try Again.");
           }
-          console.log('res: ', res.data.success);
+          console.log("res: ", res.data.success);
         });
     }
   };
 
   return (
     <div>
-      {user && user.email}
+      {user && user.username}
       <h1>Login</h1>
+      <p style={{ color: "red" }}>{errorMessage}</p>
       <input
-        type="email"
-        placeholder="Email"
+        type="text"
+        placeholder="Username"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setUsername(e.target.value);
         }}
       />
       <input

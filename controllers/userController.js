@@ -29,15 +29,15 @@ userController.login = (req, res, next) => {
 /***** Assuming data is validated from client *****/
 userController.signup = async (req, res) => {
   console.log("hit signup", req.body);
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    const user = await User.getUserByEmail(email);
+    const user = await User.getUserByUsername(username);
     console.log("User: ", user);
 
     if (user === null) {
       //hashing
       const hashed = await bcrypt.hash(password, 10);
-      await User.save({ email, hashed });
+      await User.save({ username, hashed });
       console.log("saved user");
       return res.json({
         success: true,

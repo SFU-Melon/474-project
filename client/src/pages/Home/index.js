@@ -1,29 +1,17 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function Home() {
   const id = 4;
-  const { user, setUser } = useUserContext();
-
-  const logout = async () => {
-    try {
-      const res = await axios.get('/api/logout');
-      console.log(res);
-      setUser(null);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { user } = useUserContext();
 
   return (
     <div>
       <h1>Home</h1>
       {user && (
         <div>
-          <h1>{user.email}</h1>
-          <button onClick={logout}>Logout</button>
+          <h1>{user.username}</h1>
         </div>
       )}
       <Link to={`/post/${id}`}>POST - {id}</Link>

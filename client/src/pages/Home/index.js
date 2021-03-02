@@ -4,16 +4,7 @@ import { useUserContext } from "../../contexts/UserContext";
 
 export default function Home() {
   const id = 4;
-  const { user, setUser } = useUserContext();
-
-  const logout = async () => {
-    try {
-      await axios.get("/api/logout");
-      setUser(null);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { user } = useUserContext();
 
   return (
     <div>
@@ -21,7 +12,6 @@ export default function Home() {
       {user && (
         <div>
           <h1>{user.username}</h1>
-          <button onClick={logout}>Logout</button>
         </div>
       )}
       <Link to={`/post/${id}`}>POST - {id}</Link>

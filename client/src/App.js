@@ -1,14 +1,14 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Nav from './components/Nav';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import Profile from './pages/Profile';
-import Post from './pages/Post';
-import Plant from './pages/Plant';
-import Error from './pages/Error';
-import { UserProvider } from './contexts/UserContext';
-import ProtectedRoutes from './protected-routes/ProtectedRoutes';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Nav from "./components/Nav";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
+import Post from "./pages/Post";
+import Plant from "./pages/Plant";
+import Error from "./pages/Error";
+import { UserProvider } from "./contexts/UserContext";
+import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
 
 function App() {
   return (
@@ -25,23 +25,23 @@ function App() {
                 exact
                 path="/profile/:username"
                 component={Profile}
-                template={'accessibleAfterLogin'}
+                template={"accessibleAfterLogin"}
               />
               <ProtectedRoutes
                 exact
                 path="/login"
                 component={Login}
-                template={'accessibleBeforeLogin'}
+                template={"accessibleBeforeLogin"}
               />
               <ProtectedRoutes
                 path="/signup"
                 exact
                 component={SignUp}
-                template={'accessibleBeforeLogin'}
+                template={"accessibleBeforeLogin"}
               />
               <Route
                 path="*"
-                component={() => <Error msg={'404 NOT FOUND'} />}
+                component={() => <Error msg={"404 NOT FOUND"} />}
               />
             </Switch>
           </div>

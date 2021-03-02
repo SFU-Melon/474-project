@@ -1,12 +1,25 @@
-import { Link } from 'react-router-dom';
-import { useUserContext } from '../contexts/UserContext';
+import { Link } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
+import axios from "axios";
 
 const Nav = () => {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
+  const logout = async () => {
+    try {
+      await axios.get("/api/logout");
+      setUser(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <nav className="container">
       <Link to="/">HOME</Link>
-      {user ? <button>Logout</button> : <Link to="/login">LOGIN</Link>}
+      {user ? (
+        <button onClick={logout}>Logout</button>
+      ) : (
+        <Link to="/login">LOGIN</Link>
+      )}
     </nav>
   );
 };

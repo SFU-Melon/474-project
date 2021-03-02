@@ -1,5 +1,5 @@
-import { useState, useContext, createContext, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import { useState, useContext, createContext, useEffect, useMemo } from "react";
+import axios from "axios";
 
 const UserContext = createContext(null);
 
@@ -14,7 +14,7 @@ export function UserProvider({ children }) {
 
   const authenticateUser = async () => {
     try {
-      const res = await axios.get('/api/user');
+      const res = await axios.get("/api/user");
       if (res) {
         setUser(res.data.user);
       }
@@ -24,7 +24,7 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log('useEffect in userContext');
+    console.log("useEffect in userContext");
     authenticateUser();
   }, []);
 

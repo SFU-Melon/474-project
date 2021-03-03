@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
+  const { auth, setAuth } = useAuthContext();
 
   const logout = async () => {
     try {
       await axios.get("/api/logout");
       setUser(null);
+      setAuth(false);
     } catch (err) {
       console.log(err);
     }
@@ -16,7 +19,7 @@ const Nav = () => {
   return (
     <nav className="container">
       <Link to="/">HOME</Link>
-      {user ? (
+      {auth || user ? (
         <Link to="/" onClick={logout}>
           Logout
         </Link>

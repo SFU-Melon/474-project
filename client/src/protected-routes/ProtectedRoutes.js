@@ -1,4 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 import { useUserContext } from "../contexts/UserContext";
 import Error from "../pages/Error";
 
@@ -7,6 +8,7 @@ export default function ProtectedRoutes({
   template,
   ...rest
 }) {
+  const { auth } = useAuthContext();
   const { user } = useUserContext();
 
   const switchRoute = () => {
@@ -16,7 +18,7 @@ export default function ProtectedRoutes({
           <Route
             {...rest}
             render={(props) => {
-              return user ? (
+              return auth || user ? (
                 <Component {...props} />
               ) : (
                 <Error msg={"Not logged in"} />
@@ -30,7 +32,7 @@ export default function ProtectedRoutes({
           <Route
             {...rest}
             render={(props) => {
-              return !user ? (
+              return !auth && !user ? (
                 <Component {...props} />
               ) : (
                 <Redirect

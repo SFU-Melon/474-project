@@ -62,6 +62,7 @@ userController.getAuthUser = (req, res) => {
 
 userController.logout = (req, res) => {
   if (req.user) req.logout();
+  console.log("logged out");
   return res.json({
     user: req.user,
   });

@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useUserContext } from "../../contexts/UserContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { user, setUser } = useUserContext();
+  const { setAuth } = useAuthContext();
 
   const handleSubmit = () => {
     if (username && password) {
@@ -16,6 +18,7 @@ export default function Login(props) {
         .then((res) => {
           if (res.data.success) {
             setUser(res.data.user);
+            setAuth(true);
             props.history.push("/");
           } else {
             setErrorMessage("Username or Password is incorrect. Try Again.");

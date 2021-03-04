@@ -32,7 +32,7 @@ Post.getAllPostsByUserId = async (userId) => {
     const res = await pool.query('SELECT * FROM posts WHERE userId = $1', [
       userId,
     ]);
-    return res.rows[0];
+    return res.rows;
   } catch (err) {
     console.error(err.message);
   }

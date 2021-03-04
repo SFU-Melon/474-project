@@ -14,6 +14,7 @@ CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     dateTime TIMESTAMP,
     location VARCHAR(200),
+    content VARCHAR(200),
     imageUrl VARCHAR(200),
     userId uuid references users(id)
 );

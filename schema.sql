@@ -13,11 +13,20 @@ CREATE TABLE users(
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     dateTime TIMESTAMP,
+    content VARCHAR(200),
     location VARCHAR(200),
     imageUrl VARCHAR(200),
     userId uuid references users(id)
 );
 
+CREATE TABLE likes(
+    userId uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    postId uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    val INTEGER, /*Integer restrictued to 1, -1*/
+    PRIMARY KEY(userId, postId)
+);
 
 /*** For testing ***/
 
@@ -25,3 +34,4 @@ CREATE TABLE posts(
 DELETE FROM users;
 /* See all rows inside users table */
 SELECT * FROM users;
+

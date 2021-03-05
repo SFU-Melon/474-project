@@ -10,8 +10,6 @@ export default function Home() {
 
   const [loading, setLoading] = useState(true);
   const [allPosts, setAllPosts] = useState([]);
-  const [postById, setPostById] = useState(null);
-  const [postsByUserId, setPostsByUserId] = useState([]);
 
   const handleSubmit = () => {
     axios

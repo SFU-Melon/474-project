@@ -35,11 +35,18 @@ const Nav = () => {
 
       <div className="me-5 ">
         {auth || user ? (
-          <Link to="/" onClick={logout}>
-            <button type="button" className="btn btn-outline-light">
-              Logout
-            </button>
-          </Link>
+          <>
+            <Link to="/profile/:username" className="me-3">
+              <button type="button" className="btn btn-outline-light">
+                Profile
+              </button>
+            </Link>
+            <Link to="/" onClick={logout}>
+              <button type="button" className="btn btn-outline-light">
+                Logout
+              </button>
+            </Link>
+          </>
         ) : (
           <Link to="/login">
             <button type="button" className="btn btn-outline-light">

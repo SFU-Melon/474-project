@@ -3,7 +3,7 @@ import { useUserContext } from "../../contexts/UserContext";
 
 const Profile = () => {
   const { username } = useParams();
-  const { user, setUser } = useUserContext();
+  const { user } = useUserContext();
 
   return (
     <div>

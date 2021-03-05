@@ -7,26 +7,26 @@ const aws = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
 const { ensureAuthenticated } = require("./middlewares");
 
-const path = require("path");
-const filePath = path.join(__dirname, "app-nav.jpg");
+TEST_BUCKET = process.env.TEST_BUCKET;
+PROFILE_BUCKET = process.env.PROFILE_BUCKET;
+POST_BUCKET = process.env.POST_BUCKET;
 
 aws.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: "us-west-1",
 });
 
 getPreSignedRequest = async (req, res, bucketName) => {
   const s3 = new aws.S3(); // Create a new instance of S3
-  console.log("request body is", req.body);
   const fileKey = uuidv4();
-  console.log("filekey", fileKey);
-  const fileContent = fs.readFileSync(filePath);
+  const fileType = req.body.fileType;
+
   const params = {
     Bucket: bucketName,
     Key: fileKey,
-    Body: fileContent,
     Expires: 300,
-    ContentType: "jpg",
+    ContentType: fileType,
     ACL: "public-read",
   };
   s3.getSignedUrl("putObject", params, (err, data) => {
@@ -35,16 +35,24 @@ getPreSignedRequest = async (req, res, bucketName) => {
       res.json({ success: false, error: err });
     }
     console.log(data);
-    const returnData = {
+    res.json({
+      success: true,
       signedRequest: data,
       url: `https://${bucketName}.s3.amazonaws.com/${fileKey}`,
-    };
-    res.json({ success: true, data: { returnData } });
+    });
   });
 };
 
-router.get("/upload", (req, res) => {
-  getPreSignedRequest(req, res, "testbucket-354");
+router.post("/testUpload", ensureAuthenticated, (req, res) => {
+  getPreSignedRequest(req, res, TEST_BUCKET);
+});
+
+router.post("/profileUpload", ensureAuthenticated, (req, res) => {
+  getPreSignedRequest(req, res, PROFILE_BUCKET);
+});
+
+router.post("/postUpload", ensureAuthenticated, (req, res) => {
+  getPreSignedRequest(req, res, POST_BUCKET);
 });
 
 module.exports = router;

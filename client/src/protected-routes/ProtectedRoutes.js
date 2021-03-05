@@ -47,6 +47,8 @@ export default function ProtectedRoutes({
             }}
           />
         );
+      default:
+        return;
     }
   };
 

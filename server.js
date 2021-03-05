@@ -1,6 +1,3 @@
-// change this for production
-require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
 const passport = require("passport");
@@ -38,7 +35,9 @@ app.use(passport.session());
 
 //API routes
 const router = require("./routes/router");
+const uploadRouter = require("./routes/uploadRouter");
 app.use("/api", router);
+app.use("/api", uploadRouter);
 
 const port = process.env.PORT || 5000;
 

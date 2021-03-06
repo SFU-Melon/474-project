@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import { useEffect, useState } from 'react';
+import PostCard from '../../components/PostCard';
 
 export default function Home() {
   const id = 4;
   const { user } = useUserContext();
   const [content, setContent] = useState('');
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [allPosts, setAllPosts] = useState([]);
 
   const handleSubmit = () => {
@@ -24,8 +25,7 @@ export default function Home() {
       const res = await axios.get('/api/getAllPosts');
       if (res) {
         setAllPosts(res.data);
-        console.log(res.data);
-        setLoading(false);
+        // setLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -38,16 +38,20 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ flexDirection: 'column' }}>
-      <h1>Home</h1>
+    <div>
+      <div className="container">
+        {allPosts.map((post) => (
+          <PostCard key={post.id} content={post.content}></PostCard>
+        ))}
+      </div>
+      {/* <h1>Home</h1>
       {user && (
         <div>
           <h1>{user.username}</h1>
         </div>
-      )}
-      <Link to={`/post/${id}`}>POST - {id}</Link>
+      )} */}
 
-      <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
+      {/* <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
         <input
           type="text"
           placeholder="content"
@@ -56,15 +60,7 @@ export default function Home() {
           }}
         />
         <button onClick={handleSubmit}>CREATE POST</button>
-      </div>
-
-      <div className="testingGetPost" style={{ flexDirection: 'column' }}>
-        <ul>
-          {loading
-            ? 'LOADING'
-            : allPosts.map((post) => <li key={post.id}>{post.content}</li>)}
-        </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

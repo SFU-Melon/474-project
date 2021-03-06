@@ -47,4 +47,11 @@ Post.getPostById = async (id) => {
   }
 };
 
+Post.delete = async (id) => {
+  try {
+    await pool.query('DELETE FROM posts WHERE id=$1', [id]);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
 module.exports = Post;

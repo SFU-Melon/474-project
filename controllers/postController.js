@@ -47,6 +47,14 @@ postController.getAllPostsByUserId = async (req, res) => {
   }
 };
 
-// postController.deletePost = (req, res, next) => {};
+postController.deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Post.delete(id);
+    return res.json(`post ${id} is deleted`);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
 
 module.exports = postController;

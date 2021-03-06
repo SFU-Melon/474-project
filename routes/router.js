@@ -17,6 +17,10 @@ router.post('/createPost/:userId', postController.createPost);
 router.get('/getPost/:id', postController.getPostById);
 router.get('/getAllPosts', postController.getAllPosts);
 router.get('/getAllPosts/:userId', postController.getAllPostsByUserId);
-// router.delete('/deletePost/:id', postController.deletePost);
+router.delete(
+  '/deletePost/:id',
+  ensureAuthenticated,
+  postController.deletePost
+);
 
 module.exports = router;

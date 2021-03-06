@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import { useState } from 'react';
+import React, { Fragment } from 'react';
 
 export default function Home() {
   const id = 4;
@@ -16,7 +17,7 @@ export default function Home() {
       });
   };
 
-  return (
+  return <Fragment>
     <div>
       <h1>Home</h1>
       {user && (
@@ -34,5 +35,5 @@ export default function Home() {
       />
       <button onClick={handleSubmit}>CREATE POST</button>
     </div>
-  );
+  </Fragment>;
 }

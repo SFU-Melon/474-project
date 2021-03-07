@@ -8,11 +8,11 @@ import LikeDislike from "../../components/LikeDislike"
 const Post = () => {
   const { id } = useParams();
   const { user } = useUserContext();
-
+  
   return <Fragment>
     <div className = "container">
-      POST PAGE - {id} - {user && user.username}
-      <LikeDislike/>
+      POST PAGE - PostID {id} - UserID {user && user.username}
+      <LikeDislike id={id} user={user}/>
     </div>
   </Fragment>;
 };

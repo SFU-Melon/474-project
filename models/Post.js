@@ -66,7 +66,4 @@ Post.cancelVote = async (data) => {
   }
 }; 
 
-
-
-
 module.exports = Post;

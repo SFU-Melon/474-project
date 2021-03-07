@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import { useEffect, useState, Fragment } from 'react';
 import PostCard from '../../components/PostCard';
+import ImageUpload from '../../components/ImageUpload';
+import CreatePost from '../../components/CreatePost';
 
 export default function Home() {
   const id = 4;
@@ -46,21 +48,28 @@ export default function Home() {
   return (
     <Fragment>
       <div>
-        <div className="container">
-          {allPosts.map((post) => (
-            <PostCard key={post.id} content={post.content}></PostCard>
-          ))}
+      {user && (
+        <div className="d-flex justify-content-center">
+         <CreatePost user = {user}/>
         </div>
-        {/* <h1>Home</h1>
+      )}
+
+      <div className="container">
+        {allPosts.map((post) => (
+          <PostCard key={post.id} content={post.content}></PostCard>
+        ))}
+      </div>
+        
+        <h1>Home</h1>
       {user && (
         <div>
           <h1>{user.username}</h1>
-          <ImageUpload type={"post"} uploadCallback={uploadCallback} />
+          <ImageUpload type={"test"} uploadCallback={uploadCallback} />
           {imgUrl && (
             <img src={imgUrl} alt="uploaded" width="700" height="700"></img>
           )}
         </div>
-      )} */}
+      )}
 
         {/* <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
         <input

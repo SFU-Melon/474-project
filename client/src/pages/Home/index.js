@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import PostCard from '../../components/PostCard';
-import { useState, Fragment } from 'react';
 
 export default function Home() {
   const id = 4;

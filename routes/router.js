@@ -10,10 +10,22 @@ router.get('/user', ensureAuthenticated, userController.getAuthUser);
 router.get('/logout', userController.logout);
 
 /******  Post Routes ********/
-router.post('/createPost/:userId', postController.createPost);
-router.post('/upVotePost/:userId', postController.upVote);
-router.post('/downVotePost/:userId', postController.downVote);
-router.post('/cancelVotePost/:userId', postController.cancelVote);
+router.post(
+  '/createPost/:userId',
+  ensureAuthenticated,
+  postController.createPost
+);
+router.post('/upVotePost/:userId', ensureAuthenticated, postController.upVote);
+router.post(
+  '/downVotePost/:userId',
+  ensureAuthenticated,
+  postController.downVote
+);
+router.post(
+  '/cancelVotePost/:userId',
+  ensureAuthenticated,
+  postController.cancelVote
+);
 router.get('/getPost/:id', postController.getPostById);
 router.get('/getAllPosts', postController.getAllPosts);
 router.get('/getAllPosts/:userId', postController.getAllPostsByUserId);

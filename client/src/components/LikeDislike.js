@@ -1,22 +1,37 @@
-import React, { Fragment, useState } from 'react';
+import React from 'react';
+import { useUserContext } from '../contexts/UserContext';
 import axios from 'axios';
 
-const LikeDislike = ({ id, user, numOfLikes }) => {
+const LikeDislike = ({ postId, numOfLikes }) => {
+  const { user } = useUserContext();
+
   const handleUpVote = async (e) => {
-    console.log(user.id);
-    axios.post(`/api/upVotePost/${user.id}`, { postId: id }).then((res) => {
-      console.log(res);
-    });
+    if (!user) {
+      console.log('user not logged in');
+    } else {
+      axios
+        .post(`/api/upVotePost/${user?.id}`, { postId: postId })
+        .then((res) => {
+          console.log(res);
+        });
+    }
   };
 
   const handleDownVote = async (e) => {
-    axios.post(`/api/downVotePost/${user.id}`, { postId: id }).then((res) => {
-      console.log(res);
-    });
+    if (!user) {
+      console.log('user not logged in');
+    } else {
+      axios
+        .post(`/api/downVotePost/${user?.id}`, { postId: postId })
+        .then((res) => {
+          console.log(res);
+        });
+    }
   };
 
   return (
     <div className="vote p-3 d-flex flex-column align-items-center">
+      {console.log(postId)}
       <button
         className="btn btn-outline-secondary btn-sm"
         onClick={() => handleUpVote()}

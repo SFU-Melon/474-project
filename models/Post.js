@@ -60,6 +60,7 @@ Post.upVote = async (data) => {
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
       [userId, postId, 1]
     );
+    console.log(res.rows[0]);
     return res.rows[0];
   } catch (err) {
     console.error(err.message);

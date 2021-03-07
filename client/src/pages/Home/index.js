@@ -37,6 +37,7 @@ export default function Home() {
     fetchAllPosts();
     console.log('useEffect in home');
   }, []);
+
   const [imgUrl, setImgUrl] = useState(null);
 
   const uploadCallback = (url) => {
@@ -52,6 +53,7 @@ export default function Home() {
           {allPosts.map((post) => (
             <PostCard
               key={post.id}
+              postId={post.id}
               content={post.content}
               title={post.title}
               numOfLikes={post.numOfLikes}

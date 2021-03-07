@@ -48,7 +48,12 @@ export default function Home() {
       <div>
         <div className="container">
           {allPosts.map((post) => (
-            <PostCard key={post.id} content={post.content}></PostCard>
+            <PostCard
+              key={post.id}
+              content={post.content}
+              title={post.title}
+              numOfLikes={post.numOfLikes}
+            ></PostCard>
           ))}
         </div>
         {/* <h1>Home</h1>

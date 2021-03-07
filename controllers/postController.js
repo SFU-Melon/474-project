@@ -11,8 +11,8 @@ postController.createPost = async (req, res) => {
   }
 };
 
-postController.upVote = async (req, res, next) => {
-  try{
+postController.upVote = async (req, res) => {
+  try {
     const cancelPrempt = await Post.cancelVote(req);
     const newLike = await Post.upVote(req);
     return res.json(newLike);
@@ -21,8 +21,8 @@ postController.upVote = async (req, res, next) => {
   }
 };
 
-postController.downVote = async (req, res, next) => {
-  try{
+postController.downVote = async (req, res) => {
+  try {
     const cancelPrempt = await Post.cancelVote(req);
     const newDislike = await Post.downVote(req);
     return res.json(newDislike);
@@ -31,8 +31,8 @@ postController.downVote = async (req, res, next) => {
   }
 };
 
-postController.cancelVote = async (req, res, next) => {
-  try{
+postController.cancelVote = async (req, res) => {
+  try {
     const canceledVote = await Post.cancelVote(req);
     return res.json(canceledVote);
   } catch (err) {

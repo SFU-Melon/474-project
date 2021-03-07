@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useUserContext } from "../../contexts/UserContext";
 import ImageUpload from "../../components/ImageUpload";
+import AllUsers from "./AllUsers";
 import { useState } from "react";
 
 export default function Home() {
@@ -26,6 +27,8 @@ export default function Home() {
         </div>
       )}
       <Link to={`/post/${id}`}>POST - {id}</Link>
+
+      <AllUsers />
     </div>
   );
 }

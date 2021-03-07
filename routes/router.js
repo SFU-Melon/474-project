@@ -7,5 +7,8 @@ router.post("/login", userController.login);
 router.post("/signup", userController.signup);
 router.get("/user", ensureAuthenticated, userController.getAuthUser);
 router.get("/logout", userController.logout);
+router.get("/getAllUsers", userController.getAllUsers);
+router.post("/follows", userController.follows);
+router.post("/unfollows", userController.unfollows);
 
 module.exports = router;

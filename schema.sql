@@ -30,6 +30,11 @@ CREATE TABLE likes(
     val INTEGER, /*Integer restrictued to 1, -1*/
     PRIMARY KEY(userId, postId)
 );
+CREATE TABLE followers(
+    user1 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    user2 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE
+);
+
 
 /*** For testing ***/
 

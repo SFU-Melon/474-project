@@ -4,6 +4,7 @@ import { useUserContext } from '../../contexts/UserContext';
 import { useEffect, useState, Fragment } from 'react';
 import PostCard from '../../components/PostCard';
 import ImageUpload from '../../components/ImageUpload';
+import AllUsers from './AllUsers';
 
 export default function Home() {
   const id = 4;
@@ -81,6 +82,8 @@ export default function Home() {
           />
           <button onClick={handleSubmit}>CREATE POST</button>
         </div>
+
+        <AllUsers />
       </div>
     </Fragment>
   );

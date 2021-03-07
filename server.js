@@ -37,8 +37,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //API routes
-const router = require('./routes/router');
-app.use('/api', router);
+const router = require("./routes/router");
+const uploadRouter = require("./routes/uploadRouter");
+app.use("/api", router);
+app.use("/api", uploadRouter);
 
 const port = process.env.PORT || 5000;
 

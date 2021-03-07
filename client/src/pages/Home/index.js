@@ -36,6 +36,12 @@ export default function Home() {
     fetchAllPosts();
     console.log('useEffect in home');
   }, []);
+  const [imgUrl, setImgUrl] = useState(null);
+
+  const uploadCallback = (url) => {
+    console.log(url);
+    setImgUrl(url);
+  };
 
   return (
     <Fragment>
@@ -49,6 +55,10 @@ export default function Home() {
       {user && (
         <div>
           <h1>{user.username}</h1>
+          <ImageUpload type={"post"} uploadCallback={uploadCallback} />
+          {imgUrl && (
+            <img src={imgUrl} alt="uploaded" width="700" height="700"></img>
+          )}
         </div>
       )} */}
 

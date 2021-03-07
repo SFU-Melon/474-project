@@ -11,24 +11,55 @@ postController.createPost = async (req, res) => {
   }
 };
 
+postController.checkVoteStatus = async (req, res, next) => {
+  try {
+    const checkVoteStatus = await Post.checkVoteStatus(req);
+    req.voteStatus = checkVoteStatus;
+    next();
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'checking vote status failed' });
+  }
+};
+
 postController.upVote = async (req, res) => {
   try {
-    const cancelPrempt = await Post.cancelVote(req);
-    const newLike = await Post.upVote(req);
-    res.status(200).json({ message: 'Upvoted successfully!' });
+    let message;
+    let newVoteStatus;
+    if (req.voteStatus != 0) {
+      await Post.cancelVote(req);
+      message = 'Canceled successfully!';
+      newVoteStatus = 0;
+    }
+    if (req.voteStatus != 1) {
+      await Post.upVote(req);
+      message = 'Upvoted successfully!';
+      newVoteStatus = 1;
+    }
+    res.status(200).json({ message, newVoteStatus });
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
     res.status(500).json({ message: 'downVote did not succeed' });
   }
 };
 
 postController.downVote = async (req, res) => {
   try {
-    const cancelPrempt = await Post.cancelVote(req);
-    const newDislike = await Post.downVote(req);
-    res.status(200).json({ message: 'downVoted successfully!' });
+    let message;
+    let newVoteStatus;
+    if (req.voteStatus != 0) {
+      await Post.cancelVote(req);
+      message = 'Canceled successfully!';
+      newVoteStatus = 0;
+    }
+    if (req.voteStatus != -1) {
+      await Post.downVote(req);
+      message = 'downVoted successfully!';
+      newVoteStatus = -1;
+    }
+    res.status(200).json({ message, newVoteStatus });
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
     res.status(500).json({ message: 'downVote did not succeed' });
   }
 };
@@ -38,7 +69,7 @@ postController.cancelVote = async (req, res) => {
     const canceledVote = await Post.cancelVote(req);
     res.status(200).json({ message: 'Cancelled vote successfully!' });
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
     res.status(500).json({ message: 'CancelVote did not succeed' });
   }
 };

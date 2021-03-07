@@ -15,10 +15,16 @@ router.post(
   ensureAuthenticated,
   postController.createPost
 );
-router.post('/upVotePost/:userId', ensureAuthenticated, postController.upVote);
+router.post(
+  '/upVotePost/:userId',
+  ensureAuthenticated,
+  postController.checkVoteStatus,
+  postController.upVote
+);
 router.post(
   '/downVotePost/:userId',
   ensureAuthenticated,
+  postController.checkVoteStatus,
   postController.downVote
 );
 router.post(

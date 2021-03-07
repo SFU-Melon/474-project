@@ -52,6 +52,24 @@ Post.getPostById = async (id) => {
   }
 };
 
+Post.checkVoteStatus = async (data) => {
+  const { userId } = data.params;
+  const { postId } = data.body;
+  try {
+    const res = await pool.query(
+      'SELECT * FROM likes WHERE userId = $1 AND postId = $2',
+      [userId, postId]
+    );
+    console.log(res.rows[0], 'res object in checkVoteStatus Post modal');
+    if (res.rows[0] == undefined) {
+      return 0;
+    }
+    return res.rows[0].val;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 Post.upVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;

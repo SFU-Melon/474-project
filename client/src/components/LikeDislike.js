@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import axios from 'axios';
 
 const LikeDislike = ({ postId, numOfLikes }) => {
   const { user } = useUserContext();
+  const [voteStatus, setVoteStatus] = useState(0);
 
   const handleUpVote = async (e) => {
     if (!user) {
@@ -13,6 +14,7 @@ const LikeDislike = ({ postId, numOfLikes }) => {
         .post(`/api/upVotePost/${user?.id}`, { postId: postId })
         .then((res) => {
           console.log(res);
+          setVoteStatus(res.data.newVoteStatus);
         });
     }
   };
@@ -25,6 +27,7 @@ const LikeDislike = ({ postId, numOfLikes }) => {
         .post(`/api/downVotePost/${user?.id}`, { postId: postId })
         .then((res) => {
           console.log(res);
+          setVoteStatus(res.data.newVoteStatus);
         });
     }
   };
@@ -33,14 +36,18 @@ const LikeDislike = ({ postId, numOfLikes }) => {
     <div className="vote p-3 d-flex flex-column align-items-center">
       {console.log(postId)}
       <button
-        className="btn btn-outline-secondary btn-sm"
+        className={`btn ${
+          voteStatus === 1 ? 'btn-secondary' : 'btn-outline-secondary'
+        }  btn-sm`}
         onClick={() => handleUpVote()}
       >
         <span className="material-icons">arrow_upward</span>
       </button>
       <span className="p-1">{numOfLikes}</span>
       <button
-        className="btn btn-outline-danger btn-sm"
+        className={`btn ${
+          voteStatus === -1 ? 'btn-danger' : 'btn-outline-danger'
+        }  btn-sm`}
         onClick={() => handleDownVote()}
       >
         <span className="material-icons">arrow_downward</span>

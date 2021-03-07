@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import { useEffect, useState, Fragment } from 'react';
 import PostCard from '../../components/PostCard';
+import ImageUpload from '../../components/ImageUpload';
 
 export default function Home() {
   const id = 4;
@@ -45,6 +46,7 @@ export default function Home() {
 
   return (
     <Fragment>
+      <ImageUpload type={'test'} name={'test1'} />
       <div>
         <div className="container">
           {allPosts.map((post) => (
@@ -67,16 +69,16 @@ export default function Home() {
         </div>
       )} */}
 
-        {/* <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
-        <input
-          type="text"
-          placeholder="content"
-          onChange={(e) => {
-            setContent(e.target.value);
-          }}
-        />
-        <button onClick={handleSubmit}>CREATE POST</button>
-      </div> */}
+        <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
+          <input
+            type="text"
+            placeholder="content"
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
+          />
+          <button onClick={handleSubmit}>CREATE POST</button>
+        </div>
       </div>
     </Fragment>
   );

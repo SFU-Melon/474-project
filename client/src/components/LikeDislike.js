@@ -16,23 +16,21 @@ const LikeDislike = ({ id, user, numOfLikes }) => {
   };
 
   return (
-    <Fragment>
-      <div className="vote p-3 d-flex flex-column align-items-center">
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => handleUpVote()}
-        >
-          <span className="material-icons">arrow_upward</span>
-        </button>
-        <span className="p-1">{numOfLikes}</span>
-        <button
-          className="btn btn-outline-danger btn-sm"
-          onClick={() => handleDownVote()}
-        >
-          <span className="material-icons">arrow_downward</span>
-        </button>
-      </div>
-    </Fragment>
+    <div className="vote p-3 d-flex flex-column align-items-center">
+      <button
+        className="btn btn-outline-secondary btn-sm"
+        onClick={() => handleUpVote()}
+      >
+        <span className="material-icons">arrow_upward</span>
+      </button>
+      <span className="p-1">{numOfLikes}</span>
+      <button
+        className="btn btn-outline-danger btn-sm"
+        onClick={() => handleDownVote()}
+      >
+        <span className="material-icons">arrow_downward</span>
+      </button>
+    </div>
   );
 };
 

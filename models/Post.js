@@ -3,12 +3,19 @@ const pool = require('../db');
 const Post = {};
 
 Post.create = async (data) => {
-  const { dateTime, location, imageUrl, content } = data.body;
+  const {
+    dateTime,
+    location,
+    imageUrl,
+    content,
+    title,
+    numOfLikes,
+  } = data.body;
   const { userId } = data.params;
   try {
     const res = await pool.query(
-      'INSERT INTO posts (dateTime, location, imageUrl, userId, content) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-      [dateTime, location, imageUrl, userId, content]
+      'INSERT INTO posts (dateTime, location, imageUrl, userId, content, title, numOfLikes) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
+      [dateTime, location, imageUrl, userId, content, title, numOfLikes]
     );
     return res.rows[0];
   } catch (err) {
@@ -19,7 +26,6 @@ Post.create = async (data) => {
 Post.getAllPosts = async () => {
   try {
     const res = await pool.query('SELECT * FROM posts');
-    console.log(res, 'all posts');
     return res.rows;
   } catch (err) {
     console.error(err.message);
@@ -49,8 +55,6 @@ Post.getPostById = async (id) => {
 Post.upVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;
-  console.log(userId, 'userId');
-  console.log(postId, 'postId');
   try {
     const res = await pool.query(
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
@@ -65,8 +69,6 @@ Post.upVote = async (data) => {
 Post.downVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;
-  console.log(userId, 'userId');
-  console.log(postId, 'postId');
   try {
     const res = await pool.query(
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
@@ -81,8 +83,6 @@ Post.downVote = async (data) => {
 Post.cancelVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;
-  console.log(userId, 'userId');
-  console.log(postId, 'postId');
   try {
     const res = await pool.query(
       'DELETE FROM likes WHERE userid=($1) AND postid=($2)',

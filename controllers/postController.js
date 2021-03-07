@@ -4,7 +4,6 @@ const postController = {};
 postController.createPost = async (req, res) => {
   try {
     const newPost = await Post.create(req);
-    console.log(newPost);
     return res.json(newPost);
   } catch (err) {
     console.error(err.message);

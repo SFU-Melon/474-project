@@ -68,4 +68,19 @@ userController.logout = (req, res) => {
   });
 };
 
+userController.getAllUsers = async (req, res) => {
+  const users = await User.getAllUsers();
+  return res.json({
+    users: users,
+  });
+};
+
+userController.follows = async (req, res) => {
+  const { user1_id, user2_id } = req.body;
+  const result = await User.follows(user1_id, user2_id);
+  return res.json({
+    success: result,
+  });
+};
+
 module.exports = userController;

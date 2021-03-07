@@ -11,11 +11,34 @@ postController.createPost = async (req, res) => {
   }
 };
 
-// postController.upVote = (req, res, next) => {};
+postController.upVote = async (req, res, next) => {
+  try{
+    const cancelPrempt = await Post.cancelVote(req);
+    const newLike = await Post.upVote(req);
+    return res.json(newLike);
+  } catch (err) {
+    console.err(err.message);
+  }
+};
 
-// postController.downVote = (req, res, next) => {};
+postController.downVote = async (req, res, next) => {
+  try{
+    const cancelPrempt = await Post.cancelVote(req);
+    const newDislike = await Post.downVote(req);
+    return res.json(newDislike);
+  } catch (err) {
+    console.err(err.message);
+  }
+};
 
-// postController.cancelVote = (req, res, next) => {};
+postController.cancelVote = async (req, res, next) => {
+  try{
+    const canceledVote = await Post.cancelVote(req);
+    return res.json(canceledVote);
+  } catch (err) {
+    console.err(err.message);
+  }
+};
 
 postController.getPostById = async (req, res) => {
   try {

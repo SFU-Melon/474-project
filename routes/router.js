@@ -11,9 +11,9 @@ router.get('/logout', userController.logout);
 
 /******  Post Routes ********/
 router.post('/createPost/:userId', postController.createPost);
-// router.post('/upVotePost/:userId', postController.upVote);
-// router.post('/downVotePost/:userId', postController.downVote);
-// router.post('/cancelVotePost/:userId', postController.cancelVote);
+router.post('/upVotePost/:userId', postController.upVote);
+router.post('/downVotePost/:userId', postController.downVote);
+router.post('/cancelVotePost/:userId', postController.cancelVote);
 router.get('/getPost/:id', postController.getPostById);
 router.get('/getAllPosts', postController.getAllPosts);
 router.get('/getAllPosts/:userId', postController.getAllPostsByUserId);

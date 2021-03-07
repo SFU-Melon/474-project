@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import { useEffect, useState } from 'react';
 import PostCard from '../../components/PostCard';
+import { useState, Fragment } from 'react';
 
 export default function Home() {
   const id = 4;
@@ -38,20 +39,21 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <div className="container">
-        {allPosts.map((post) => (
-          <PostCard key={post.id} content={post.content}></PostCard>
-        ))}
-      </div>
-      {/* <h1>Home</h1>
+    <Fragment>
+      <div>
+        <div className="container">
+          {allPosts.map((post) => (
+            <PostCard key={post.id} content={post.content}></PostCard>
+          ))}
+        </div>
+        {/* <h1>Home</h1>
       {user && (
         <div>
           <h1>{user.username}</h1>
         </div>
       )} */}
 
-      {/* <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
+        {/* <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
         <input
           type="text"
           placeholder="content"
@@ -61,6 +63,7 @@ export default function Home() {
         />
         <button onClick={handleSubmit}>CREATE POST</button>
       </div> */}
-    </div>
+      </div>
+    </Fragment>
   );
 }

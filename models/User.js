@@ -65,6 +65,19 @@ User.follows = async (id_1, id_2) => {
   }
 };
 
+User.unfollows = async (id_1, id_2) => {
+  try {
+    await pool.query("DELETE FROM followers WHERE user1 = $1 AND user2 = $2", [
+      id_1,
+      id_2,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err.message);
+    return false;
+  }
+};
+
 User.getFollowersAndFollowing = async (id) => {
   try {
     const followers = await pool.query(

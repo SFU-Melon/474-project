@@ -1,10 +1,10 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import FollowButton from "../../components/FollowButton";
 import { useUserContext } from "../../contexts/UserContext";
 
 export default function AllUsers() {
   const [users, setUsers] = useState(null);
-  const { user } = useUserContext();
 
   useEffect(() => {
     fetchUsers();
@@ -19,32 +19,6 @@ export default function AllUsers() {
     }
   };
 
-  const unfollow = async (followingUserId) => {
-    console.log("follow");
-    try {
-      const res = await axios.post("/api/follows", {
-        user1_id: user.id,
-        user2_id: followingUserId,
-      });
-      console.log(res.data.success);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const follow = async (followingUserId) => {
-    console.log("follow");
-    try {
-      const res = await axios.post("/api/follows", {
-        user1_id: user.id,
-        user2_id: followingUserId,
-      });
-      console.log(res.data.success);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <div>
       <h1>All Users:</h1>
@@ -53,16 +27,10 @@ export default function AllUsers() {
           users.map((user_itr, i) => {
             return (
               <li key={i}>
-                <h3>{user_itr.username}</h3>
-                {user && user.id !== user_itr.id && (
-                  <button
-                    onClick={() => {
-                      follow(user_itr.id);
-                    }}
-                  >
-                    Follow
-                  </button>
-                )}
+                <h3>{user_itr.username} </h3>
+                <p>Following: {user_itr.following.length}</p>
+                <p>Followers: {user_itr.followers.length}</p>
+                <FollowButton userId={user_itr.id} />
               </li>
             );
           })}

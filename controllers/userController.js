@@ -4,7 +4,6 @@ const passport = require("passport");
 const userController = {};
 
 userController.login = (req, res, next) => {
-  console.log("hit login");
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
     if (!user) {
@@ -31,11 +30,9 @@ userController.login = (req, res, next) => {
 
 /***** Assuming data is validated from client *****/
 userController.signup = async (req, res) => {
-  console.log("hit signup", req.body);
   const { username, password } = req.body;
   try {
     const user = await User.getUserByUsername(username);
-    console.log("User: ", user);
 
     if (user === null) {
       //hashing
@@ -76,6 +73,11 @@ userController.logout = (req, res) => {
 
 userController.getAllUsers = async (req, res) => {
   const users = await User.getAllUsers();
+  for (let i = 0; i < users.length; i++) {
+    const result = await User.getFollowersAndFollowing(users[i].id);
+    users[i].followers = result[0];
+    users[i].following = result[1];
+  }
   return res.json({
     users: users,
   });
@@ -84,6 +86,14 @@ userController.getAllUsers = async (req, res) => {
 userController.follows = async (req, res) => {
   const { user1_id, user2_id } = req.body;
   const result = await User.follows(user1_id, user2_id);
+  return res.json({
+    success: result,
+  });
+};
+
+userController.unfollows = async (req, res) => {
+  const { user1_id, user2_id } = req.body;
+  const result = await User.unfollows(user1_id, user2_id);
   return res.json({
     success: result,
   });

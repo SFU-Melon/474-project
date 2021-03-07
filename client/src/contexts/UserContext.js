@@ -18,7 +18,8 @@ export function UserProvider({ children }) {
   const authenticateUser = async () => {
     try {
       const res = await axios.get("/api/user");
-      if (res.data.success) {
+      console.log(res);
+      if (res.data.user) {
         setUser(res.data.user);
         setAuth(true);
       } else {
@@ -30,9 +31,12 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log("useEffect in userContext");
     authenticateUser();
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+  });
 
   return (
     <UserContext.Provider value={providerValue}>

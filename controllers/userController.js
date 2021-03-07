@@ -13,13 +13,16 @@ userController.login = (req, res, next) => {
         user: null,
       });
     } else {
-      req.logIn(user, (err) => {
+      req.logIn(user, async (err) => {
         if (err) throw err;
         console.log("Successfully Authenticated");
-        console.log(req.user);
+        const res_user = req.user;
+        const result = await User.getFollowersAndFollowing(res_user.id);
+        res_user.followers = result[0];
+        res_user.following = result[1];
         return res.json({
           success: true,
-          user: req.user,
+          user: res_user,
         });
       });
     }
@@ -53,10 +56,13 @@ userController.signup = async (req, res) => {
   }
 };
 
-userController.getAuthUser = (req, res) => {
-  console.log(req.user);
+userController.getAuthUser = async (req, res) => {
+  const res_user = req.user;
+  const result = await User.getFollowersAndFollowing(res_user.id);
+  res_user.followers = result[0];
+  res_user.following = result[1];
   return res.json({
-    user: req.user,
+    user: res_user,
   });
 };
 

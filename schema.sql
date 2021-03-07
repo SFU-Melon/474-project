@@ -11,7 +11,6 @@ CREATE TABLE users(
 );
 
 CREATE TABLE followers(
-    id BIGSERIAL NOT NULL PRIMARY KEY,
     user1 uuid NOT NULL REFERENCES users (id),
     user2 uuid NOT NULL REFERENCES users (id)
 );

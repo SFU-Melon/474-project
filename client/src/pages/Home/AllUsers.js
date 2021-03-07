@@ -19,7 +19,20 @@ export default function AllUsers() {
     }
   };
 
-  const handleFollow = async (followingUserId) => {
+  const unfollow = async (followingUserId) => {
+    console.log("follow");
+    try {
+      const res = await axios.post("/api/follows", {
+        user1_id: user.id,
+        user2_id: followingUserId,
+      });
+      console.log(res.data.success);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const follow = async (followingUserId) => {
     console.log("follow");
     try {
       const res = await axios.post("/api/follows", {
@@ -41,10 +54,10 @@ export default function AllUsers() {
             return (
               <li key={i}>
                 <h3>{user_itr.username}</h3>
-                {user && (
+                {user && user.id !== user_itr.id && (
                   <button
                     onClick={() => {
-                      handleFollow(user_itr.id);
+                      follow(user_itr.id);
                     }}
                   >
                     Follow

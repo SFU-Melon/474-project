@@ -65,4 +65,23 @@ User.follows = async (id_1, id_2) => {
   }
 };
 
+User.getFollowersAndFollowing = async (id) => {
+  try {
+    const followers = await pool.query(
+      "SELECT user1 FROM followers WHERE user2 = $1",
+      [id]
+    );
+    const following = await pool.query(
+      "SELECT user2 FROM followers WHERE user1 = $1",
+      [id]
+    );
+    const followers_arr = followers.rows.map((follower) => follower.user1);
+    const following_arr = following.rows.map((follow) => follow.user2);
+
+    return [followers_arr, following_arr];
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = User;

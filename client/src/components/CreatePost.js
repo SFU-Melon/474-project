@@ -5,7 +5,9 @@ const CreatePost = ({ user }) =>{
 
     const [description, setDescription] = useState("")
     const [location, setLocation] = useState("")
-    const [imgUrl, setImgUrl] = useState(null);
+    // const [imgUrl, setImgUrl] = useState(null);
+    let imgUrl = "";
+    const [datetime, setDatetime] = useState("");
 
     const [fileType, setFileType] = useState("");   
     const [file, setFile] = useState(null);
@@ -17,6 +19,24 @@ const CreatePost = ({ user }) =>{
           setFile(e.target.files[0]);
           setFileType(type);
         }
+    };
+
+    const submitForm = () => {
+      console.log("submitting post");
+      console.log(imgUrl);
+      try{
+          axios
+            .post(`/api/createPost/${user.id}`, 
+              { content : description, 
+                location: location, 
+                imageUrl : imgUrl })
+            .then((res) => {
+              console.log(res);
+            });
+          // window.location = "/";
+      } catch (err) {
+          console.error(err.message);
+      }
     };
 
     const handleUpload = async (e) => {
@@ -38,28 +58,13 @@ const CreatePost = ({ user }) =>{
             await axios.put(signedRequest, file, options);
             console.log("Successfully uploaded.");
             imgUrl = res_url;
-            submitForm(e);
+            submitForm();
           }
         } catch (err) {
           console.log(err.message);
         }
       }
     };
-
-    const submitForm = async e => {
-        e.preventDefault(); // prevents default refresh
-        try{
-            console.log("submitting post");
-            axios
-              .post(`/api/createPost/${user.id}`, {content : description, location: location, imageUrl : imgUrl})
-              .then((res) => {
-                console.log(res);
-              });
-            window.location = "/";
-        } catch (err) {
-            console.error(err.message);
-        }
-    }
 
     return (
         <Fragment>

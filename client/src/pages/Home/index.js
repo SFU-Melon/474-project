@@ -49,15 +49,14 @@ export default function Home() {
 
   return (
     <Fragment>
-      <ImageUpload type={'test'} name={'test1'} />
       <div>
-      {user && (
-        <div className="d-flex justify-content-center">
-          <CreatePost user = {user}/>
-        </div>
-      )}
-        
+    
       <div className="container">
+        {user && (
+          <div className="d-flex justify-content-start m-2 mt-4">
+            <CreatePost user = {user}/>
+          </div>
+        )}
         {allPosts.map((post) => (
           <PostCard
             key={post.id}

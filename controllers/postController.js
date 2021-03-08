@@ -4,39 +4,73 @@ const postController = {};
 postController.createPost = async (req, res) => {
   try {
     const newPost = await Post.create(req);
-    console.log(newPost);
-    return res.json(newPost);
+    return res.status(200).json(newPost);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ message: 'Creating post did not succeed' });
   }
 };
 
-postController.upVote = async (req, res, next) => {
-  try{
-    const cancelPrempt = await Post.cancelVote(req);
-    const newLike = await Post.upVote(req);
-    return res.json(newLike);
+postController.checkVoteStatus = async (req, res, next) => {
+  try {
+    const checkVoteStatus = await Post.checkVoteStatus(req);
+    req.voteStatus = checkVoteStatus;
+    next();
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
+    res.status(500).json({ message: 'checking vote status failed' });
   }
 };
 
-postController.downVote = async (req, res, next) => {
-  try{
-    const cancelPrempt = await Post.cancelVote(req);
-    const newDislike = await Post.downVote(req);
-    return res.json(newDislike);
+postController.upVote = async (req, res) => {
+  try {
+    let message;
+    let newVoteStatus;
+    if (req.voteStatus != 0) {
+      await Post.cancelVote(req);
+      message = 'Canceled successfully!';
+      newVoteStatus = 0;
+    }
+    if (req.voteStatus != 1) {
+      await Post.upVote(req);
+      message = 'Upvoted successfully!';
+      newVoteStatus = 1;
+    }
+    res.status(200).json({ message, newVoteStatus });
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
+    res.status(500).json({ message: 'downVote did not succeed' });
   }
 };
 
-postController.cancelVote = async (req, res, next) => {
-  try{
+postController.downVote = async (req, res) => {
+  try {
+    let message;
+    let newVoteStatus;
+    if (req.voteStatus != 0) {
+      await Post.cancelVote(req);
+      message = 'Canceled successfully!';
+      newVoteStatus = 0;
+    }
+    if (req.voteStatus != -1) {
+      await Post.downVote(req);
+      message = 'downVoted successfully!';
+      newVoteStatus = -1;
+    }
+    res.status(200).json({ message, newVoteStatus });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'downVote did not succeed' });
+  }
+};
+
+postController.cancelVote = async (req, res) => {
+  try {
     const canceledVote = await Post.cancelVote(req);
-    return res.json(canceledVote);
+    res.status(200).json({ message: 'Cancelled vote successfully!' });
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
+    res.status(500).json({ message: 'CancelVote did not succeed' });
   }
 };
 
@@ -44,7 +78,7 @@ postController.getPostById = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.getPostById(id);
-    return res.json(post);
+    res.json(post);
   } catch (err) {
     console.error(err.message);
   }
@@ -54,7 +88,7 @@ postController.getPostById = async (req, res) => {
 postController.getAllPosts = async (req, res) => {
   try {
     const allPosts = await Post.getAllPosts();
-    return res.json(allPosts);
+    res.json(allPosts);
   } catch (err) {
     console.error(err.message);
   }
@@ -64,7 +98,7 @@ postController.getAllPostsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
     const posts = await Post.getAllPostsByUserId(userId);
-    return res.json(posts);
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
   }
@@ -74,7 +108,7 @@ postController.deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     await Post.delete(id);
-    return res.json(`post ${id} is deleted`);
+    res.json(`post ${id} is deleted`);
   } catch (err) {
     console.error(err.message);
   }

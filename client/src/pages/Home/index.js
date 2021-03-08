@@ -5,6 +5,7 @@ import { useEffect, useState, Fragment } from 'react';
 import PostCard from '../../components/PostCard';
 import ImageUpload from '../../components/ImageUpload';
 import CreatePost from '../../components/CreatePost';
+import AllUsers from './AllUsers';
 
 export default function Home() {
   const id = 4;
@@ -38,6 +39,7 @@ export default function Home() {
     fetchAllPosts();
     console.log('useEffect in home');
   }, []);
+
   const [imgUrl, setImgUrl] = useState(null);
 
   const uploadCallback = (url) => {
@@ -47,12 +49,25 @@ export default function Home() {
 
   return (
     <Fragment>
+      <ImageUpload type={'test'} name={'test1'} />
       <div>
       {user && (
         <div className="d-flex justify-content-center">
-         <CreatePost user = {user}/>
+          <CreatePost user = {user}/>
         </div>
       )}
+        
+      <div className="container">
+        {allPosts.map((post) => (
+          <PostCard
+            key={post.id}
+            postId={post.id}
+            content={post.content}
+            title={post.title}
+            numOfLikes={post.numOfLikes}
+          ></PostCard>
+        ))}
+      </div>
 
       <div className="container">
         {allPosts.map((post) => (
@@ -71,16 +86,18 @@ export default function Home() {
         </div>
       )}
 
-        {/* <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
-        <input
-          type="text"
-          placeholder="content"
-          onChange={(e) => {
-            setContent(e.target.value);
-          }}
-        />
-        <button onClick={handleSubmit}>CREATE POST</button>
-      </div> */}
+        <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
+          <input
+            type="text"
+            placeholder="content"
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
+          />
+          <button onClick={handleSubmit}>CREATE POST</button>
+        </div>
+
+        <AllUsers />
       </div>
     </Fragment>
   );

@@ -3,7 +3,14 @@ const pool = require('../db');
 const Post = {};
 
 Post.create = async (data) => {
-  const { dateTime, location, imageUrl, content } = data.body;
+  const {
+    dateTime,
+    location,
+    imageUrl,
+    content,
+    title,
+    numOfLikes,
+  } = data.body;
   const { userId } = data.params;
   try {
     const res = await pool.query(
@@ -19,7 +26,6 @@ Post.create = async (data) => {
 Post.getAllPosts = async () => {
   try {
     const res = await pool.query('SELECT * FROM posts');
-    console.log(res, 'all posts');
     return res.rows;
   } catch (err) {
     console.error(err.message);
@@ -46,16 +52,33 @@ Post.getPostById = async (id) => {
   }
 };
 
+Post.checkVoteStatus = async (data) => {
+  const { userId } = data.params;
+  const { postId } = data.body;
+  try {
+    const res = await pool.query(
+      'SELECT * FROM likes WHERE userId = $1 AND postId = $2',
+      [userId, postId]
+    );
+    console.log(res.rows[0], 'res object in checkVoteStatus Post modal');
+    if (res.rows[0] == undefined) {
+      return 0;
+    }
+    return res.rows[0].val;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 Post.upVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;
-  console.log(userId, 'userId');
-  console.log(postId, 'postId');
   try {
     const res = await pool.query(
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
       [userId, postId, 1]
     );
+    console.log(res.rows[0]);
     return res.rows[0];
   } catch (err) {
     console.error(err.message);
@@ -65,8 +88,6 @@ Post.upVote = async (data) => {
 Post.downVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;
-  console.log(userId, 'userId');
-  console.log(postId, 'postId');
   try {
     const res = await pool.query(
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
@@ -81,8 +102,6 @@ Post.downVote = async (data) => {
 Post.cancelVote = async (data) => {
   const { userId } = data.params;
   const { postId } = data.body;
-  console.log(userId, 'userId');
-  console.log(postId, 'postId');
   try {
     const res = await pool.query(
       'DELETE FROM likes WHERE userid=($1) AND postid=($2)',

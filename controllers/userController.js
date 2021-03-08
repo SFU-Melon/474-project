@@ -4,7 +4,6 @@ const passport = require("passport");
 const userController = {};
 
 userController.login = (req, res, next) => {
-  console.log("hit login");
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
     if (!user) {
@@ -13,13 +12,16 @@ userController.login = (req, res, next) => {
         user: null,
       });
     } else {
-      req.logIn(user, (err) => {
+      req.logIn(user, async (err) => {
         if (err) throw err;
         console.log("Successfully Authenticated");
-        console.log(req.user);
+        const res_user = req.user;
+        const result = await User.getFollowersAndFollowing(res_user.id);
+        res_user.followers = result[0];
+        res_user.following = result[1];
         return res.json({
           success: true,
-          user: req.user,
+          user: res_user,
         });
       });
     }
@@ -28,11 +30,9 @@ userController.login = (req, res, next) => {
 
 /***** Assuming data is validated from client *****/
 userController.signup = async (req, res) => {
-  console.log("hit signup", req.body);
   const { username, password } = req.body;
   try {
     const user = await User.getUserByUsername(username);
-    console.log("User: ", user);
 
     if (user === null) {
       //hashing
@@ -53,10 +53,13 @@ userController.signup = async (req, res) => {
   }
 };
 
-userController.getAuthUser = (req, res) => {
-  console.log(req.user);
+userController.getAuthUser = async (req, res) => {
+  const res_user = req.user;
+  const result = await User.getFollowersAndFollowing(res_user.id);
+  res_user.followers = result[0];
+  res_user.following = result[1];
   return res.json({
-    user: req.user,
+    user: res_user,
   });
 };
 
@@ -65,6 +68,34 @@ userController.logout = (req, res) => {
   console.log("logged out");
   return res.json({
     user: req.user,
+  });
+};
+
+userController.getAllUsers = async (req, res) => {
+  const users = await User.getAllUsers();
+  for (let i = 0; i < users.length; i++) {
+    const result = await User.getFollowersAndFollowing(users[i].id);
+    users[i].followers = result[0];
+    users[i].following = result[1];
+  }
+  return res.json({
+    users: users,
+  });
+};
+
+userController.follows = async (req, res) => {
+  const { user1_id, user2_id } = req.body;
+  const result = await User.follows(user1_id, user2_id);
+  return res.json({
+    success: result,
+  });
+};
+
+userController.unfollows = async (req, res) => {
+  const { user1_id, user2_id } = req.body;
+  const result = await User.unfollows(user1_id, user2_id);
+  return res.json({
+    success: result,
   });
 };
 

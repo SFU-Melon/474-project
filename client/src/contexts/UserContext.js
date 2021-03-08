@@ -1,5 +1,6 @@
 import { useState, useContext, createContext, useEffect, useMemo } from "react";
 import axios from "axios";
+import { useAuthContext } from "./AuthContext";
 
 const UserContext = createContext(null);
 
@@ -12,11 +13,17 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
+  const { setAuth } = useAuthContext();
+
   const authenticateUser = async () => {
     try {
       const res = await axios.get("/api/user");
-      if (res) {
+      console.log(res);
+      if (res.data.user) {
         setUser(res.data.user);
+        setAuth(true);
+      } else {
+        setAuth(false);
       }
     } catch (err) {
       console.log(err);
@@ -24,9 +31,12 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log("useEffect in userContext");
     authenticateUser();
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+  });
 
   return (
     <UserContext.Provider value={providerValue}>

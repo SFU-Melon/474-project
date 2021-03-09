@@ -6,40 +6,28 @@ const LikeDislike = ({ postId, numOfLikes }) => {
   const { user } = useUserContext();
   const [voteStatus, setVoteStatus] = useState(0);
 
-  const handleUpVote = async (e) => {
+  const handleVote = async (props) => {
     if (!user) {
       console.log('user not logged in');
     } else {
-      axios
-        .post(`/api/upVotePost/${user?.id}`, { postId: postId })
-        .then((res) => {
-          console.log(res);
-          setVoteStatus(res.data.newVoteStatus);
+      try {
+        const res = await axios.post(`/api/${props}/${user?.id}`, {
+          postId: postId,
         });
-    }
-  };
-
-  const handleDownVote = async (e) => {
-    if (!user) {
-      console.log('user not logged in');
-    } else {
-      axios
-        .post(`/api/downVotePost/${user?.id}`, { postId: postId })
-        .then((res) => {
-          console.log(res);
-          setVoteStatus(res.data.newVoteStatus);
-        });
+        setVoteStatus(res.data.newVoteStatus);
+      } catch (err) {
+        console.error(err.message);
+      }
     }
   };
 
   return (
     <div className="vote p-3 d-flex flex-column align-items-center">
-      {console.log(postId)}
       <button
         className={`btn ${
           voteStatus === 1 ? 'btn-secondary' : 'btn-outline-secondary'
         }  btn-sm`}
-        onClick={() => handleUpVote()}
+        onClick={() => handleVote('upVotePost')}
       >
         <span className="material-icons">arrow_upward</span>
       </button>
@@ -48,7 +36,7 @@ const LikeDislike = ({ postId, numOfLikes }) => {
         className={`btn ${
           voteStatus === -1 ? 'btn-danger' : 'btn-outline-danger'
         }  btn-sm`}
-        onClick={() => handleDownVote()}
+        onClick={() => handleVote('downVotePost')}
       >
         <span className="material-icons">arrow_downward</span>
       </button>

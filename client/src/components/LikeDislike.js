@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import axios from 'axios';
 
@@ -6,12 +6,12 @@ const LikeDislike = ({ postId, numOfLikes }) => {
   const { user } = useUserContext();
   const [voteStatus, setVoteStatus] = useState(0);
 
-  const handleVote = async (props) => {
+  const handleVote = async (voteOperation) => {
     if (!user) {
       console.log('user not logged in');
     } else {
       try {
-        const res = await axios.post(`/api/${props}/${user?.id}`, {
+        const res = await axios.post(`/api/${voteOperation}/${user?.id}`, {
           postId: postId,
         });
         setVoteStatus(res.data.newVoteStatus);
@@ -20,6 +20,11 @@ const LikeDislike = ({ postId, numOfLikes }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+    }
+  }, []);
 
   return (
     <div className="vote p-3 d-flex flex-column align-items-center">

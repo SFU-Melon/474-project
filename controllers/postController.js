@@ -36,6 +36,9 @@ postController.upVote = async (req, res) => {
       message = 'Upvoted successfully!';
       newVoteStatus = 1;
     }
+    req.voteOperation = 'upVote';
+    await Post.changeNumOfLikes(req);
+
     res.status(200).json({ message, newVoteStatus });
   } catch (err) {
     console.error(err.message);
@@ -57,6 +60,8 @@ postController.downVote = async (req, res) => {
       message = 'downVoted successfully!';
       newVoteStatus = -1;
     }
+    req.voteOperation = 'downVote';
+    await Post.changeNumOfLikes(req);
     res.status(200).json({ message, newVoteStatus });
   } catch (err) {
     console.error(err.message);
@@ -94,10 +99,10 @@ postController.getAllPosts = async (req, res) => {
   }
 };
 
-postController.getAllPostsByUserId = async (req, res) => {
+postController.getAllPostsFromUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    const posts = await Post.getAllPostsByUserId(userId);
+    const posts = await Post.getAllPostsFromUserId(userId);
     res.json(posts);
   } catch (err) {
     console.error(err.message);

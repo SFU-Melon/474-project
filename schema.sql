@@ -17,7 +17,7 @@ CREATE TABLE posts(
     content VARCHAR(200),
     location VARCHAR(200),
     imageUrl VARCHAR(200),
-    numOfLikes INTEGER,
+    numOfLikes INTEGER DEFAULT 0,
     userId uuid references users(id)
         ON DELETE CASCADE
 );
@@ -43,3 +43,5 @@ DELETE FROM users;
 /* See all rows inside users table */
 SELECT * FROM users;
 
+/* Selecting content and numOflikes from posts table*/
+SELECT content, numOfLikes FROM posts;

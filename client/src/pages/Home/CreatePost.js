@@ -2,6 +2,8 @@ import React, { Fragment, useState } from "react";
 import axios from 'axios';
 import { useUserContext } from "../../contexts/UserContext";
 import { Link } from 'react-router-dom'
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css'
 
 const CreatePost = (props) =>{
 
@@ -11,8 +13,12 @@ const CreatePost = (props) =>{
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [location, setLocation] = useState("")
-    let imgUrl = "";
+    const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    let imgUrl = "";
+
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
 
     // Handle change of target file
     const handleChange = (e) => {
@@ -66,6 +72,7 @@ const CreatePost = (props) =>{
               imgUrl = res_url;
               // setImgUrl(`${res_url}`);
               sendToDatabase();
+              onCloseModal();
             }
           } catch (err) {
             console.log(err.message);
@@ -94,8 +101,7 @@ const CreatePost = (props) =>{
         {/* Modal Trigger */}
         {user ? (
         <button type="button" className="btn btn-primary" 
-          data-bs-toggle="modal" 
-          data-bs-target="#creatPost">
+          onClick={onOpenModal}>
           Create Post
         </button>
         ) : (
@@ -107,70 +113,55 @@ const CreatePost = (props) =>{
         )}
 
         {/* Modal */}
-        <div className="modal fade" id="creatPost" tabIndex="-1" 
-          aria-labelledby="exampleModalLabel" 
-          aria-hidden="true">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                      <h5 className="modal-title" 
-                        id="exampleModalLabel">
-                        Create Post
-                      </h5>
-                      <button type="button" 
-                        className="btn-close" 
-                        data-bs-dismiss="modal" 
-                        aria-label="Close">
-                      </button>
+        <Modal open={open} onClose={onCloseModal} center>
+          <div>
+            <h5 id="ModalTitle">Create Post</h5>
+            <div>
+              <form onSubmit={handleUpload}>
+                  <div className="mb-2">
+                    <p className ="control" style={{ color: "red" }}>{errorMessage}</p>
+                    <h6>Title</h6>
+                    <input 
+                        type="text"
+                        className = "form-control"
+                        value={title}
+                        onChange={e => setTitle(e.target.value)}/>
                   </div>
-                  <div className="modal-body">
-                      <form onSubmit={handleUpload}>
-                          <div className="mb-2">
-                            <p className ="control" style={{ color: "red" }}>{errorMessage}</p>
-                            <h6>Title</h6>
-                            <input 
-                                type="text"
-                                className = "form-control"
-                                value={title}
-                                onChange={e => setTitle(e.target.value)}/>
-                          </div>
-                          <div className="mb-2">
-                            <h6>Description</h6>
-                            <textarea 
-                                type="text"
-                                className = "form-control"
-                                rows="10"
-                                value={description}
-                                onChange={e => setDescription(e.target.value)}/>
-                          </div>
-                          <div className="mb-2">
-                            <h6>Location</h6>
-                            <input 
-                                type="text"
-                                className = "form-control"
-                                value={location}
-                                onChange={e => setLocation(e.target.value)}/>
-                          </div>
+                  <div className="mb-2">
+                    <h6>Description</h6>
+                    <textarea 
+                        type="text"
+                        className = "form-control"
+                        rows="10"
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}/>
+                  </div>
+                  <div className="mb-2">
+                    <h6>Location</h6>
+                    <input 
+                        type="text"
+                        className = "form-control"
+                        value={location}
+                        onChange={e => setLocation(e.target.value)}/>
+                  </div>
 
-                          <div className="mb-3">
-                          <h6>Images</h6>
-                            <input
-                                type="file"
-                                name="file"
-                                accept=".jpg,.jpeg,.png"
-                                onChange={handleChange}
-                            />
-                          </div>
-                          <button type="submit" 
-                            className="btn btn-success text-right"
-                            data-bs-dismiss="modal">
-                            Submit
-                          </button>
-                      </form>
+                  <div className="mb-3">
+                  <h6>Images</h6>
+                    <input
+                        type="file"
+                        name="file"
+                        accept=".jpg,.jpeg,.png"
+                        onChange={handleChange}
+                    />
                   </div>
-                </div>
+                  <button type="submit" 
+                    className="btn btn-success text-right">
+                    Submit
+                  </button>
+              </form>
             </div>
-        </div>
+          </div>
+        </Modal>
         </Fragment>);
 };
 

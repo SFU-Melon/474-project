@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import useForm from './useForm';
 
 const Form = () => {
+    const {handleChange, values} = useForm();
+
     return (
         <div>
             <h1>Sign up</h1>
@@ -16,6 +19,8 @@ const Form = () => {
                     name='username'
                     className='signup-input'
                     placeholder='Enter your username'
+                    value={values.username}
+                    onChange={handleChange}
                 />
             </div>            
             <div className='signup-inputs'>
@@ -28,6 +33,8 @@ const Form = () => {
                     name='password'
                     className='signup-input'
                     placeholder='Enter your password'
+                    value={values.password}
+                    onChange={handleChange}
                 />
             </div>
             <div className='signup-inputs'>
@@ -36,10 +43,12 @@ const Form = () => {
                     Confirm Password
                 </label>
                 <input
-                    type='password2'
+                    type='password'
                     name='password2'
                     className='signup-input'
                     placeholder='Re-enter your password'
+                    value={values.password2}
+                    onChange={handleChange}
                 />
             </div>
             <div className='signup-inputs'>
@@ -52,6 +61,8 @@ const Form = () => {
                     name='fname'
                     className='signup-input'
                     placeholder='Enter your first name'
+                    value={values.fname}
+                    onChange={handleChange}
                 />
             </div>
             <div className='signup-inputs'>
@@ -64,6 +75,8 @@ const Form = () => {
                     name='lname'
                     className='signup-input'
                     placeholder='Enter your last name'
+                    value={values.lname}
+                    onChange={handleChange}
                 />
             </div>
             <div className='signup-inputs'>
@@ -75,19 +88,25 @@ const Form = () => {
                     type='dob'
                     name='day'
                     className='signup-input'
-                    placeholder='Day - 22'
+                    placeholder='Day-22'
+                    value={values.day}
+                    onChange={handleChange}
                 />
                 <input
                     type='dob'
                     name='month'
                     className='signup-input'
-                    placeholder='Month - 12'
+                    placeholder='Month-12'
+                    value={values.month}
+                    onChange={handleChange}
                 />
                 <input
                     type='dob'
                     name='year'
                     className='signup-input'
-                    placeholder='Year - 1992'
+                    placeholder='Year-1992'
+                    value={values.year}
+                    onChange={handleChange}
                 />
             </div>
 

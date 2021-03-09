@@ -16,7 +16,7 @@ const CreatePost = () =>{
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const MIN_INPUT_LENGTH = 3;
+    const MIN_INPUT_LENGTH = 5;
     let imgUrl = ""; // setImgUrl/useState wont work for some reason
 
     const onOpenModal = () => setOpen(true);
@@ -44,6 +44,10 @@ const CreatePost = () =>{
                 location: location, 
                 imageUrl : imgUrl })
             .then((res) => {
+              setTitle("");
+              setDescription("");
+              setLocation("");
+              imgUrl = "";
               console.log(res);
             });
       } catch (err) {
@@ -87,13 +91,13 @@ const CreatePost = () =>{
       if (title && description && location && file) {
         if (title.length < MIN_INPUT_LENGTH || description.length < MIN_INPUT_LENGTH 
             || location.length < MIN_INPUT_LENGTH) {
-          setErrorMessage(
-            "Title, Description and Location must be longer than 5 characters."
-          );
+          setErrorMessage("Title, Description and Location must be longer than 5 characters.");
         } else {
+          setErrorMessage("");
           return true;
         }
       }
+      setErrorMessage("Missing field of Title, Description, Location or Image.")
       return false;
     };
 
@@ -147,7 +151,7 @@ const CreatePost = () =>{
                   </div>
 
                   <div className="mb-3">
-                  <h6>Images</h6>
+                  <h6>Image</h6>
                     <input
                         type="file"
                         name="file"

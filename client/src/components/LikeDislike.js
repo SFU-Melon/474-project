@@ -5,6 +5,7 @@ import axios from 'axios';
 const LikeDislike = ({ postId, numOfLikes }) => {
   const { user } = useUserContext();
   const [voteStatus, setVoteStatus] = useState(0);
+  const [totalLikes, setTotalLikes] = useState(numOfLikes);
 
   const handleVote = async (voteOperation) => {
     if (!user) {
@@ -16,6 +17,8 @@ const LikeDislike = ({ postId, numOfLikes }) => {
           postId: postId,
         });
         setVoteStatus(res.data.newVoteStatus);
+        const numLikes = await axios.get(`/api/getLikesByIds/${postId}`);
+        setTotalLikes(numLikes.data.numoflikes);
       } catch (err) {
         console.error(err.message);
       }
@@ -32,7 +35,7 @@ const LikeDislike = ({ postId, numOfLikes }) => {
       >
         <span className="material-icons">arrow_upward</span>
       </button>
-      <span className="p-1">{numOfLikes}</span>
+      <span className="p-1">{totalLikes}</span>
       <button
         className={`btn ${
           voteStatus === -1 ? 'btn-danger' : 'btn-outline-danger'

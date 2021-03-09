@@ -86,6 +86,7 @@ postController.getPostById = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
@@ -96,6 +97,7 @@ postController.getAllPosts = async (req, res) => {
     res.json(allPosts);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
@@ -106,6 +108,7 @@ postController.getAllPostsFromUserId = async (req, res) => {
     res.json(posts);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
@@ -116,6 +119,17 @@ postController.deletePost = async (req, res) => {
     res.json(`post ${id} is deleted`);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
+postController.getLikesByPostId = async (req, res) => {
+  try {
+    const result = await Post.getLikesByPostId(req);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ success: false });
   }
 };
 

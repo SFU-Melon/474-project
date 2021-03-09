@@ -163,4 +163,17 @@ Post.delete = async (id) => {
   }
 };
 
+Post.getLikesByPostId = async (data) => {
+  const { postId } = data.params;
+  try {
+    const res = await pool.query('SELECT numOfLikes FROM posts WHERE id=$1', [
+      postId,
+    ]);
+    return res.rows[0];
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
 module.exports = Post;

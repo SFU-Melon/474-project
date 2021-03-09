@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css'
 
-const CreatePost = (props) =>{
-
+const CreatePost = () =>{
+  
     const { user } = useUserContext();
     const [fileType, setFileType] = useState("");   
     const [file, setFile] = useState(null);
@@ -15,7 +15,9 @@ const CreatePost = (props) =>{
     const [location, setLocation] = useState("")
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    let imgUrl = "";
+
+    const MIN_INPUT_LENGTH = 3;
+    let imgUrl = ""; // setImgUrl/useState wont work for some reason
 
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
@@ -52,7 +54,7 @@ const CreatePost = (props) =>{
     // Upload image to S3 bucket
     const handleUpload = async (e) => {
       e.preventDefault();
-      if(validForm()){
+      if(validateForm()){
         console.log("handling the upload");
         if (file) {
           try {
@@ -70,7 +72,6 @@ const CreatePost = (props) =>{
               await axios.put(signedRequest, file, options);
               console.log("Successfully uploaded.");
               imgUrl = res_url;
-              // setImgUrl(`${res_url}`);
               sendToDatabase();
               onCloseModal();
             }
@@ -80,11 +81,12 @@ const CreatePost = (props) =>{
         }
       }
     };
-
-    const validForm = () => {
+    
+    // Validate the form 
+    const validateForm = () => {
       if (title && description && location && file) {
-        if (title.length < 5 || description.length < 5 
-            || location.length < 5) {
+        if (title.length < MIN_INPUT_LENGTH || description.length < MIN_INPUT_LENGTH 
+            || location.length < MIN_INPUT_LENGTH) {
           setErrorMessage(
             "Title, Description and Location must be longer than 5 characters."
           );
@@ -95,9 +97,8 @@ const CreatePost = (props) =>{
       return false;
     };
 
-    // CreatePost modal component render
     return (
-        <Fragment>
+      <Fragment>
         {/* Modal Trigger */}
         {user ? (
         <button type="button" className="btn btn-primary" 
@@ -162,7 +163,7 @@ const CreatePost = (props) =>{
             </div>
           </div>
         </Modal>
-        </Fragment>);
+      </Fragment>);
 };
 
 export default CreatePost;

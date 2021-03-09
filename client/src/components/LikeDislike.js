@@ -9,6 +9,7 @@ const LikeDislike = ({ postId, numOfLikes }) => {
   const handleVote = async (voteOperation) => {
     if (!user) {
       console.log('user not logged in');
+      window.location = '/login';
     } else {
       try {
         const res = await axios.post(`/api/${voteOperation}/${user?.id}`, {
@@ -20,11 +21,6 @@ const LikeDislike = ({ postId, numOfLikes }) => {
       }
     }
   };
-
-  useEffect(() => {
-    if (user) {
-    }
-  }, []);
 
   return (
     <div className="vote p-3 d-flex flex-column align-items-center">

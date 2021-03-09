@@ -57,9 +57,12 @@ export default function Home() {
               postId={post.id}
               content={post.content}
               title={post.title}
-              numOfLikes={post.numOfLikes}
+              numOfLikes={post.numoflikes}
+              location={post.location}
+              imgUrl={post.imageurl}
             ></PostCard>
           ))}
+          {console.log(allPosts.map((post) => post))}
         </div>
         {/* <h1>Home</h1>
       {user && (

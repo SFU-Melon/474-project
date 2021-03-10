@@ -9,3 +9,11 @@
     width: 100%;
     border-radius: 5px;
   }
+
+  .pac-container:after {
+    /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+    padding:0;
+    margin:0;
+    background-image: none !important;
+    height: 0px;
+}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useUserContext } from "../../contexts/UserContext";
 import { Link } from 'react-router-dom'
 import { Modal } from 'react-responsive-modal';
+import SearchInputLocation from './SearchInputLocation'
 import 'react-responsive-modal/styles.css'
 import './style.css'
 
@@ -11,9 +12,9 @@ const CreatePost = () =>{
     const { user } = useUserContext();
     const [fileType, setFileType] = useState("");   
     const [file, setFile] = useState(null);
-    const [title, setTitle] = useState(null)
-    const [description, setDescription] = useState("")
-    const [location, setLocation] = useState("")
+    const [title, setTitle] = useState(null);
+    const [description, setDescription] = useState("");
+    const [location, setLocation] = useState("");
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -48,6 +49,8 @@ const CreatePost = () =>{
               setTitle("");
               setDescription("");
               setLocation("");
+              setFile(null);
+              setFileType("");
               imgUrl = "";
               console.log(res);
             });
@@ -151,11 +154,12 @@ const CreatePost = () =>{
                   </div>
                   <div className="mb-2">
                     <h6>Location</h6>
-                    <input 
+                    <SearchInputLocation setLocation={setLocation}/>
+                    {/* <input 
                         type="text"
                         className = "form-control"
                         value={location}
-                        onChange={e => setLocation(e.target.value)}/>
+                        onChange={e => setLocation(e.target.value)}/> */}
                   </div>
 
                   <div className="mb-3">
@@ -163,6 +167,7 @@ const CreatePost = () =>{
                     <input
                         type="file"
                         name="file"
+                        className = "form-control"
                         accept=".jpg,.jpeg,.png"
                         onChange={handleChange}
                     />

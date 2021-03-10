@@ -4,7 +4,7 @@ import { useUserContext } from '../../contexts/UserContext';
 import { useEffect, useState, Fragment } from 'react';
 import PostCard from '../../components/PostCard';
 import ImageUpload from '../../components/ImageUpload';
-import CreatePost from '../../components/CreatePost';
+import CreatePost from './CreatePost';
 import AllUsers from './AllUsers';
 
 export default function Home() {
@@ -49,14 +49,10 @@ export default function Home() {
 
   return (
     <Fragment>
-      <div>
-    
       <div className="container">
-        {user && (
-          <div className="d-flex justify-content-start m-2 mt-4">
-            <CreatePost user = {user}/>
-          </div>
-        )}
+        <div className="d-flex justify-content-start m-2 mt-4">
+          <CreatePost/>
+        </div>
         {allPosts.map((post) => (
           <PostCard
             key={post.id}
@@ -66,37 +62,6 @@ export default function Home() {
             numOfLikes={post.numOfLikes}
           ></PostCard>
         ))}
-      </div>
-
-      <div className="container">
-        {allPosts.map((post) => (
-          <PostCard key={post.id} content={post.content}></PostCard>
-        ))}
-      </div>
-        
-        <h1>Home</h1>
-      {user && (
-        <div>
-          <h1>{user.username}</h1>
-          <ImageUpload type={"test"} uploadCallback={uploadCallback} />
-          {imgUrl && (
-            <img src={imgUrl} alt="uploaded" width="700" height="700"></img>
-          )}
-        </div>
-      )}
-
-        <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
-          <input
-            type="text"
-            placeholder="content"
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
-          />
-          <button onClick={handleSubmit}>CREATE POST</button>
-        </div>
-
-        <AllUsers />
       </div>
     </Fragment>
   );

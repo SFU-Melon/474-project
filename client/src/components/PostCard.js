@@ -1,15 +1,27 @@
-import LikeDislike from './LikeDislike';
+import Vote from './Vote';
 
-export default function PostCard({ postId, content, title, numOfLikes }) {
+export default function PostCard({
+  postId,
+  content,
+  title,
+  numOfLikes,
+  location,
+  imgUrl,
+  voteStatus,
+}) {
   return (
     <div className="card flex-row p-3 m-2">
-      <LikeDislike postId={postId} numOfLikes={numOfLikes} />
+      <Vote
+        postId={postId}
+        numOfLikes={numOfLikes}
+        preVoteStatus={voteStatus}
+      />
       <div>
-        <h2>{content}</h2>
+        <h2>{title}</h2>
         <div className="d-flex flex-row justify-content-between">
           <span>Posted by Travis in PHX (9b)</span>
           <span>1 hours ago</span>
-          <span>Tags</span>
+          <span>{location}</span>
           <span>3 Comments </span>
           <span>Updated 36 minutes ago</span>
         </div>

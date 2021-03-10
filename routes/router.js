@@ -32,14 +32,10 @@ router.post(
   postController.checkVoteStatus,
   postController.downVote
 );
-router.post(
-  '/cancelVotePost/:userId',
-  ensureAuthenticated,
-  postController.cancelVote
-);
+
 router.get('/getPost/:id', postController.getPostById);
 router.get('/getAllPosts', postController.getAllPosts);
-router.get('/getAllPosts/:userId', postController.getAllPostsByUserId);
+router.get('/getAllPosts/:userId', postController.getAllPostsFromUserId);
 router.delete(
   '/deletePost/:id',
   ensureAuthenticated,

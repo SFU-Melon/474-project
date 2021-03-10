@@ -23,8 +23,18 @@ Post.create = async (data) => {
   }
 };
 
-Post.getAllPosts = async () => {
+Post.getAllPosts = async (userId) => {
   try {
+    if (userId != undefined) {
+      const res = await pool.query(
+        //id, dateTime, title, content, location, imageUrl, numOfLikes, likes.val
+        'SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1',
+        [userId]
+      );
+      console.log(res.rows, ' res.rows when user is defined');
+      return res.rows;
+    }
+    console.log('user is undefined');
     const res = await pool.query('SELECT * FROM posts');
     return res.rows;
   } catch (err) {
@@ -32,7 +42,7 @@ Post.getAllPosts = async () => {
   }
 };
 
-Post.getAllPostsByUserId = async (userId) => {
+Post.getAllPostsFromUserId = async (userId) => {
   try {
     const res = await pool.query('SELECT * FROM posts WHERE userId = $1', [
       userId,
@@ -68,6 +78,49 @@ Post.checkVoteStatus = async (data) => {
   } catch (err) {
     console.error(err.message);
   }
+};
+
+Post.changeNumOfLikes = async (data) => {
+  const voteOperation = data.voteOperation;
+  const voteStatus = data.voteStatus;
+  const { postId } = data.body;
+  let change;
+  if (voteOperation === 'upVote') {
+    switch (voteStatus) {
+      case 0:
+        // no vote -> upVote
+        change = 1;
+        break;
+      case 1:
+        // upVote -> cancel
+        change = -1;
+        break;
+      case -1:
+        // downVote -> upVote
+        change = 2;
+        break;
+    }
+  } else {
+    switch (voteStatus) {
+      case 0:
+        // no vote -> downVote
+        change = -1;
+        break;
+      case 1:
+        // upVote -> downVote
+        change = -2;
+        break;
+      case -1:
+        // downVote -> cancel
+        change = 1;
+        break;
+    }
+  }
+  const res = await pool.query(
+    'UPDATE posts SET numOfLikes = numOFLikes + $1 WHERE id = $2 RETURNING numOfLikes',
+    [change, postId]
+  );
+  return res.rows[0];
 };
 
 Post.upVote = async (data) => {

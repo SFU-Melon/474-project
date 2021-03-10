@@ -27,16 +27,21 @@ postController.upVote = async (req, res) => {
     let message;
     let newVoteStatus;
     if (req.voteStatus != 0) {
+      // -1 , 1
       await Post.cancelVote(req);
       message = 'Canceled successfully!';
       newVoteStatus = 0;
     }
     if (req.voteStatus != 1) {
+      // -1 , 0
       await Post.upVote(req);
       message = 'Upvoted successfully!';
       newVoteStatus = 1;
     }
-    res.status(200).json({ message, newVoteStatus });
+    req.voteOperation = 'upVote';
+    const { numoflikes } = await Post.changeNumOfLikes(req);
+
+    res.status(200).json({ message, newVoteStatus, numoflikes });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'downVote did not succeed' });
@@ -57,7 +62,9 @@ postController.downVote = async (req, res) => {
       message = 'downVoted successfully!';
       newVoteStatus = -1;
     }
-    res.status(200).json({ message, newVoteStatus });
+    req.voteOperation = 'downVote';
+    const { numoflikes } = await Post.changeNumOfLikes(req);
+    res.status(200).json({ message, newVoteStatus, numoflikes });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'downVote did not succeed' });
@@ -81,26 +88,30 @@ postController.getPostById = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ success: false });
   }
 };
 
 //NEED to know how to paginate data
 postController.getAllPosts = async (req, res) => {
   try {
-    const allPosts = await Post.getAllPosts();
+    const userId = req.user?.id;
+    const allPosts = await Post.getAllPosts(userId);
     res.json(allPosts);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ success: false });
   }
 };
 
-postController.getAllPostsByUserId = async (req, res) => {
+postController.getAllPostsFromUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    const posts = await Post.getAllPostsByUserId(userId);
+    const posts = await Post.getAllPostsFromUserId(userId);
     res.json(posts);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ success: false });
   }
 };
 
@@ -111,6 +122,7 @@ postController.deletePost = async (req, res) => {
     res.json(`post ${id} is deleted`);
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ success: false });
   }
 };
 

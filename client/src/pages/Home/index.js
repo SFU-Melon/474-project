@@ -11,7 +11,6 @@ export default function Home() {
   const { user } = useUserContext();
   const [content, setContent] = useState('');
 
-  // const [loading, setLoading] = useState(true);
   const [allPosts, setAllPosts] = useState([]);
 
   const handleSubmit = () => {
@@ -25,10 +24,8 @@ export default function Home() {
   const fetchAllPosts = async () => {
     try {
       const res = await axios.get('/api/getAllPosts');
-      if (res) {
-        setAllPosts(res.data);
-        // setLoading(false);
-      }
+
+      setAllPosts(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -37,7 +34,7 @@ export default function Home() {
   useEffect(() => {
     fetchAllPosts();
     console.log('useEffect in home');
-  }, []);
+  }, [user]);
 
   const [imgUrl, setImgUrl] = useState(null);
 
@@ -57,20 +54,14 @@ export default function Home() {
               postId={post.id}
               content={post.content}
               title={post.title}
-              numOfLikes={post.numOfLikes}
+              numOfLikes={post.numoflikes}
+              location={post.location}
+              imgUrl={post.imageurl}
+              voteStatus={post.val}
             ></PostCard>
           ))}
+          {console.log(allPosts.map((post) => post))}
         </div>
-        {/* <h1>Home</h1>
-      {user && (
-        <div>
-          <h1>{user.username}</h1>
-          <ImageUpload type={"post"} uploadCallback={uploadCallback} />
-          {imgUrl && (
-            <img src={imgUrl} alt="uploaded" width="700" height="700"></img>
-          )}
-        </div>
-      )} */}
 
         <div className="testingCreatePost" style={{ flexDirection: 'row' }}>
           <input

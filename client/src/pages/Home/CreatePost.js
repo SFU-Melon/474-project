@@ -11,7 +11,7 @@ const CreatePost = () =>{
     const { user } = useUserContext();
     const [fileType, setFileType] = useState("");   
     const [file, setFile] = useState(null);
-    const [title, setTitle] = useState(null)
+    const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [location, setLocation] = useState("")
     const [open, setOpen] = useState(false);

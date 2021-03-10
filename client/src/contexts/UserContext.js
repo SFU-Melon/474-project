@@ -18,10 +18,10 @@ export function UserProvider({ children }) {
   const authenticateUser = async () => {
     try {
       const res = await axios.get('/api/user');
-      console.log(res);
       if (res.data.user) {
         setUser(res.data.user);
         setAuth(true);
+        console.log('When the response is received from /api/user');
       } else {
         setAuth(false);
       }
@@ -31,6 +31,7 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
+    console.log('useEffect in UserContext');
     authenticateUser();
   }, []);
 

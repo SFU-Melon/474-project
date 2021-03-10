@@ -7,10 +7,15 @@ export default function PostCard({
   numOfLikes,
   location,
   imgUrl,
+  voteStatus,
 }) {
   return (
     <div className="card flex-row p-3 m-2">
-      <LikeDislike postId={postId} numOfLikes={numOfLikes} />
+      <LikeDislike
+        postId={postId}
+        numOfLikes={numOfLikes}
+        preVoteStatus={voteStatus}
+      />
       <div>
         <h2>{title}</h2>
         <div className="d-flex flex-row justify-content-between">

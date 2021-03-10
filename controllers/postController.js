@@ -86,18 +86,19 @@ postController.getPostById = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ success: false });
   }
 };
 
 //NEED to know how to paginate data
 postController.getAllPosts = async (req, res) => {
   try {
-    const allPosts = await Post.getAllPosts();
+    const userId = req.query.userId;
+    const allPosts = await Post.getAllPosts(userId);
     res.json(allPosts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ success: false });
   }
 };
 
@@ -108,7 +109,7 @@ postController.getAllPostsFromUserId = async (req, res) => {
     res.json(posts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ success: false });
   }
 };
 
@@ -119,7 +120,7 @@ postController.deletePost = async (req, res) => {
     res.json(`post ${id} is deleted`);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ success: false });
   }
 };
 

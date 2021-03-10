@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import axios from 'axios';
 
-const LikeDislike = ({ postId, numOfLikes }) => {
+const LikeDislike = ({ postId, numOfLikes, preVoteStatus }) => {
   const { user } = useUserContext();
   const [voteStatus, setVoteStatus] = useState(0);
   const [totalLikes, setTotalLikes] = useState(numOfLikes);
@@ -24,6 +24,10 @@ const LikeDislike = ({ postId, numOfLikes }) => {
       }
     }
   };
+
+  useEffect(() => {
+    setVoteStatus(preVoteStatus);
+  }, [user, preVoteStatus]);
 
   return (
     <div className="vote p-3 d-flex flex-column align-items-center">

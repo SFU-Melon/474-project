@@ -23,8 +23,18 @@ Post.create = async (data) => {
   }
 };
 
-Post.getAllPosts = async () => {
+Post.getAllPosts = async (userId) => {
   try {
+    if (userId != undefined) {
+      const res = await pool.query(
+        //id, dateTime, title, content, location, imageUrl, numOfLikes, likes.val
+        'SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1',
+        [userId]
+      );
+      console.log(res.rows, ' res.rows when user is defined');
+      return res.rows;
+    }
+    console.log('user is undefined');
     const res = await pool.query('SELECT * FROM posts');
     return res.rows;
   } catch (err) {

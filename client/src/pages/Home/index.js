@@ -23,14 +23,9 @@ export default function Home() {
 
   const fetchAllPosts = async () => {
     try {
-      const res = await axios.get('/api/getAllPosts', {
-        params: {
-          userId: user?.id,
-        },
-      });
-      if (res) {
-        setAllPosts(res.data);
-      }
+      const res = await axios.get('/api/getAllPosts');
+
+      setAllPosts(res.data);
     } catch (err) {
       console.log(err);
     }

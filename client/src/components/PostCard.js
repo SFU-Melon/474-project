@@ -1,4 +1,4 @@
-import LikeDislike from './LikeDislike';
+import Vote from './Vote';
 
 export default function PostCard({
   postId,
@@ -11,7 +11,7 @@ export default function PostCard({
 }) {
   return (
     <div className="card flex-row p-3 m-2">
-      <LikeDislike
+      <Vote
         postId={postId}
         numOfLikes={numOfLikes}
         preVoteStatus={voteStatus}

@@ -17,7 +17,6 @@ CREATE TABLE posts(
     content VARCHAR(200),
     location VARCHAR(200),
     imageUrl VARCHAR(200),
-    numOfLikes INTEGER,
     userId uuid references users(id)
         ON DELETE CASCADE,
     numOfLikes INTEGER DEFAULT 0

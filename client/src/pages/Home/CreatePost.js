@@ -97,6 +97,7 @@ const CreatePost = () =>{
           setErrorMessage("Title must be at least 5 characters.");
           return false;
         } else {
+          setErrorMessage("");
           return true
         }
       }

@@ -1,10 +1,10 @@
 .customOverlay {
-    /* background: rgba(36, 123, 160, 0.7); */
     background: rgba(0,0,0,0.5);
   }
   
   .customModal {
-    background: linear-gradient(317deg, rgba(102,184,94,1) 0%, rgba(185,214,114,1) 100%);
+    /* background: linear-gradient(317deg, rgba(102,184,94,1) 0%, rgba(185,214,114,1) 100%); */
+    background: #9ecca4;
     max-width: 700px;
     width: 100%;
     border-radius: 5px;

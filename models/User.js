@@ -80,18 +80,20 @@ User.unfollows = async (id_1, id_2) => {
 
 User.getFollowersAndFollowing = async (id) => {
   try {
-    const followers = await pool.query(
-      "SELECT user1 FROM followers WHERE user2 = $1",
+    const res = await pool.query(
+      "SELECT user1 AS follower, user2 AS following FROM followers WHERE user1 = $1 OR user2 = $1",
       [id]
     );
-    const following = await pool.query(
-      "SELECT user2 FROM followers WHERE user1 = $1",
-      [id]
-    );
-    const followers_arr = followers.rows.map((follower) => follower.user1);
-    const following_arr = following.rows.map((follow) => follow.user2);
-
-    return [followers_arr, following_arr];
+    let followers = [],
+      following = [];
+    res.rows.map((item) => {
+      if (item.follower === id) {
+        following.push(item.following);
+      } else {
+        followers.push(item.follower);
+      }
+    });
+    return [followers, following];
   } catch (err) {
     console.log(err.message);
   }

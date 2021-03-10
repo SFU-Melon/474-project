@@ -117,9 +117,10 @@ Post.changeNumOfLikes = async (data) => {
     }
   }
   const res = await pool.query(
-    'UPDATE posts SET numOfLikes = numOFLikes + $1 WHERE id = $2',
+    'UPDATE posts SET numOfLikes = numOFLikes + $1 WHERE id = $2 RETURNING numOfLikes',
     [change, postId]
   );
+  return res.rows[0];
 };
 
 Post.upVote = async (data) => {
@@ -170,19 +171,6 @@ Post.delete = async (id) => {
     await pool.query('DELETE FROM posts WHERE id=$1', [id]);
   } catch (err) {
     console.error(err.message);
-  }
-};
-
-Post.getLikesByPostId = async (data) => {
-  const { postId } = data.params;
-  try {
-    const res = await pool.query('SELECT numOfLikes FROM posts WHERE id=$1', [
-      postId,
-    ]);
-    return res.rows[0];
-  } catch (err) {
-    console.error(err.message);
-    return false;
   }
 };
 

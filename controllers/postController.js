@@ -27,19 +27,21 @@ postController.upVote = async (req, res) => {
     let message;
     let newVoteStatus;
     if (req.voteStatus != 0) {
+      // -1 , 1
       await Post.cancelVote(req);
       message = 'Canceled successfully!';
       newVoteStatus = 0;
     }
     if (req.voteStatus != 1) {
+      // -1 , 0
       await Post.upVote(req);
       message = 'Upvoted successfully!';
       newVoteStatus = 1;
     }
     req.voteOperation = 'upVote';
-    await Post.changeNumOfLikes(req);
+    const { numoflikes } = await Post.changeNumOfLikes(req);
 
-    res.status(200).json({ message, newVoteStatus });
+    res.status(200).json({ message, newVoteStatus, numoflikes });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'downVote did not succeed' });
@@ -61,8 +63,8 @@ postController.downVote = async (req, res) => {
       newVoteStatus = -1;
     }
     req.voteOperation = 'downVote';
-    await Post.changeNumOfLikes(req);
-    res.status(200).json({ message, newVoteStatus });
+    const { numoflikes } = await Post.changeNumOfLikes(req);
+    res.status(200).json({ message, newVoteStatus, numoflikes });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: 'downVote did not succeed' });
@@ -118,16 +120,6 @@ postController.deletePost = async (req, res) => {
     const { id } = req.params;
     await Post.delete(id);
     res.json(`post ${id} is deleted`);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ success: false });
-  }
-};
-
-postController.getLikesByPostId = async (req, res) => {
-  try {
-    const result = await Post.getLikesByPostId(req);
-    res.status(200).json(result);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ success: false });

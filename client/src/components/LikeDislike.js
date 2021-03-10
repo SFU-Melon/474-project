@@ -13,12 +13,11 @@ const LikeDislike = ({ postId, numOfLikes, preVoteStatus }) => {
       window.location = '/login';
     } else {
       try {
-        const res = await axios.post(`/api/${voteOperation}/${user?.id}`, {
+        const res = await axios.post(`/api/${voteOperation}/${user.id}`, {
           postId: postId,
         });
         setVoteStatus(res.data.newVoteStatus);
-        const numLikes = await axios.get(`/api/getLikesByIds/${postId}`);
-        setTotalLikes(numLikes.data.numoflikes);
+        setTotalLikes(res.data.numoflikes);
       } catch (err) {
         console.error(err.message);
       }

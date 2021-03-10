@@ -42,6 +42,4 @@ router.delete(
   postController.deletePost
 );
 
-router.get('/getLikesByIds/:postId', postController.getLikesByPostId);
-
 module.exports = router;

@@ -4,13 +4,14 @@ import { useUserContext } from "../../contexts/UserContext";
 import { Link } from 'react-router-dom'
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css'
+import './style.css'
 
 const CreatePost = () =>{
   
     const { user } = useUserContext();
     const [fileType, setFileType] = useState("");   
     const [file, setFile] = useState(null);
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState(null)
     const [description, setDescription] = useState("")
     const [location, setLocation] = useState("")
     const [open, setOpen] = useState(false);
@@ -82,22 +83,23 @@ const CreatePost = () =>{
           } catch (err) {
             console.log(err.message);
           }
+        } else{
+          sendToDatabase();
+          onCloseModal();
         }
       }
     };
     
     // Validate the form 
     const validateForm = () => {
-      if (title && description && location && file) {
-        if (title.length < MIN_INPUT_LENGTH || description.length < MIN_INPUT_LENGTH 
-            || location.length < MIN_INPUT_LENGTH) {
-          setErrorMessage("Title, Description and Location must be longer than 5 characters.");
+      if(title){
+        if(title.length < 5) {
+          setErrorMessage("Title must be at least 5 characters.");
+          return false;
         } else {
-          setErrorMessage("");
-          return true;
+          return true
         }
       }
-      setErrorMessage("Missing field of Title, Description, Location or Image.")
       return false;
     };
 
@@ -118,9 +120,14 @@ const CreatePost = () =>{
         )}
 
         {/* Modal */}
-        <Modal open={open} onClose={onCloseModal} center>
+        <Modal className="custom-modal" open={open} 
+          onClose={onCloseModal} center
+          classNames={{
+            overlay: 'customOverlay',
+            modal: 'customModal',
+          }}>
           <div>
-            <h5 id="ModalTitle">Create Post</h5>
+            <h3 id="ModalTitle">Create Post</h3>
             <div>
               <form onSubmit={handleUpload}>
                   <div className="mb-2">

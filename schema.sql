@@ -12,15 +12,14 @@ CREATE TABLE users(
 
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    dateTime TIMESTAMP,
-    title VARCHAR(200),
-    content VARCHAR(200),
+    dateTime TIMESTAMP NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    content TEXT,
     location VARCHAR(200),
     imageUrl VARCHAR(200),
-    numOfLikes INTEGER,
+    numOfLikes INTEGER DEFAULT 0 NOT NULL,
     userId uuid references users(id)
-        ON DELETE CASCADE,
-    numOfLikes INTEGER DEFAULT 0
+        ON DELETE CASCADE
 );
 
 CREATE TABLE likes(

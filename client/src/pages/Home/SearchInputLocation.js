@@ -27,7 +27,7 @@ const loadScript = (url, callback) => {
 function handleScriptLoad(updateQuery, autoCompleteRef) {
   autoComplete = new window.google.maps.places.Autocomplete(
     autoCompleteRef.current,
-    { types: ["(cities)"], componentRestrictions: { country: "ca", country: "us"  } }
+    { types: ["(cities)"], componentRestrictions: { country: "ca" } }
   );
   autoComplete.setFields(["address_components", "formatted_address"]);
   autoComplete.addListener("place_changed", () =>

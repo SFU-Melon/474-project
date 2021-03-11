@@ -17,7 +17,7 @@ export default function FollowButton(props) {
     if (user && user.following.includes(props.userId)) {
       setFollowing(true);
     }
-  }, [user]);
+  }, [user, props.userId]);
 
   const unfollow = async () => {
     try {

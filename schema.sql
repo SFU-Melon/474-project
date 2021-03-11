@@ -12,15 +12,9 @@ CREATE TABLE users(
 
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-<<<<<<< HEAD
     dateTime TIMESTAMP NOT NULL,
     title VARCHAR(200) NOT NULL,
     content TEXT,
-=======
-    dateTime TIMESTAMP,
-    title VARCHAR(200) NOT NULL,
-    content VARCHAR(200),
->>>>>>> main
     location VARCHAR(200),
     imageUrl VARCHAR(200),
     numOfLikes INTEGER DEFAULT 0 NOT NULL,

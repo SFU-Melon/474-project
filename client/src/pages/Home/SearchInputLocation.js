@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 let autoComplete;
 
 const loadScript = (url, callback) => {
-
   let script = document.createElement("script");
   script.type = "text/javascript";
 
   if (script.readyState) {
-    script.onreadystatechange = function() {
+    script.onreadystatechange = function () {
       if (script.readyState === "loaded" || script.readyState === "complete") {
         script.onreadystatechange = null;
         callback();
@@ -48,14 +47,14 @@ function SearchLocationInput(props) {
       `https://maps.googleapis.com/maps/api/js?key=AIzaSyDzLz6KZRNduQOtj8jcqsgIRLL7lEFlpUY&libraries=places`,
       () => handleScriptLoad(props.setLocation, autoCompleteRef)
     );
-  }, []);
+  }, [props.setLocation]);
 
   return (
     <div className="search-location-input">
       <input
-        className = "form-control"
+        className="form-control"
         ref={autoCompleteRef}
-        onChange={event => props.setLocation(event.target.value)}
+        onChange={(event) => props.setLocation(event.target.value)}
         placeholder="Enter a City"
         value={props.location}
       />

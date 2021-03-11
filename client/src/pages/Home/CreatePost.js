@@ -3,9 +3,11 @@ import axios from 'axios';
 import { useUserContext } from "../../contexts/UserContext";
 import { Link } from 'react-router-dom'
 import { Modal } from 'react-responsive-modal';
+import SearchInputLocation from './SearchInputLocation'
 import 'react-responsive-modal/styles.css'
+import './style.css'
 
-const CreatePost = () =>{
+const CreatePost = () => {
   
     const { user } = useUserContext();
     const [fileType, setFileType] = useState("");   
@@ -15,10 +17,13 @@ const CreatePost = () =>{
     const [location, setLocation] = useState("")
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const TITLE_MIN_LENGTH = 5;
+    // [imgUrl, setImgUrl] = useState ("") does not work
+    // Called from inside a function instead of an event
+    let imgUrl = ""; 
 
-    const MIN_INPUT_LENGTH = 5;
-    let imgUrl = ""; // setImgUrl/useState wont work for some reason
 
+    // Handling modal open/close
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
 
@@ -47,6 +52,8 @@ const CreatePost = () =>{
               setTitle("");
               setDescription("");
               setLocation("");
+              setFile(null);
+              setFileType("");
               imgUrl = "";
               console.log(res);
             });
@@ -55,7 +62,7 @@ const CreatePost = () =>{
       }
     };
 
-    // Upload image to S3 bucket
+    // Handle upload
     const handleUpload = async (e) => {
       e.preventDefault();
       if(validateForm()){
@@ -82,22 +89,25 @@ const CreatePost = () =>{
           } catch (err) {
             console.log(err.message);
           }
+        } else{
+          sendToDatabase();
+          onCloseModal();
         }
       }
     };
     
     // Validate the form 
     const validateForm = () => {
-      if (title && description && location && file) {
-        if (title.length < MIN_INPUT_LENGTH || description.length < MIN_INPUT_LENGTH 
-            || location.length < MIN_INPUT_LENGTH) {
-          setErrorMessage("Title, Description and Location must be longer than 5 characters.");
+      if(title){
+        if(title.length < TITLE_MIN_LENGTH) {
+          setErrorMessage("Title must be at least 5 characters.");
+          return false;
         } else {
           setErrorMessage("");
-          return true;
+          return true
         }
       }
-      setErrorMessage("Missing field of Title, Description, Location or Image.")
+      setErrorMessage("Please add a title to create a post.")
       return false;
     };
 
@@ -118,9 +128,14 @@ const CreatePost = () =>{
         )}
 
         {/* Modal */}
-        <Modal open={open} onClose={onCloseModal} center>
+        <Modal className="custom-modal" open={open} 
+          onClose={onCloseModal} center
+          classNames={{
+            overlay: 'customOverlay',
+            modal: 'customModal',
+          }}>
           <div>
-            <h5 id="ModalTitle">Create Post</h5>
+            <h3 id="ModalTitle">Create Post</h3>
             <div>
               <form onSubmit={handleUpload}>
                   <div className="mb-2">
@@ -143,24 +158,20 @@ const CreatePost = () =>{
                   </div>
                   <div className="mb-2">
                     <h6>Location</h6>
-                    <input 
-                        type="text"
-                        className = "form-control"
-                        value={location}
-                        onChange={e => setLocation(e.target.value)}/>
+                    <SearchInputLocation setLocation={setLocation}/>
                   </div>
-
                   <div className="mb-3">
                   <h6>Image</h6>
                     <input
                         type="file"
                         name="file"
+                        className = "form-control"
                         accept=".jpg,.jpeg,.png"
                         onChange={handleChange}
                     />
                   </div>
                   <button type="submit" 
-                    className="btn btn-success text-right">
+                    className="btn btn-success form-control">
                     Submit
                   </button>
               </form>

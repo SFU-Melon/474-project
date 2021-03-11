@@ -14,8 +14,8 @@ Post.create = async (data) => {
   const { userId } = data.params;
   try {
     const res = await pool.query(
-      'INSERT INTO posts (dateTime, location, imageUrl, userId, content, title, numOfLikes) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-      [dateTime, location, imageUrl, userId, content, title, numOfLikes]
+      'INSERT INTO posts (dateTime, title, location, imageUrl, userId, content) VALUES (to_timestamp($1),$2,$3,$4,$5,$6) RETURNING *',
+      [(Date.now()/1000.0), title, location, imageUrl, userId, content]
     );
     return res.rows[0];
   } catch (err) {

@@ -4,7 +4,7 @@ require("dotenv").config();
 const fs = require("fs");
 const router = require("express").Router();
 const aws = require("aws-sdk");
-const { v4: uuidv4 } = require("uuid");
+var { nanoid } = require("nanoid");
 const { ensureAuthenticated } = require("./middlewares");
 
 TEST_BUCKET = process.env.TEST_BUCKET;
@@ -19,7 +19,7 @@ aws.config.update({
 
 getPreSignedRequest = async (req, res, bucketName) => {
   const s3 = new aws.S3(); // Create a new instance of S3
-  const fileKey = uuidv4();
+  const fileKey = nanoid();
   const fileType = req.body.fileType;
 
   const params = {

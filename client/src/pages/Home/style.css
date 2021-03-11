@@ -1,0 +1,19 @@
+.customOverlay {
+    background: rgba(0,0,0,0.5);
+  }
+  
+  .customModal {
+    /* background: linear-gradient(317deg, rgba(102,184,94,1) 0%, rgba(185,214,114,1) 100%); */
+    background: #9ecca4;
+    max-width: 700px;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .pac-container:after {
+    /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+    padding:0;
+    margin:0;
+    background-image: none !important;
+    height: 0px;
+}

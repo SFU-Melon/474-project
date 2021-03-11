@@ -7,7 +7,7 @@ import SearchInputLocation from './SearchInputLocation'
 import 'react-responsive-modal/styles.css'
 import './style.css'
 
-const CreatePost = () =>{
+const CreatePost = () => {
   
     const { user } = useUserContext();
     const [fileType, setFileType] = useState("");   
@@ -17,10 +17,13 @@ const CreatePost = () =>{
     const [location, setLocation] = useState("")
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const TITLE_MIN_LENGTH = 5;
+    // [imgUrl, setImgUrl] = useState ("") does not work
+    // Called from inside a function instead of an event
+    let imgUrl = ""; 
 
-    const MIN_INPUT_LENGTH = 5;
-    let imgUrl = ""; // setImgUrl/useState wont work for some reason
 
+    // Handling modal open/close
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
 
@@ -59,7 +62,7 @@ const CreatePost = () =>{
       }
     };
 
-    // Upload image to S3 bucket
+    // Handle upload
     const handleUpload = async (e) => {
       e.preventDefault();
       if(validateForm()){
@@ -96,7 +99,7 @@ const CreatePost = () =>{
     // Validate the form 
     const validateForm = () => {
       if(title){
-        if(title.length < 5) {
+        if(title.length < TITLE_MIN_LENGTH) {
           setErrorMessage("Title must be at least 5 characters.");
           return false;
         } else {
@@ -104,6 +107,7 @@ const CreatePost = () =>{
           return true
         }
       }
+      setErrorMessage("Please add a title to create a post.")
       return false;
     };
 

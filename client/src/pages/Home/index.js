@@ -5,8 +5,6 @@ import PostCard from '../../components/PostCard';
 import CreatePost from './CreatePost';
 
 export default function Home() {
-  const id = 4;
-  const { user } = useUserContext();
 
   const [allPosts, setAllPosts] = useState([]);
 
@@ -15,7 +13,6 @@ export default function Home() {
       const res = await axios.get('/api/getAllPosts');
       if (res) {
         setAllPosts(res.data);
-        // setLoading(false);
       }
     } catch (err) {
       console.log(err);

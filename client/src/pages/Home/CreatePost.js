@@ -173,7 +173,7 @@ const CreatePost = () =>{
                     />
                   </div>
                   <button type="submit" 
-                    className="btn btn-success text-right">
+                    className="btn btn-success form-control">
                     Submit
                   </button>
               </form>

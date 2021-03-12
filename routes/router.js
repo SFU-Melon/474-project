@@ -46,7 +46,6 @@ router.delete(
 /****** Comment Routes ********/
 router.get(
   "/getComments/:postId",
-  ensureAuthenticated,
   commentController.getComments
 );
 router.post(

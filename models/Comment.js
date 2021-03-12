@@ -18,8 +18,8 @@ Comment.getComments = async (postId) => {
 Comment.submit = async ({ postId, userId, content }) => {
   try {
     const res = await pool.query(
-      "INSERT INTO comments (userId, postId, content) VALUES ($1, $2, $3)",
-      [userId, postId, content]
+      "INSERT INTO comments (dateTime, userId, postId, content) VALUES (to_timestamp($1), $2, $3, $4)",
+      [Date.now() / 1000.0, userId, postId, content]
     );
     const status = await Post.updateNumOfComments({
       change: 1,

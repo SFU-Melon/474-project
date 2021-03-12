@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    joinDate TIMESTAMP NOT NULL,
     username VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
     UNIQUE (username) 
@@ -40,6 +41,7 @@ CREATE TABLE followers(
 
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    dateTime TIMESTAMP NOT NULL,
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)

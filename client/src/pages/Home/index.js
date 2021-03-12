@@ -23,26 +23,20 @@ export default function Home() {
     console.log("useEffect in home");
   }, [user]);
 
+  const refreshPage = () => {
+    console.log("refresh!");
+  };
+
   return (
     <Fragment>
       <div>
         <div className="container">
           <div className="d-flex justify-content-start m-2 mt-4">
-            <CreatePost />
+            <CreatePost refreshPage={refreshPage} />
           </div>
           {allPosts.map((post) => (
-            <PostCard
-              key={post.id}
-              postId={post.id}
-              content={post.content}
-              title={post.title}
-              numOfLikes={post.numoflikes}
-              location={post.location}
-              imgUrl={post.imageurl}
-              voteStatus={post.val}
-            ></PostCard>
+            <PostCard key={post.id} post={post}></PostCard>
           ))}
-          {console.log(allPosts.map((post) => post))}
         </div>
 
         <AllUsers />

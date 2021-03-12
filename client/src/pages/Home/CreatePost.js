@@ -7,7 +7,7 @@ import SearchInputLocation from "./SearchInputLocation";
 import "react-responsive-modal/styles.css";
 import "./style.css";
 
-const CreatePost = () => {
+const CreatePost = (props) => {
   const { user } = useUserContext();
   const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
@@ -62,6 +62,7 @@ const CreatePost = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log("handling the upload");
+      console.log(description);
       if (file) {
         try {
           let res;
@@ -79,6 +80,7 @@ const CreatePost = () => {
             console.log("Successfully uploaded.");
             sendToDatabase(res_url);
             onCloseModal();
+            setTimeout(() => window.location.reload(), 200);
           }
         } catch (err) {
           console.log(err.message);
@@ -86,6 +88,7 @@ const CreatePost = () => {
       } else {
         sendToDatabase();
         onCloseModal();
+        setTimeout(() => window.location.reload(), 200);
       }
     }
   };
@@ -153,6 +156,7 @@ const CreatePost = () => {
                   type="text"
                   className="form-control"
                   rows="10"
+                  wrap="hard" //needed for line breaks
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />

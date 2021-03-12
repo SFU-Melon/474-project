@@ -18,6 +18,7 @@ CREATE TABLE posts(
     location VARCHAR(200),
     imageUrl VARCHAR(200),
     numOfLikes INTEGER DEFAULT 0 NOT NULL,
+    numOfComments INTEGER DEFAULT 0 NOT NULL,
     userId uuid references users(id)
         ON DELETE CASCADE
 );
@@ -34,6 +35,15 @@ CREATE TABLE likes(
 CREATE TABLE followers(
     user1 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
     user2 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE comments(
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    userId uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    postId uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    content TEXT,
 );
 
 

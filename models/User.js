@@ -8,7 +8,7 @@ User.save = async (data) => {
     try {
       const res = await pool.query(
         "INSERT INTO users (joinDate, username, password) VALUES (to_timestamp($1), $2, $3)",
-        [Date().now / 1000.0, username, hashed]
+        [Date.now() / 1000.0, username, hashed]
       );
     } catch (err) {
       console.log(err.message);

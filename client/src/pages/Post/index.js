@@ -1,20 +1,34 @@
-import { useParams } from 'react-router-dom';
-import { useUserContext } from '../../contexts/UserContext';
-import React, { Fragment } from 'react';
+import { useParams } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserContext";
+import { Fragment, useEffect, useState } from "react";
+import axios from "axios";
 
 // Components
-import Vote from '../../components/Vote';
+import Vote from "../../components/Vote";
 
 const Post = () => {
-  const { id } = useParams();
   const { user } = useUserContext();
+  const [post, setPost] = useState(null);
+  const { id } = useParams();
+
+  const fetchPost = async () => {
+    const res = await axios.get(`/api/getPost/${id}`);
+    setPost(res.data);
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [id]);
 
   return (
     <Fragment>
-      <div className="container">
-        POST PAGE - PostID {id} - UserID {user && user.username}
-        <Vote id={id} user={user} />
-      </div>
+      {post && (
+        <div className="container">
+          POST PAGE - PostID {id}
+          <h1>{post.title}</h1>
+          <p>{post.imageurl}</p>
+        </div>
+      )}
     </Fragment>
   );
 };

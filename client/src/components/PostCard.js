@@ -1,5 +1,6 @@
 import Vote from "./Vote";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Utility from "../utils";
 
 /***
@@ -24,7 +25,11 @@ export default function PostCard({ post }) {
         preVoteStatus={post.votestatus}
       />
       <div>
-        <h2>{post.title}</h2>
+        <Link className="navbar-brand" to={`/post/${post.id}`}>
+          <h2>
+            <u>{post.title}</u>
+          </h2>
+        </Link>
         <p>{displayTime}</p>
         <div className="d-flex flex-row justify-content-between">
           <p>
@@ -40,8 +45,8 @@ export default function PostCard({ post }) {
         </div>
         <div>
           <h4>
-            {post.numofcomments}{" "}
-            {post.numofcomments > 1 ? "comments" : "comment"}{" "}
+            {post.numofcomments}
+            {" comment(s)"}
           </h4>
         </div>
       </div>

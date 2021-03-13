@@ -100,7 +100,7 @@ userController.unfollows = async (req, res) => {
 };
 
 userController.getFollowersAndFollowing = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.params;
   const result = await User.getFollowersAndFollowing(userId);
   return res.json({
     success: result,

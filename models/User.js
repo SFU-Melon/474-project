@@ -80,7 +80,7 @@ User.unfollows = async (id_1, id_2) => {
 
 User.getFollowersAndFollowing = async (id) => {
   try {
-    console.log("getting followers");
+    console.log(id);
     const res = await pool.query(
       "SELECT user1 AS follower, user2 AS following FROM followers WHERE user1 = $1 OR user2 = $1",
       [id]

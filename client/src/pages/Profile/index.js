@@ -10,7 +10,8 @@ import Following from "./Following";
 const Profile = () => {
   const { user } = useUserContext();
   const [allPosts, setAllPosts] = useState([]);
-  const [followData, setFollowData] = useState([]);
+  const [followerData, setFollowerData] = useState([]);
+  const [followingData, setFollowingData] = useState([]);
 
   const fetchUserPosts = async () => {
     try {
@@ -24,8 +25,8 @@ const Profile = () => {
   const fetchUserData = async () => {
     try {
       const res = await axios.get(`/api/getFollowersAndFollowing/${user.id}`);
-      setFollowData(res.data);
-      console.log(res.data);
+      setFollowerData(res.data["success"][0]);
+      setFollowingData(res.data["success"][1]);
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +54,7 @@ const Profile = () => {
               <div className="d-flex flex-row">
                 <div className="w-25 me-1"><FollowButton/></div>
               </div> 
-              <div className="me-1"><span><Followers/>, <Following/></span></div>
+              <div className="me-1"><span><Followers followers={followerData} />, <Following following={followingData}/></span></div>
               <hr className = "w-100"></hr>
               <p>First Name:</p>
               <p>Last Name:</p>

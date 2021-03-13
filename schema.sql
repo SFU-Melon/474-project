@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    joinDate TIMESTAMP NOT NULL,
     username VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
     UNIQUE (username) 
@@ -16,17 +17,18 @@ CREATE TABLE posts(
     title VARCHAR(200) NOT NULL,
     content TEXT,
     location VARCHAR(200),
-    imageUrl VARCHAR(200),
-    numOfLikes INTEGER DEFAULT 0 NOT NULL,
-    numOfComments INTEGER DEFAULT 0 NOT NULL,
-    userId uuid references users(id)
+    imageurl VARCHAR(200),
+    numoflikes INTEGER DEFAULT 0 NOT NULL,
+    numofcomments INTEGER DEFAULT 0 NOT NULL,
+    authorname VARCHAR(200),
+    userid uuid references users(id)
         ON DELETE CASCADE
 );
 
 CREATE TABLE likes(
-    userId uuid REFERENCES users(id)
+    userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
-    postId uuid REFERENCES posts(id)
+    postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     val INTEGER, /*Integer restrictued to 1, -1*/
     PRIMARY KEY(userId, postId)
@@ -39,9 +41,10 @@ CREATE TABLE followers(
 
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    userId uuid REFERENCES users(id)
+    dateTime TIMESTAMP NOT NULL,
+    userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
-    postId uuid REFERENCES posts(id)
+    postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     content TEXT,
 );

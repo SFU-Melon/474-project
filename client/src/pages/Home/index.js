@@ -31,18 +31,8 @@ export default function Home() {
             <CreatePost />
           </div>
           {allPosts.map((post) => (
-            <PostCard
-              key={post.id}
-              postId={post.id}
-              content={post.content}
-              title={post.title}
-              numOfLikes={post.numoflikes}
-              location={post.location}
-              imgUrl={post.imageurl}
-              voteStatus={post.val}
-            ></PostCard>
+            <PostCard key={post.id} post={post}></PostCard>
           ))}
-          {console.log(allPosts.map((post) => post))}
         </div>
 
         <AllUsers />

@@ -20,7 +20,7 @@ function App() {
             <Nav />
             <div className="content">
               <Switch>
-                <Route exact path="/post/:id" component={Post} />
+                <Route exact path="/post/:title/:id" component={Post} />
                 <Route exact path="/plant/:id" component={Plant} />
                 <Route exact path="/" component={Home} />
                 <ProtectedRoutes

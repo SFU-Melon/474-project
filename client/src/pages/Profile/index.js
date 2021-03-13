@@ -12,6 +12,8 @@ const Profile = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
+  const [numFollowing, setNumFollowing] = useState(0);
+  const [ numFollowers, setNumFollowers] = useState(0);
 
   const fetchUserPosts = async () => {
     try {
@@ -27,14 +29,18 @@ const Profile = () => {
       const res = await axios.get(`/api/getFollowersAndFollowing/${user.id}`);
       setFollowerData(res.data["success"][0]);
       setFollowingData(res.data["success"][1]);
+      setNumFollowers(res.data["success"][0].length);
+      setNumFollowing(res.data["success"][1].length);
+      console.log(res.data["success"][0]);
+      console.log(res.data["success"][1]);
     } catch (err) {
       console.log(err);
     }
   }
 
   useEffect(() => {
-    fetchUserPosts();
     console.log("useEffect in profile");
+    fetchUserPosts();
     fetchUserData();
   }, [user]);
 
@@ -52,9 +58,9 @@ const Profile = () => {
             <div className = "m-2">
               <h5 className="card-title" >{user.username}</h5>
               <div className="d-flex flex-row">
-                <div className="w-25 me-1"><FollowButton/></div>
+                <div className="w-25 me-1"><FollowButton userId = {user.id}/></div>
               </div> 
-              <div className="me-1"><span><Followers followers={followerData} />, <Following following={followingData}/></span></div>
+              <div className="me-1"><span><Followers followerData = {followerData} numFollowers = {numFollowers}/>, <Following followingData = {followingData} numFollowing ={numFollowing} /></span></div>
               <hr className = "w-100"></hr>
               <p>First Name:</p>
               <p>Last Name:</p>

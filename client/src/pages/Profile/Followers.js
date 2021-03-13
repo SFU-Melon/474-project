@@ -13,14 +13,37 @@ import { Link } from "react-router-dom";
 const Followers = (props) => {
   const { user } = useUserContext();
   const [open, setOpen] = useState(false);
+  const [followerData, setFollowerData] = useState([]);
+  const [ numFollowers, setNumFollowers] = useState(0);
 
   // Handling modal open/close
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
+  // setNumFollowers(props.followerData.length);
+  const useMountEffect = (fun) => useEffect(fun, [])
+  // const fetchUserData = async () => {
+  //   try {
+  //     const res = await axios.get(`/api/getFollowersAndFollowing/${props.userId}`);
+  //     setFollowerData(res.data["success"][0]);
+  //     setNumFollowers(followerData.length);
+  //     console.log(followerData);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   fetchUserData();
+  //   fetchUserData();
+  //   fetchUserData();
+  //   fetchUserData();
+  //   fetchUserData();
+  // }, [user, props.userId]);
+
   return (
     <Fragment>
-      <a href="#" onClick={onOpenModal}><span>19 Followers</span></a>
+      <a href="#" onClick={onOpenModal}><span>{props.numFollowers} Followers</span></a>
       
       {/* Modal */}
       <Modal

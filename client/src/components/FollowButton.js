@@ -17,7 +17,7 @@ const FollowButton = (props) => {
     if (user && user.following.includes(props.userId)) {
       setFollowing(true);
     }
-  }, [user, props.userId]);
+  }, [props.userId]);
 
   const unfollow = async () => {
     try {

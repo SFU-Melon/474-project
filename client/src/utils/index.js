@@ -1,4 +1,5 @@
 import { lightFormat } from "date-fns";
+import short from "short-uuid";
 const Utility = {};
 
 Utility.getDisplayTime = (date) => {
@@ -18,6 +19,14 @@ Utility.getDisplayTime = (date) => {
     return hours + " hour(s) ago";
   }
   return lightFormat(post_date, "dd/MM/yyyy");
+};
+
+Utility.encodeUUID = (id) => {
+  return short().fromUUID(id);
+};
+
+Utility.decodeUUID = (id) => {
+  return short().toUUID(id);
 };
 
 export default Utility;

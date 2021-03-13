@@ -11,6 +11,8 @@ import Utility from "../utils";
 
 export default function PostCard({ post }) {
   const [displayTime, setDisplayTime] = useState("");
+  const encoded = Utility.encodeUUID(post.id);
+  const encodedTitle = encodeURIComponent(post.title);
 
   useEffect(() => {
     const time = Utility.getDisplayTime(post.datetime);
@@ -25,7 +27,7 @@ export default function PostCard({ post }) {
         preVoteStatus={post.votestatus}
       />
       <div>
-        <Link className="navbar-brand" to={`/post/${post.id}`}>
+        <Link className="navbar-brand" to={`/post/${encodedTitle}/${encoded}`}>
           <h2>
             <u>{post.title}</u>
           </h2>
@@ -33,7 +35,7 @@ export default function PostCard({ post }) {
         <p>{displayTime}</p>
         <div className="d-flex flex-row justify-content-between">
           <p>
-            Posted by {post.authorname} (John) {post.location && "from"}{" "}
+            Posted by {post.authorname} (Author Name) {post.location && "from"}{" "}
             {post.location}
           </p>
         </div>

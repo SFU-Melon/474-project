@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
  * }
  */
 
-export default function FollowButton(props) {
+const FollowButton = (props) => {
   const [following, setFollowing] = useState(false);
   const { user } = useUserContext();
 
@@ -51,7 +51,7 @@ export default function FollowButton(props) {
     <div>
       {user ? (
         user.id !== props.userId && (
-          <button
+          <button className="btn btn-primary form-control"
             onClick={() => {
               following ? unfollow() : follow();
             }}
@@ -61,9 +61,11 @@ export default function FollowButton(props) {
         )
       ) : (
         <Link to="/login">
-          <button>Follow</button>
+          <button className="btn btn-primary form-control">Follow</button>
         </Link>
       )}
     </div>
   );
-}
+};
+
+export default FollowButton;

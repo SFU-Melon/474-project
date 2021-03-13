@@ -46,7 +46,7 @@ CREATE TABLE comments(
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
-    content TEXT,
+    content TEXT
 );
 
 

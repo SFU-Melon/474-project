@@ -51,7 +51,7 @@ const FollowButton = (props) => {
     <div>
       {user ? (
         user.id !== props.userId && (
-          <button className="btn btn-primary form-control"
+          <button className="btn btn-primary btn-sm "
             onClick={() => {
               following ? unfollow() : follow();
             }}
@@ -61,7 +61,7 @@ const FollowButton = (props) => {
         )
       ) : (
         <Link to="/login">
-          <button className="btn btn-primary form-control">Follow</button>
+          <button className="btn btn-primary btn-sm ">Follow</button>
         </Link>
       )}
     </div>

@@ -17,3 +17,8 @@ code {
   height: auto;
   object-fit: contain;
 }
+
+.display-grid-center {
+  display: grid;
+  place-items: center;
+}

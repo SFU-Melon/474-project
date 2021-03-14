@@ -36,7 +36,7 @@ export default function validateInfo(values) {
     if (!values.dob) {
         errors.dob = "Date of birth is required";
     } 
-    else if (!/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-](19|20)\d\d$/.test(values.dob)) {
+    else if (!/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-](19|20)\d\d$/.test(values.dob)) {
         errors.dob = "Enter a valid date of birth";
     }
     

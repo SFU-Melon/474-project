@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
  */
 
 const Following = (props) => {
-    const { user } = useUserContext();
+    // const { user } = useUserContext();
     const [open, setOpen] = useState(false);
     const [followingData, setFollowingData] = useState([]);
     const [numFollowing, setNumFollowing] = useState(0);
@@ -21,7 +21,7 @@ const Following = (props) => {
     const onCloseModal = () => setOpen(false);
 
     // setNumFollowing(props.followingData.length);
-    const useMountEffect = (fun) => useEffect(fun, [])
+    // const useMountEffect = (fun) => useEffect(fun, [])
 
     // const fetchUserData = async () => {
     //     try {

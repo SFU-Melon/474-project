@@ -11,17 +11,17 @@ import { Link } from "react-router-dom";
  */
 
 const Followers = (props) => {
-  const { user } = useUserContext();
+  // const { user } = useUserContext();
   const [open, setOpen] = useState(false);
-  const [followerData, setFollowerData] = useState([]);
-  const [ numFollowers, setNumFollowers] = useState(0);
+  // const [followerData, setFollowerData] = useState([]);
+  // const [ numFollowers, setNumFollowers] = useState(0);
 
   // Handling modal open/close
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   // setNumFollowers(props.followerData.length);
-  const useMountEffect = (fun) => useEffect(fun, [])
+  // const useMountEffect = (fun) => useEffect(fun, [])
   // const fetchUserData = async () => {
   //   try {
   //     const res = await axios.get(`/api/getFollowersAndFollowing/${props.userId}`);

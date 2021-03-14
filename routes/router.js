@@ -12,6 +12,7 @@ router.get("/logout", userController.logout);
 
 /******  Following Routes ********/
 router.get("/getAllUsers", userController.getAllUsers);
+router.get("/getUserById/:id", userController.getUserById);
 router.get("/getFollowersAndFollowing/:userId", userController.getFollowersAndFollowing);
 router.post("/follows", userController.follows);
 router.post("/unfollows", userController.unfollows);

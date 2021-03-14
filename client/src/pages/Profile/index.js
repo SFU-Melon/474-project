@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useUserContext } from "../../contexts/UserContext";
 import PostCard from "../../components/PostCard";
 import FollowButton from "../../components/FollowButton";
@@ -9,18 +9,23 @@ import Following from "./Following";
 
 const Profile = () => {
   const { user } = useUserContext();
+
   const [userPosts, setUserPosts] = useState([]);
   const [userLikedPosts, setUserLikedPosts] = useState([]);
-  const [followerData, setFollowerData] = useState([]);
-  const [followingData, setFollowingData] = useState([]);
+
   const [numFollowing, setNumFollowing] = useState(0);
-  const [ numFollowers, setNumFollowers] = useState(0);
+  const [numFollowers, setNumFollowers] = useState(0);
+
+  const [followerUserIDs, setFollowerIDs] = useState([]);
+  const [followingUserIDs, setFollowingIDs] = useState([]);
+
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
   const fetchUserPosts = async () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${user.id}`);
       setUserPosts(res.data);
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +35,6 @@ const Profile = () => {
     try {
       const res = await axios.get(`/api/getPostLikedNotOwned/${user.id}`);
       setUserLikedPosts(res.data);
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -39,8 +43,8 @@ const Profile = () => {
   const fetchFollowData = async () => {
     try {
       const res = await axios.get(`/api/getFollowersAndFollowing/${user.id}`);
-      setFollowerData(res.data["success"][0]);
-      setFollowingData(res.data["success"][1]);
+      setFollowerIDs(res.data["success"][0]);
+      setFollowingIDs(res.data["success"][1]);
       setNumFollowers(res.data["success"][0].length);
       setNumFollowing(res.data["success"][1].length);
     } catch (err) {
@@ -48,11 +52,30 @@ const Profile = () => {
     }
   }
 
+  const fetchFollowers = async (id) => {
+    var tempFollowers = [];
+    console.log("fetching followers: " + user.followers[0]);
+    for (var i = 0; i < user.followers.length; i++){
+      try {
+        const res = await axios.get(`/api/getUserById/${user.followers[i]}`);
+        tempFollowers.push(res.data["success"]);
+        // console.log(res);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    console.log(tempFollowers);
+  }
+
   useEffect(() => {
     console.log("useEffect in profile");
     fetchUserPosts();
     fetchUserLikedPosts();
     fetchFollowData();
+    
+    fetchFollowers();
+    // fetchFollowing();
   }, [user]);
 
   return (
@@ -70,7 +93,7 @@ const Profile = () => {
               <div className="d-flex flex-row">
                 <div className="w-25 me-1"><FollowButton userId = {user.id}/></div>
               </div> 
-              <div className="me-1"><span><Followers followerData = {followerData} numFollowers = {numFollowers}/>, <Following followingData = {followingData} numFollowing ={numFollowing} /></span></div>
+              <div className="me-1"><span><Followers followerUserIDs = {followerUserIDs} numFollowers = {numFollowers}/>, <Following followingUserIDs = {followingUserIDs} numFollowing ={numFollowing} /></span></div>
               <hr className = "w-100"></hr>
               <p>First Name:</p>
               <p>Last Name:</p>

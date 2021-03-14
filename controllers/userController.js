@@ -83,6 +83,15 @@ userController.getAllUsers = async (req, res) => {
   });
 };
 
+userController.getUserById = async (req, res) => {
+  const { id } = req.params;
+  const result = await User.getUserById(id);
+  console.log(result);
+  return res.json({
+    success:result,
+  })
+};
+
 userController.follows = async (req, res) => {
   const { user1_id, user2_id } = req.body;
   const result = await User.follows(user1_id, user2_id);

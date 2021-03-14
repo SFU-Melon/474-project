@@ -30,6 +30,7 @@ User.getUserByUsername = async (username) => {
 User.getUserById = async (id) => {
   try {
     const res = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    console.log(res.rows[0]);
     return res.rows.length > 0 ? res.rows[0] : null;
   } catch (err) {
     console.log(err.message);

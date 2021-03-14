@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
  * }
  */
 
-const FollowButton = (props) => {
+export default function FollowButton(props) {
   const [following, setFollowing] = useState(false);
   const { user } = useUserContext();
 
@@ -17,7 +17,7 @@ const FollowButton = (props) => {
     if (user && user.following.includes(props.userId)) {
       setFollowing(true);
     }
-  }, [props.userId]);
+  }, [user, props.userId]);
 
   const unfollow = async () => {
     try {
@@ -51,7 +51,7 @@ const FollowButton = (props) => {
     <div>
       {user ? (
         user.id !== props.userId && (
-          <button className="btn btn-primary btn-sm "
+          <button
             onClick={() => {
               following ? unfollow() : follow();
             }}
@@ -61,11 +61,9 @@ const FollowButton = (props) => {
         )
       ) : (
         <Link to="/login">
-          <button className="btn btn-primary btn-sm ">Follow</button>
+          <button>Follow</button>
         </Link>
       )}
     </div>
   );
-};
-
-export default FollowButton;
+}

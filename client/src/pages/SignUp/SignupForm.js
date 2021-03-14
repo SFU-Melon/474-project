@@ -8,16 +8,16 @@ const SignupForm = () => {
     const { handleChange, handleSubmit, values, errors } = useForm(validateInfo);
 
     return (
-        <div style={{ 
+        <div style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + '/plant-bg.png'})`,
             height: '100vh', width: '100vw', display: "flex",
             justifyContent: "center",
-            alignItems: "center" 
-          }}>
+            alignItems: "center"
+        }}>
             <form onSubmit={handleSubmit} className='form' noValidate>
                 <h1 className='signUpHeader'>Sign up</h1>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='text'
                         name='username'
                         className='signup-input'
@@ -28,12 +28,12 @@ const SignupForm = () => {
                     <label htmlFor='username'
                         className='signup-label'>
                         Username
-                </label>
-                   
+                    </label>
+
                     {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='password'
                         name='password'
                         className='signup-input'
@@ -44,46 +44,46 @@ const SignupForm = () => {
                     <label htmlFor='password'
                         className='signup-label'>
                         Password
-                </label>
+                    </label>
                     
                     {errors.password && <p>{errors.password}</p>}
                 </div>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='password'
                         name='password2'
                         className='signup-input'
                         placeholder='Re-enter your password'
                         value={values.password2}
                         onChange={handleChange}
-                        
+
                     />
                     <label htmlFor='password2'
                         className='signup-label'>
                         Confirm Password
-                </label>
-                   
+                    </label>
+
                     {errors.password2 && <p>{errors.password2}</p>}
                 </div>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='fname'
                         name='fname'
                         className='signup-input'
                         placeholder='Enter your first name'
                         value={values.fname}
                         onChange={handleChange}
-                       
+
                     />
                     <label htmlFor='fname'
                         className='signup-label'>
                         First Name
-                </label>
-                    
+                    </label>
+
                     {errors.fname && <p>{errors.fname}</p>}
                 </div>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='lname'
                         name='lname'
                         className='signup-input'
@@ -94,29 +94,29 @@ const SignupForm = () => {
                     <label htmlFor='lname'
                         className='signup-label'>
                         Last Name
-                </label>
-                    
+                    </label>
+
                     {errors.lname && <p>{errors.lname}</p>}
                 </div>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='dob'
                         name='dob'
                         className='signup-input'
                         placeholder='DD/MM/YYYY'
                         value={values.dob}
                         onChange={handleChange}
-                      
+
                     />
                     <label htmlFor='dob'
                         className='signup-label'>
                         Date of Birth
-                </label>
-                   
+                    </label>
+
                     {errors.dob && <p>{errors.dob}</p>}
                 </div>
                 <div className='signup-inputs'>
-                <input
+                    <input
                         type='email'
                         name='email'
                         className='signup-input'
@@ -127,8 +127,8 @@ const SignupForm = () => {
                     <label htmlFor='email'
                         className='signup-label'>
                         Email
-                </label>
-                    
+                    </label>
+
                     {errors.email && <p>{errors.email}</p>}
                 </div>
                 <div>

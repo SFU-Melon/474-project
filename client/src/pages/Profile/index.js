@@ -20,6 +20,7 @@ const Profile = () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${user.id}`);
       setUserPosts(res.data);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -42,8 +43,6 @@ const Profile = () => {
       setFollowingData(res.data["success"][1]);
       setNumFollowers(res.data["success"][0].length);
       setNumFollowing(res.data["success"][1].length);
-      console.log(res.data["success"][0]);
-      console.log(res.data["success"][1]);
     } catch (err) {
       console.log(err);
     }
@@ -88,9 +87,9 @@ const Profile = () => {
               <div className="card-body">
                 <h5 className="card-title" >Likes</h5>
                 <hr className = "w-100"></hr>
-                {/* {userLikedPosts.map((post) => (
+                {userLikedPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
-                ))} */}
+                ))}
               </div>
               <div className="card-body">
                 <h5 className="card-title" >Posts</h5>

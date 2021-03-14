@@ -58,6 +58,7 @@ const Followers = (props) => {
       >
         <div>
           <h3 id="ModalTitle">Followers</h3>
+          <hr className = "w-100"></hr>
           <div>
           
           </div>

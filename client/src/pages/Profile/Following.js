@@ -3,6 +3,7 @@ import axios from "axios";
 import { useUserContext } from "../../contexts/UserContext";
 import { Modal } from "react-responsive-modal";
 import { Link } from "react-router-dom";
+import UserCard from "./UserCard"
 
 /***
  * props: {
@@ -20,27 +21,6 @@ const Following = (props) => {
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
 
-    // setNumFollowing(props.followingData.length);
-    // const useMountEffect = (fun) => useEffect(fun, [])
-
-    // const fetchUserData = async () => {
-    //     try {
-    //         const res = await axios.get(`/api/getFollowersAndFollowing/${props.userId}`);
-    //         setFollowingData(res.data["success"][0]);
-    //         setNumFollowing(followingData.length);
-    //         console.log(followingData);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-    // useEffect(() => {
-    //     fetchUserData();
-    //     fetchUserData();
-    //     fetchUserData();
-    //     fetchUserData();
-    //     fetchUserData();
-    // }, [user, props.userId]);
-
     return (
         
         <Fragment>
@@ -54,14 +34,17 @@ const Following = (props) => {
             center
             classNames={{
             overlay: "customOverlay",
-            modal: "customModal",
+            modal: "followModal",
             }}
         >
             <div>
-            <h3 id="ModalTitle">Following</h3>
-            <div>
-            
-            </div>
+                <h5 id="ModalTitle">Following</h5>
+                <hr className = "w-100"></hr>
+                <div>
+                {props.following.map((person) => (
+                    <UserCard person={person}/>
+                ))}
+                </div>
             </div>
         </Modal>
         </Fragment>

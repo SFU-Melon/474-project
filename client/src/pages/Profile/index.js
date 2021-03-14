@@ -26,6 +26,7 @@ const Profile = () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${user.id}`);
       setUserPosts(res.data);
+      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -66,6 +67,24 @@ const Profile = () => {
       }
     }
     console.log(tempFollowers);
+    setFollowers(tempFollowers);
+  }
+
+  const fetchFollowing = async (id) => {
+    var tempFollowing = [];
+    console.log("fetching following: " + user.following[0]);
+    for (var i = 0; i < user.following.length; i++){
+      try {
+        const res = await axios.get(`/api/getUserById/${user.following[i]}`);
+        tempFollowing.push(res.data["success"]);
+        // console.log(res);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    console.log(tempFollowing);
+    setFollowing(tempFollowing);
   }
 
   useEffect(() => {
@@ -75,7 +94,7 @@ const Profile = () => {
     fetchFollowData();
     
     fetchFollowers();
-    // fetchFollowing();
+    fetchFollowing();
   }, [user]);
 
   return (
@@ -93,7 +112,11 @@ const Profile = () => {
               <div className="d-flex flex-row">
                 <div className="w-25 me-1"><FollowButton userId = {user.id}/></div>
               </div> 
-              <div className="me-1"><span><Followers followerUserIDs = {followerUserIDs} numFollowers = {numFollowers}/>, <Following followingUserIDs = {followingUserIDs} numFollowing ={numFollowing} /></span></div>
+              <div className="me-1">
+                <span>
+                  <Followers followers = {followers} numFollowers = {numFollowers}/>, <Following following = {following} numFollowing ={numFollowing} />
+                </span>
+              </div>
               <hr className = "w-100"></hr>
               <p>First Name:</p>
               <p>Last Name:</p>

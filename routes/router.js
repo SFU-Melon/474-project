@@ -35,6 +35,7 @@ router.post(
   postController.downVote
 );
 
+router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
 router.get("/getPost/:id", postController.getPostById);
 router.get("/getAllPosts", postController.getAllPosts);
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);

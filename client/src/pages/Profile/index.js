@@ -27,8 +27,9 @@ const Profile = () => {
 
   const fetchUserLikedPosts = async () => {
     try {
-      const res = await axios.get(`/api/getAllPosts/${user.id}`);
+      const res = await axios.get(`/api/getPostLikedNotOwned/${user.id}`);
       setUserLikedPosts(res.data);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -87,9 +88,9 @@ const Profile = () => {
               <div className="card-body">
                 <h5 className="card-title" >Likes</h5>
                 <hr className = "w-100"></hr>
-                {userLikedPosts.map((post) => (
+                {/* {userLikedPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
-                ))}
+                ))} */}
               </div>
               <div className="card-body">
                 <h5 className="card-title" >Posts</h5>

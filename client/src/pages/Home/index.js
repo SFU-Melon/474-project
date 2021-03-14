@@ -27,15 +27,13 @@ export default function Home() {
     <Fragment>
       <div>
         <div className="container">
-          <div className="d-flex justify-content-start m-2 mt-4">
+          <div className="d-flex justify-content-center m-2 mt-4">
             <CreatePost />
           </div>
           {allPosts.map((post) => (
             <PostCard key={post.id} post={post}></PostCard>
           ))}
         </div>
-
-        <AllUsers />
       </div>
     </Fragment>
   );

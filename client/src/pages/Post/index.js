@@ -1,11 +1,13 @@
-import { useParams } from "react-router-dom";
-import { useUserContext } from "../../contexts/UserContext";
-import { Fragment, useEffect, useState } from "react";
-import axios from "axios";
-import Utility from "../../utils";
+import { useParams } from 'react-router-dom';
+import { useUserContext } from '../../contexts/UserContext';
+import { Fragment, useEffect, useState } from 'react';
+import axios from 'axios';
+import Utility from '../../utils';
 
 // Components
-import Vote from "../../components/Vote";
+import Vote from '../../components/Vote';
+import CommentList from './CommentList';
+import CommentInput from './CommentInput';
 
 const Post = () => {
   const { user } = useUserContext();
@@ -22,12 +24,35 @@ const Post = () => {
     fetchPost();
   }, [id]);
 
+  // TODO: Work with voting
   return (
     <Fragment>
       {post && (
         <div className="container">
-          <h1>{post.title}</h1>
-          <p>{post.imageurl}</p>
+          <div className="card mt-4">
+            <div className="post d-flex flex-row">
+              <div className="mt-4">
+                <Vote
+                  postId={post.id}
+                  numOfLikes={post.numoflikes}
+                  preVoteStatus={post.val}
+                />
+              </div>
+              <div>
+                <h1 className="m-4">{post.title}</h1>
+                <div>
+                  {post.imageurl && (
+                    <img src={post.imageurl} className="post-card" />
+                  )}
+                </div>
+                <div>
+                  {post.content && <h3 className="m-4">{post.content}</h3>}
+                </div>
+              </div>
+            </div>
+            <CommentInput postId={post.id} />
+            <CommentList postId={post.id} />
+          </div>
         </div>
       )}
     </Fragment>

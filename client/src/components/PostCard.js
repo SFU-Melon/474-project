@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Utility from '../utils';
 
-/***
- * props: {
-    post,
- * }
- */
-
 export default function PostCard({ post }) {
   const [displayTime, setDisplayTime] = useState('');
   const encoded = Utility.encodeUUID(post.id);
@@ -39,7 +33,6 @@ export default function PostCard({ post }) {
           style={{ textDecoration: 'none', color: 'black' }}
         >
           <h2>{post.title}</h2>
-
           <div>
             {post.imageurl && <img src={post.imageurl} className="post-card" />}
           </div>

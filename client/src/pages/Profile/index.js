@@ -9,7 +9,8 @@ import Following from "./Following";
 
 const Profile = () => {
   const { user } = useUserContext();
-  const [allPosts, setAllPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
+  const [userLikedPosts, setUserLikedPosts] = useState([]);
   const [followerData, setFollowerData] = useState([]);
   const [followingData, setFollowingData] = useState([]);
   const [numFollowing, setNumFollowing] = useState(0);
@@ -18,13 +19,22 @@ const Profile = () => {
   const fetchUserPosts = async () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${user.id}`);
-      setAllPosts(res.data);
+      setUserPosts(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const fetchUserData = async () => {
+  const fetchUserLikedPosts = async () => {
+    try {
+      const res = await axios.get(`/api/getAllPosts/${user.id}`);
+      setUserLikedPosts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchFollowData = async () => {
     try {
       const res = await axios.get(`/api/getFollowersAndFollowing/${user.id}`);
       setFollowerData(res.data["success"][0]);
@@ -41,11 +51,11 @@ const Profile = () => {
   useEffect(() => {
     console.log("useEffect in profile");
     fetchUserPosts();
-    fetchUserData();
+    fetchUserLikedPosts();
+    fetchFollowData();
   }, [user]);
 
   return (
-    
     <div className = "w-75 mx-auto">
       <Fragment>
         <div className="d-flex flex-row mx-5">
@@ -77,12 +87,14 @@ const Profile = () => {
               <div className="card-body">
                 <h5 className="card-title" >Likes</h5>
                 <hr className = "w-100"></hr>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                {userLikedPosts.map((post) => (
+                  <PostCard key={post.id} post={post}></PostCard>
+                ))}
               </div>
               <div className="card-body">
                 <h5 className="card-title" >Posts</h5>
                 <hr className = "w-100"></hr>
-                {allPosts.map((post) => (
+                {userPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
                 ))}
               </div>

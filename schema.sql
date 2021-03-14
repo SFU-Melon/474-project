@@ -17,12 +17,12 @@ CREATE TABLE users(
 );
 
 CREATE TABLE plants(
-    sciName varchar(200) NOT NULL,
-    comName varchar(200) NOT NULL,
-    description varchar(2000) NOT NULL,
-    plantInstr varchar(2000) NOT NULL,
-    growInstr varchar(1000) NOT NULL,
-    careInstr varchar(1000) NOT NULL,
+    sciName varchar(2000) NOT NULL,
+    comName varchar(2000) NOT NULL,
+    description TEXT NOT NULL,
+    plantInstr TEXT,
+    growInstr TEXT,
+    careInstr TEXT,
     plantphoto VARCHAR(200),
     UNIQUE (sciName)
 );

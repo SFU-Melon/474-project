@@ -11,26 +11,29 @@ export default function PlantCard({ plant }) {
   return (
     <div className="card flex-row p-3 m-2">
       <div>
-        <h2>{plant.comname}</h2>
-        <p>({plant.sciname})</p>
+        <h2>
+          <u>{plant.comname}</u>
+        </h2>
+        <p>Scientific Name: {plant.sciname}</p>
+        <p>Description:</p>
         <p style={{ whiteSpace: "pre-wrap" /* needed for line breaks */ }}>
           {plant.description}
         </p>
         <p>Plant Instruction:</p>
         <p style={{ whiteSpace: "pre-wrap" /* needed for line breaks */ }}>
-          {plant.plantInstr}
+          {plant.plantinstr}
         </p>
         <p>Grow Instruction:</p>
         <p style={{ whiteSpace: "pre-wrap" /* needed for line breaks */ }}>
-          {plant.growInstr}
+          {plant.growinstr}
         </p>
         <p>Care Instruction:</p>
         <p style={{ whiteSpace: "pre-wrap" /* needed for line breaks */ }}>
-          {plant.careInstr}
+          {plant.careinstr}
         </p>
         <div>
           {plant.plantphoto && (
-            <img src={plant.imageurl} className="post-card" />
+            <img src={plant.plantphoto} className="post-card" />
           )}
         </div>
       </div>

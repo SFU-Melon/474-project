@@ -7,6 +7,7 @@ const Plants = () => {
 
   const fetchPlants = async () => {
     const res = await axios.get("/api/getAllPlants");
+    console.log(res.data.plants);
     setPlants(res.data.plants);
   };
 
@@ -15,9 +16,8 @@ const Plants = () => {
   }, []);
   return (
     <div>
-      <h1>PLANT PAGE</h1>
-      {plants.map((plant) => {
-        return <PlantCard plant={plant} />;
+      {plants.map((plant, i) => {
+        return <PlantCard key={i} plant={plant} />;
       })}
     </div>
   );

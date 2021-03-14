@@ -5,12 +5,6 @@ import { Modal } from "react-responsive-modal";
 import { Link } from "react-router-dom";
 import UserCard from "./UserCard"
 
-/***
- * props: {
- *  userId: string,
- * }
- */
-
 const Following = (props) => {
     // const { user } = useUserContext();
     const [open, setOpen] = useState(false);
@@ -22,7 +16,6 @@ const Following = (props) => {
     const onCloseModal = () => setOpen(false);
 
     return (
-        
         <Fragment>
         <a href="#" onClick={onOpenModal}><span>{props.numFollowing} Following</span></a>
         
@@ -41,9 +34,10 @@ const Following = (props) => {
                 <h5 id="ModalTitle">Following</h5>
                 <hr className = "w-100"></hr>
                 <div>
-                {props.following.map((person) => (
-                    <UserCard person={person}/>
-                ))}
+                    {props.numFollowing == 0 ? <p>Not following anyone yet!</p>: <div></div>}
+                    {props.following.map((item) => (
+                        <UserCard person={item}/>
+                    ))}
                 </div>
             </div>
         </Modal>

@@ -18,6 +18,9 @@
     border-radius: 5px;
   }
 
+.image {
+  background-size: cover;
+}
 
   .pac-container:after {
     /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */

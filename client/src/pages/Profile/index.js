@@ -100,14 +100,14 @@ const Profile = () => {
   return (
     <div className = "w-75 mx-auto">
       <Fragment>
-        <div className="d-flex flex-row mx-5">
+        <div className="d-flex flex-row m-5">
           <div className="d-flex flex-column mx-3 w-25">
-            <div className="card m-2">
+            <div className="container m-2 p-3">
               <img 
                   className = "rounded img-fluid"
                   src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png"></img>
             </div>
-            <div className = "m-2">
+            <div className = "container m-2 p-3">
               <h5 className="card-title" >{user.username}</h5>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1"><FollowButton userId = {user.id}/></div>
@@ -123,7 +123,7 @@ const Profile = () => {
               <p>Email:</p>
               <p>Date of Birth:</p>
             </div>
-            <div className = "m-2">
+            <div className = "container m-2 p-3">
                 <h5 className="card-title" >About</h5>
                 <hr className = "w-100"></hr>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -131,14 +131,14 @@ const Profile = () => {
           </div>
           <div className="d-flex flex-column mx-3 w-75">
               <div className="card-body">
-                <h5 className="card-title" >Likes</h5>
+                <h5 className="card-title" >Posts You've Liked</h5>
                 <hr className = "w-100"></hr>
                 {userLikedPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
                 ))}
               </div>
               <div className="card-body">
-                <h5 className="card-title" >Posts</h5>
+                <h5 className="card-title" >Your Posts</h5>
                 <hr className = "w-100"></hr>
                 {userPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>

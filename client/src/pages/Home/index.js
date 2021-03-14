@@ -1,31 +1,47 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
 import { useUserContext } from "../../contexts/UserContext";
-import ImageUpload from "../../components/ImageUpload";
-import { useState } from "react";
+import { useEffect, useState, Fragment } from "react";
+import PostCard from "../../components/PostCard";
+import CreatePost from "./CreatePost";
+import AllUsers from "./AllUsers";
 
 export default function Home() {
-  const id = 4;
   const { user } = useUserContext();
-  const [imgUrl, setImgUrl] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
 
-  const uploadCallback = (url) => {
-    console.log(url);
-    setImgUrl(url);
+  const fetchAllPosts = async () => {
+    try {
+      const res = await axios.get("/api/getAllPosts");
+      setAllPosts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  useEffect(() => {
+    fetchAllPosts();
+    console.log("useEffect in home");
+  }, [user]);
+
   return (
-    <div>
-      <h1>Home</h1>
-      {user && (
-        <div>
-          <h1>{user.username}</h1>
-          <ImageUpload type={"post"} uploadCallback={uploadCallback} />
-          {imgUrl && (
-            <img src={imgUrl} alt="uploaded" width="700" height="700"></img>
-          )}
+    <Fragment>
+      <div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col col-md-10">
+              <div className="d-flex justify-content-start m-2 mt-4">
+                <CreatePost />
+              </div>
+              {allPosts.map((post) => (
+                <PostCard key={post.id} post={post}></PostCard>
+              ))}
+            </div>
+            <div className="col col-md-auto">
+              <AllUsers />
+            </div>
+          </div>
         </div>
-      )}
-      <Link to={`/post/${id}`}>POST - {id}</Link>
-    </div>
+      </div>
+    </Fragment>
   );
 }

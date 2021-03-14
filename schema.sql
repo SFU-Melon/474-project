@@ -11,7 +11,8 @@ CREATE TABLE users(
     lName VARCHAR(200) NOT NULL,
     dob DATE NOT NULL,
     email VARCHAR(200) NOT NULL,
-    profilephoto BYTEA,
+    joinDate TIMESTAMP NOT NULL,
+    profilephoto VARCHAR(200),
     UNIQUE (id, username)
 );
 
@@ -22,27 +23,49 @@ CREATE TABLE plants(
     plantInstr varchar(2000) NOT NULL,
     growInstr varchar(1000) NOT NULL,
     careInstr varchar(1000) NOT NULL,
-    plantphoto BYTEA,
+    plantphoto VARCHAR(200),
     UNIQUE (sciName)
 );
 
-/* change db's */
-\c db354
+CREATE TABLE posts(
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    dateTime TIMESTAMP NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    content TEXT,
+    location VARCHAR(200),
+    imageurl VARCHAR(200),
+    numoflikes INTEGER DEFAULT 0 NOT NULL,
+    numofcomments INTEGER DEFAULT 0 NOT NULL,
+    authorname VARCHAR(200),
+    userid uuid references users(id)
+        ON DELETE CASCADE
+);
 
-/*** For testing ***/
-/* Drop table */
-DROP TABLE users;
-/* Delete all rows inside users table */
-DELETE FROM users;
-/* See all rows inside users table */
-SELECT * FROM users;
-/* Insert user into users */
-INSERT INTO users VALUES (uuid_generate_v4(), 'artunzPlantz3', 
-'password123', 'Artun', 'Cimensel', '1992-12-22', 'artuns3fakeemail@gmail.com', NULL);
+CREATE TABLE likes(
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    val INTEGER, /*Integer restrictued to 1, -1*/
+    PRIMARY KEY(userId, postId)
+);
 
+CREATE TABLE followers(
+    user1 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    user2 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE
+);
 
+CREATE TABLE comments(
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    dateTime TIMESTAMP NOT NULL,
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    content TEXT,
+);
 
-/* Insert our 10 plants into plants table */
+/* Insert 10 plants into plants table */
 INSERT INTO plants VALUES 
 (
     'Rosa', 
@@ -55,12 +78,10 @@ INSERT INTO plants VALUES
 
 
     'Plant in early spring or fall, depending on your location. Space plants 2 to 3 feet apart, depending on the variety. Prepare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost. In regions with cold (below 0F) winters, plant grafted roses so the graft union (which appears as a bulge near the base of the stem) is 1 to 2 inches below the soil line. In warm regions, the graft should be a few inches above the soil line.
-
 For container-grown plants, dig a hole twice the diameter of the pot the plant is in. Carefully remove the plant from its container and place it in the hole. Carefully fill in around the root ball and firm the soil gently. For bare-root roses, dig a hole 12 to 18 inches deep and wide. The hole should be large enough that all the roots can be spread out without touching the sides of the hole. Mound a cone of soil in the center of the hole. Trim off any broken roots, then place the rose in the hole, spreading the roots around the soil mound. Fill the hole half full with soil and water it well to settle the soil and eliminate air pockets. Let the water drain, then fill the remainder of hole with soil and water thoroughly.', 
 
 
     'Ideally, roses should be grown in sunny and open locations, with good air circulation at the base of the plant, in rich and well-draining soil. Some roses, notably the old ramblers and the modern hybrid musks, can tolerate some shade in any zone and may even prefer shade in the hottest zones.
-
 Roses require 1-2 inches of water a week to thrive. In dry climates, this water has to be supplied by the gardener, and although overhead watering was once discouraged, it is the logical choice. The water supplied by a gardener supplements rain, which falls from overhead. Overhead watering keeps the foliage and blooms clean, retards powdery mildew, and repels some pests.',
 
 
@@ -78,7 +99,6 @@ Roses require 1-2 inches of water a week to thrive. In dry climates, this water 
 
 
     'Besides tasting good, carrots are packed with nutrients. The saying that carrots are good for your eyes isn''t just an old wives''s tale. Carrots contain a pigment called carotene that converts to vitamin A when you digest it. This vitamin helps us to see in reduced light and at night.
-
 Choose varieties according to use and when you want to harvest. To prolong the harvest, stagger your carrot seed starting, beginning three to four weeks before the average last spring frost date.',
 
 
@@ -86,7 +106,6 @@ Choose varieties according to use and when you want to harvest. To prolong the h
 
     
     'Select a site with full sun and deep, well-drained soil. Prepare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost.
-
 Carrots are generally ready for harvest in two to three months, when they are about 1/2 inch in diameter. Leave them in the ground until you need them. Drench the bed with water for easy harvesting. Pull the carrots by grabbing the greens at their crowns and gently tugging with a twisting motion. Harvest carrots for the root cellar after the first hard frost but before the ground freezes.',
     
 
@@ -110,7 +129,6 @@ Carrots are generally ready for harvest in two to three months, when they are ab
 
     
     'Select a site with full sun and well-drained soil. Prepare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost.
-
 Start harvesting outer stalks when they are 6 to 8 inches tall. Harvest stalks in fall as needed before the ground freezes. Celery can tolerate light frosts.',
 
 
@@ -134,7 +152,6 @@ Start harvesting outer stalks when they are 6 to 8 inches tall. Harvest stalks i
 
 
     'Select a site with full sun and fertile, well-drained soil. repare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost.
-
 Most eggplants can be harvested when they are 4 to 5 inches long. The skin should be shiny; dull skin is a sign that the eggplant is overripe. Use a sharp knife and cut the eggplant from the plant, leaving at least 1 inch of stem attached to the fruit.',
 
 
@@ -158,7 +175,6 @@ Most eggplants can be harvested when they are 4 to 5 inches long. The skin shoul
 
 
     'Select a site with full sun and well-drained soil. In very hot climates, light afternoon shade may help prevent blossom drop. Prepare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost.
-
 For best flavor, harvest tomatoes when they are firm and fully colored. Fruits will continue to ripen if you pick them when they are half-ripe and bring them indoors, but the flavor is often better if you allow fruits to ripen on the vine.',
 
 
@@ -182,7 +198,6 @@ For best flavor, harvest tomatoes when they are firm and fully colored. Fruits w
 
 
     'Select a site with full sun, preferably on a southern slope for maximum warmth, and well-drained soil. Prepare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost.
-
 The first pods will be ready in 50 to 60 days. Harvest the pods when still immature (2 to 3 inches long). Pick at least every other day to encourage production. Wear gloves and long sleeves to avoid coming in contact with the irritating spines on the leaves and pods. Use a knife to cut the stem just above the cap.',
 
 
@@ -206,7 +221,6 @@ The first pods will be ready in 50 to 60 days. Harvest the pods when still immat
 
 
     'Select a site with full sun and well-drained soil. Prepare the garden bed by using a garden fork or tiller to loosen the soil to a depth of 12 to 15 inches, then mix in a 2- to 4-inch layer of compost.
-
 Most peppers, except for a few varieties like Sweet Banana, are green when young. Though bell peppers come in many colors, such as red, yellow, and purple, you can eat any of them in the green stage. However, they are sweeter if you let them ripen until the color is fully developed. Harvest by cutting through the stem of each fruit with a knife or with pruners. You can have an almost-continuous harvest from your pepper plants by cutting often, as this encourages the plant to keep blossoming, especially in the beginning of the summer.',
 
 
@@ -281,3 +295,16 @@ Most peppers, except for a few varieties like Sweet Banana, are green when young
 
     NULL
 );
+
+
+/*** For testing ***/
+
+/* Delete all rows inside users table */
+DELETE FROM users;
+/* See all rows inside users table */
+SELECT * FROM users;
+
+/* Selecting content and numOflikes from posts table */
+SELECT content, numOfLikes FROM posts;
+/* Insert user into users */
+INSERT INTO users VALUES (uuid_generate_v4(), 'artunzPlantz3', 'password123', 'Artun', 'Cimensel', '1992-12-22', 'artuns3fakeemail@gmail.com', '2008-01-01 00:00:01', NULL);

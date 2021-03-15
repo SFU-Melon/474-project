@@ -1,27 +1,20 @@
-// import { useState } from "react";
-// import axios from "axios";
-import Form from './SignupForm';
+import { useState } from "react";
+
+import SignupForm from './SignupForm';
+import SignupSuccess from './SignupSuccess';
 
 export default function SignUp(props) {
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // const handleSubmit = () => {
-  //   if (validForm()) {
-  //     axios
-  //       .post("/api/signup", { username: username, password: password })
-  //       .then((res) => {
-  //         console.log(res);
-  //         if (res.data.success) {
-  //           props.history.push("/login");
-  //         } else {
-  //           setErrorMessage("Username already exists.");
-  //         }
-  //       });
-  //   }
-  // };
+
+
+  function submitForm() {
+    setIsSubmitted(true);
+  }
 
   return (
     <div>
-      <Form/>
+      {!isSubmitted ? (<SignupForm submitForm={submitForm}/>) : (<SignupSuccess/>)}
     </div>
   );
 }

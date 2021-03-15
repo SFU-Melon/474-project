@@ -4,8 +4,8 @@ import useForm from './useForm';
 import validateInfo from './validateInfo';
 import './SignupForm.css';
 
-const SignupForm = () => {
-    const { handleChange, handleSubmit, values, errors } = useForm(validateInfo);
+const SignupForm = ({submitForm}) => {
+    const { handleChange, handleSubmit, values, errors } = useForm(submitForm, validateInfo);
 
     return (
         <div style={{

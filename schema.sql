@@ -13,7 +13,7 @@ CREATE TABLE users(
     email VARCHAR(200) NOT NULL,
     joinDate TIMESTAMP NOT NULL,
     profilephoto VARCHAR(200),
-    UNIQUE (id, username)
+    UNIQUE (username)
 );
 
 CREATE TABLE plants(
@@ -62,7 +62,7 @@ CREATE TABLE comments(
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
-    content TEXT,
+    content TEXT
 );
 
 /* Insert 10 plants into plants table */

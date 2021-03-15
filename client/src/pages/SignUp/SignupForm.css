@@ -1,0 +1,90 @@
+.form{
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-top: 50px;
+    padding-bottom: 150px;
+    padding-left: 8%;
+    padding-right: 8%;
+    border-radius: 50px;
+}
+
+.signUpHeader{
+    text-align: center;
+    padding-bottom: 20px;
+    text-transform: capitalize;
+}
+
+.signup-inputs {
+    position: relative;
+    width: 350px;
+    margin: 25px auto;
+}
+  
+.signup-input {
+    display: block;
+    line-height: 2em;
+    margin: 0;
+    padding-left: 10px;
+    width: 100%;
+    font-size: medium;
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-weight: 500;
+}
+
+.signup-input::placeholder{
+    color: gray;
+}
+
+.signup-label {
+    display: block;
+    position: relative;
+    bottom: 3rem;
+    opacity: 0;
+    color: gray;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s ease-in-out transform;
+}
+  
+.signup-input:placeholder-shown + .signup-label {
+    z-index: -1;
+    visibility: hidden;
+    transition: 0.2s ease-in-out;
+}
+  
+.signup-input:not(:placeholder-shown) + .signup-label,
+.signup-input:focus:not(:placeholder-shown) + .signup-label {
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+    transition: 0.2s ease-in-out transform;
+    transform: translateY(-10px);
+}
+  
+.signup-input-btn {
+    background-color:#00CC33;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 25px;
+    opacity: 0.7;
+}
+
+.signup-input-btn:hover{
+    opacity: 1;
+}
+
+.error-msg{
+    color: red;
+}
+
+

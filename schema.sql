@@ -13,7 +13,7 @@ CREATE TABLE users(
     email VARCHAR(200) NOT NULL,
     joinDate TIMESTAMP NOT NULL,
     profilephoto VARCHAR(200),
-    UNIQUE (id, username)
+    UNIQUE (username)
 );
 
 CREATE TABLE plants(
@@ -62,7 +62,7 @@ CREATE TABLE comments(
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
-    content TEXT,
+    content TEXT
 );
 
 /* Insert 10 plants into plants table */
@@ -317,4 +317,3 @@ SELECT * FROM users;
 SELECT content, numOfLikes FROM posts;
 /* Insert user into users */
 INSERT INTO users VALUES (uuid_generate_v4(), 'artunzPlantz3', 'password123', 'Artun', 'Cimensel', '1992-12-22', 'artuns3fakeemail@gmail.com', '2008-01-01 00:00:01', NULL);
-

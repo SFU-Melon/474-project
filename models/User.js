@@ -3,13 +3,21 @@ const pool = require("../db");
 const User = {};
 
 User.save = async (data) => {
-  //console.log(data);
-  const { username, hashed, fname, lname, dobFinal, email } = data;
+  const { username, hashed, fname, lname, dobFinal, email, profileUrl } = data;
   if (username && hashed && fname && lname && dobFinal && email) {
     try {
       const res = await pool.query(
-        "INSERT INTO users VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6, to_timestamp($7), NULL)",
-        [username, hashed, fname, lname, dobFinal, email, Date.now() / 1000.0]
+        "INSERT INTO users (username, password, fname, lname, dob, email, joinDate, profilephoto) VALUES ($1, $2, $3, $4, $5, $6, to_timestamp($7), $8)",
+        [
+          username,
+          hashed,
+          fname,
+          lname,
+          dobFinal,
+          email,
+          Date.now() / 1000.0,
+          profileUrl,
+        ]
       );
     } catch (err) {
       console.log(err.message);

@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const lightFormat = require("date-fns/lightFormat");
+const parse = require("date-fns/parse");
 const userController = {};
 
 userController.login = (req, res, next) => {
@@ -30,16 +32,25 @@ userController.login = (req, res, next) => {
 
 /***** Assuming data is validated from client *****/
 userController.signup = async (req, res) => {
-console.log(req.body);
-  const { username, password, password2, fname, lname, dob, email  } = req.body;
-  console.log(dob);
-  const dobFinal =   dob.substring(6,10) + '-' + dob.substring(3,5) + '-' + dob.substring(0,2);
+  console.log(req.body);
+  const { username, password, fname, lname, dob, email } = req.body.values;
+  const { profileUrl } = req.body;
+  const date = parse(dob, "dd/MM/yyyy", new Date());
+  const dobFinal = lightFormat(date, "yyyy-MM-dd");
   try {
     const user = await User.getUserByUsername(username);
     if (user === null) {
       //hashing
       const hashed = await bcrypt.hash(password, 10);
-      await User.save({ username, hashed, fname, lname, dobFinal, email });
+      await User.save({
+        username,
+        hashed,
+        fname,
+        lname,
+        dobFinal,
+        email,
+        profileUrl,
+      });
       console.log("saved user");
       return res.json({
         success: true,

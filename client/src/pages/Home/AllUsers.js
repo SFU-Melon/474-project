@@ -19,17 +19,17 @@ export default function AllUsers() {
   };
 
   return (
-    <div>
-      <h1>All Users:</h1>
+    <div className="display-grid-center">
+      <h2>Users:</h2>
       <ul>
         {users &&
-          users.map((user_itr, i) => {
+          users.map((user_i, i) => {
             return (
               <li key={i}>
-                <h3>{user_itr.username} </h3>
-                <p>Following: {user_itr.following.length}</p>
-                <p>Followers: {user_itr.followers.length}</p>
-                <FollowButton userId={user_itr.id} />
+                <h3>{user_i.username} </h3>
+                <FollowButton userId={user_i.id} />
+                <p>Following: {user_i.following.length}</p>
+                <p>Followers: {user_i.followers.length}</p>
               </li>
             );
           })}

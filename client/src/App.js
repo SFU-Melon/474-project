@@ -11,6 +11,8 @@ import { UserProvider } from "./contexts/UserContext";
 import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
 import { AuthProvider } from "./contexts/AuthContext";
 
+
+
 function App() {
   return (
     <AuthProvider>

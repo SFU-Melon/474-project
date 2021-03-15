@@ -29,6 +29,9 @@ export default function CommentInput({ postId, setComments }) {
       if (result.data.success) {
         setContent('');
         console.log('succeed in posting comment');
+        result.data.comment.username = user.username;
+        result.data.comment.profilephoto = user.profilephoto;
+        console.log(result.data.comment);
         setComments((prev) => [...prev, result.data.comment]);
       }
     } catch (err) {

@@ -5,9 +5,11 @@ const Comment = {};
 
 Comment.getComments = async (postId) => {
   try {
-    const res = await pool.query('SELECT * FROM comments WHERE postId = $1', [
-      postId,
-    ]);
+    const res = await pool.query(
+      'SELECT c.id, dateTime, userid, postid, content, username, profilephoto FROM comments c INNER JOIN users u ON c.userid = u.id WHERE postid = $1',
+      [postId]
+    );
+    console.log(res.rows, ' get Comments ');
     return res.rows;
   } catch (err) {
     console.log(err.message);

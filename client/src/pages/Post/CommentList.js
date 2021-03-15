@@ -2,8 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useUserContext } from '../../contexts/UserContext';
 
-export default function CommentList({ postId }) {
-  const [comments, setComments] = useState([]);
+export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
   const handleDelete = async (commentId) => {
     try {

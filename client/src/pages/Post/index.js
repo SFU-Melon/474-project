@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { useUserContext } from '../../contexts/UserContext';
 import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import Utility from '../../utils';
@@ -10,7 +9,7 @@ import CommentList from './CommentList';
 import CommentInput from './CommentInput';
 
 const Post = () => {
-  const { user } = useUserContext();
+  const [comments, setComments] = useState([]);
   const [post, setPost] = useState(null);
   const { id } = useParams();
   const decoded = Utility.decodeUUID(id);
@@ -50,8 +49,12 @@ const Post = () => {
                 </div>
               </div>
             </div>
-            <CommentInput postId={post.id} />
-            <CommentList postId={post.id} />
+            <CommentInput postId={post.id} setComments={setComments} />
+            <CommentList
+              postId={post.id}
+              comments={comments}
+              setComments={setComments}
+            />
           </div>
         </div>
       )}

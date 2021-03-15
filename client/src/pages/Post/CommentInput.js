@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useUserContext } from '../../contexts/UserContext';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import CommentList from './CommentList';
 
-export default function CommentInput({ postId }) {
-  const [comment, setComment] = useState('');
+export default function CommentInput({ postId, setComments }) {
+  const [content, setContent] = useState('');
   const { user } = useUserContext();
   const [errorMessage, setErrorMessage] = useState('');
-  const COMMENT_MIN_LENGTH = 1;
+  const CONTENT_MIN_LENGTH = 1;
 
   let location = useLocation().pathname;
 
@@ -19,26 +20,24 @@ export default function CommentInput({ postId }) {
     }
     try {
       // User should already be logged in.
-      console.log('submitting comment', comment);
       const result = await axios.post(
         `/api/submitComment/${user.id}/${postId}`,
         {
-          content: comment,
+          content,
         }
       );
       if (result.data.success) {
-        setComment('');
+        setContent('');
         console.log('succeed in posting comment');
+        setComments((prev) => [...prev, result.data.comment]);
       }
-      // NEED TO IMPROVE!!! HOW CAN I UPDATE THE LIST WITHOUT REFRESHING THE WHOLE PAGE???
-      window.location = location;
     } catch (err) {
       console.error(err.message);
     }
   };
 
   const validateForm = () => {
-    if (!comment || comment.length < COMMENT_MIN_LENGTH) {
+    if (!content || content.length < CONTENT_MIN_LENGTH) {
       setErrorMessage('comment must be at least 1 characters.');
       return false;
     } else {
@@ -61,8 +60,9 @@ export default function CommentInput({ postId }) {
             className="w-100 p-3"
             style={{ height: 120 }}
             type="text"
+            value={content}
             placeholder="Write your comment here..."
-            onChange={(e) => setComment(e.target.value)}
+            onChange={(e) => setContent(e.target.value)}
           />
           <button className=" btn btn-primary align-self-end m-2">
             Comment

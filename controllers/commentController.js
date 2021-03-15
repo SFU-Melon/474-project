@@ -1,4 +1,4 @@
-const Comment = require("../models/Comment");
+const Comment = require('../models/Comment');
 const commentController = {};
 
 commentController.getComments = async (req, res) => {
@@ -35,14 +35,14 @@ commentController.submitComment = async (req, res) => {
 
 commentController.deleteComment = async (req, res) => {
   try {
-    const id = req.params.id;
-    const status = await Comment.delete(id);
+    const { postId, commentId } = req.params;
+    const status = await Comment.delete(postId, commentId);
     return res.json({
       success: status ? true : false,
     });
   } catch (err) {
     console.log(err.message);
-    return res.json({
+    return res.status(500).json({
       success: false,
     });
   }

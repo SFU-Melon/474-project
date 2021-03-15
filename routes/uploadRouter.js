@@ -43,11 +43,11 @@ getPreSignedRequest = async (req, res, bucketName) => {
   });
 };
 
-router.post("/testUpload", ensureAuthenticated, (req, res) => {
+router.post("/testUpload", (req, res) => {
   getPreSignedRequest(req, res, TEST_BUCKET);
 });
 
-router.post("/profileUpload", ensureAuthenticated, (req, res) => {
+router.post("/profileUpload", (req, res) => {
   getPreSignedRequest(req, res, PROFILE_BUCKET);
 });
 

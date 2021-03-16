@@ -7,6 +7,8 @@ import Followers from "./Followers";
 import Following from "./Following";
 import NullPost from "./NullPost";
 
+import ProfileTabs from "./ProfileTabs";
+
 const Profile = () => {
   const { user } = useUserContext();
 
@@ -139,19 +141,16 @@ const Profile = () => {
           </div>
           <div className="d-flex flex-column mx-3 w-75">
               <div className="card-body">
-                <h5 className="card-title" >Posts You've Liked</h5>
-                <hr className = "w-100"></hr>
-                {userLikedPosts.length > 0 ? userLikedPosts.map((post) => (
+                <ProfileTabs userLikedPosts = {userLikedPosts} userPosts = {userPosts}/>
+                {/* {userLikedPosts.length > 0 ? userLikedPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
-                )) : <NullPost/>}
+                )) : <NullPost/>} */}
               </div>
-              <div className="card-body">
-                <h5 className="card-title" >Your Posts</h5>
-                <hr className = "w-100"></hr>
+              {/* <div className="card-body">
                 {userPosts.length > 0 ? userPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
                 )) : <NullPost/>}
-              </div>
+              </div> */}
           </div>
         </div>
       </Fragment>

@@ -68,6 +68,16 @@ const useForm = (callback, validateInfo) => {
         .catch((err) => {
           console.log(err.message);
         });
+    } else {
+      //no profile image
+      axios.post("/api/signup", { values }).then((res) => {
+        if (res.data.success) {
+          callback();
+        } else {
+          alert("Username already exists!");
+        }
+        console.log("res: ", res.data.success);
+      });
     }
   };
 

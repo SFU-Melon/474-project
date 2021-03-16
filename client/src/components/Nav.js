@@ -36,6 +36,7 @@ const Nav = () => {
                 Profile
               </button>
             </Link>
+
             <Link to="/" onClick={logout}>
               <button type="button" className="btn btn-outline-light">
                 Logout
@@ -43,11 +44,19 @@ const Nav = () => {
             </Link>
           </>
         ) : (
-          <Link to="/login">
-            <button type="button" className="btn btn-outline-light">
-              Login
-            </button>
-          </Link>
+          [
+            <Link to="/login" className="me-3">
+              <button type="button" className="btn btn-outline-light">
+                Login
+              </button>
+            </Link>,
+
+            <Link to="/signup">
+              <button type="button" className="btn btn-outline-light">
+                Sign Up
+              </button>
+            </Link>,
+          ]
         )}
       </div>
     </nav>

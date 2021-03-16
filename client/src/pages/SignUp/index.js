@@ -6,8 +6,6 @@ import SignupSuccess from './SignupSuccess';
 export default function SignUp(props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-
-
   function submitForm() {
     setIsSubmitted(true);
   }

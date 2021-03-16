@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
-// import { useParams } from "react-router-dom";
 import { useUserContext } from "../../contexts/UserContext";
 import PostCard from "../../components/PostCard";
 import FollowButton from "../../components/FollowButton";
@@ -16,9 +15,6 @@ const Profile = () => {
 
   const [numFollowing, setNumFollowing] = useState(0);
   const [numFollowers, setNumFollowers] = useState(0);
-
-  const [followerUserIDs, setFollowerIDs] = useState([]);
-  const [followingUserIDs, setFollowingIDs] = useState([]);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -48,8 +44,6 @@ const Profile = () => {
   const fetchFollowData = async () => {
     try {
       const res = await axios.get(`/api/getFollowersAndFollowing/${user.id}`);
-      setFollowerIDs(res.data["success"][0]);
-      setFollowingIDs(res.data["success"][1]);
       setNumFollowers(res.data["success"][0].length);
       setNumFollowing(res.data["success"][1].length);
     } catch (err) {
@@ -64,7 +58,6 @@ const Profile = () => {
       try {
         const res = await axios.get(`/api/getUserById/${user.followers[i]}`);
         tempFollowers.push(res.data["success"]);
-        // console.log(res);
       }
       catch (err) {
         console.log(err);
@@ -81,7 +74,6 @@ const Profile = () => {
       try {
         const res = await axios.get(`/api/getUserById/${user.following[i]}`);
         tempFollowing.push(res.data["success"]);
-        // console.log(res);
       }
       catch (err) {
         console.log(err);

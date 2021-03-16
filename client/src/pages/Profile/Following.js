@@ -1,17 +1,11 @@
-import { useState, useEffect, Fragment } from "react";
-import axios from "axios";
-import { useUserContext } from "../../contexts/UserContext";
+import { useState, Fragment } from "react";
 import { Modal } from "react-responsive-modal";
-import { Link } from "react-router-dom";
 import UserCard from "./UserCard"
 
 const Following = (props) => {
-    // const { user } = useUserContext();
-    const [open, setOpen] = useState(false);
-    const [followingData, setFollowingData] = useState([]);
-    const [numFollowing, setNumFollowing] = useState(0);
 
     // Handling modal open/close
+    const [open, setOpen] = useState(false);
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
 

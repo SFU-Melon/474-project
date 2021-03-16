@@ -1,15 +1,11 @@
-import { useState, useEffect, Fragment } from "react";
-import axios from "axios";
-import { useUserContext } from "../../contexts/UserContext";
+import { useState, Fragment } from "react";
 import { Modal } from "react-responsive-modal";
-import { Link } from "react-router-dom";
 import UserCard from "./UserCard"
 
 const Followers = (props) => {
-  // const { user } = useUserContext();
-  const [open, setOpen] = useState(false);
-
+  
   // Handling modal open/close
+  const [open, setOpen] = useState(false);
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
@@ -33,7 +29,9 @@ const Followers = (props) => {
           <hr className = "w-100"></hr>
           <div>
             {props.numFollowers == 0 ? 
-              <div className = "text-center"><img className="rounded img-fluid userIconImg mb-3" src="https://www.flaticon.com/svg/vstatic/svg/747/747376.svg?token=exp=1615857401~hmac=d7b5fa3ab61d0729de6154f56e66189e"></img>
+              <div className = "text-center">
+                <img className="rounded img-fluid userIconImg mb-3" 
+                  src="https://www.flaticon.com/svg/vstatic/svg/747/747376.svg?token=exp=1615857401~hmac=d7b5fa3ab61d0729de6154f56e66189e"></img>
               <p className="text-center">No Followers Yet</p></div>
               : props.followers.map((item) => (
                 <UserCard person={item}/>

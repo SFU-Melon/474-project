@@ -24,7 +24,7 @@ const Profile = () => {
 
   const fetchUserPosts = async () => {
     try {
-      const res = await axios.get(`/api/getAllPosts/${user.id}`);
+      const res = await axios.get(`/api/getAllPosts/${user?.id}`);
       setUserPosts(res.data);
       console.log(res);
     } catch (err) {
@@ -34,7 +34,7 @@ const Profile = () => {
 
   const fetchUserLikedPosts = async () => {
     try {
-      const res = await axios.get(`/api/getPostLikedNotOwned/${user.id}`);
+      const res = await axios.get(`/api/getPostLikedNotOwned/${user?.id}`);
       setUserLikedPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -43,7 +43,7 @@ const Profile = () => {
 
   const fetchFollowData = async () => {
     try {
-      const res = await axios.get(`/api/getFollowersAndFollowing/${user.id}`);
+      const res = await axios.get(`/api/getFollowersAndFollowing/${user?.id}`);
       setNumFollowers(res.data["success"][0].length);
       setNumFollowing(res.data["success"][1].length);
     } catch (err) {
@@ -53,10 +53,10 @@ const Profile = () => {
 
   const fetchFollowers = async (id) => {
     var tempFollowers = [];
-    console.log("fetching followers: " + user.followers[0]);
-    for (var i = 0; i < user.followers.length; i++){
+    console.log("fetching followers: " + user?.followers[0]);
+    for (var i = 0; i < user?.followers.length; i++){
       try {
-        const res = await axios.get(`/api/getUserById/${user.followers[i]}`);
+        const res = await axios.get(`/api/getUserById/${user?.followers[i]}`);
         tempFollowers.push(res.data["success"]);
       }
       catch (err) {
@@ -69,10 +69,10 @@ const Profile = () => {
 
   const fetchFollowing = async (id) => {
     var tempFollowing = [];
-    console.log("fetching following: " + user.following[0]);
-    for (var i = 0; i < user.following.length; i++){
+    console.log("fetching following: " + user?.following[0]);
+    for (var i = 0; i < user?.following.length; i++){
       try {
-        const res = await axios.get(`/api/getUserById/${user.following[i]}`);
+        const res = await axios.get(`/api/getUserById/${user?.following[i]}`);
         tempFollowing.push(res.data["success"]);
       }
       catch (err) {
@@ -84,8 +84,8 @@ const Profile = () => {
   }
 
   const handleDate = () => {
-    setDateOfBirth(new Date(user.dob).toDateString());
-    setJoinDate(new Date(user.joindate).toDateString());
+    setDateOfBirth(new Date(user?.dob).toDateString());
+    setJoinDate(new Date(user?.joindate).toDateString());
   }
 
   useEffect(() => {
@@ -107,14 +107,14 @@ const Profile = () => {
           <div className="d-flex flex-column mx-3 w-25">
             <div className="container m-2 p-3">
               <img className = "rounded img-fluid" 
-                src={user.profilephoto ? 
-                  user.profilephoto : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" }>
+                src={user?.profilephoto ? 
+                  user?.profilephoto : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" }>
               </img> 
             </div>
             <div className = "container m-2 p-3">
-              <h5 className="card-title" >{user.username}</h5>
+              <h5 className="card-title" >{user?.username}</h5>
               <div className="d-flex flex-row">
-                <div className="w-25 me-1"><FollowButton userId = {user.id}/></div>
+                <div className="w-25 me-1"><FollowButton userId = {user?.id}/></div>
               </div> 
               <div className="me-1">
                 <span>
@@ -124,9 +124,9 @@ const Profile = () => {
               <hr className = "w-100"></hr>
               <h5 className="card-title" >About</h5>
                 <hr className = "w-100"></hr>
-              <p><strong>First Name</strong>: {user.fname}</p>
-              <p><strong>Last Name:</strong> {user.lname}</p>
-              <p><strong>Email:</strong> {user.email}</p>
+              <p><strong>First Name</strong>: {user?.fname}</p>
+              <p><strong>Last Name:</strong> {user?.lname}</p>
+              <p><strong>Email:</strong> {user?.email}</p>
               <p><strong>Join:</strong> {joinDate}</p>
               <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
             </div>

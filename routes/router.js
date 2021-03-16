@@ -2,6 +2,7 @@ const router = require("express").Router();
 const userController = require("../controllers/UserController");
 const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
+const plantController = require("../controllers/plantController");
 const { ensureAuthenticated } = require("./middlewares");
 
 /******  Auth Routes ********/
@@ -44,10 +45,7 @@ router.delete(
 );
 
 /****** Comment Routes ********/
-router.get(
-  "/getComments/:postId",
-  commentController.getComments
-);
+router.get("/getComments/:postId", commentController.getComments);
 router.post(
   "/submitComment/:userId/:postId",
   ensureAuthenticated,
@@ -58,5 +56,8 @@ router.delete(
   ensureAuthenticated,
   commentController.deleteComment
 );
+
+/****** Plant Routes ********/
+router.get("/getAllPlants", plantController.getAllPlants);
 
 module.exports = router;

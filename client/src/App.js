@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Post from "./pages/Post";
-import Plant from "./pages/Plant";
+import Plants from "./pages/Plants";
 import Error from "./pages/Error";
 import { UserProvider } from "./contexts/UserContext";
 import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
@@ -23,7 +23,7 @@ function App() {
             <div className="content">
               <Switch>
                 <Route exact path="/post/:title/:id" component={Post} />
-                <Route exact path="/plant/:id" component={Plant} />
+                <Route exact path="/plants" component={Plants} />
                 <Route exact path="/" component={Home} />
                 <ProtectedRoutes
                   exact

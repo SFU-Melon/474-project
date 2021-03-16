@@ -10,7 +10,7 @@ const Following = (props) => {
     const [dateJoined, setDateJoined] = useState("");
     const [monthsAgo, setMonthsAgo] = useState("");
     const [daysAgo, setDaysAgo] = useState("");
-    const [displayText, setDisplayText] = useState("");
+    const [displayDate, setDisplayText] = useState("");
     console.log(props);
 
     const handleProps = () => {
@@ -46,7 +46,7 @@ const Following = (props) => {
                     </div>
                     <div className ="w-75 m-0">
                         <h6 className="m-0">{props.person.username}</h6>
-                        <p><em>{displayText}</em></p>
+                        <p><em>{displayDate}</em></p>
                     </div>
                 </div>
             </Link>

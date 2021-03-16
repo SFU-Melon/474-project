@@ -34,8 +34,10 @@ const Following = (props) => {
                 <h5 id="ModalTitle">Following</h5>
                 <hr className = "w-100"></hr>
                 <div>
-                    {props.numFollowing == 0 ? <p>Not following anyone yet!</p>: <div></div>}
-                    {props.following.map((item) => (
+                    {props.numFollowing == 0 ? 
+                        <div className = "text-center"><img className="rounded img-fluid userIconImg mb-3" src="https://www.flaticon.com/svg/vstatic/svg/747/747376.svg?token=exp=1615857401~hmac=d7b5fa3ab61d0729de6154f56e66189e"></img>
+                        <p className="text-center">No Follows Yet</p></div>
+                        : props.following.map((item) => (
                         <UserCard person={item}/>
                     ))}
                 </div>

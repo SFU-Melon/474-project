@@ -6,6 +6,7 @@ import PostCard from "../../components/PostCard";
 import FollowButton from "../../components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
+import NullPost from "./NullPost";
 
 const Profile = () => {
   const { user } = useUserContext();
@@ -21,6 +22,9 @@ const Profile = () => {
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [joinDate, setJoinDate] = useState("");
 
   const fetchUserPosts = async () => {
     try {
@@ -87,6 +91,11 @@ const Profile = () => {
     setFollowing(tempFollowing);
   }
 
+  const handleDate = () => {
+    setDateOfBirth(new Date(user.dob).toDateString());
+    setJoinDate(new Date(user.joindate).toDateString());
+  }
+
   useEffect(() => {
     console.log("useEffect in profile");
     fetchUserPosts();
@@ -95,17 +104,20 @@ const Profile = () => {
     
     fetchFollowers();
     fetchFollowing();
+    handleDate();
+    console.log(user);
   }, [user]);
 
   return (
-    <div className = "w-75 mx-auto">
+    <div className = "w-100 mx-auto">
       <Fragment>
         <div className="d-flex flex-row m-5">
           <div className="d-flex flex-column mx-3 w-25">
             <div className="container m-2 p-3">
-              <img 
-                  className = "rounded img-fluid"
-                  src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png"></img>
+              <img className = "rounded img-fluid" 
+                src={user.profilephoto ? 
+                  user.profilephoto : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" }>
+              </img> 
             </div>
             <div className = "container m-2 p-3">
               <h5 className="card-title" >{user.username}</h5>
@@ -118,31 +130,35 @@ const Profile = () => {
                 </span>
               </div>
               <hr className = "w-100"></hr>
-              <p>First Name:</p>
-              <p>Last Name:</p>
-              <p>Email:</p>
-              <p>Date of Birth:</p>
+              <h5 className="card-title" >About</h5>
+                <hr className = "w-100"></hr>
+              <p><strong>First Name</strong>: {user.fname}</p>
+              <p><strong>Last Name:</strong> {user.lname}</p>
+              <p><strong>Email:</strong> {user.email}</p>
+              <p><strong>Join:</strong> {joinDate}</p>
+              <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
             </div>
             <div className = "container m-2 p-3">
-                <h5 className="card-title" >About</h5>
-                <hr className = "w-100"></hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-              </div>
+              <h5 className="card-title" >Highlights</h5>
+              <hr className = "w-100"></hr>
+              <p>
+                Thinking about adding images of most liked posts by the user here or posts they like with the most traffic. Maybe commments.</p>
+            </div>
           </div>
           <div className="d-flex flex-column mx-3 w-75">
               <div className="card-body">
                 <h5 className="card-title" >Posts You've Liked</h5>
                 <hr className = "w-100"></hr>
-                {userLikedPosts.map((post) => (
+                {userLikedPosts.length > 0 ? userLikedPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
-                ))}
+                )) : <NullPost/>}
               </div>
               <div className="card-body">
                 <h5 className="card-title" >Your Posts</h5>
                 <hr className = "w-100"></hr>
-                {userPosts.map((post) => (
+                {userPosts.length > 0 ? userPosts.map((post) => (
                   <PostCard key={post.id} post={post}></PostCard>
-                ))}
+                )) : <NullPost/>}
               </div>
           </div>
         </div>

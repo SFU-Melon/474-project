@@ -22,3 +22,7 @@ code {
   display: grid;
   place-items: center;
 }
+
+.userIconImg{
+  max-width:2rem;
+}

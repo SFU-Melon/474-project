@@ -65,6 +65,40 @@ CREATE TABLE comments(
     content TEXT
 );
 
+CREATE TABLE outdoor(
+    sciname varchar(2000) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,
+    outdoorclimate DECIMAL,
+    PRIMARY KEY(sciname)
+);
+
+CREATE TABLE indoor(
+    sciname varchar(2000) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,   
+    temperature DECIMAL,
+    humidity DECIMAL,
+    PRIMARY KEY(sciname)
+);
+
+CREATE TABLE plantdiseases(
+    sciname varchar(2000) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,   
+    description TEXT,
+    PRIMARY KEY(sciname)
+);
+
+CREATE TABLE tags(
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    val VARCHAR(200) NOT NULL,
+    PRIMARY KEY(postid, val)
+); 
+
+CREATE TABLE saves(
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    PRIMARY KEY(userId, postId)
+);
+
 /* Insert 10 plants into plants table */
 INSERT INTO plants VALUES 
 (

@@ -17,7 +17,6 @@ CREATE TABLE users(
 );
 
 CREATE TABLE plants(
-    id BIGSERIAL PRIMARY KEY NOT NULL,
     sciname varchar(2000) NOT NULL,
     comname varchar(2000) NOT NULL,
     description TEXT NOT NULL,

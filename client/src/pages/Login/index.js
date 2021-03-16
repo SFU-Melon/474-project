@@ -40,7 +40,7 @@ export default function Login(props) {
         alignItems: "center",
       }}
     >
-      <form onSubmit={handleSubmit} className="form">
+      <div className="form">
         {user && user.username}
         <h1 class="loginHeader">Login</h1>
         <p className="error-msg">{errorMessage}</p>
@@ -76,7 +76,7 @@ export default function Login(props) {
         </div>
 
         <div class="btn-container">
-          <button className="login-input-btn" type="submit">
+          <button className="login-input-btn" onClick={handleSubmit}>
             Login
           </button>
         </div>
@@ -84,7 +84,7 @@ export default function Login(props) {
         <div className="signup">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

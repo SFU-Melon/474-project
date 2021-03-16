@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useUserContext } from '../../contexts/UserContext';
 import Utility from '../../utils';
+import './CommentList.css';
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
@@ -42,7 +43,11 @@ export default function CommentList({ postId, comments, setComments }) {
             <div className="d-flex flex-row mt-1 ">
               <span>
                 {comment.profilephoto && (
-                  <img src={comment.profilephoto} className="comment-photo" />
+                  <img
+                    src={comment.profilephoto}
+                    alt="auther's profile picture"
+                    className="comment-photo"
+                  />
                 )}
               </span>
               <p className="m-2">{comment.username}</p>

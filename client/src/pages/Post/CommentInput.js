@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useUserContext } from '../../contexts/UserContext';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import CommentList from './CommentList';
 
 export default function CommentInput({ postId, setComments }) {
   const [content, setContent] = useState('');

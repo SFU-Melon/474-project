@@ -31,7 +31,7 @@ const Followers = (props) => {
             {props.numFollowers == 0 ? 
               <div className = "text-center">
                 <img className="rounded img-fluid userIconImg mb-3" 
-                  src="https://www.flaticon.com/svg/vstatic/svg/747/747376.svg?token=exp=1615857401~hmac=d7b5fa3ab61d0729de6154f56e66189e"></img>
+                  src="/null-follow.png"></img>
               <p className="text-center">No Followers Yet</p></div>
               : props.followers.map((item) => (
                 <UserCard person={item}/>

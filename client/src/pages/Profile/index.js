@@ -110,7 +110,7 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <img className = "rounded img-fluid" 
                 src={user?.profilephoto ? 
-                  user?.profilephoto : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" }>
+                  user.profilephoto : "/null-user.png" }>
               </img> 
             </div>
             <div className = "container m-2 p-3">
@@ -140,17 +140,9 @@ const Profile = () => {
             </div>
           </div>
           <div className="d-flex flex-column mx-3 w-75">
-              <div className="card-body">
-                <ProfileTabs userLikedPosts = {userLikedPosts} userPosts = {userPosts}/>
-                {/* {userLikedPosts.length > 0 ? userLikedPosts.map((post) => (
-                  <PostCard key={post.id} post={post}></PostCard>
-                )) : <NullPost/>} */}
-              </div>
-              {/* <div className="card-body">
-                {userPosts.length > 0 ? userPosts.map((post) => (
-                  <PostCard key={post.id} post={post}></PostCard>
-                )) : <NullPost/>}
-              </div> */}
+            <div className="card-body">
+              <ProfileTabs userLikedPosts = {userLikedPosts} userPosts = {userPosts}/>
+            </div>
           </div>
         </div>
       </Fragment>

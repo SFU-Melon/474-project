@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useUserContext } from '../../contexts/UserContext';
-import Utility from '../../utils';
-import './style.css';
+import axios from "axios";
+import { useEffect } from "react";
+import { useUserContext } from "../../contexts/UserContext";
+import Utility from "../../utils";
+import "./style.css";
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
@@ -13,7 +13,7 @@ export default function CommentList({ postId, comments, setComments }) {
         `/api/deleteComment/${postId}/${commentId}`
       );
       if (res.data.success) {
-        console.log('deleted!');
+        console.log("deleted!");
         setComments(comments.filter((comment) => comment.id !== commentId));
       }
     } catch (err) {
@@ -42,13 +42,15 @@ export default function CommentList({ postId, comments, setComments }) {
           <div className="">
             <div className="d-flex flex-row mt-1 ">
               <span>
-                {comment.profilephoto && (
-                  <img
-                    src={comment.profilephoto}
-                    alt="auther's profile in comment"
-                    className="comment-photo"
-                  />
-                )}
+                <img
+                  src={
+                    comment?.profilephoto
+                      ? comment.profilephoto
+                      : "/null-user.png"
+                  }
+                  alt="auther's profile in comment"
+                  className="comment-photo"
+                />
               </span>
               <p className="m-2">{comment.username}</p>
               <p className="m-2">{Utility.getDisplayTime(comment.datetime)}</p>

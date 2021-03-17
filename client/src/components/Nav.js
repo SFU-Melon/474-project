@@ -31,7 +31,10 @@ const Nav = () => {
         </Link>
         {auth || user ? (
           <>
-            <Link to="/profile/:username" className="me-3">
+            <Link
+              to={`/profile/${encodeURIComponent(user?.username)}`}
+              className="me-3"
+            >
               <button type="button" className="btn btn-outline-light">
                 Profile
               </button>

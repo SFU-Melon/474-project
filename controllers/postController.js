@@ -81,6 +81,17 @@ postController.cancelVote = async (req, res) => {
   }
 };
 
+postController.getPostLikedNotOwned = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.getPostLikedNotOwned(id);
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ success: false });
+  }
+};
+
 postController.getPostById = async (req, res) => {
   try {
     const { id } = req.params;

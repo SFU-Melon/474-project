@@ -13,6 +13,16 @@ router.get("/logout", userController.logout);
 
 /******  Following Routes ********/
 router.get("/getAllUsers", userController.getAllUsers);
+router.get("/getUserById/:id", userController.getUserById);
+router.get("/getUserByUsername/:username", userController.getUserByUsername);
+router.get(
+  "/getFollowersAndFollowing/:userId",
+  userController.getFollowersAndFollowing
+);
+router.get(
+  "/getFollowersAndFollowingUsers/:userId",
+  userController.getFollowersAndFollowingUsers
+);
 router.post("/follows", userController.follows);
 router.post("/unfollows", userController.unfollows);
 
@@ -35,6 +45,7 @@ router.post(
   postController.downVote
 );
 
+router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
 router.get("/getPost/:id", postController.getPostById);
 router.get("/getAllPosts", postController.getAllPosts);
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);

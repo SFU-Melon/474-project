@@ -4,11 +4,13 @@ import { useUserContext } from "../../contexts/UserContext";
 import FollowButton from "../../components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
+import { useParams } from "react-router-dom";
 
 import ProfileTabs from "./ProfileTabs";
 
-const Profile = () => {
+const PublicProfile = () => {
   const { user } = useUserContext();
+  const { username } = useParams();
 
   const [userPosts, setUserPosts] = useState([]);
   const [userLikedPosts, setUserLikedPosts] = useState([]);
@@ -19,9 +21,21 @@ const Profile = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
 
+  const [profileUser, setProfileUser] = useState(null);
+
+  const fetchProfileUser = async () => {
+    try {
+      const res = await axios.get(`/api/getUserByUsername/${username}`);
+      console.log(res.data);
+      setProfileUser(res.data.success);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchUserPosts = async () => {
     try {
-      const res = await axios.get(`/api/getAllPosts/${user?.id}`);
+      const res = await axios.get(`/api/getAllPosts/${profileUser?.id}`);
       setUserPosts(res.data);
       console.log(res);
     } catch (err) {
@@ -31,7 +45,9 @@ const Profile = () => {
 
   const fetchUserLikedPosts = async () => {
     try {
-      const res = await axios.get(`/api/getPostLikedNotOwned/${user?.id}`);
+      const res = await axios.get(
+        `/api/getPostLikedNotOwned/${profileUser?.id}`
+      );
       setUserLikedPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -41,7 +57,7 @@ const Profile = () => {
   const fetchFollowData = async () => {
     try {
       const res = await axios.get(
-        `/api/getFollowersAndFollowingUsers/${user?.id}`
+        `/api/getFollowersAndFollowingUsers/${profileUser?.id}`
       );
       if (res.data.success) {
         setFollowers(res.data.followers);
@@ -53,18 +69,23 @@ const Profile = () => {
   };
 
   const handleDate = () => {
-    setDateOfBirth(new Date(user?.dob).toDateString());
-    setJoinDate(new Date(user?.joindate).toDateString());
+    setDateOfBirth(new Date(profileUser?.dob).toDateString());
+    setJoinDate(new Date(profileUser?.joindate).toDateString());
   };
 
   useEffect(() => {
     console.log("useEffect in profile");
-    fetchUserPosts();
-    fetchUserLikedPosts();
-    fetchFollowData();
-    handleDate();
-    console.log(user);
-  }, [user]);
+    fetchProfileUser();
+  }, []);
+
+  useEffect(() => {
+    if (profileUser) {
+      fetchUserPosts();
+      fetchUserLikedPosts();
+      fetchFollowData();
+      handleDate();
+    }
+  }, [profileUser]);
 
   return (
     <div className="w-100 mx-auto">
@@ -74,14 +95,18 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <img
                 className="rounded img-fluid"
-                src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
+                src={
+                  profileUser?.profilephoto
+                    ? profileUser?.profilephoto
+                    : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png"
+                }
               ></img>
             </div>
             <div className="container m-2 p-3">
-              <h5 className="card-title">{user?.username}</h5>
+              <h5 className="card-title">{profileUser?.username}</h5>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1">
-                  <FollowButton userId={user?.id} />
+                  {user && <FollowButton userId={profileUser?.id} />}
                 </div>
               </div>
               <div className="me-1">
@@ -94,13 +119,13 @@ const Profile = () => {
               <h5 className="card-title">About</h5>
               <hr className="w-100"></hr>
               <p>
-                <strong>First Name</strong>: {user?.fname}
+                <strong>First Name</strong>: {profileUser?.fname}
               </p>
               <p>
-                <strong>Last Name:</strong> {user?.lname}
+                <strong>Last Name:</strong> {profileUser?.lname}
               </p>
               <p>
-                <strong>Email:</strong> {user?.email}
+                <strong>Email:</strong> {profileUser?.email}
               </p>
               <p>
                 <strong>Join:</strong> {joinDate}
@@ -132,4 +157,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default PublicProfile;

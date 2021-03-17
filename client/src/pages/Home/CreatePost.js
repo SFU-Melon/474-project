@@ -35,7 +35,6 @@ const CreatePost = (props) => {
   // Send post data to database
   const sendToDatabase = (imgUrl) => {
     console.log('submitting post');
-    console.log(imgUrl);
     try {
       axios
         .post(`/api/createPost/${user.id}`, {
@@ -50,7 +49,6 @@ const CreatePost = (props) => {
           setLocation('');
           setFile(null);
           setFileType('');
-          console.log(res);
         });
     } catch (err) {
       console.error(err.message);
@@ -62,7 +60,6 @@ const CreatePost = (props) => {
     e.preventDefault();
     if (validateForm()) {
       console.log('handling the upload');
-      console.log(description);
       if (file) {
         try {
           let res;

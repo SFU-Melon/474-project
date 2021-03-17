@@ -44,9 +44,26 @@ Post.getAllPosts = async (userId) => {
 
 Post.getAllPostsFromUserId = async (userId) => {
   try {
-    const res = await pool.query('SELECT * FROM posts WHERE userId = $1', [
-      userId,
-    ]);
+    if (userId != undefined) {
+      console.log(userId);
+      const res = await pool.query('SELECT * FROM posts WHERE userId = $1', [
+        userId,
+      ]);
+      return res.rows;
+    }
+    console.log('user is undefined');
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+Post.getPostLikedNotOwned = async (userId) => {
+  try {
+    const res = await pool.query(
+      'SELECT * FROM likes L, posts P WHERE L.userid = $1 AND L.userid <> P.userid AND P.id = L.postid;',
+      [userId]
+    );
+    console.log(res.rows[0]);
     return res.rows;
   } catch (err) {
     console.error(err.message);

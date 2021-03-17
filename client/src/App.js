@@ -10,8 +10,7 @@ import Error from "./pages/Error";
 import { UserProvider } from "./contexts/UserContext";
 import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
 import { AuthProvider } from "./contexts/AuthContext";
-
-
+import PublicProfile from "./pages/Profile/PublicProfile";
 
 function App() {
   return (
@@ -25,6 +24,11 @@ function App() {
                 <Route exact path="/post/:title/:id" component={Post} />
                 <Route exact path="/plants" component={Plants} />
                 <Route exact path="/" component={Home} />
+                <Route
+                  exact
+                  path="/profile/public/:username"
+                  component={PublicProfile}
+                />
                 <ProtectedRoutes
                   exact
                   path="/profile/:username"

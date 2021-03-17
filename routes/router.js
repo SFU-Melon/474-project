@@ -12,9 +12,25 @@ router.get('/user', ensureAuthenticated, userController.getAuthUser);
 router.get('/logout', userController.logout);
 
 /******  Following Routes ********/
+<<<<<<< HEAD
 router.get('/getAllUsers', userController.getAllUsers);
 router.post('/follows', userController.follows);
 router.post('/unfollows', userController.unfollows);
+=======
+router.get("/getAllUsers", userController.getAllUsers);
+router.get("/getUserById/:id", userController.getUserById);
+router.get("/getUserByUsername/:username", userController.getUserByUsername);
+router.get(
+  "/getFollowersAndFollowing/:userId",
+  userController.getFollowersAndFollowing
+);
+router.get(
+  "/getFollowersAndFollowingUsers/:userId",
+  userController.getFollowersAndFollowingUsers
+);
+router.post("/follows", userController.follows);
+router.post("/unfollows", userController.unfollows);
+>>>>>>> main
 
 /******  Post Routes ********/
 router.post(
@@ -35,9 +51,10 @@ router.post(
   postController.downVote
 );
 
-router.get('/getPost/:id', postController.getPostById);
-router.get('/getAllPosts', postController.getAllPosts);
-router.get('/getAllPosts/:userId', postController.getAllPostsFromUserId);
+router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
+router.get("/getPost/:id", postController.getPostById);
+router.get("/getAllPosts", postController.getAllPosts);
+router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
   '/deletePost/:id',
   ensureAuthenticated,

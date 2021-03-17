@@ -17,8 +17,9 @@ CREATE TABLE users(
 );
 
 CREATE TABLE plants(
-    sciname varchar(2000) NOT NULL,
-    comname varchar(2000) NOT NULL,
+    id SERIAL PRIMARY KEY,
+    sciname varchar(100) NOT NULL,
+    comname varchar(100) NOT NULL,
     description TEXT NOT NULL,
     plantinstr TEXT,
     growinstr TEXT,
@@ -65,8 +66,208 @@ CREATE TABLE comments(
     content TEXT
 );
 
+CREATE TABLE outdoor(
+    id SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,
+    outdoorclimate DECIMAL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE indoor(
+    id SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,   
+    temperature DECIMAL,
+    humidity DECIMAL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE plantdiseases(
+    id SERIAL,
+    name VARCHAR(100),
+    plantid SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,   
+    description TEXT,
+    PRIMARY KEY(id, plantid)
+);
+
+
+CREATE TABLE tagged(
+    tagid SERIAL REFERENCES tags(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    PRIMARY KEY(tagid, postid, userid)
+);
+
+CREATE TABLE tags(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL UNIQUE
+); 
+
+CREATE TABLE saves(
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    PRIMARY KEY(userId, postId)
+);
+
+
+/* Insert tagged */
+INSERT INTO tagged (tagid, postid, userid) VALUES
+(
+    1,
+    '7cc6f605-a3fb-4b96-b21e-098d50b5eea7',
+    'e6998f41-4caa-4000-ba72-7a1fcd042112'
+),
+(
+    2,
+    '6a418175-df37-4df2-bca8-d09dd4b3735f',
+    '79409dd1-16a3-466d-a96e-cb08de8953a0'
+),
+(
+    3,
+    '75257dea-33e3-466e-8bab-ecd9894832b4',
+    '1d1a5cb5-9590-40c4-b1d6-462a5029d87d'
+),
+(
+    2,
+    '75257dea-33e3-466e-8bab-ecd9894832b4',
+    '1d1a5cb5-9590-40c4-b1d6-462a5029d87d'
+),
+(
+    2,
+    '6a83033c-01fd-46ff-ad49-8685ae37bce4',
+    '79409dd1-16a3-466d-a96e-cb08de8953a0'
+);
+
+/* Insert tags */
+INSERT INTO tags (name) VALUES
+(
+    'First Post'
+),
+(
+    'Question'
+),
+(
+    'Help'
+),
+(
+    'Tips'
+),
+(
+    'Suggestion'
+);
+
+/* Insert saves */
+INSERT INTO saves (userid,postid) VALUES
+(
+    'e6998f41-4caa-4000-ba72-7a1fcd042112',
+    '6a418175-df37-4df2-bca8-d09dd4b3735f'
+),
+(
+    'e6998f41-4caa-4000-ba72-7a1fcd042112',
+    '6a83033c-01fd-46ff-ad49-8685ae37bce4'
+),
+(
+    'efbd7f67-e76d-4fea-ab8a-11566c39a3a3',
+    '6a418175-df37-4df2-bca8-d09dd4b3735f'
+),
+(
+    'ea11cac1-7834-48ba-aaf0-26d149634007',
+    '6a83033c-01fd-46ff-ad49-8685ae37bce4'
+),
+(
+    '79409dd1-16a3-466d-a96e-cb08de8953a0',
+    '7cc6f605-a3fb-4b96-b21e-098d50b5eea7'
+);
+
+
+/**** THIS IS JUST FOR TESTING. NOT ACCURATE!!! ****/
+/* Insert 5 outdoor instances into outdoor table */
+INSERT INTO outdoor VALUES
+(
+    1,
+    32
+),
+(
+    2,
+    22.4
+),
+(
+    3,
+    14.8
+),
+(
+    4,
+    50.3
+),
+(
+    5,
+    20.2
+);
+
+/* Insert 5 indoor instances into outdoor table */
+INSERT INTO indoor VALUES
+(
+    1,
+    30.4,
+    67
+),
+(
+    2,
+    20.4,
+    53
+),
+(
+    3,
+    10.8,
+    70
+),
+(
+    4,
+    44.3,
+    10
+),
+(
+    5,
+    24.2,
+    55
+);
+
+/* Insert 5 plantdiseases instances into outdoor table */
+INSERT INTO plantdiseases (name, plantid, description) VALUES 
+(  
+    'aster yellows',
+    1,
+    'aster yellows is found over much of the world wherever air temperatures do not persist much above 32 °C (90 °F) '
+),
+(
+    'scab',
+    2,
+    'Scab, in botany, any of several bacterial or fungal plant diseases characterized by crustaceous lesions on fruits, tubers, leaves, or stems.'
+),
+(
+    'rot',
+    3,
+    'Rot, any of several plant diseases, caused by any of hundreds of species of soil-borne bacteria, fungi, and funguslike organisms.'
+    
+),
+(
+    'ergot',
+    2,
+    'Ergot, fungal disease of cereal grasses, especially rye, caused by species of the ascomycete fungus Claviceps.'
+    
+),
+(
+    'blight',
+    5,
+    'Most blights are caused by bacterial or fungal infestations, which usually attack the shoots and other young, rapidly growing tissues of a plant.'
+    
+);
+
+
 /* Insert 10 plants into plants table */
-INSERT INTO plants VALUES 
+INSERT INTO plants (sciname, comname, description, plantinstr, growinstr, careinstr, plantphoto) VALUES 
 (
     'Rosa', 
 

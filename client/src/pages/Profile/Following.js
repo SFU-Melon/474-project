@@ -1,6 +1,6 @@
-import { useState, Fragment } from "react";
-import { Modal } from "react-responsive-modal";
-import UserCard from "./UserCard";
+import { useState, Fragment } from 'react';
+import { Modal } from 'react-responsive-modal';
+import UserCard from './UserCard';
 
 const Following = (props) => {
   // Handling modal open/close
@@ -21,19 +21,20 @@ const Following = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: "customOverlay",
-          modal: "followModal",
+          overlay: 'customOverlay',
+          modal: 'followModal',
         }}
       >
         <div>
           <h5 id="ModalTitle">Following</h5>
           <hr className="w-100"></hr>
           <div>
-            {props.following.length == 0 ? (
+            {props.following.length === 0 ? (
               <div className="text-center">
                 <img
                   className="rounded img-fluid userIconImg mb-3"
                   src="/null-follow.png"
+                  alt="profile"
                 ></img>
                 <p className="text-center">No Follows Yet</p>
               </div>

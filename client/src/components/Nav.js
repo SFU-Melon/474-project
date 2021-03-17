@@ -1,24 +1,32 @@
-import { Link } from "react-router-dom";
-import { useUserContext } from "../contexts/UserContext";
-import { useAuthContext } from "../contexts/AuthContext";
-import axios from "axios";
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext';
+import { useAuthContext } from '../contexts/AuthContext';
+import axios from 'axios';
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
   const { auth, setAuth } = useAuthContext();
 
+  let location = useLocation().pathname;
+  let history = useHistory();
+
   const logout = async () => {
     try {
-      await axios.get("/api/logout");
+      await axios.get('/api/logout');
       setUser(null);
       setAuth(false);
+      if (location === `/profile/${user.username}`) {
+        history.push('/');
+      } else {
+        window.location.reload();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <nav className="navbar d-flex " style={{ backgroundColor: "#ACC5AA" }}>
+    <nav className="navbar d-flex " style={{ backgroundColor: '#ACC5AA' }}>
       <Link className="navbar-brand ms-5 " to="/">
         plant
       </Link>
@@ -40,21 +48,28 @@ const Nav = () => {
               </button>
             </Link>
 
-            <Link to="/" onClick={logout}>
-              <button type="button" className="btn btn-outline-light">
-                Logout
-              </button>
-            </Link>
+            {console.log(location)}
+            <button
+              type="button"
+              className="btn btn-outline-light"
+              onClick={logout}
+            >
+              Logout
+            </button>
           </>
         ) : (
           [
-            <Link to="/login" className="me-3">
+            <Link
+              key={'login'}
+              to={{ pathname: '/login', state: { prevPath: location } }}
+              className="me-3"
+            >
               <button type="button" className="btn btn-outline-light">
                 Login
               </button>
             </Link>,
 
-            <Link to="/signup">
+            <Link key={'signup'} to="/signup">
               <button type="button" className="btn btn-outline-light">
                 Sign Up
               </button>

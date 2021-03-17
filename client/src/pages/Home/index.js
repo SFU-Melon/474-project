@@ -9,18 +9,25 @@ export default function Home() {
   const { user } = useUserContext();
   const [allPosts, setAllPosts] = useState([]);
 
-  const fetchAllPosts = async () => {
+  const fetchAllPosts = async (isMounted) => {
     try {
       const res = await axios.get("/api/getAllPosts");
-      setAllPosts(res.data);
+      //setAllPosts(res.data);
+      return res.data;
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    fetchAllPosts();
+    let isMounted = true;
+    fetchAllPosts().then((fetched_posts) => {
+      if (isMounted) setAllPosts(fetched_posts);
+    });
     console.log("useEffect in home");
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   return (

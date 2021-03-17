@@ -6,13 +6,21 @@ export default function AllUsers() {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    fetchUsers();
+    let isMounted = true;
+    fetchUsers().then((fetched_users) => {
+      if (isMounted) setUsers(fetched_users);
+    });
+    console.log("useEffect in home");
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const fetchUsers = async () => {
     try {
       const res = await axios.get("/api/getAllUsers");
-      setUsers(res.data.users);
+      //setUsers(res.data.users);
+      return res.data.users;
     } catch (err) {
       console.log(err);
     }

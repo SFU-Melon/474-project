@@ -48,7 +48,7 @@ const Following = (props) => {
                 src={
                   props.person?.profilephoto
                     ? props.person.profilephoto
-                    : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png"
+                    : "/null-user.png"
                 }
               ></img>
             </div>

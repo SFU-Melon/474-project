@@ -23,7 +23,7 @@ const PublicProfile = () => {
 
   const [profileUser, setProfileUser] = useState(null);
 
-  const fetchUser = async () => {
+  const fetchProfileUser = async () => {
     try {
       const res = await axios.get(`/api/getUserByUsername/${username}`);
       console.log(res.data);
@@ -75,7 +75,7 @@ const PublicProfile = () => {
 
   useEffect(() => {
     console.log("useEffect in profile");
-    fetchUser();
+    fetchProfileUser();
   }, []);
 
   useEffect(() => {

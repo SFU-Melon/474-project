@@ -1,11 +1,9 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
 import { useUserContext } from "../../contexts/UserContext";
-import PostCard from "../../components/PostCard";
 import FollowButton from "../../components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
-import NullPost from "./NullPost";
 
 import ProfileTabs from "./ProfileTabs";
 
@@ -76,11 +74,7 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <img
                 className="rounded img-fluid"
-                src={
-                  user?.profilephoto
-                    ? user?.profilephoto
-                    : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png"
-                }
+                src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
               ></img>
             </div>
             <div className="container m-2 p-3">
@@ -130,15 +124,7 @@ const Profile = () => {
                 userLikedPosts={userLikedPosts}
                 userPosts={userPosts}
               />
-              {/* {userLikedPosts.length > 0 ? userLikedPosts.map((post) => (
-                  <PostCard key={post.id} post={post}></PostCard>
-                )) : <NullPost/>} */}
             </div>
-            {/* <div className="card-body">
-                {userPosts.length > 0 ? userPosts.map((post) => (
-                  <PostCard key={post.id} post={post}></PostCard>
-                )) : <NullPost/>}
-              </div> */}
           </div>
         </div>
       </Fragment>

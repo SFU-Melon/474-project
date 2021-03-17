@@ -22,18 +22,13 @@ const Nav = () => {
       <Link className="navbar-brand ms-5 " to="/">
         plant
       </Link>
-      <div className="d-flex flex-col w-50">
-        <input
-          className="w-100"
-          placeholder="Search for people, posts, and plants"
-        ></input>
-        <select className="form-select w-25">
-          <option value="posts">Posts</option>
-          <option value="database">Database</option>
-        </select>
-      </div>
 
       <div className="me-5 ">
+        <Link to="/plants" className="me-3">
+          <button type="button" className="btn btn-outline-light">
+            Plants
+          </button>
+        </Link>
         {auth || user ? (
           <>
             <Link
@@ -44,6 +39,7 @@ const Nav = () => {
                 Profile
               </button>
             </Link>
+
             <Link to="/" onClick={logout}>
               <button type="button" className="btn btn-outline-light">
                 Logout
@@ -51,11 +47,19 @@ const Nav = () => {
             </Link>
           </>
         ) : (
-          <Link to="/login">
-            <button type="button" className="btn btn-outline-light">
-              Login
-            </button>
-          </Link>
+          [
+            <Link to="/login" className="me-3">
+              <button type="button" className="btn btn-outline-light">
+                Login
+              </button>
+            </Link>,
+
+            <Link to="/signup">
+              <button type="button" className="btn btn-outline-light">
+                Sign Up
+              </button>
+            </Link>,
+          ]
         )}
       </div>
     </nav>

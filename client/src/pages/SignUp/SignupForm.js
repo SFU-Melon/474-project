@@ -17,7 +17,7 @@ const SignupForm = ({ submitForm }) => {
     <div
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "100vh",
+        height: "95.7vh",
         width: "100vw",
         display: "flex",
         justifyContent: "center",
@@ -27,6 +27,9 @@ const SignupForm = ({ submitForm }) => {
       <form onSubmit={handleSubmit} className="form" noValidate>
         <h1 className="signUpHeader">Sign up</h1>
         <div className="signup-inputs">
+          <label htmlFor="username" className="signup-label">
+            Username
+          </label>
           <input
             type="text"
             name="username"
@@ -35,13 +38,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.username}
             onChange={handleChange}
           />
-          <label htmlFor="username" className="signup-label">
-            Username
-          </label>
 
           {errors.username && <p className="error-msg">{errors.username}</p>}
         </div>
+
         <div className="signup-inputs">
+          <label htmlFor="password" className="signup-label">
+            Password
+          </label>
           <input
             type="password"
             name="password"
@@ -50,13 +54,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.password}
             onChange={handleChange}
           />
-          <label htmlFor="password" className="signup-label">
-            Password
-          </label>
 
           {errors.password && <p className="error-msg">{errors.password}</p>}
         </div>
+
         <div className="signup-inputs">
+          <label htmlFor="password2" className="signup-label">
+            Confirm Password
+          </label>
           <input
             type="password"
             name="password2"
@@ -65,13 +70,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.password2}
             onChange={handleChange}
           />
-          <label htmlFor="password2" className="signup-label">
-            Confirm Password
-          </label>
 
           {errors.password2 && <p className="error-msg">{errors.password2}</p>}
         </div>
+
         <div className="signup-inputs">
+          <label htmlFor="fname" className="signup-label">
+            First Name
+          </label>
           <input
             type="fname"
             name="fname"
@@ -80,13 +86,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.fname}
             onChange={handleChange}
           />
-          <label htmlFor="fname" className="signup-label">
-            First Name
-          </label>
 
           {errors.fname && <p className="error-msg">{errors.fname}</p>}
         </div>
+
         <div className="signup-inputs">
+          <label htmlFor="lname" className="signup-label">
+            Last Name
+          </label>
           <input
             type="lname"
             name="lname"
@@ -95,13 +102,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.lname}
             onChange={handleChange}
           />
-          <label htmlFor="lname" className="signup-label">
-            Last Name
-          </label>
 
           {errors.lname && <p className="error-msg">{errors.lname}</p>}
         </div>
+
         <div className="signup-inputs">
+          <label htmlFor="dob" className="signup-label">
+            Date of Birth
+          </label>
           <input
             type="dob"
             name="dob"
@@ -110,13 +118,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.dob}
             onChange={handleChange}
           />
-          <label htmlFor="dob" className="signup-label">
-            Date of Birth
-          </label>
 
           {errors.dob && <p className="error-msg">{errors.dob}</p>}
         </div>
+
         <div className="signup-inputs">
+          <label htmlFor="email" className="signup-label">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -125,13 +134,14 @@ const SignupForm = ({ submitForm }) => {
             value={values.email}
             onChange={handleChange}
           />
-          <label htmlFor="email" className="signup-label">
-            Email
-          </label>
 
           {errors.email && <p className="error-msg">{errors.email}</p>}
         </div>
-        <div>
+
+        <div className="signup-inputs">
+          <label htmlFor="file" className="signup-label">
+            Profile Picture
+          </label>
           <input
             type="file"
             name="file"
@@ -139,20 +149,16 @@ const SignupForm = ({ submitForm }) => {
             accept=".jpg,.jpeg,.png"
             onChange={handleFileChange}
           />
-          <label htmlFor="file" className="signup-label">
-            Profile Picture
-          </label>
         </div>
 
-        <div>
+        <div class="btn-container">
           <button className="signup-input-btn" type="submit">
             Sign Up
           </button>
         </div>
-        <div>
-          <span class="login">
-            Already have an account? <Link to="/login">Login</Link>
-          </span>
+
+        <div class="login">
+          Already have an account? <Link to="/login">Login</Link>
         </div>
       </form>
     </div>

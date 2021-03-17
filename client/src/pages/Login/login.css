@@ -2,27 +2,27 @@
     background-color: rgba(255, 255, 255, 0.8);
     padding-top: 50px;
     padding-bottom: 100px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 8%;
+    padding-right: 8%;
     border-radius: 50px;
     display: block;
     resize: none;
 }
 
-.signUpHeader{
+.loginHeader{
     text-align: center;
     padding-bottom: 20px;
     text-transform: capitalize;
 }
 
-.signup-inputs {
+.login-inputs {
     width: 350px;
     margin-left: 25px;
     margin-right: 25px;
     margin-bottom: 10px;
 }
-  
-.signup-input {
+
+.login-input {
     display: block;
     line-height: 2em;
     margin: 0;
@@ -38,11 +38,11 @@
     font-weight: 500;
 }
 
-.signup-input::placeholder{
+.login-input::placeholder{
     color: gray;
 }
 
-.signup-label {
+.login-label {
     display: block;
     /* bottom: 3rem; */
     opacity: 1;
@@ -51,37 +51,22 @@
     font-weight: bold;
     transition: 0.2s ease-in-out transform;
 }
-  
-/* .signup-input:placeholder-shown + .signup-label {
-    z-index: -1;
-    visibility: hidden;
-    transition: 0.2s ease-in-out;
-}
-  
-.signup-input:not(:placeholder-shown) + .signup-label,
-.signup-input:focus:not(:placeholder-shown) + .signup-label {
-    visibility: visible;
-    opacity: 1;
-    z-index: 1;
-    transition: 0.2s ease-in-out transform;
-    transform: translateY(-10px);
-} */
 
-.signup-input-btn {
-    width: 100%;
+.login-input-btn {
     background-color:#00CC33;
     color: white;
     font-weight: bold;
     padding: 10px;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 10px;
     border: none;
     cursor: pointer;
+    width: 100%;
     border-radius: 25px;
     opacity: 0.7;
 }
 
-.signup-input-btn:hover{
+.login-input-btn:hover{
     opacity: 1;
 }
 
@@ -92,6 +77,6 @@
     padding: 0;
 }
 
-.login{
+.signup{
     text-align: center;
 }

@@ -7,24 +7,24 @@ CREATE TABLE users(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
-    fName VARCHAR(200) NOT NULL,
-    lName VARCHAR(200) NOT NULL,
+    fname VARCHAR(200) NOT NULL,
+    lname VARCHAR(200) NOT NULL,
     dob DATE NOT NULL,
     email VARCHAR(200) NOT NULL,
-    joinDate TIMESTAMP NOT NULL,
+    joindate TIMESTAMP NOT NULL,
     profilephoto VARCHAR(200),
     UNIQUE (username)
 );
 
 CREATE TABLE plants(
-    sciName varchar(200) NOT NULL,
-    comName varchar(200) NOT NULL,
-    description varchar(2000) NOT NULL,
-    plantInstr varchar(2000) NOT NULL,
-    growInstr varchar(1000) NOT NULL,
-    careInstr varchar(1000) NOT NULL,
+    sciname varchar(2000) NOT NULL,
+    comname varchar(2000) NOT NULL,
+    description TEXT NOT NULL,
+    plantinstr TEXT,
+    growinstr TEXT,
+    careinstr TEXT,
     plantphoto VARCHAR(200),
-    UNIQUE (sciName)
+    UNIQUE (sciname)
 );
 
 CREATE TABLE posts(

@@ -60,7 +60,6 @@ const useForm = (callback, validateInfo) => {
                   } else {
                     alert("Username already exists!");
                   }
-                  console.log("res: ", res.data.success);
                 });
             });
           }
@@ -76,7 +75,6 @@ const useForm = (callback, validateInfo) => {
         } else {
           alert("Username already exists!");
         }
-        console.log("res: ", res.data.success);
       });
     }
   };

@@ -8,7 +8,6 @@ const Following = (props) => {
   const [displayDate, setDisplayText] = useState("");
 
   const handleProps = () => {
-    console.log(props);
     setMonthsAgo(
       new Date().getMonth() - new Date(props.person.joindate).getMonth()
     );

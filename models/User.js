@@ -112,4 +112,27 @@ User.getFollowersAndFollowing = async (id) => {
   }
 };
 
+User.getFollowersAndFollowingUsers = async (id) => {
+  try {
+    console.log(id);
+    // get followers
+    const followers = await pool.query(
+      "SELECT id, username FROM users WHERE users.id IN (SELECT user1 FROM followers WHERE user2 = $1)",
+      [id]
+    );
+    // get following
+    const following = await pool.query(
+      "SELECT id, username FROM users WHERE users.id IN (SELECT user2 FROM followers WHERE user1 = $1)",
+      [id]
+    );
+
+    return {
+      followers: followers.rows,
+      following: following.rows,
+    };
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = User;

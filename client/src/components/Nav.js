@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { useUserContext } from '../contexts/UserContext';
-import { useAuthContext } from '../contexts/AuthContext';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
+import { useAuthContext } from "../contexts/AuthContext";
+import axios from "axios";
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
@@ -9,7 +9,7 @@ const Nav = () => {
 
   const logout = async () => {
     try {
-      await axios.get('/api/logout');
+      await axios.get("/api/logout");
       setUser(null);
       setAuth(false);
     } catch (err) {
@@ -18,7 +18,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="navbar d-flex " style={{ backgroundColor: '#ACC5AA' }}>
+    <nav className="navbar d-flex " style={{ backgroundColor: "#ACC5AA" }}>
       <Link className="navbar-brand ms-5 " to="/">
         plant
       </Link>
@@ -36,7 +36,10 @@ const Nav = () => {
       <div className="me-5 ">
         {auth || user ? (
           <>
-            <Link to="/profile/:username" className="me-3">
+            <Link
+              to={`/profile/${encodeURIComponent(user?.username)}`}
+              className="me-3"
+            >
               <button type="button" className="btn btn-outline-light">
                 Profile
               </button>

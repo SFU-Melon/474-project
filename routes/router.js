@@ -13,7 +13,15 @@ router.get("/logout", userController.logout);
 /******  Following Routes ********/
 router.get("/getAllUsers", userController.getAllUsers);
 router.get("/getUserById/:id", userController.getUserById);
-router.get("/getFollowersAndFollowing/:userId", userController.getFollowersAndFollowing);
+router.get("/getUserByUsername/:username", userController.getUserByUsername);
+router.get(
+  "/getFollowersAndFollowing/:userId",
+  userController.getFollowersAndFollowing
+);
+router.get(
+  "/getFollowersAndFollowingUsers/:userId",
+  userController.getFollowersAndFollowingUsers
+);
 router.post("/follows", userController.follows);
 router.post("/unfollows", userController.unfollows);
 
@@ -47,10 +55,7 @@ router.delete(
 );
 
 /****** Comment Routes ********/
-router.get(
-  "/getComments/:postId",
-  commentController.getComments
-);
+router.get("/getComments/:postId", commentController.getComments);
 router.post(
   "/submitComment/:userId/:postId",
   ensureAuthenticated,

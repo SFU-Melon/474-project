@@ -101,8 +101,17 @@ userController.getUserById = async (req, res) => {
   const result = await User.getUserById(id);
   console.log(result);
   return res.json({
-    success:result,
-  })
+    success: result,
+  });
+};
+
+userController.getUserByUsername = async (req, res) => {
+  const { username } = req.params;
+  const result = await User.getUserByUsername(username);
+  console.log(result);
+  return res.json({
+    success: result,
+  });
 };
 
 userController.follows = async (req, res) => {
@@ -129,4 +138,13 @@ userController.getFollowersAndFollowing = async (req, res) => {
   });
 };
 
+userController.getFollowersAndFollowingUsers = async (req, res) => {
+  const { userId } = req.params;
+  const result = await User.getFollowersAndFollowingUsers(userId);
+  return res.json({
+    success: true,
+    followers: result.followers,
+    following: result.following,
+  });
+};
 module.exports = userController;

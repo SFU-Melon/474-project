@@ -15,13 +15,16 @@ const Post = () => {
   const decoded = Utility.decodeUUID(id);
 
   const fetchPost = async () => {
+    console.log('Making request to ', `/api/getPost/${decoded}`);
     const res = await axios.get(`/api/getPost/${decoded}`);
     setPost(res.data);
   };
 
   useEffect(() => {
+    console.log('useEffect for id in param encoded: ', id, 'decoded', decoded);
+    console.log('useEffect for post Id:  ', post?.id);
     fetchPost();
-  }, [id]);
+  }, []);
 
   // TODO: Work with voting
   return (
@@ -41,7 +44,11 @@ const Post = () => {
                 <h1 className="m-4">{post.title}</h1>
                 <div>
                   {post.imageurl && (
-                    <img src={post.imageurl} className="post-card" />
+                    <img
+                      src={post.imageurl}
+                      alt="plant in each post page"
+                      className="plant-image"
+                    />
                   )}
                 </div>
                 <div>

@@ -1,0 +1,8 @@
+.post-card:hover {
+  border: 1px solid black;
+}
+.plant-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}

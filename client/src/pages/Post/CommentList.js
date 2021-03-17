@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useUserContext } from '../../contexts/UserContext';
 import Utility from '../../utils';
-import './CommentList.css';
+import './style.css';
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
@@ -45,7 +45,7 @@ export default function CommentList({ postId, comments, setComments }) {
                 {comment.profilephoto && (
                   <img
                     src={comment.profilephoto}
-                    alt="auther's profile picture"
+                    alt="auther's profile in comment"
                     className="comment-photo"
                   />
                 )}

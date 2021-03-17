@@ -75,8 +75,8 @@ Post.getPostById = async ({ userId, postId }) => {
     console.log(' userId ', userId, 'postId', postId, ' in Post.js');
     if (userId != undefined) {
       const res = await pool.query(
-        'SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val  FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 AND posts.id = $2',
-        [userId, postId]
+        'SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val  FROM posts LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 WHERE posts.id = $1',
+        [postId, userId]
       );
       console.log(res.rows[0], ' res.rows when user is defined');
       return res.rows[0];

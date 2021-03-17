@@ -15,14 +15,11 @@ const Post = () => {
   const decoded = Utility.decodeUUID(id);
 
   const fetchPost = async () => {
-    console.log('Making request to ', `/api/getPost/${decoded}`);
     const res = await axios.get(`/api/getPost/${decoded}`);
     setPost(res.data);
   };
 
   useEffect(() => {
-    console.log('useEffect for id in param encoded: ', id, 'decoded', decoded);
-    console.log('useEffect for post Id:  ', post?.id);
     fetchPost();
   }, []);
 

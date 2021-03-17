@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
@@ -21,7 +21,7 @@ export default function Login(props) {
           if (res.data.success) {
             setUser(res.data.user);
             setAuth(true);
-            if (props.location.state != undefined) {
+            if (props.location.state !== undefined) {
               console.log('going to prev path');
               history.replace(props.location.state.prevPath);
             } else {
@@ -51,7 +51,7 @@ export default function Login(props) {
     >
       <div className="form">
         {user && user.username}
-        <h1 class="loginHeader">Login</h1>
+        <h1 className="loginHeader">Login</h1>
         <p className="error-msg">{errorMessage}</p>
 
         <div className="login-inputs">
@@ -84,7 +84,7 @@ export default function Login(props) {
           />
         </div>
 
-        <div class="btn-container">
+        <div className="btn-container">
           <button className="login-input-btn" onClick={handleSubmit}>
             Login
           </button>

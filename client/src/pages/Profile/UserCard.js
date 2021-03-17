@@ -35,7 +35,7 @@ const Following = (props) => {
                         <div className ="w-75">
                         <img className="img-fluid rounded m-0" 
                             src={props.person?.profilephoto ? props.person.profilephoto 
-                            : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" }>
+                            : "/null-user.png" }>
                         </img>
                         </div>
                     </div>

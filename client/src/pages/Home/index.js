@@ -30,6 +30,8 @@ export default function Home() {
     };
   }, [user]);
 
+  const handleSearch = () => {};
+
   return (
     <Fragment>
       <div>

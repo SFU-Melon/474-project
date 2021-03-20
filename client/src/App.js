@@ -1,16 +1,17 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Nav from './components/Nav';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import Profile from './pages/Profile';
-import Post from './pages/Post';
-import Plants from './pages/Plants';
-import Error from './pages/Error';
-import { UserProvider } from './contexts/UserContext';
-import ProtectedRoutes from './protected-routes/ProtectedRoutes';
-import { AuthProvider } from './contexts/AuthContext';
-import PublicProfile from './pages/Profile/PublicProfile';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Nav from "./components/Nav";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
+import Post from "./pages/Post";
+import Plants from "./pages/Plants";
+import Error from "./pages/Error";
+import { UserProvider } from "./contexts/UserContext";
+import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
+import { AuthProvider } from "./contexts/AuthContext";
+import PublicProfile from "./pages/Profile/PublicProfile";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -33,23 +34,24 @@ function App() {
                   exact
                   path="/profile/:username"
                   component={Profile}
-                  template={'accessibleAfterLogin'}
+                  template={"accessibleAfterLogin"}
                 />
                 <ProtectedRoutes
                   exact
                   path="/login"
                   component={Login}
-                  template={'accessibleBeforeLogin'}
+                  template={"accessibleBeforeLogin"}
                 />
                 <ProtectedRoutes
                   path="/signup"
                   exact
                   component={SignUp}
-                  template={'accessibleBeforeLogin'}
+                  template={"accessibleBeforeLogin"}
                 />
+                <Route path="/search" component={Search} />
                 <Route
                   path="*"
-                  component={() => <Error msg={'404 NOT FOUND'} />}
+                  component={() => <Error msg={"404 NOT FOUND"} />}
                 />
               </Switch>
             </div>

@@ -1,7 +1,8 @@
-import { Link, useLocation, useHistory } from 'react-router-dom';
-import { useUserContext } from '../contexts/UserContext';
-import { useAuthContext } from '../contexts/AuthContext';
-import axios from 'axios';
+import { Link, useLocation, useHistory } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
+import { useAuthContext } from "../contexts/AuthContext";
+import axios from "axios";
+import SearchBar from "./SearchBar";
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
@@ -12,11 +13,11 @@ const Nav = () => {
 
   const logout = async () => {
     try {
-      await axios.get('/api/logout');
+      await axios.get("/api/logout");
       setUser(null);
       setAuth(false);
       if (location === `/profile/${user.username}`) {
-        history.push('/');
+        history.push("/");
       } else {
         window.location.reload();
       }
@@ -26,10 +27,12 @@ const Nav = () => {
   };
 
   return (
-    <nav className="navbar d-flex " style={{ backgroundColor: '#ACC5AA' }}>
+    <nav className="navbar d-flex " style={{ backgroundColor: "#ACC5AA" }}>
       <Link className="navbar-brand ms-5 " to="/">
         plant
       </Link>
+
+      <SearchBar />
 
       <div className="me-5 ">
         <Link to="/plants" className="me-3">
@@ -60,8 +63,8 @@ const Nav = () => {
         ) : (
           [
             <Link
-              key={'login'}
-              to={{ pathname: '/login', state: { prevPath: location } }}
+              key={"login"}
+              to={{ pathname: "/login", state: { prevPath: location } }}
               className="me-3"
             >
               <button type="button" className="btn btn-outline-light">
@@ -69,7 +72,7 @@ const Nav = () => {
               </button>
             </Link>,
 
-            <Link key={'signup'} to="/signup">
+            <Link key={"signup"} to="/signup">
               <button type="button" className="btn btn-outline-light">
                 Sign Up
               </button>

@@ -19,7 +19,7 @@ export default function PostCard({ post }) {
       style={{ textDecoration: "none", color: "black" }}
     >
       <div className="post-card card flex-row p-3 m-2">
-        <div>
+        <div className="image ">
           {post.imageurl && (
             <img
               src={post.imageurl}
@@ -28,12 +28,12 @@ export default function PostCard({ post }) {
             />
           )}
         </div>
-        <div className="d-flex flex-column mt-1 justify-content-between">
+        <div className="d-flex flex-column justify-content-between">
           <div>
             <h2>{post.title}</h2>
             <p>{displayTime}</p>
           </div>
-          <div>
+          <div className="">
             <p className="">
               {post.location && "from"} {post.location}
             </p>

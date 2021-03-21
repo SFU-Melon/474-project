@@ -1,5 +1,9 @@
 .profile-card {
-  width: 80%;
-  height: auto;
-  object-fit: contain;
+  object-fit: cover;
+  width: 200px;
+  height: 150px;
+}
+
+.image {
+  margin-right: 4%;
 }

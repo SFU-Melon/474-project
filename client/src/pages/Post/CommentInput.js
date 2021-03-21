@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useUserContext } from '../../contexts/UserContext';
-import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from "react";
+import { useUserContext } from "../../contexts/UserContext";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 export default function CommentInput({ postId, setComments }) {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const { user } = useUserContext();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const CONTENT_MIN_LENGTH = 1;
 
   let location = useLocation().pathname;
@@ -14,7 +14,7 @@ export default function CommentInput({ postId, setComments }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
-      console.log('not validated');
+      console.log("not validated");
       return;
     }
     try {
@@ -26,11 +26,9 @@ export default function CommentInput({ postId, setComments }) {
         }
       );
       if (result.data.success) {
-        setContent('');
-        console.log('succeed in posting comment');
+        setContent("");
         result.data.comment.username = user.username;
         result.data.comment.profilephoto = user.profilephoto;
-        console.log(result.data.comment);
         setComments((prev) => [...prev, result.data.comment]);
       }
     } catch (err) {
@@ -40,10 +38,10 @@ export default function CommentInput({ postId, setComments }) {
 
   const validateForm = () => {
     if (!content || content.length < CONTENT_MIN_LENGTH) {
-      setErrorMessage('comment must be at least 1 characters.');
+      setErrorMessage("comment must be at least 1 characters.");
       return false;
     } else {
-      setErrorMessage('');
+      setErrorMessage("");
       return true;
     }
   };
@@ -55,7 +53,7 @@ export default function CommentInput({ postId, setComments }) {
           className="d-flex flex-column flex-wrap align-items-center  w-75"
           onSubmit={handleSubmit}
         >
-          <p className="control align-self-start" style={{ color: 'red' }}>
+          <p className="control align-self-start" style={{ color: "red" }}>
             {errorMessage}
           </p>
           <textarea
@@ -72,7 +70,7 @@ export default function CommentInput({ postId, setComments }) {
         </form>
       ) : (
         <div className="">
-          <Link to={{ pathname: '/login', state: { prevPath: location } }}>
+          <Link to={{ pathname: "/login", state: { prevPath: location } }}>
             <button type="button" className="btn btn-primary m-3">
               Login to Comment
             </button>

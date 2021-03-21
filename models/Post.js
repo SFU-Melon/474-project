@@ -3,19 +3,21 @@ const pool = require("../db");
 const Post = {};
 
 Post.create = async (data) => {
-  const {
-    dateTime,
-    location,
-    imageUrl,
-    content,
-    title,
-    numOfLikes,
-  } = data.body;
+  const { location, imageUrl, content, title } = data.body;
   const { userId } = data.params;
+  const { username: authorname } = data.user;
   try {
     const res = await pool.query(
-      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content) VALUES (to_timestamp($1),$2,$3,$4,$5,$6) RETURNING *",
-      [Date.now() / 1000.0, title, location, imageUrl, userId, content]
+      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7) RETURNING *",
+      [
+        Date.now() / 1000.0,
+        title,
+        location,
+        imageUrl,
+        userId,
+        content,
+        authorname,
+      ]
     );
     return res.rows[0];
   } catch (err) {
@@ -27,14 +29,11 @@ Post.getAllPosts = async (userId) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        //id, dateTime, title, content, location, imageUrl, numOfLikes, likes.val
-        "SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1",
+        "SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1",
         [userId]
       );
-      console.log(res.rows, " res.rows when user is defined");
       return res.rows;
     }
-    console.log("user is undefined");
     const res = await pool.query("SELECT * FROM posts");
     return res.rows;
   } catch (err) {
@@ -45,13 +44,11 @@ Post.getAllPosts = async (userId) => {
 Post.getAllPostsFromUserId = async (userId) => {
   try {
     if (userId != undefined) {
-      console.log(userId);
       const res = await pool.query("SELECT * FROM posts WHERE userId = $1", [
         userId,
       ]);
       return res.rows;
     }
-    console.log("user is undefined");
   } catch (err) {
     console.error(err.message);
   }
@@ -60,10 +57,9 @@ Post.getAllPostsFromUserId = async (userId) => {
 Post.getPostLikedNotOwned = async (userId) => {
   try {
     const res = await pool.query(
-      "SELECT * FROM likes L, posts P WHERE L.userid = $1 AND L.userid <> P.userid AND P.id = L.postid;",
+      "SELECT * FROM likes L, posts P WHERE L.userid = $1 AND L.userid <> P.userid AND P.id = L.postid AND L.val = 1",
       [userId]
     );
-    console.log(res.rows[0]);
     return res.rows;
   } catch (err) {
     console.error(err.message);
@@ -72,13 +68,11 @@ Post.getPostLikedNotOwned = async (userId) => {
 
 Post.getPostById = async ({ userId, postId }) => {
   try {
-    console.log(" userId ", userId, "postId", postId, " in Post.js");
     if (userId != undefined) {
       const res = await pool.query(
         "SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val  FROM posts LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 WHERE posts.id = $1",
         [postId, userId]
       );
-      console.log(res.rows[0], " res.rows when user is defined");
       return res.rows[0];
     }
     const res = await pool.query("SELECT * FROM posts WHERE id = $1", [postId]);
@@ -96,7 +90,6 @@ Post.checkVoteStatus = async (data) => {
       "SELECT * FROM likes WHERE userId = $1 AND postId = $2",
       [userId, postId]
     );
-    console.log(res.rows[0], "res object in checkVoteStatus Post modal");
     if (res.rows[0] == undefined) {
       return 0;
     }
@@ -157,7 +150,6 @@ Post.upVote = async (data) => {
       "INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *",
       [userId, postId, 1]
     );
-    console.log(res.rows[0]);
     return res.rows[0];
   } catch (err) {
     console.error(err.message);
@@ -217,7 +209,7 @@ Post.updateNumOfComments = async ({ change, postId }) => {
 Post.search = async (value, limit = 10) => {
   try {
     const res = await pool.query(
-      "SELECT id, datetime, title, imageurl, location, authorname, userid \
+      "SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments \
       FROM posts \
       WHERE document_with_weights @@ plainto_tsquery($1) \
       ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \

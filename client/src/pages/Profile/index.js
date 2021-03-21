@@ -23,7 +23,6 @@ const Profile = () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${user?.id}`);
       setUserPosts(res.data);
-      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -58,12 +57,14 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect in profile");
     fetchUserPosts();
     fetchUserLikedPosts();
     fetchFollowData();
+
+    console.log(followers);
+    console.log(followers);
+
     handleDate();
-    console.log(user);
   }, [user]);
 
   return (

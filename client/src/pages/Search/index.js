@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, Fragment } from "react";
-import PostCard from "../../components/PostCard";
-import PlantCard from "../../components/PlantCard";
+import ProfilePostCard from "../Profile/ProfilePostCard";
+import SmallPlantCard from "./SmallPlantCard";
 import UserCard from "../../components/UserCard";
 import { useLocation } from "react-router-dom";
 
@@ -39,7 +39,7 @@ export default function Search() {
       <div>
         <h3>Plant Section</h3>
         {plants.map((plant) => (
-          <PlantCard plant={plant} />
+          <SmallPlantCard plant={plant} />
         ))}
       </div>
     );
@@ -50,7 +50,7 @@ export default function Search() {
       <div>
         <h3>Post Section</h3>
         {posts.map((post) => (
-          <PostCard post={post} />
+          <ProfilePostCard post={post} />
         ))}
       </div>
     );

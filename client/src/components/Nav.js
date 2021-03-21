@@ -50,8 +50,6 @@ const Nav = () => {
                 Profile
               </button>
             </Link>
-
-            {console.log(location)}
             <button
               type="button"
               className="btn btn-outline-light"

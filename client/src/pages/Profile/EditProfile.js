@@ -1,183 +1,198 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 
-const EditProfile = (props) => {
-  const { user } = useUserContext();
-  const [fileType, setFileType] = useState('');
-  const [file, setFile] = useState(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [open, setOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const TITLE_MIN_LENGTH = 5;
+const EditProfile = () => {
+    const { user } = useUserContext();
 
-  // Handling modal open/close
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    //   const [dob, setDob] = useState(user?.dob);
 
-  // Handle change of target file
-  const handleChange = (e) => {
-    if (e.target.files[0]) {
-      const parts = e.target.files[0].name.split('.');
-      const type = parts[parts.length - 1];
-      setFile(e.target.files[0]);
-      setFileType(type);
+    const [open, setOpen] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    // Handling modal open/close
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
+
+    // Handle user info fields
+    const handleInfo = () => {
+        setFirstName(user ? user.fname : '')
+        setLastName(user ? user.lname : '')
+        setEmail(user ? user.email : '')
     }
-  };
 
-  // Send post data to database
-  const sendToDatabase = (imgUrl) => {
-    console.log('submitting post');
-    try {
-      axios
-        .post(`/api/createPost/${user.id}`, {
-          title: title,
-          content: description,
-          location: location,
-          imageUrl: imgUrl,
-        })
-        .then((res) => {
-          setTitle('');
-          setDescription('');
-          setLocation('');
-          setFile(null);
-          setFileType('');
-        });
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+    useEffect(() => {
+        handleInfo();
+        console.log(user);
+    }, [user]);
 
-  // Handle upload
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log('handling the upload');
-      if (file) {
-        try {
-          let res;
-          res = await axios.post('/api/postUpload', { fileType: fileType });
-          if (res.data.success) {
-            const signedRequest = res.data.signedRequest;
-            const res_url = res.data.url;
-            const options = {
-              headers: {
-                'Content-Type': fileType,
-              },
-            };
-            //uploading to s3 bucket
-            await axios.put(signedRequest, file, options);
-            console.log('Successfully uploaded.');
-            sendToDatabase(res_url);
+    // Send post data to database
+    const editUserInfo = async (e) => {
+        e.preventDefault();
+        if (validateForm()){
+            console.log('Updating user info');
+            try {
+                axios
+                    .post(`/api/editProfileInfo/${user.id}`, {
+                        fname: firstName,
+                        lname: lastName,
+                        email: email,
+                        // dob: dob,
+                    })
+                .then((res) => {
+                // setDob("");
+                });
+            } catch (err) {
+                console.error(err.message);
+            }
             onCloseModal();
-            setTimeout(() => window.location.reload(), 200);
-          }
-        } catch (err) {
-          console.log(err.message);
+            // setFirstName(firstName);
+            // setLastName(lastName);
+            // setEmail(email);
+            setTimeout(() => window.location.reload(), 400);
         }
-      } else {
-        sendToDatabase();
-        onCloseModal();
-        setTimeout(() => window.location.reload(), 200);
-      }
-    }
-  };
+    };
 
-  // Validate the form
-  const validateForm = () => {
-    if (title) {
-      if (title.length < TITLE_MIN_LENGTH) {
-        setErrorMessage('Title must be at least 5 characters.');
-        return false;
-      } else {
-        setErrorMessage('');
-        return true;
-      }
-    }
-    setErrorMessage('Please add a title to create a post.');
-    return false;
-  };
+    // Validate the form
+    const validateForm = () => {
+        let tempErr = {}
+        if (!firstName) {
+            tempErr.firstName = "First name is required.";
+        } 
+        else if (!/^[a-zA-Z ]{2,20}$/.test(firstName.trim())) {
+            tempErr.firstName = "First name is invalid.";
+        }
 
-  return (
-    <Fragment>
-      {/* Modal Trigger */}
-      {user ? (
-        <button type="button" className="form-control mb-3" onClick={onOpenModal}>
-          Edit Profile
-        </button>
-      ) : (
-        <Link to="/login">
-          <button type="button" className="form-control">
-            Create Post
-          </button>
-        </Link>
-      )}
+        if (!lastName) {
+            tempErr.lastName = "Last name is required.";
+        } 
+        else if (!/^[a-zA-Z ]{2,20}$/.test(lastName.trim())) {
+            tempErr.lastName = "Last name is invalid. ";
+        }
 
-      {/* Modal */}
-      <Modal
-        className="custom-modal"
-        open={open}
-        onClose={onCloseModal}
-        center
-        classNames={{
-          overlay: 'customOverlay',
-          modal: 'customModal',
-        }}
-      >
-        <div>
-          <h3 id="ModalTitle">Create Post</h3>
-          <div>
-            <form onSubmit={handleUpload}>
-              <div className="mb-2">
-                <p className="control" style={{ color: 'red' }}>
-                  {errorMessage}
-                </p>
-                <h6>Title</h6>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <h6>Description</h6>
-                <textarea
-                  type="text"
-                  className="form-control"
-                  rows="10"
-                  wrap="hard" //needed for line breaks
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <h6>Location</h6>
-              </div>
-              <div className="mb-3">
-                <h6>Image</h6>
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control"
-                  accept=".jpg,.jpeg,.png"
-                  onChange={handleChange}
-                />
-              </div>
-              <button type="submit" className="btn btn-success form-control">
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      </Modal>
-    </Fragment>
-  );
+        if (!email) {
+            tempErr.email = "Email is required.";
+        } 
+        else if (!/\S+@\S+\.\S+/.test(email)) {
+            tempErr.email = "Email address is invalid.";
+        }
+
+        // if (!dob) {
+        //     tempErr.dob = "Date of birth is required";
+        // } 
+        // else if (!/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-](19|20)\d\d$/.test(dob)) {
+        //     tempErr.dob = "Enter a valid date of birth";
+        // }
+
+        if(Object.keys(tempErr).length > 0){
+            setErrors(tempErr);
+            return false;
+        } else if (firstName === user.fname && lastName === user.lname && email === user.email){
+            tempErr.noChange = "No changes have been applied.";
+            setErrors(tempErr);
+            return false
+        } else {
+            setErrors({});
+            return true;
+        }
+    };
+
+    return (
+        <Fragment>
+        {/* Modal Trigger */}
+        {user ? (
+            <button type="button" className="form-control mb-3" onClick={onOpenModal}>
+            Edit Profile
+            </button>
+        ) : (
+            <Link to="/login">
+            <button type="button" className="form-control">
+                Create Post
+            </button>
+            </Link>
+        )}
+
+        {/* Modal */}
+        <Modal
+            className="custom-modal"
+            open={open}
+            onClose={onCloseModal}
+            center
+            classNames={{
+            overlay: 'customOverlay',
+            modal: 'customModal',
+            }}
+        >
+            <div>
+            <h3 id="ModalTitle">Edit Profile</h3>
+            <p className="control error">
+                {errors?.noChange}
+            </p>
+            <div>
+                <form onSubmit={editUserInfo}>
+                <div className="mb-2">
+                    <h6>First Name</h6>
+                    <input
+                    type="text"
+                    className="form-control"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    <p className="control error">
+                    {errors?.firstName}
+                    </p>
+                </div>
+                <div className="mb-2">
+                    <h6>Last Name</h6>
+                    <input
+                    type="text"
+                    className="form-control"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    />
+                    <p className="control error">
+                        {errors?.lastName}
+                    </p>
+                </div>
+                <div className="mb-2">
+                    <h6>Email</h6>
+                    <input
+                    type="text"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <p className="control error">
+                        {errors?.email}
+                    </p>
+                </div>
+                {/* <div className="mb-2">
+                    <h6>Date of Birth (DD/MM/YYYY)</h6>
+                    <input
+                    type="text"
+                    className="form-control"
+                    value={dob}
+                    onChange={(e) => setDob(e.target.value)}
+                    />
+                    <p className="control error">
+                        {errors?.dob}
+                    </p>
+                </div> */}
+                <button type="submit" className="btn btn-success form-control">
+                    Submit
+                </button>
+                </form>
+            </div>
+            </div>
+        </Modal>
+        </Fragment>
+    );
 };
 
 export default EditProfile;

@@ -33,6 +33,12 @@ router.post(
   userController.editProfilePhoto
 );
 
+router.post(
+  '/editProfileInfo/:userId', 
+  ensureAuthenticated, 
+  userController.editProfileInfo
+);
+
 /******  Post Routes ********/
 router.post(
   '/createPost/:userId',

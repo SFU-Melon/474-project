@@ -29,3 +29,7 @@
     background-image: none !important;
     height: 0px;
 }
+
+.error {
+    color:red;
+}

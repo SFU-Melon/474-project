@@ -32,7 +32,7 @@ const EditProfilePhoto = (props) => {
     try {
       axios
         .post(`/api/editProfilePhoto/${user.id}`, {
-          profileUrl: imgUrl,
+          profilePhotoUrl: imgUrl,
         })
         .then((res) => {
           setFile(null);
@@ -64,7 +64,7 @@ const EditProfilePhoto = (props) => {
             console.log('Successfully uploaded.');
             sendToDatabase(res_url);
             onCloseModal();
-            // setTimeout(() => window.location.reload(), 200);
+            setTimeout(() => window.location.reload(), 200);
           }
         } catch (err) {
           console.log(err.message);

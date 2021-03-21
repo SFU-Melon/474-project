@@ -133,14 +133,26 @@ User.getFollowersAndFollowingUsers = async (id) => {
   }
 };
 
-User.editProfilePhoto = async (userId, profileUrl) => {
-  console.log(userId);
-  console.log(profileUrl);
-  if (userId && profileUrl){
+User.editProfilePhoto = async (userId, profilePhotoUrl) => {
+  if (userId && profilePhotoUrl){
     try {
       const res = await pool.query(
         "UPDATE users SET profilephoto = $1 WHERE id = $2",
-        [ profileUrl , userId ]
+        [ profilePhotoUrl , userId ]
+      );
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+}
+
+User.editProfileInfo = async (userId, fname, lname, email) => {
+  console.log(fname);
+  if (userId && fname && lname && email){
+    try {
+      const res = await pool.query(
+        "UPDATE users SET fname = $1, lname = $2, email = $3  WHERE id = $4",
+        [ fname, lname, email , userId ]
       );
     } catch (err) {
       console.log(err.message);

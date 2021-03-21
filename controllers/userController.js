@@ -149,10 +149,18 @@ userController.getFollowersAndFollowingUsers = async (req, res) => {
 };
 
 userController.editProfilePhoto = async (req, res) => {
-  console.log("*************************************"+req.params);
   const {userId} = req.params;
-  const {profileUrl} = req.body;
-  const result = await User.editProfilePhoto(userId,profileUrl);
+  const {profilePhotoUrl} = req.body;
+  const result = await User.editProfilePhoto(userId, profilePhotoUrl);
+  return res.json({
+    success: result,
+  });
+};
+
+userController.editProfileInfo = async (req, res) => {
+  const {userId} = req.params;
+  const {fname, lname, email} = req.body;
+  const result = await User.editProfileInfo(userId, fname, lname, email);
   return res.json({
     success: result,
   });

@@ -15,8 +15,6 @@ const Following = (props) => {
     const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
     setDaysAgo(diffDays);
     setMonthsAgo(diffMonths);
-    console.log(daysAgo)
-    console.log(monthsAgo)
   };
 
   const handleDisplayDate = () => {

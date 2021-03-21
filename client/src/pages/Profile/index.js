@@ -113,14 +113,14 @@ const Profile = () => {
                 <strong>Date of Birth:</strong> {dateOfBirth}
               </p>
             </div>
-            <div className="container m-2 p-3">
+            {/* <div className="container m-2 p-3">
               <h5 className="card-title">Highlights</h5>
               <hr className="w-100"></hr>
               <p>
                 Thinking about adding images of most liked posts by the user
                 here or posts they like with the most traffic. Maybe commments.
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="d-flex flex-column mx-3 w-75">
             <div className="card-body">

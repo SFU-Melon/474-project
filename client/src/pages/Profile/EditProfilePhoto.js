@@ -1,17 +1,17 @@
-import React, { Fragment, useState } from 'react';
-import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
-import './style.css';
+import React, { Fragment, useState } from "react";
+import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import "./style.css";
 
 const EditProfilePhoto = (props) => {
   const { user } = useUserContext();
-  const [fileType, setFileType] = useState('');
+  const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Handling modal open/close
   const onOpenModal = () => setOpen(true);
@@ -20,7 +20,7 @@ const EditProfilePhoto = (props) => {
   // Handle change of target file
   const handleChange = (e) => {
     if (e.target.files[0]) {
-      const parts = e.target.files[0].name.split('.');
+      const parts = e.target.files[0].name.split(".");
       const type = parts[parts.length - 1];
       setFile(e.target.files[0]);
       setFileType(type);
@@ -36,7 +36,7 @@ const EditProfilePhoto = (props) => {
         })
         .then((res) => {
           setFile(null);
-          setFileType('');
+          setFileType("");
         });
     } catch (err) {
       console.error(err.message);
@@ -47,21 +47,19 @@ const EditProfilePhoto = (props) => {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-        console.log('handling the upload');
         try {
           let res;
-          res = await axios.post('/api/profileUpload', { fileType: fileType });
+          res = await axios.post("/api/profileUpload", { fileType: fileType });
           if (res.data.success) {
             const signedRequest = res.data.signedRequest;
             const res_url = res.data.url;
             const options = {
               headers: {
-                'Content-Type': fileType,
+                "Content-Type": fileType,
               },
             };
             //uploading to s3 bucket
             await axios.put(signedRequest, file, options);
-            console.log('Successfully uploaded.');
             sendToDatabase(res_url);
             onCloseModal();
             setTimeout(() => window.location.reload(), 200);
@@ -104,15 +102,15 @@ const EditProfilePhoto = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: 'customOverlay',
-          modal: 'customModal',
+          overlay: "customOverlay",
+          modal: "customModal",
         }}
       >
         <div>
           <h3 id="ModalTitle">Update Profile Photo</h3>
           <div>
             <form onSubmit={handleUpload}>
-                <p className="control" style={{ color: 'red' }}>
+                <p className="control" style={{ color: "red" }}>
                   {errorMessage}
                 </p>
               <div className="mb-3">

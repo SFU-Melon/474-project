@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
+import React, { Fragment, useEffect, useState } from "react";
+import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
 
 const EditProfile = () => {
     const { user } = useUserContext();
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     //   const [dob, setDob] = useState(user?.dob);
 
     const [open, setOpen] = useState(false);
@@ -22,21 +22,20 @@ const EditProfile = () => {
 
     // Handle user info fields
     const handleInfo = () => {
-        setFirstName(user ? user.fname : '')
-        setLastName(user ? user.lname : '')
-        setEmail(user ? user.email : '')
+        setFirstName(user ? user.fname : "")
+        setLastName(user ? user.lname : "")
+        setEmail(user ? user.email : "")
     }
 
     useEffect(() => {
         handleInfo();
-        console.log(user);
     }, [user]);
 
     // Send post data to database
     const editUserInfo = async (e) => {
         e.preventDefault();
         if (validateForm()){
-            console.log('Updating user info');
+            console.log("Updating user info");
             try {
                 axios
                     .post(`/api/editProfileInfo/${user.id}`, {
@@ -125,8 +124,8 @@ const EditProfile = () => {
             onClose={onCloseModal}
             center
             classNames={{
-            overlay: 'customOverlay',
-            modal: 'customModal',
+            overlay: "customOverlay",
+            modal: "customModal",
             }}
         >
             <div>

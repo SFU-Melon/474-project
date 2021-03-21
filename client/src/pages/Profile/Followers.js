@@ -40,11 +40,11 @@ const Followers = (props) => {
                 <p className="text-center">No Followers Yet</p>
               </div>
             ) : 
-            (
+            
               props.followers?.map( (item, i) => (
                 <UserCard key={i} person={item} />
               ))
-            )}
+            }
           </div>
         </div>
       </Modal>

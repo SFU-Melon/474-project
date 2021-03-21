@@ -144,7 +144,7 @@ userController.getFollowersAndFollowingUsers = async (req, res) => {
   return res.json({
     success: true,
     followers: result?.followers,
-    following: result?.following
+    following: result?.following,
   });
 };
 

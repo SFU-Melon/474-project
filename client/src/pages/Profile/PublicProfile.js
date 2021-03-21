@@ -145,6 +145,7 @@ const PublicProfile = () => {
               <ProfileTabs
                 userLikedPosts={userLikedPosts}
                 userPosts={userPosts}
+                username={profileUser?.username}
               />
             </div>
           </div>

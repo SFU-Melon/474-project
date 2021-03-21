@@ -3,19 +3,21 @@ const pool = require("../db");
 const Post = {};
 
 Post.create = async (data) => {
-  const {
-    dateTime,
-    location,
-    imageUrl,
-    content,
-    title,
-    numOfLikes,
-  } = data.body;
+  const { location, imageUrl, content, title } = data.body;
   const { userId } = data.params;
+  const { username: authorname } = data.user;
   try {
     const res = await pool.query(
-      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content) VALUES (to_timestamp($1),$2,$3,$4,$5,$6) RETURNING *",
-      [Date.now() / 1000.0, title, location, imageUrl, userId, content]
+      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7) RETURNING *",
+      [
+        Date.now() / 1000.0,
+        title,
+        location,
+        imageUrl,
+        userId,
+        content,
+        authorname,
+      ]
     );
     return res.rows[0];
   } catch (err) {
@@ -27,7 +29,7 @@ Post.getAllPosts = async (userId) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        "SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1",
+        "SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1",
         [userId]
       );
       return res.rows;

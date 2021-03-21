@@ -1,7 +1,7 @@
-import Vote from "./Vote";
+import Vote from "../../components/Vote";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Utility from "../utils";
+import Utility from "../../utils";
 import "./PostCard.css";
 
 export default function PostCard({ post }) {
@@ -39,7 +39,12 @@ export default function PostCard({ post }) {
           <p>{displayTime}</p>
           <div className="d-flex flex-row justify-content-between">
             <p>
-              Posted by {post.authorname} (Author Name){" "}
+              Posted by{" "}
+              <span>
+                <Link to={`profile/public/${post.authorname}`}>
+                  {post.authorname}
+                </Link>
+              </span>{" "}
               {post.location && "from"} {post.location}
             </p>
           </div>

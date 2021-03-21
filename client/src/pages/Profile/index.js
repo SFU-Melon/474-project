@@ -60,6 +60,10 @@ const Profile = () => {
     fetchUserPosts();
     fetchUserLikedPosts();
     fetchFollowData();
+
+    console.log(followers);
+    console.log(followers);
+
     handleDate();
   }, [user]);
 

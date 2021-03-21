@@ -135,4 +135,21 @@ User.getFollowersAndFollowingUsers = async (id) => {
   }
 };
 
+User.search = async (value, limit = 10) => {
+  try {
+    const res = await pool.query(
+      "SELECT id, username, joindate, profilephoto \
+      FROM users \
+      WHERE document_with_weights @@ plainto_tsquery($1) \
+      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \
+      LIMIT $2",
+      [value, limit]
+    );
+    return res.rows;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
 module.exports = User;

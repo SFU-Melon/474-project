@@ -19,7 +19,11 @@ export default function Search() {
   const runSearch = async () => {
     console.log("SEARCHING!");
     const res = await axios.get(`/api/search/${scope}/${value}`);
-    console.log(res.data.posts);
+    if (res.data.success) {
+      res.data.posts && setPosts(res.data.posts);
+      res.data.users && setUsers(res.data.users);
+      res.data.plants && setPlants(res.data.plants);
+    }
   };
 
   useEffect(() => {

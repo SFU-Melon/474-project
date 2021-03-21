@@ -214,13 +214,16 @@ Post.updateNumOfComments = async ({ change, postId }) => {
   }
 };
 
-Post.search = async (value) => {
+Post.search = async (value, limit = 10) => {
   try {
     const res = await pool.query(
-      "SELECT id, datetime, title, imageurl, location, authorname, userid FROM posts WHERE document_with_idx @@ plainto_tsquery($1) ORDER BY ts_rank(document_with_idx, plainto_tsquery($1)) DESC LIMIT 10",
-      [value]
+      "SELECT id, datetime, title, imageurl, location, authorname, userid \
+      FROM posts \
+      WHERE document_with_weights @@ plainto_tsquery($1) \
+      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \
+      LIMIT $2",
+      [value, limit]
     );
-    console.log(res.rows);
     return res.rows;
   } catch (err) {
     console.log(err.mesage);

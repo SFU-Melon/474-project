@@ -3,19 +3,26 @@ import { useUserContext } from "../../contexts/UserContext";
 
 const Following = (props) => {
   const { user } = useUserContext();
-  const [monthsAgo, setMonthsAgo] = useState("");
-  const [daysAgo, setDaysAgo] = useState("");
+  const [monthsAgo, setMonthsAgo] = useState(0);
+  const [daysAgo, setDaysAgo] = useState(0);
   const [displayDate, setDisplayText] = useState("");
 
   const handleProps = () => {
-    setMonthsAgo(new Date().getMonth() - new Date(props.person.joindate).getMonth());
-    setDaysAgo(new Date().getDay() - new Date(props.person.joindate).getDay());
+    const date1 = new Date();
+    const date2 = new Date(props?.person.joindate);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
+    setDaysAgo(diffDays);
+    setMonthsAgo(diffMonths);
+    console.log(daysAgo)
+    console.log(monthsAgo)
   };
 
   const handleDisplayDate = () => {
-    if (monthsAgo >= 1) {
+    if (monthsAgo > 1) {
       setDisplayText("Joined " + monthsAgo + " months ago");
-    } else if (daysAgo >= 1) {
+    } else if (daysAgo > 1) {
       setDisplayText("Joined " + daysAgo + " days ago");
     } else {
       setDisplayText("Joined today");
@@ -25,7 +32,7 @@ const Following = (props) => {
   useEffect(() => {
     handleProps();
     handleDisplayDate();
-  }, []);
+  });
 
   return (
     <Fragment>

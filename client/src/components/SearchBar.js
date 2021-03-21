@@ -8,8 +8,10 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 
 const SearchBar = (props) => {
   let history = useHistory();
+  const query = new URLSearchParams(useLocation().search);
+  const qscope = query.get("scope");
   const [value, setValue] = useState("");
-  const [scope, setScope] = useState("posts");
+  const [scope, setScope] = useState(qscope ? qscope : "posts");
 
   const handleSearch = (e) => {
     if (value && e.key === "Enter") {

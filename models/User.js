@@ -117,12 +117,12 @@ User.getFollowersAndFollowingUsers = async (id) => {
     console.log(id);
     // get followers
     const followers = await pool.query(
-      "SELECT id, username FROM users WHERE users.id IN (SELECT user1 FROM followers WHERE user2 = $1)",
+      "SELECT id, username, joindate, profilephoto FROM users WHERE users.id IN (SELECT user1 FROM followers WHERE user2 = $1)",
       [id]
     );
     // get following
     const following = await pool.query(
-      "SELECT id, username FROM users WHERE users.id IN (SELECT user2 FROM followers WHERE user1 = $1)",
+      "SELECT id, username, joindate, profilephoto FROM users WHERE users.id IN (SELECT user2 FROM followers WHERE user1 = $1)",
       [id]
     );
 

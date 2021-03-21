@@ -12,13 +12,14 @@ const Following = (props) => {
       new Date().getMonth() - new Date(props.person.joindate).getMonth()
     );
     setDaysAgo(new Date().getDay() - new Date(props.person.joindate).getDay());
+    console.log(props);
   };
 
   const handleDisplayDate = () => {
-    if (monthsAgo >= 2) {
+    if (monthsAgo >= 1) {
       setDisplayText("Joined " + monthsAgo + " months ago");
-    } else if (daysAgo >= 2) {
-      setDisplayText("Joined " + monthsAgo + " days ago");
+    } else if (daysAgo >= 1) {
+      setDisplayText("Joined " + daysAgo + " days ago");
     } else {
       setDisplayText("Joined today");
     }

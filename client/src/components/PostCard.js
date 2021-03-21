@@ -1,11 +1,11 @@
-import Vote from './Vote';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Utility from '../utils';
-import './PostCard.css';
+import Vote from "./Vote";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Utility from "../utils";
+import "./PostCard.css";
 
 export default function PostCard({ post }) {
-  const [displayTime, setDisplayTime] = useState('');
+  const [displayTime, setDisplayTime] = useState("");
   const encoded = Utility.encodeUUID(post.id);
   const encodedTitle = encodeURIComponent(post.title);
 
@@ -16,7 +16,6 @@ export default function PostCard({ post }) {
 
   return (
     <div className="post-card card flex-row p-3 m-2">
-      {console.log('post id is ', post.id)}
       <Vote
         postId={post.id}
         numOfLikes={post.numoflikes}
@@ -25,7 +24,7 @@ export default function PostCard({ post }) {
       <div>
         <Link
           to={`/post/${encodedTitle}/${encoded}`}
-          style={{ textDecoration: 'none', color: 'black' }}
+          style={{ textDecoration: "none", color: "black" }}
         >
           <h2>{post.title}</h2>
           <div>
@@ -40,14 +39,14 @@ export default function PostCard({ post }) {
           <p>{displayTime}</p>
           <div className="d-flex flex-row justify-content-between">
             <p>
-              Posted by {post.authorname} (Author Name){' '}
-              {post.location && 'from'} {post.location}
+              Posted by {post.authorname} (Author Name){" "}
+              {post.location && "from"} {post.location}
             </p>
           </div>
           <div>
             <h4>
               {post.numofcomments}
-              {' comment(s)'}
+              {" comment(s)"}
             </h4>
           </div>
         </Link>

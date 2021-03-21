@@ -32,7 +32,6 @@ userController.login = (req, res, next) => {
 
 /***** Assuming data is validated from client *****/
 userController.signup = async (req, res) => {
-  console.log(req.body);
   const { username, password, fname, lname, dob, email } = req.body.values;
   const { profileUrl } = req.body;
   const date = parse(dob, "dd/MM/yyyy", new Date());
@@ -99,7 +98,6 @@ userController.getAllUsers = async (req, res) => {
 userController.getUserById = async (req, res) => {
   const { id } = req.params;
   const result = await User.getUserById(id);
-  console.log(result);
   return res.json({
     success: result,
   });
@@ -108,7 +106,6 @@ userController.getUserById = async (req, res) => {
 userController.getUserByUsername = async (req, res) => {
   const { username } = req.params;
   const result = await User.getUserByUsername(username);
-  console.log(result);
   return res.json({
     success: result,
   });

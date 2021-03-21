@@ -26,7 +26,6 @@ const PublicProfile = () => {
   const fetchProfileUser = async () => {
     try {
       const res = await axios.get(`/api/getUserByUsername/${username}`);
-      console.log(res.data);
       setProfileUser(res.data.success);
     } catch (err) {
       console.log(err);
@@ -37,7 +36,6 @@ const PublicProfile = () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${profileUser?.id}`);
       setUserPosts(res.data);
-      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -74,7 +72,6 @@ const PublicProfile = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect in profile");
     fetchProfileUser();
   }, []);
 

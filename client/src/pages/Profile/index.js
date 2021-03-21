@@ -58,12 +58,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect in profile");
     fetchUserPosts();
     fetchUserLikedPosts();
     fetchFollowData();
     handleDate();
-    console.log(user);
   }, [user]);
 
   return (

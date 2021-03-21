@@ -24,7 +24,6 @@ export default function Home() {
     fetchAllPosts().then((fetched_posts) => {
       if (isMounted) setAllPosts(fetched_posts);
     });
-    console.log("useEffect in home");
     return () => {
       isMounted = false;
     };

@@ -10,7 +10,6 @@ export default function AllUsers() {
     fetchUsers().then((fetched_users) => {
       if (isMounted) setUsers(fetched_users);
     });
-    console.log("useEffect in home");
     return () => {
       isMounted = false;
     };

@@ -19,7 +19,7 @@ export default function Search() {
   const runSearch = async () => {
     console.log("SEARCHING!");
     const res = await axios.get(`/api/search/${scope}/${value}`);
-    console.log(res.data);
+    console.log(res.data.posts);
   };
 
   useEffect(() => {

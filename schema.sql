@@ -42,6 +42,41 @@ CREATE TABLE posts(
         ON DELETE CASCADE
 );
 
+/** Config for Search **/
+/** Step 1: **/
+ALTER TABLE posts
+  ADD COLUMN document_with_idx tsvector;
+update posts
+set document_with_idx = to_tsvector(title || ' ' || coalesce(authorname, '') || ' ' || coalesce(content, '') || ' ' || coalesce(location, ''));
+CREATE INDEX post_document_idx
+  ON posts
+  USING GIN (document_with_idx);
+
+/** Step 2: **/
+CREATE FUNCTION post_tsvector_trigger() RETURNS trigger AS $$
+begin
+  NEW.document_with_idx :=
+  to_tsvector(NEW.title || ' ' || coalesce(NEW.authorname, '') || ' ' || coalesce(NEW.content, '') || ' ' || coalesce(NEW.location, ''));
+  return new;
+end
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER post_tsvector_update BEFORE INSERT OR UPDATE
+    ON posts FOR EACH ROW EXECUTE PROCEDURE post_tsvector_trigger();
+
+
+
+/** End Search **/
+
+/** Resetting Search Config **/
+DROP INDEX post_document_idx;
+ALTER TABLE posts
+    DROP COLUMN document_with_idx;
+DROP TRIGGER post_tsvector_update ON posts;
+DROP FUNCTION post_tsvector_trigger;
+
+/** End Resetting Search Config **/
+
 CREATE TABLE likes(
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
@@ -110,6 +145,18 @@ CREATE TABLE saves(
         ON DELETE CASCADE,
     PRIMARY KEY(userId, postId)
 );
+
+/*** For testing ***/
+
+/* Delete all rows inside users table */
+DELETE FROM users;
+/* See all rows inside users table */
+SELECT * FROM users;
+
+/* Selecting content and numOflikes from posts table */
+SELECT content, numOfLikes FROM posts;
+/* Insert user into users */
+INSERT INTO users VALUES (uuid_generate_v4(), 'artunzPlantz3', 'password123', 'Artun', 'Cimensel', '1992-12-22', 'artuns3fakeemail@gmail.com', '2008-01-01 00:00:01', NULL);
 
 
 /* Insert tagged */
@@ -506,15 +553,3 @@ Most peppers, except for a few varieties like Sweet Banana, are green when young
     NULL
 );
 
-
-/*** For testing ***/
-
-/* Delete all rows inside users table */
-DELETE FROM users;
-/* See all rows inside users table */
-SELECT * FROM users;
-
-/* Selecting content and numOflikes from posts table */
-SELECT content, numOfLikes FROM posts;
-/* Insert user into users */
-INSERT INTO users VALUES (uuid_generate_v4(), 'artunzPlantz3', 'password123', 'Artun', 'Cimensel', '1992-12-22', 'artuns3fakeemail@gmail.com', '2008-01-01 00:00:01', NULL);

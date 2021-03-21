@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useUserContext } from "../../contexts/UserContext";
 import { useEffect, useState, Fragment } from "react";
-import PostCard from "../../components/PostCard";
+import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";
 import AllUsers from "./AllUsers";
 
@@ -24,7 +24,6 @@ export default function Home() {
     fetchAllPosts().then((fetched_posts) => {
       if (isMounted) setAllPosts(fetched_posts);
     });
-    console.log("useEffect in home");
     return () => {
       isMounted = false;
     };

@@ -51,7 +51,6 @@ const useForm = (callback, validateInfo) => {
             };
             //uploading to s3 bucket
             axios.put(signedRequest, file, options).then(() => {
-              console.log("Successfully uploaded.");
               axios
                 .post("/api/signup", { values, profileUrl: res_url })
                 .then((res) => {

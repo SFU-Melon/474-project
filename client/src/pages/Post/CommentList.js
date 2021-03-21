@@ -13,7 +13,6 @@ export default function CommentList({ postId, comments, setComments }) {
         `/api/deleteComment/${postId}/${commentId}`
       );
       if (res.data.success) {
-        console.log("deleted!");
         setComments(comments.filter((comment) => comment.id !== commentId));
       }
     } catch (err) {

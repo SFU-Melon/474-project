@@ -1,21 +1,21 @@
-import React, { Fragment, useState } from 'react';
-import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
-import { Modal } from 'react-responsive-modal';
-import SearchInputLocation from './SearchInputLocation';
-import 'react-responsive-modal/styles.css';
-import './style.css';
+import React, { Fragment, useState } from "react";
+import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
+import { Modal } from "react-responsive-modal";
+import SearchInputLocation from "./SearchInputLocation";
+import "react-responsive-modal/styles.css";
+import "./style.css";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
-  const [fileType, setFileType] = useState('');
+  const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
   const [open, setOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const TITLE_MIN_LENGTH = 5;
 
   // Handling modal open/close
@@ -25,7 +25,7 @@ const CreatePost = (props) => {
   // Handle change of target file
   const handleChange = (e) => {
     if (e.target.files[0]) {
-      const parts = e.target.files[0].name.split('.');
+      const parts = e.target.files[0].name.split(".");
       const type = parts[parts.length - 1];
       setFile(e.target.files[0]);
       setFileType(type);
@@ -34,7 +34,6 @@ const CreatePost = (props) => {
 
   // Send post data to database
   const sendToDatabase = (imgUrl) => {
-    console.log('submitting post');
     try {
       axios
         .post(`/api/createPost/${user.id}`, {
@@ -44,11 +43,11 @@ const CreatePost = (props) => {
           imageUrl: imgUrl,
         })
         .then((res) => {
-          setTitle('');
-          setDescription('');
-          setLocation('');
+          setTitle("");
+          setDescription("");
+          setLocation("");
           setFile(null);
-          setFileType('');
+          setFileType("");
         });
     } catch (err) {
       console.error(err.message);
@@ -59,22 +58,20 @@ const CreatePost = (props) => {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('handling the upload');
       if (file) {
         try {
           let res;
-          res = await axios.post('/api/postUpload', { fileType: fileType });
+          res = await axios.post("/api/postUpload", { fileType: fileType });
           if (res.data.success) {
             const signedRequest = res.data.signedRequest;
             const res_url = res.data.url;
             const options = {
               headers: {
-                'Content-Type': fileType,
+                "Content-Type": fileType,
               },
             };
             //uploading to s3 bucket
             await axios.put(signedRequest, file, options);
-            console.log('Successfully uploaded.');
             sendToDatabase(res_url);
             onCloseModal();
             setTimeout(() => window.location.reload(), 200);
@@ -94,14 +91,14 @@ const CreatePost = (props) => {
   const validateForm = () => {
     if (title) {
       if (title.length < TITLE_MIN_LENGTH) {
-        setErrorMessage('Title must be at least 5 characters.');
+        setErrorMessage("Title must be at least 5 characters.");
         return false;
       } else {
-        setErrorMessage('');
+        setErrorMessage("");
         return true;
       }
     }
-    setErrorMessage('Please add a title to create a post.');
+    setErrorMessage("Please add a title to create a post.");
     return false;
   };
 
@@ -127,8 +124,8 @@ const CreatePost = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: 'customOverlay',
-          modal: 'customModal',
+          overlay: "customOverlay",
+          modal: "customModal",
         }}
       >
         <div>
@@ -136,7 +133,7 @@ const CreatePost = (props) => {
           <div>
             <form onSubmit={handleUpload}>
               <div className="mb-2">
-                <p className="control" style={{ color: 'red' }}>
+                <p className="control" style={{ color: "red" }}>
                   {errorMessage}
                 </p>
                 <h6>Title</h6>

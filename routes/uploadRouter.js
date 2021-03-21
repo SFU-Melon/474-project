@@ -34,7 +34,6 @@ getPreSignedRequest = async (req, res, bucketName) => {
       console.log(err);
       res.json({ success: false, error: err });
     }
-    console.log(data);
     res.json({
       success: true,
       signedRequest: data,

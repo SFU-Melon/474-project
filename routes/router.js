@@ -26,6 +26,13 @@ router.get(
 router.post('/follows', userController.follows);
 router.post('/unfollows', userController.unfollows);
 
+/******  User Edit Routes ********/
+router.post(
+  '/editProfilePhoto/:userId', 
+  ensureAuthenticated, 
+  userController.editProfilePhoto
+);
+
 /******  Post Routes ********/
 router.post(
   '/createPost/:userId',

@@ -8,11 +8,8 @@ const Following = (props) => {
   const [displayDate, setDisplayText] = useState("");
 
   const handleProps = () => {
-    setMonthsAgo(
-      new Date().getMonth() - new Date(props.person.joindate).getMonth()
-    );
+    setMonthsAgo(new Date().getMonth() - new Date(props.person.joindate).getMonth());
     setDaysAgo(new Date().getDay() - new Date(props.person.joindate).getDay());
-    console.log(props);
   };
 
   const handleDisplayDate = () => {
@@ -63,6 +60,7 @@ const Following = (props) => {
       </a>
     </Fragment>
   );
+  
 };
 
 export default Following;

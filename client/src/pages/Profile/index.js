@@ -4,6 +4,8 @@ import { useUserContext } from "../../contexts/UserContext";
 import FollowButton from "../../components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
+import EditProfile from "./EditProfile";
+import EditProfilePhoto from "./EditProfilePhoto";
 
 import ProfileTabs from "./ProfileTabs";
 
@@ -62,10 +64,6 @@ const Profile = () => {
     fetchUserPosts();
     fetchUserLikedPosts();
     fetchFollowData();
-
-    console.log(followers);
-    console.log(followers);
-
     handleDate();
     console.log(user);
   }, [user]);
@@ -82,6 +80,8 @@ const Profile = () => {
               ></img>
             </div>
             <div className="container m-2 p-3">
+              <EditProfilePhoto/>
+              <EditProfile/>
               <h5 className="card-title">{user?.username}</h5>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1">

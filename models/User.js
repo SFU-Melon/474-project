@@ -1,7 +1,5 @@
 const pool = require("../db");
-
 const User = {};
-
 User.save = async (data) => {
   const { username, hashed, fname, lname, dobFinal, email, profileUrl } = data;
   if (username && hashed && fname && lname && dobFinal && email) {
@@ -135,4 +133,18 @@ User.getFollowersAndFollowingUsers = async (id) => {
   }
 };
 
+User.editProfilePhoto = async (userId, profileUrl) => {
+  console.log(userId);
+  console.log(profileUrl);
+  if (userId && profileUrl){
+    try {
+      const res = await pool.query(
+        "UPDATE users SET profilephoto = $1 WHERE id = $2",
+        [ profileUrl , userId ]
+      );
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+}
 module.exports = User;

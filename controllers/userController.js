@@ -143,8 +143,19 @@ userController.getFollowersAndFollowingUsers = async (req, res) => {
   const result = await User.getFollowersAndFollowingUsers(userId);
   return res.json({
     success: true,
-    followers: result.followers,
-    following: result.following,
+    followers: result?.followers,
+    following: result?.following
   });
 };
+
+userController.editProfilePhoto = async (req, res) => {
+  console.log("*************************************"+req.params);
+  const {userId} = req.params;
+  const {profileUrl} = req.body;
+  const result = await User.editProfilePhoto(userId,profileUrl);
+  return res.json({
+    success: result,
+  });
+};
+
 module.exports = userController;

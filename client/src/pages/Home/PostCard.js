@@ -1,4 +1,4 @@
-import Vote from "../../components/Vote";
+import Vote from "@components/Vote";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Utility from "../../utils";

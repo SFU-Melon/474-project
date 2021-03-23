@@ -1,6 +1,6 @@
 import { Route, Redirect } from "react-router-dom";
-import { useAuthContext } from "../contexts/AuthContext";
-import { useUserContext } from "../contexts/UserContext";
+import { useAuthContext } from "@contexts/AuthContext";
+import { useUserContext } from "@contexts/UserContext";
 import Error from "../pages/Error";
 
 export default function ProtectedRoutes({

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from "@contexts/UserContext";
 import { useEffect, useState, Fragment } from "react";
 import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";

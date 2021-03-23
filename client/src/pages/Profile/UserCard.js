@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from "@contexts/UserContext";
 
 const Following = (props) => {
   const { user } = useUserContext();

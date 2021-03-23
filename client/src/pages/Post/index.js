@@ -1,12 +1,12 @@
-import { useParams } from 'react-router-dom';
-import { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import Utility from '../../utils';
+import { useParams } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import axios from "axios";
+import Utility from "../../utils";
 
 // Components
-import Vote from '../../components/Vote';
-import CommentList from './CommentList';
-import CommentInput from './CommentInput';
+import Vote from "@components/Vote";
+import CommentList from "./CommentList";
+import CommentInput from "./CommentInput";
 
 const Post = () => {
   const [comments, setComments] = useState([]);

@@ -107,7 +107,7 @@ const Profile = () => {
                 <strong>Email:</strong> {user?.email}
               </p>
               <p>
-                <strong>Join:</strong> {joinDate}
+                <strong>Join Date:</strong> {joinDate}
               </p>
               <p>
                 <strong>Date of Birth:</strong> {dateOfBirth}

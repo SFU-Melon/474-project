@@ -5,14 +5,21 @@ import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";
 import AllUsers from "./AllUsers";
 import SearchFilter from "@components/SearchFilter";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
+  let location = useLocation();
+  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
   const { user } = useUserContext();
   const [allPosts, setAllPosts] = useState([]);
 
   const fetchAllPosts = async (isMounted) => {
     try {
-      const res = await axios.get("/api/getAllPosts");
+      const res = await axios.get("/api/getAllPosts", {
+        params: {
+          filterType,
+        },
+      });
       //setAllPosts(res.data);
       return res.data;
     } catch (err) {
@@ -28,9 +35,7 @@ export default function Home() {
     return () => {
       isMounted = false;
     };
-  }, [user]);
-
-  const handleSearch = () => {};
+  }, [user, location]);
 
   return (
     <Fragment>
@@ -39,6 +44,7 @@ export default function Home() {
           <div className="row">
             <div className="col col-md-10">
               <SearchFilter />
+              {console.log(location, "location in HOME")}
               <div className="d-flex justify-content-start m-2 mt-4">
                 <CreatePost />
               </div>

@@ -25,23 +25,29 @@ Post.create = async (data) => {
   }
 };
 
-Post.getAllPosts = async (userId) => {
+Post.getAllPosts = async ({ filterType, userId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        "SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1",
+        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 ORDER BY ${
+          filterType === "hot" ? "numoflikes" : "dateTime"
+        } DESC`,
         [userId]
       );
       return res.rows;
     }
-    const res = await pool.query("SELECT * FROM posts");
+    const res = await pool.query(
+      `SELECT * FROM posts ORDER BY ${
+        filterType === "hot" ? "numoflikes" : "dateTime"
+      } DESC`
+    );
     return res.rows;
   } catch (err) {
     console.error(err.message);
   }
 };
 
-Post.getAllPostsFromUserId = async (userId) => {
+Post.getAllPostsFromUserId = async ({ userId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query("SELECT * FROM posts WHERE userId = $1", [
@@ -206,14 +212,16 @@ Post.updateNumOfComments = async ({ change, postId }) => {
   }
 };
 
-Post.search = async (value, limit = 10) => {
+Post.search = async ({ filterType, value }, limit = 10) => {
   try {
     const res = await pool.query(
-      "SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments \
+      `SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments \
       FROM posts \
       WHERE document_with_weights @@ plainto_tsquery($1) \
-      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \
-      LIMIT $2",
+      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC, ${
+        filterType === "hot" ? "numoflikes" : "dateTime"
+      } DESC\
+      LIMIT $2`,
       [value, limit]
     );
     return res.rows;

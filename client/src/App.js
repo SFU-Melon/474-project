@@ -25,11 +25,14 @@ function App() {
                 <Route exact path="/post/:title/:id" component={Post} />
                 <Route exact path="/plants" component={Plants} />
                 <Route exact path="/" component={Home} />
+                <Route exact path="/hot" component={Home} />
+                <Route exact path="/new" component={Home} />
                 <Route
                   exact
                   path="/profile/public/:username"
                   component={PublicProfile}
                 />
+                `
                 <ProtectedRoutes
                   exact
                   path="/profile/:username"

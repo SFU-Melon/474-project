@@ -5,8 +5,10 @@ const searchController = {};
 
 searchController.searchPosts = async (req, res) => {
   const { value } = req.params;
+  const { filterType } = req.query;
+  const data = { value, filterType };
   try {
-    const result = await Post.search(value);
+    const result = await Post.search(data);
     if (result) {
       return res.json({
         success: true,

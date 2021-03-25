@@ -4,6 +4,7 @@ import ProfilePostCard from "../Profile/ProfilePostCard";
 import SmallPlantCard from "./SmallPlantCard";
 import UserCard from "../../components/UserCard";
 import { useLocation } from "react-router-dom";
+import SearchFilter from "../../components/SearchFilter";
 
 const scopeList = ["posts", "all", "plants", "users"];
 
@@ -16,9 +17,16 @@ export default function Search() {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
+  let location = useLocation();
+  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
+
   const runSearch = async () => {
     console.log("SEARCHING!");
-    const res = await axios.get(`/api/search/${scope}/${value}`);
+    const res = await axios.get(`/api/search/${scope}/${value}`, {
+      params: {
+        filterType,
+      },
+    });
     if (res.data.success) {
       res.data.posts && setPosts(res.data.posts);
       res.data.users && setUsers(res.data.users);
@@ -32,7 +40,7 @@ export default function Search() {
         runSearch();
       }
     }
-  }, [scope, value]);
+  }, [scope, value, location]);
 
   const renderPlantSection = () => {
     return (
@@ -48,6 +56,7 @@ export default function Search() {
   const renderPostSection = () => {
     return (
       <div>
+        <SearchFilter />
         <h3>Post Section</h3>
         {posts.map((post) => (
           <ProfilePostCard post={post} />
@@ -95,6 +104,7 @@ export default function Search() {
     <Fragment>
       <div>
         <div className="container-fluid">
+          {console.log(location, "LOCATION IN SEARCH")}
           <div> {setUpTemplate()}</div>
         </div>
       </div>

@@ -30,7 +30,6 @@ const EditProfile = () => {
         var tempDate = Utility.formatDate(user?.dob);
         setDateOfBirth(tempDate ? tempDate : "");
         setDateOfBirthDB(tempDate ? tempDate : "");
-        console.log(tempDate);
     }
 
     useEffect(() => {
@@ -64,24 +63,24 @@ const EditProfile = () => {
     const validateForm = () => {
         let tempErr = {}
         if (!firstName) {
-            tempErr.firstName = "First name is required.";
+            tempErr.firstName = "First name is required";
         } 
         else if (!/^[a-zA-Z ]{2,20}$/.test(firstName.trim())) {
-            tempErr.firstName = "First name is invalid.";
+            tempErr.firstName = "First name is invalid";
         }
 
         if (!lastName) {
-            tempErr.lastName = "Last name is required.";
+            tempErr.lastName = "Last name is required";
         } 
         else if (!/^[a-zA-Z ]{2,20}$/.test(lastName.trim())) {
-            tempErr.lastName = "Last name is invalid. ";
+            tempErr.lastName = "Last name is invalid";
         }
 
         if (!email) {
-            tempErr.email = "Email is required.";
+            tempErr.email = "Email is required";
         } 
         else if (!/\S+@\S+\.\S+/.test(email)) {
-            tempErr.email = "Email address is invalid.";
+            tempErr.email = "Email address is invalid";
         }
 
         if (!dob) {

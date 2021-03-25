@@ -12,13 +12,10 @@ const Following = (props) => {
   const handleProps = () => {
     const date1 = new Date();
     const date2 = new Date(props?.person.joindate);
-    const diffTime = Math.abs(date2 - date1);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-    const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
-    const diffYears = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30 * 12)); 
-    setYearsAgo(diffYears);
-    setDaysAgo(diffDays);
-    setMonthsAgo(diffMonths);
+    var timeDiff = Utility.diffTime(date1, date2);
+    setDaysAgo(timeDiff[0]);
+    setMonthsAgo(timeDiff[1]);
+    setYearsAgo(timeDiff[2]);
   };
 
   const handleDisplayDate = () => {

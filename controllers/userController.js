@@ -159,8 +159,10 @@ userController.editProfilePhoto = async (req, res) => {
 
 userController.editProfileInfo = async (req, res) => {
   const {userId} = req.params;
-  const {fname, lname, email} = req.body;
-  const result = await User.editProfileInfo(userId, fname, lname, email);
+  const {fname, lname, email, dob} = req.body;
+  const date = parse(dob, "dd/MM/yyyy", new Date());
+  const dobFinal = lightFormat(date, "yyyy-MM-dd");
+  const result = await User.editProfileInfo(userId, fname, lname, email, dobFinal);
   return res.json({
     success: result,
   });

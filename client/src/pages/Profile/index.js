@@ -6,6 +6,7 @@ import Followers from "./Followers";
 import Following from "./Following";
 import EditProfile from "./EditProfile";
 import EditProfilePhoto from "./EditProfilePhoto";
+import Utility from "../../utils/index.js"
 
 import ProfileTabs from "./ProfileTabs";
 
@@ -55,8 +56,10 @@ const Profile = () => {
   };
 
   const handleDate = () => {
-    setDateOfBirth(new Date(user?.dob).toDateString());
-    setJoinDate(new Date(user?.joindate).toDateString());
+    var tempBirthDate = Utility.formatDate(new Date(user?.dob));
+    var tempJoinDate = Utility.formatDate(new Date(user?.joindate));
+    setDateOfBirth(tempBirthDate ? tempBirthDate : "");
+    setJoinDate(tempJoinDate ? tempJoinDate : "");
   };
 
   useEffect(() => {

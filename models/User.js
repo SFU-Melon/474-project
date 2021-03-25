@@ -146,13 +146,13 @@ User.editProfilePhoto = async (userId, profilePhotoUrl) => {
   }
 }
 
-User.editProfileInfo = async (userId, fname, lname, email) => {
+User.editProfileInfo = async (userId, fname, lname, email, dobFinal) => {
   console.log(fname);
-  if (userId && fname && lname && email){
+  if (userId && fname && lname && email && dobFinal){
     try {
       const res = await pool.query(
-        "UPDATE users SET fname = $1, lname = $2, email = $3  WHERE id = $4",
-        [ fname, lname, email , userId ]
+        "UPDATE users SET fname = $1, lname = $2, email = $3, dob = $4 WHERE id = $5",
+        [ fname, lname, email , dobFinal, userId ]
       );
     } catch (err) {
       console.log(err.message);

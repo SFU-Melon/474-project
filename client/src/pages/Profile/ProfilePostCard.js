@@ -39,6 +39,9 @@ export default function PostCard({ post }) {
             </p>
 
             <h5 className="">
+              {post.numoflikes}
+              {" vote(s), "}
+
               {post.numofcomments}
               {" comment(s)"}
             </h5>

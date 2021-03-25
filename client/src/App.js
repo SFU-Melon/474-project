@@ -11,6 +11,7 @@ import { UserProvider } from "@contexts/UserContext";
 import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
 import { AuthProvider } from "@contexts/AuthContext";
 import PublicProfile from "./pages/Profile/PublicProfile";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
                   component={SignUp}
                   template={"accessibleBeforeLogin"}
                 />
+                <Route path="/search" component={Search} />
                 <Route
                   path="*"
                   component={() => <Error msg={"404 NOT FOUND"} />}

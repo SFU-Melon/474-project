@@ -1,6 +1,6 @@
-import { useState, Fragment } from 'react';
-import { Modal } from 'react-responsive-modal';
-import UserCard from './UserCard';
+import { useState, Fragment } from "react";
+import { Modal } from "react-responsive-modal";
+import UserCard from "../../components/UserCard";
 
 const Followers = (props) => {
   // Handling modal open/close
@@ -21,8 +21,8 @@ const Followers = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: 'customOverlay',
-          modal: 'followModal',
+          overlay: "customOverlay",
+          modal: "followModal",
         }}
       >
         <div>

@@ -206,4 +206,21 @@ Post.updateNumOfComments = async ({ change, postId }) => {
   }
 };
 
+Post.search = async (value, limit = 10) => {
+  try {
+    const res = await pool.query(
+      "SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments \
+      FROM posts \
+      WHERE document_with_weights @@ plainto_tsquery($1) \
+      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \
+      LIMIT $2",
+      [value, limit]
+    );
+    return res.rows;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
 module.exports = Post;

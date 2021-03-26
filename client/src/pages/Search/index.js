@@ -5,6 +5,7 @@ import SmallPlantCard from "./SmallPlantCard";
 import UserCard from "../../components/UserCard";
 import { useLocation } from "react-router-dom";
 import SearchFilter from "../../components/SearchFilter";
+import NoResult from "./NoResult";
 
 const scopeList = ["posts", "all", "plants", "users"];
 
@@ -21,7 +22,6 @@ export default function Search() {
   let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
 
   const runSearch = async () => {
-    console.log("SEARCHING!");
     const res = await axios.get(`/api/search/${scope}/${value}`, {
       params: {
         filterType,
@@ -45,10 +45,12 @@ export default function Search() {
   const renderPlantSection = () => {
     return (
       <div>
-        <h3>Plant Section</h3>
-        {plants.map((plant) => (
-          <SmallPlantCard plant={plant} />
-        ))}
+        <h3>Plant Results:</h3>
+        {plants.length === 0 ? (
+          <NoResult />
+        ) : (
+          plants.map((plant) => <SmallPlantCard plant={plant} />)
+        )}
       </div>
     );
   };
@@ -57,10 +59,12 @@ export default function Search() {
     return (
       <div>
         <SearchFilter />
-        <h3>Post Section</h3>
-        {posts.map((post) => (
-          <ProfilePostCard post={post} />
-        ))}
+        <h3>Post Results:</h3>
+        {posts.length === 0 ? (
+          <NoResult />
+        ) : (
+          posts.map((post) => <ProfilePostCard post={post} />)
+        )}
       </div>
     );
   };
@@ -68,10 +72,12 @@ export default function Search() {
   const renderUserSection = () => {
     return (
       <div>
-        <h3>User Section</h3>
-        {users.map((user) => (
-          <UserCard person={user} />
-        ))}
+        <h3>User Results:</h3>
+        {users.length === 0 ? (
+          <NoResult />
+        ) : (
+          users.map((user) => <UserCard person={user} />)
+        )}
       </div>
     );
   };

@@ -92,10 +92,11 @@ const PublicProfile = () => {
             <div className="container m-2 p-3">
               <img
                 className="rounded img-fluid"
+                alt="user profile pic"
                 src={
                   profileUser?.profilephoto
                     ? profileUser?.profilephoto
-                    : "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png"
+                    : "/null-user.png"
                 }
               ></img>
             </div>

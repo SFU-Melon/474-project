@@ -1,7 +1,5 @@
 const pool = require("../db");
-
 const User = {};
-
 User.save = async (data) => {
   const { username, hashed, fname, lname, dobFinal, email, profileUrl } = data;
   if (username && hashed && fname && lname && dobFinal && email) {
@@ -147,4 +145,25 @@ User.search = async (value, limit = 10) => {
   }
 };
 
+User.editProfilePhoto = async (userId, profilePhotoUrl) => {
+  try {
+    const res = await pool.query(
+      "UPDATE users SET profilephoto = $1 WHERE id = $2",
+      [profilePhotoUrl, userId]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+User.editProfileInfo = async (userId, fname, lname, email, dobFinal) => {
+  try {
+    const res = await pool.query(
+      "UPDATE users SET fname = $1, lname = $2, email = $3, dob = $4 WHERE id = $5",
+      [fname, lname, email, dobFinal, userId]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 module.exports = User;

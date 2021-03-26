@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 /****
  * props: {
  * handleSearch: func
@@ -16,7 +16,7 @@ const SearchBar = (props) => {
   const handleSearch = (e) => {
     if (value && e.key === "Enter") {
       const encodedValue = encodeURIComponent(value);
-      history.push("/search?" + "value=" + encodedValue + "&scope=" + scope);
+      history.push(`/search?value=${encodedValue}&scope=${scope}`);
     }
   };
   return (

@@ -6,7 +6,7 @@ import Followers from "./Followers";
 import Following from "./Following";
 import EditProfile from "./EditProfile";
 import EditProfilePhoto from "./EditProfilePhoto";
-import Utility from "../../utils/index.js"
+import Utility from "../../utils/index.js";
 
 import ProfileTabs from "./ProfileTabs";
 
@@ -76,12 +76,13 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <img
                 className="rounded img-fluid"
+                alt="user profile pic"
                 src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
               ></img>
             </div>
             <div className="container m-2 p-3">
-              <EditProfilePhoto/>
-              <EditProfile/>
+              <EditProfilePhoto />
+              <EditProfile />
               <h5 className="card-title">{user?.username}</h5>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1">

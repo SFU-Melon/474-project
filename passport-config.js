@@ -6,7 +6,6 @@ function initializeStrategy(passport) {
   console.log("local strategy initialized");
 
   const authenticateUser = async (username, password, done) => {
-    console.log(username, password);
     const user = await User.getUserByUsername(username);
     if (user) {
       bcrypt.compare(password, user.password, (err, matched) => {
@@ -39,7 +38,6 @@ function initializeStrategy(passport) {
   // decrypt cookie to get userId
   passport.deserializeUser(async (id, done) => {
     const user = await User.getUserById(id);
-    console.log(`deserializing user: ${user.id}, ${user.username}`);
     return done(null, user);
   });
 }

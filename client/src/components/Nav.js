@@ -2,6 +2,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import { useAuthContext } from "../contexts/AuthContext";
 import axios from "axios";
+import SearchBar from "./SearchBar";
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
@@ -30,6 +31,8 @@ const Nav = () => {
       <Link className="navbar-brand ms-5 " to="/">
         plant
       </Link>
+
+      <SearchBar />
 
       <div className="me-5 ">
         <Link to="/plants" className="me-3">

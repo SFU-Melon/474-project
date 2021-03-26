@@ -92,6 +92,7 @@ const PublicProfile = () => {
             <div className="container m-2 p-3">
               <img
                 className="rounded img-fluid"
+                alt="user profile pic"
                 src={
                   profileUser?.profilephoto
                     ? profileUser?.profilephoto

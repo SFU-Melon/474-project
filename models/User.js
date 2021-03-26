@@ -128,25 +128,42 @@ User.getFollowersAndFollowingUsers = async (id) => {
   }
 };
 
+User.search = async (value, limit = 10) => {
+  try {
+    const res = await pool.query(
+      "SELECT id, username, joindate, profilephoto \
+      FROM users \
+      WHERE document_with_weights @@ plainto_tsquery($1) \
+      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \
+      LIMIT $2",
+      [value, limit]
+    );
+    return res.rows;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
 User.editProfilePhoto = async (userId, profilePhotoUrl) => {
   try {
     const res = await pool.query(
       "UPDATE users SET profilephoto = $1 WHERE id = $2",
-      [ profilePhotoUrl , userId ]
+      [profilePhotoUrl, userId]
     );
   } catch (err) {
     console.log(err.message);
   }
-}
+};
 
 User.editProfileInfo = async (userId, fname, lname, email, dobFinal) => {
   try {
     const res = await pool.query(
       "UPDATE users SET fname = $1, lname = $2, email = $3, dob = $4 WHERE id = $5",
-      [ fname, lname, email , dobFinal, userId ]
+      [fname, lname, email, dobFinal, userId]
     );
   } catch (err) {
     console.log(err.message);
   }
-}
+};
 module.exports = User;

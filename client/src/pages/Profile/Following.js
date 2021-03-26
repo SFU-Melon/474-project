@@ -1,6 +1,6 @@
-import { useState, Fragment } from 'react';
-import { Modal } from 'react-responsive-modal';
-import UserCard from './UserCard';
+import { useState, Fragment } from "react";
+import { Modal } from "react-responsive-modal";
+import UserCard from "../../components/UserCard";
 
 const Following = (props) => {
   // Handling modal open/close
@@ -10,7 +10,8 @@ const Following = (props) => {
 
   return (
     <Fragment>
-      <a href="javascript:void()" onClick={onOpenModal}>
+      {/* eslint-disable-next-line */}
+      <a onClick={onOpenModal}>
         <span>{props.following?.length} Following</span>
       </a>
 
@@ -21,16 +22,15 @@ const Following = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: 'customOverlay',
-          modal: 'followModal',
+          overlay: "customOverlay",
+          modal: "followModal",
         }}
       >
         <div>
           <h5 id="ModalTitle">Following</h5>
           <hr className="w-100"></hr>
           <div>
-            {props.following?.length === 0 ? 
-            (
+            {props.following?.length === 0 ? (
               <div className="text-center">
                 <img
                   className="rounded img-fluid userIconImg mb-3"
@@ -39,11 +39,11 @@ const Following = (props) => {
                 ></img>
                 <p className="text-center">No Follows Yet</p>
               </div>
-            ) : 
+            ) : (
               props.following?.map((item, i) => (
                 <UserCard key={i} person={item} />
               ))
-            }
+            )}
           </div>
         </div>
       </Modal>

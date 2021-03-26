@@ -29,4 +29,36 @@ Utility.decodeUUID = (id) => {
   return short().toUUID(id);
 };
 
+Utility.formatDate = (date) => {
+  // DD/MM/YYYY
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [day, month, year].join('/');
+}
+
+Utility.monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+Utility.diffTime = (date1, date2) => {
+  var timeDiff = [];
+  const diffTime = Math.abs(date2 - date1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
+  const diffYears = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30 * 12)); 
+  timeDiff.push(diffDays);
+  timeDiff.push(diffMonths);
+  timeDiff.push(diffYears);
+  return timeDiff;
+}
+
+
 export default Utility;

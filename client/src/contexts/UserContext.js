@@ -33,10 +33,6 @@ export function UserProvider({ children }) {
     authenticateUser();
   }, []);
 
-  useEffect(() => {
-    console.log(user);
-  });
-
   return (
     <UserContext.Provider value={providerValue}>
       {children}

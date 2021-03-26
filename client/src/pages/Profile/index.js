@@ -4,6 +4,9 @@ import { useUserContext } from "../../contexts/UserContext";
 import FollowButton from "../../components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
+import EditProfile from "./EditProfile";
+import EditProfilePhoto from "./EditProfilePhoto";
+import Utility from "../../utils/index.js";
 
 import ProfileTabs from "./ProfileTabs";
 
@@ -52,18 +55,16 @@ const Profile = () => {
   };
 
   const handleDate = () => {
-    setDateOfBirth(new Date(user?.dob).toDateString());
-    setJoinDate(new Date(user?.joindate).toDateString());
+    var tempBirthDate = Utility.formatDate(new Date(user?.dob));
+    var tempJoinDate = Utility.formatDate(new Date(user?.joindate));
+    setDateOfBirth(tempBirthDate ? tempBirthDate : "");
+    setJoinDate(tempJoinDate ? tempJoinDate : "");
   };
 
   useEffect(() => {
     fetchUserPosts();
     fetchUserLikedPosts();
     fetchFollowData();
-
-    console.log(followers);
-    console.log(followers);
-
     handleDate();
   }, [user]);
 
@@ -75,10 +76,13 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <img
                 className="rounded img-fluid"
+                alt="user profile pic"
                 src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
               ></img>
             </div>
             <div className="container m-2 p-3">
+              <EditProfilePhoto />
+              <EditProfile />
               <h5 className="card-title">{user?.username}</h5>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1">
@@ -104,7 +108,7 @@ const Profile = () => {
                 <strong>Email:</strong> {user?.email}
               </p>
               <p>
-                <strong>Join:</strong> {joinDate}
+                <strong>Join Date:</strong> {joinDate}
               </p>
               <p>
                 <strong>Date of Birth:</strong> {dateOfBirth}

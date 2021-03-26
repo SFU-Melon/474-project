@@ -1,24 +1,35 @@
 import { useState, useEffect, Fragment } from "react";
 import { useUserContext } from "../contexts/UserContext";
+import Utility from "../utils/index.js";
 
 const Following = (props) => {
   const { user } = useUserContext();
-  const [monthsAgo, setMonthsAgo] = useState("");
-  const [daysAgo, setDaysAgo] = useState("");
+  const [yearsAgo, setYearsAgo] = useState(0);
+  const [monthsAgo, setMonthsAgo] = useState(0);
+  const [daysAgo, setDaysAgo] = useState(0);
   const [displayDate, setDisplayText] = useState("");
 
   const handleProps = () => {
-    setMonthsAgo(
-      new Date().getMonth() - new Date(props.person.joindate).getMonth()
-    );
-    setDaysAgo(new Date().getDay() - new Date(props.person.joindate).getDay());
-    console.log(props);
+    const date1 = new Date();
+    const date2 = new Date(props?.person.joindate);
+    var timeDiff = Utility.diffTime(date1, date2);
+    setDaysAgo(timeDiff[0]);
+    setMonthsAgo(timeDiff[1]);
+    setYearsAgo(timeDiff[2]);
   };
 
   const handleDisplayDate = () => {
-    if (monthsAgo >= 1) {
-      setDisplayText("Joined " + monthsAgo + " months ago");
-    } else if (daysAgo >= 1) {
+    if (yearsAgo > 1) {
+      setDisplayText(
+        "Joined in " + new Date(props?.person.joindate).getFullYear() + ""
+      );
+    } else if (monthsAgo > 1) {
+      setDisplayText(
+        "Joined in " +
+          Utility.monthNames[new Date(props?.person.joindate).getMonth()] +
+          ""
+      );
+    } else if (daysAgo > 1) {
       setDisplayText("Joined " + daysAgo + " days ago");
     } else {
       setDisplayText("Joined today");
@@ -28,7 +39,7 @@ const Following = (props) => {
   useEffect(() => {
     handleProps();
     handleDisplayDate();
-  }, []);
+  });
 
   return (
     <Fragment>
@@ -45,6 +56,7 @@ const Following = (props) => {
             <div className="w-75">
               <img
                 className="img-fluid rounded m-0"
+                alt="User Profile Pic"
                 src={
                   props.person?.profilephoto
                     ? props.person.profilephoto
@@ -55,9 +67,7 @@ const Following = (props) => {
           </div>
           <div className="w-75 m-0">
             <h6 className="m-0">{props.person.username}</h6>
-            <p>
-              <em>{displayDate}</em>
-            </p>
+            <p>{displayDate}</p>
           </div>
         </div>
       </a>

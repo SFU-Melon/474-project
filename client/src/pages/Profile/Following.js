@@ -10,8 +10,9 @@ const Following = (props) => {
 
   return (
     <Fragment>
-      <a href="javascript:void()" onClick={onOpenModal}>
-        <span>{props.following.length} Following</span>
+      {/* eslint-disable-next-line */}
+      <a onClick={onOpenModal}>
+        <span>{props.following?.length} Following</span>
       </a>
 
       {/* Modal */}
@@ -29,7 +30,7 @@ const Following = (props) => {
           <h5 id="ModalTitle">Following</h5>
           <hr className="w-100"></hr>
           <div>
-            {props.following.length === 0 ? (
+            {props.following?.length === 0 ? (
               <div className="text-center">
                 <img
                   className="rounded img-fluid userIconImg mb-3"
@@ -39,7 +40,7 @@ const Following = (props) => {
                 <p className="text-center">No Follows Yet</p>
               </div>
             ) : (
-              props.following.map((item, i) => (
+              props.following?.map((item, i) => (
                 <UserCard key={i} person={item} />
               ))
             )}

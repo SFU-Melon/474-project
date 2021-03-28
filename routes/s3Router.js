@@ -1,7 +1,6 @@
 // change this for production
 require("dotenv").config();
 
-const fs = require("fs");
 const router = require("express").Router();
 const aws = require("aws-sdk");
 var { nanoid } = require("nanoid");
@@ -17,7 +16,7 @@ aws.config.update({
   region: "us-west-1",
 });
 
-getPreSignedRequest = async (req, res, bucketName) => {
+const getPreSignedRequest = async (req, res, bucketName) => {
   const s3 = new aws.S3(); // Create a new instance of S3
   const fileKey = nanoid();
   const fileType = req.body.fileType;
@@ -52,6 +51,27 @@ router.post("/profileUpload", (req, res) => {
 
 router.post("/postUpload", ensureAuthenticated, (req, res) => {
   getPreSignedRequest(req, res, POST_BUCKET);
+});
+
+const deleteS3Object = async (req, res, bucketName) => {
+  s3 = new aws.S3();
+  const { imageurl } = req.body;
+  const key = imageurl.split("/")[3];
+  try {
+    await s3.deleteObject({ Bucket: bucketName, Key: key }).promise();
+    return res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+    });
+  }
+};
+
+router.post("/deleteOldProfile", ensureAuthenticated, (req, res) => {
+  deleteS3Object(req, res, PROFILE_BUCKET);
 });
 
 module.exports = router;

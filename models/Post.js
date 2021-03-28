@@ -223,4 +223,56 @@ Post.search = async (value, limit = 10) => {
   }
 };
 
+Post.save = async (postId, userId) => {
+  try {
+    await pool.query("INSERT INTO saves (userid, postid) VALUES ($1, $2)", [
+      userId,
+      postId,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
+Post.unsave = async (postId, userId) => {
+  try {
+    await pool.query("DELETE FROM saves WHERE userid = $1 AND postid = $2", [
+      userId,
+      postId,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
+Post.checkSaveStatus = async (postId, userId) => {
+  try {
+    const res = await pool.query(
+      "SELECT * FROM saves WHERE userid = $1 AND postid = $2",
+      [userId, postId]
+    );
+    return res.rows.length !== 0;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
+Post.getAllSavedPosts = async (userId) => {
+  try {
+    const res = await pool.query(
+      "SELECT * FROM posts WHERE id IN (SELECT s.postid FROM saves s WHERE s.userid = $1)",
+      [userId]
+    );
+    return res.rows;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
 module.exports = Post;

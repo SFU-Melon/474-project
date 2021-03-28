@@ -29,14 +29,14 @@ router.post("/unfollows", userController.unfollows);
 
 /******  User Edit Routes ********/
 router.post(
-  '/editProfilePhoto/:userId', 
-  ensureAuthenticated, 
+  "/editProfilePhoto/:userId",
+  ensureAuthenticated,
   userController.editProfilePhoto
 );
 
 router.post(
-  '/editProfileInfo/:userId', 
-  ensureAuthenticated, 
+  "/editProfileInfo/:userId",
+  ensureAuthenticated,
   userController.editProfileInfo
 );
 
@@ -60,13 +60,24 @@ router.post(
 );
 
 router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
-router.get("/getPost/:id", postController.getPostById);
+router.get(
+  "/getPost/:id",
+  postController.checkSaveStatus,
+  postController.getPostById
+);
 router.get("/getAllPosts", postController.getAllPosts);
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
   "/deletePost/:id",
   ensureAuthenticated,
   postController.deletePost
+);
+router.get("/savePost/:id", postController.savePost);
+router.get("/unsavePost/:id", postController.unsavePost);
+router.get(
+  "/getAllSavedPosts",
+  ensureAuthenticated,
+  postController.getAllSavedPost
 );
 
 /****** Comment Routes ********/

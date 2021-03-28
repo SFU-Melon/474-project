@@ -38,9 +38,9 @@ app.use(passport.session());
 
 //API routes
 const router = require("./routes/router");
-const uploadRouter = require("./routes/uploadRouter");
+const s3Router = require("./routes/s3Router");
 app.use("/api", router);
-app.use("/api", uploadRouter);
+app.use("/api", s3Router);
 
 const port = process.env.PORT || 5000;
 

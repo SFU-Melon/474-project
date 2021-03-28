@@ -30,13 +30,20 @@ const EditProfilePhoto = (props) => {
   // Send post data to database
   const sendToDatabase = (imgUrl) => {
     try {
+      const url = user?.profilephoto;
       axios
         .post(`/api/editProfilePhoto/${user.id}`, {
           profilePhotoUrl: imgUrl,
         })
         .then((res) => {
-          setFile(null);
-          setFileType("");
+          axios
+            .post("/api/deleteOldProfile", {
+              imageurl: url,
+            })
+            .then(() => {
+              setFile(null);
+              setFileType("");
+            });
         });
     } catch (err) {
       console.error(err.message);
@@ -47,36 +54,36 @@ const EditProfilePhoto = (props) => {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-        try {
-          let res;
-          res = await axios.post("/api/profileUpload", { fileType: fileType });
-          if (res.data.success) {
-            const signedRequest = res.data.signedRequest;
-            const res_url = res.data.url;
-            const options = {
-              headers: {
-                "Content-Type": fileType,
-              },
-            };
-            //uploading to s3 bucket
-            await axios.put(signedRequest, file, options);
-            sendToDatabase(res_url);
-            onCloseModal();
-            setTimeout(() => window.location.reload(), 200);
-          }
-        } catch (err) {
-          console.log(err.message);
+      try {
+        let res;
+        res = await axios.post("/api/profileUpload", { fileType: fileType });
+        if (res.data.success) {
+          const signedRequest = res.data.signedRequest;
+          const res_url = res.data.url;
+          const options = {
+            headers: {
+              "Content-Type": fileType,
+            },
+          };
+          //uploading to s3 bucket
+          await axios.put(signedRequest, file, options);
+          sendToDatabase(res_url);
+          onCloseModal();
+          setTimeout(() => window.location.reload(), 200);
         }
+      } catch (err) {
+        console.log(err.message);
+      }
     }
   };
 
   // Validate the form
   const validateForm = () => {
-    if(file && user){
-        setErrorMessage("")
-        return true;
+    if (file && user) {
+      setErrorMessage("");
+      return true;
     }
-    setErrorMessage("Please select a photo to upload.")
+    setErrorMessage("Please select a photo to upload.");
     return false;
   };
 
@@ -84,13 +91,17 @@ const EditProfilePhoto = (props) => {
     <Fragment>
       {/* Modal Trigger */}
       {user ? (
-        <button type="button" className="form-control mb-1" onClick={onOpenModal}>
-          Upload Profile Photo
+        <button
+          type="button"
+          className="form-control mb-1"
+          onClick={onOpenModal}
+        >
+          Change Profile Photo
         </button>
       ) : (
         <Link to="/login">
           <button type="button" className="form-control">
-            Upload Profile Photo
+            Change Profile Photo
           </button>
         </Link>
       )}
@@ -107,12 +118,12 @@ const EditProfilePhoto = (props) => {
         }}
       >
         <div>
-          <h3 id="ModalTitle">Update Profile Photo</h3>
+          <h3 id="ModalTitle">Change Profile Photo</h3>
           <div>
             <form onSubmit={handleUpload}>
-                <p className="control" style={{ color: "red" }}>
-                  {errorMessage}
-                </p>
+              <p className="control" style={{ color: "red" }}>
+                {errorMessage}
+              </p>
               <div className="mb-3">
                 <h6>Image</h6>
                 <input

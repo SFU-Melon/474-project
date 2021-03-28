@@ -25,59 +25,51 @@ Post.create = async (data) => {
   }
 };
 
-Post.getAllPosts = async ({ filterType, userId, lastElementData }) => {
+Post.getPosts = async ({ filterType, userId, val, sortingId }) => {
+  //I NEED TO FIX TIME STAMP.
+  // val = '2021-03-28T07:39:22.668Z' --> why is it 07 when it's 16????
+  // BUT I NEED val = '2021-03-28 16:39:22.668'
+  // MANAGED TO  FIX IT but idk if it'll work for everyone. I don't get timestamp LOL
   try {
-    let type;
+    // Initializing orderPart
+    let orderByPart = "";
     if (filterType === "hot") {
-      type = "numoflikes";
+      orderByPart = `ORDER BY numoflikes DESC, sortingid ASC`;
     } else {
-      type = "datetime";
+      orderByPart = `ORDER By datetime DESC, sortingid ASC`;
     }
-    if (lastElementData === undefined) {
-      //the first time it fetches posts -> lastElement data is null.
 
-      if (userId != undefined) {
-        const res = await pool.query(
-          `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val 
-          FROM posts 
-          LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 
-          ORDER BY $2 DESC
-          LIMIT 3`,
-          [userId, type]
-        );
-        return res.rows;
-      }
-      console.log("fetching user undefined, lastElement undefined");
-      const res = await pool.query(
-        `SELECT * FROM posts 
-        ORDER BY $1 DESC 
-        LIMIT 3`,
-        [type]
-      );
-      console.log("res.rows ", res.rows);
-      return res.rows;
+    // Initializing wherePart
+    let wherePart = "";
+    if (val != undefined) {
+      //When it's not the first time it fetches posts -> lastElement data is null. -> wherePart=""
+      wherePart = `WHERE ${
+        filterType === "hot"
+          ? `numoflikes < ${val} OR (numoflikes = ${val} AND sortingid > ${sortingId})`
+          : `datetime <  (select '${val}'::timestamp without time zone AT TIME ZONE 'UTC') `
+      }`;
     }
+
+    //If the user exists (logged in)
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val 
-        FROM posts 
-        LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 
-        WHERE $3 < $2 
-        ORDER BY $3 DESC
+        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, sortingid, likes.val
+        FROM posts
+        LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1
+        ${wherePart}
+        ${orderByPart}
         LIMIT 3`,
-        [userId, lastElementData, type]
+        [userId]
       );
       return res.rows;
     }
-
+    //If the user doesn't exist
     const res = await pool.query(
-      `SELECT * FROM posts 
-      WHERE $2 < $1
-      ORDER BY $2 DESC
-      LIMIT 3`,
-      [lastElementData, type]
+      `SELECT * FROM posts
+      ${wherePart}
+      ${orderByPart}
+      LIMIT 3`
     );
-    console.log(res.rows, " userId undefined, lastElement defined");
     return res.rows;
   } catch (err) {
     console.error(err.message);

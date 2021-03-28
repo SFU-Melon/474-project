@@ -22,8 +22,8 @@ export default function Home() {
       const res = await axios.get("/api/getPosts", {
         params: {
           filterType,
-          lastElementData:
-            filterType === "hot" ? lastPost?.numoflikes : lastPost?.datetime,
+          val: filterType === "hot" ? lastPost?.numoflikes : lastPost?.datetime,
+          sortingId: lastPost?.sortingid,
         },
       });
       setPosts((prev) => [...prev, ...res.data]);
@@ -34,12 +34,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log("useEffect home");
-    console.log(lastPost, "lastPost in useEffect");
     let isMounted = true;
+    // clean up..?
     fetchPosts().then((fetched_posts) => {
+      console.log("fetched post", fetched_posts);
       if (isMounted) setPosts(fetched_posts);
     });
+
     return () => {
       isMounted = false;
     };

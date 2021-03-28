@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import Utility from "../../utils";
+import { useUserContext } from "../../contexts/UserContext";
 
 // Components
 import Vote from "../../components/Vote";
@@ -13,6 +14,7 @@ const Post = () => {
   const [saveClicked, setSaveClicked] = useState(false);
   const [post, setPost] = useState(null);
   const { id } = useParams();
+  const { user } = useUserContext();
   const decoded = Utility.decodeUUID(id);
 
   const fetchPost = async () => {
@@ -66,9 +68,11 @@ const Post = () => {
                 </div>
                 <div>
                   {post.content && <h3 className="m-4">{post.content}</h3>}
-                  <button className="m-4" onClick={handleSave}>
-                    {saveClicked ? "Saved!" : "Save"}
-                  </button>
+                  {user && (
+                    <button className="m-4" onClick={handleSave}>
+                      {saveClicked ? "Saved!" : "Save"}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

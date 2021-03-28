@@ -3,9 +3,10 @@ const pool = require("../db");
 const Post = {};
 
 Post.create = async (data) => {
-  const { location, imageUrl, content, title } = data.body;
+  const { location, imageUrl, content, title, tags } = data.body;
   const { userId } = data.params;
   const { username: authorname } = data.user;
+
   try {
     const res = await pool.query(
       "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7) RETURNING *",

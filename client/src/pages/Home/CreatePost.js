@@ -44,6 +44,7 @@ const CreatePost = (props) => {
           content: description,
           location: location,
           imageUrl: imgUrl,
+          tags: tags,
         })
         .then((res) => {
           setTitle("");
@@ -51,6 +52,11 @@ const CreatePost = (props) => {
           setLocation("");
           setFile(null);
           setFileType("");
+
+          // Use res post id to insert uid, pid and tag array
+          // to Post model -- then parse and enter each tag into
+          // Tags and then use that tag id 
+          console.log(res);
         });
     } catch (err) {
       console.error(err.message);
@@ -85,7 +91,7 @@ const CreatePost = (props) => {
       } else {
         sendToDatabase();
         onCloseModal();
-        setTimeout(() => window.location.reload(), 200);
+        // setTimeout(() => window.location.reload(), 200);
       }
     }
   };

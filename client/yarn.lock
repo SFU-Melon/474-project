@@ -1397,6 +1397,11 @@
     "mkdirp" "^1.0.4"
     "rimraf" "^3.0.2"
 
+"@pathofdev/react-tag-input@^1.0.7":
+  "integrity" "sha512-FxlX+rQhsun7uLDS7PzscJex4Vutq9+RjYlJR+Bf6rh/fH8Drxhl+klrUFxaMRtaTF44tM/jHVl5dxWIhUwejw=="
+  "resolved" "https://registry.npmjs.org/@pathofdev/react-tag-input/-/react-tag-input-1.0.7.tgz"
+  "version" "1.0.7"
+
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   "integrity" "sha512-br5Qwvh8D2OQqSXpd1g/xqXKnK0r+Jz6qVKBbWmpUcrbGOxUrf39V5oZ1876084CGn18uMdR5uvPqBv9UqtBjQ=="
   "resolved" "https://registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz"
@@ -9302,7 +9307,7 @@
     "clsx" "^1.1.0"
     "prop-types" "^15.5.0"
 
-"react@^16.3.0 || ^17.0.0-0", "react@^17.0.1":
+"react@^17.0.1":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.1.tgz"
   "version" "17.0.1"

@@ -6,6 +6,8 @@ import { Modal } from "react-responsive-modal";
 import SearchInputLocation from "./SearchInputLocation";
 import "react-responsive-modal/styles.css";
 import "./style.css";
+import ReactTagInput from "@pathofdev/react-tag-input";
+import "@pathofdev/react-tag-input/build/index.css";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -16,6 +18,7 @@ const CreatePost = (props) => {
   const [location, setLocation] = useState("");
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [tags, setTags] = useState(["example tag"]);
   const TITLE_MIN_LENGTH = 5;
 
   // Handling modal open/close
@@ -167,6 +170,13 @@ const CreatePost = (props) => {
                   className="form-control"
                   accept=".jpg,.jpeg,.png"
                   onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <h6>Tags</h6>
+                <ReactTagInput 
+                  tags={tags} 
+                  onChange={(newTags) => setTags(newTags)}
                 />
               </div>
               <button type="submit" className="btn btn-success form-control">

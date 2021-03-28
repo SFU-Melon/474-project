@@ -58,7 +58,7 @@ export default function Search() {
   const renderPostSection = () => {
     return (
       <div>
-        <SearchFilter />
+        {posts.length !== 0 && <SearchFilter />}
         <h3>Post Results:</h3>
         {posts.length === 0 ? (
           <NoResult />

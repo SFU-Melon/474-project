@@ -108,9 +108,10 @@ postController.getPostById = async (req, res) => {
 //NEED to know how to paginate data
 postController.getAllPosts = async (req, res) => {
   try {
-    const { filterType } = req.query;
     const userId = req.user?.id;
-    const data = { filterType, userId };
+    const { filterType, lastElementData = undefined } = req.query;
+    const data = { userId, filterType, lastElementData };
+    console.log(data);
     const allPosts = await Post.getAllPosts(data);
     res.json(allPosts);
   } catch (err) {

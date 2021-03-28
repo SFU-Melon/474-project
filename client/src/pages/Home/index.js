@@ -1,26 +1,32 @@
 import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, useRef } from "react";
 import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";
 import AllUsers from "./AllUsers";
 import SearchFilter from "@components/SearchFilter";
 import { useLocation } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Home() {
   let location = useLocation();
   let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
   const { user } = useUserContext();
-  const [allPosts, setAllPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  let lastPost;
 
-  const fetchAllPosts = async (isMounted) => {
+  const fetchPosts = async () => {
     try {
-      const res = await axios.get("/api/getAllPosts", {
+      console.log(lastPost, lastPost?.numoflikes, "last Post element is ");
+      const res = await axios.get("/api/getPosts", {
         params: {
           filterType,
+          lastElementData:
+            filterType === "hot" ? lastPost?.numoflikes : lastPost?.datetime,
         },
       });
-      //setAllPosts(res.data);
+      setPosts((prev) => [...prev, ...res.data]);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -28,9 +34,11 @@ export default function Home() {
   };
 
   useEffect(() => {
+    console.log("useEffect home");
+    console.log(lastPost, "lastPost in useEffect");
     let isMounted = true;
-    fetchAllPosts().then((fetched_posts) => {
-      if (isMounted) setAllPosts(fetched_posts);
+    fetchPosts().then((fetched_posts) => {
+      if (isMounted) setPosts(fetched_posts);
     });
     return () => {
       isMounted = false;
@@ -48,9 +56,31 @@ export default function Home() {
               <div className="d-flex justify-content-start m-2 mt-4">
                 <CreatePost />
               </div>
-              {allPosts.map((post) => (
-                <PostCard key={post.id} post={post}></PostCard>
-              ))}
+              {posts && (
+                <InfiniteScroll
+                  dataLength={posts.length}
+                  pageStart={0}
+                  next={fetchPosts}
+                  hasMore={true}
+                  loader={
+                    <div className="loader" key={0}>
+                      Loading ...
+                    </div>
+                  }
+                  endMessage={
+                    <p style={{ textAlign: "center" }}>
+                      <b>Yay! You have seen it all</b>
+                    </p>
+                  }
+                >
+                  {posts.map((post, index) => {
+                    if (posts.length === index + 1) {
+                      lastPost = post;
+                    }
+                    return <PostCard key={post.id} post={post}></PostCard>;
+                  })}
+                </InfiniteScroll>
+              )}
             </div>
             <div className="col col-md-auto">
               <AllUsers />

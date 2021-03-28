@@ -25,22 +25,59 @@ Post.create = async (data) => {
   }
 };
 
-Post.getAllPosts = async ({ filterType, userId }) => {
+Post.getAllPosts = async ({ filterType, userId, lastElementData }) => {
   try {
+    let type;
+    if (filterType === "hot") {
+      type = "numoflikes";
+    } else {
+      type = "datetime";
+    }
+    if (lastElementData === undefined) {
+      //the first time it fetches posts -> lastElement data is null.
+
+      if (userId != undefined) {
+        const res = await pool.query(
+          `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val 
+          FROM posts 
+          LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 
+          ORDER BY $2 DESC
+          LIMIT 3`,
+          [userId, type]
+        );
+        return res.rows;
+      }
+      console.log("fetching user undefined, lastElement undefined");
+      const res = await pool.query(
+        `SELECT * FROM posts 
+        ORDER BY $1 DESC 
+        LIMIT 3`,
+        [type]
+      );
+      console.log("res.rows ", res.rows);
+      return res.rows;
+    }
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 ORDER BY ${
-          filterType === "hot" ? "numoflikes" : "dateTime"
-        } DESC`,
-        [userId]
+        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val 
+        FROM posts 
+        LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1 
+        WHERE $3 < $2 
+        ORDER BY $3 DESC
+        LIMIT 3`,
+        [userId, lastElementData, type]
       );
       return res.rows;
     }
+
     const res = await pool.query(
-      `SELECT * FROM posts ORDER BY ${
-        filterType === "hot" ? "numoflikes" : "dateTime"
-      } DESC`
+      `SELECT * FROM posts 
+      WHERE $2 < $1
+      ORDER BY $2 DESC
+      LIMIT 3`,
+      [lastElementData, type]
     );
+    console.log(res.rows, " userId undefined, lastElement defined");
     return res.rows;
   } catch (err) {
     console.error(err.message);
@@ -215,10 +252,10 @@ Post.updateNumOfComments = async ({ change, postId }) => {
 Post.search = async ({ filterType, value }, limit = 10) => {
   try {
     const res = await pool.query(
-      `SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments \
+      `SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, ts_rank(document_with_weights, plainto_tsquery($1)) AS Rank \
       FROM posts \
       WHERE document_with_weights @@ plainto_tsquery($1) \
-      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC, ${
+      ORDER BY Rank DESC, ${
         filterType === "hot" ? "numoflikes" : "dateTime"
       } DESC\
       LIMIT $2`,

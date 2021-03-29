@@ -17,16 +17,27 @@ export default function SearchFilter() {
     }
   };
 
+  // location: (/hot or /)  type: hot -> same
+  // location: /new type: new -> same
+  // ->  location.pathname.includes(type) || (type==='hot' && !location.pathname.includes("new")) ? true : false
+
   const handleFilter = () => {
     console.log(filterType, "filtertype on Click");
   };
 
   const handlePath = (type) => {
-    if (location.pathname.includes("search")) {
-      return `/search/${type}/${location.search}`;
-    } else {
-      return `/${type}`;
-    }
+    return {
+      pathname: location.pathname.includes("search")
+        ? `/search/${type}/${location.search}`
+        : `/${type}`,
+      state: {
+        isPrevTypeTheSame:
+          location.pathname.includes(type) ||
+          (type === "hot" && !location.pathname.includes("new"))
+            ? true
+            : false,
+      },
+    };
   };
 
   return (

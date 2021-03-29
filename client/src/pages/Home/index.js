@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
-import { useEffect, useState, Fragment, useRef } from "react";
+import { useEffect, useState, Fragment } from "react";
 import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";
 import AllUsers from "./AllUsers";
@@ -16,9 +16,25 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(true);
   let lastPost;
 
-  const fetchPosts = async () => {
+  const fetchPostsForTheFirstTime = async () => {
     try {
-      console.log(lastPost, lastPost?.numoflikes, "last Post element is ");
+      setHasMore(true);
+      const res = await axios.get("/api/getPosts", {
+        params: {
+          filterType,
+        },
+      });
+      if (res.data.length === 0) {
+        setHasMore(false);
+      }
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchMorePosts = async () => {
+    try {
       const res = await axios.get("/api/getPosts", {
         params: {
           filterType,
@@ -26,7 +42,14 @@ export default function Home() {
           sortingId: lastPost?.sortingid,
         },
       });
-      setPosts((prev) => [...prev, ...res.data]);
+      if (res.data.length === 0) {
+        setHasMore(false);
+      }
+      //filtering out the same posts from prev posts in newPosts
+      const newPosts = res.data.filter(
+        (element) => !posts.map((post) => post.id).includes(element.id)
+      );
+      setPosts((prev) => [...prev, ...newPosts]);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -35,12 +58,9 @@ export default function Home() {
 
   useEffect(() => {
     let isMounted = true;
-    // clean up..?
-    fetchPosts().then((fetched_posts) => {
-      console.log("fetched post", fetched_posts);
+    fetchPostsForTheFirstTime().then((fetched_posts) => {
       if (isMounted) setPosts(fetched_posts);
     });
-
     return () => {
       isMounted = false;
     };
@@ -53,7 +73,6 @@ export default function Home() {
           <div className="row">
             <div className="col col-md-10">
               <SearchFilter />
-              {console.log(location, "location in HOME")}
               <div className="d-flex justify-content-start m-2 mt-4">
                 <CreatePost />
               </div>
@@ -61,8 +80,8 @@ export default function Home() {
                 <InfiniteScroll
                   dataLength={posts.length}
                   pageStart={0}
-                  next={fetchPosts}
-                  hasMore={true}
+                  next={fetchMorePosts}
+                  hasMore={hasMore}
                   loader={
                     <div className="loader" key={0}>
                       Loading ...

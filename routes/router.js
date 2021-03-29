@@ -60,13 +60,25 @@ router.post(
 );
 
 router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
-router.get("/getPost/:id", postController.getPostById);
+
 router.get("/getPosts", postController.getPosts);
+router.get(
+  "/getPost/:id",
+  postController.checkSaveStatus,
+  postController.getPostById
+);
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
   "/deletePost/:id",
   ensureAuthenticated,
   postController.deletePost
+);
+router.get("/savePost/:id", postController.savePost);
+router.get("/unsavePost/:id", postController.unsavePost);
+router.get(
+  "/getAllSavedPosts",
+  ensureAuthenticated,
+  postController.getAllSavedPost
 );
 
 /****** Comment Routes ********/

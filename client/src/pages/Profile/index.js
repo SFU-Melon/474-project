@@ -14,6 +14,7 @@ const Profile = () => {
   const { user } = useUserContext();
 
   const [userPosts, setUserPosts] = useState([]);
+  const [savedPosts, setSavedPosts] = useState([]);
   const [userLikedPosts, setUserLikedPosts] = useState([]);
 
   const [followers, setFollowers] = useState([]);
@@ -26,6 +27,15 @@ const Profile = () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${user?.id}`);
       setUserPosts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchSavedPosts = async () => {
+    try {
+      const res = await axios.get("/api/getAllSavedPosts");
+      setSavedPosts(res.data.posts);
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +73,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserPosts();
+    fetchSavedPosts();
     fetchUserLikedPosts();
     fetchFollowData();
     handleDate();
@@ -128,6 +139,8 @@ const Profile = () => {
               <ProfileTabs
                 userLikedPosts={userLikedPosts}
                 userPosts={userPosts}
+                savedPosts={savedPosts}
+                username={user?.username}
               />
             </div>
           </div>

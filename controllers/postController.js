@@ -98,6 +98,7 @@ postController.getPostById = async (req, res) => {
     const { id } = req.params;
     const ids = { userId, postId: id };
     const post = await Post.getPostById(ids);
+    if (userId) post.saveStatus = req.saveStatus;
     res.json(post);
   } catch (err) {
     console.error(err.message);
@@ -139,6 +140,63 @@ postController.deletePost = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ success: false });
+  }
+};
+
+postController.savePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id;
+    const result = await Post.save(id, userId);
+    return res.json({
+      success: result,
+    });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ success: false });
+  }
+};
+
+postController.unsavePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id;
+    const result = await Post.unsave(id, userId);
+    return res.json({
+      success: result,
+    });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ success: false });
+  }
+};
+
+postController.checkSaveStatus = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    const { id } = req.params;
+    if (userId) {
+      const status = await Post.checkSaveStatus(id, userId);
+      req.saveStatus = status;
+    }
+    next();
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "checking save status failed" });
+  }
+};
+
+postController.getAllSavedPost = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    const posts = await Post.getAllSavedPosts(userId);
+    return res.json({
+      success: true,
+      posts: posts,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "checking vote status failed" });
   }
 };
 

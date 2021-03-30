@@ -29,13 +29,13 @@ router.post("/unfollows", userController.unfollows);
 
 /******  User Edit Routes ********/
 router.post(
-  '/editProfilePhoto/:userId', 
+  "/editProfilePhoto/:userId", 
   ensureAuthenticated, 
   userController.editProfilePhoto
 );
 
 router.post(
-  '/editProfileInfo/:userId', 
+  "/editProfileInfo/:userId", 
   ensureAuthenticated, 
   userController.editProfileInfo
 );
@@ -84,6 +84,7 @@ router.delete(
 
 /****** Plant Routes ********/
 router.get("/getAllPlants", plantController.getAllPlants);
+router.get("/getAllPlants", plantController.getPlantById);
 
 /****** Search Routes ********/
 router.get("/search/posts/:value", searchController.searchPosts);

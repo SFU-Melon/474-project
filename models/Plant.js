@@ -11,6 +11,15 @@ Plant.getAll = async () => {
   }
 };
 
+Plant.getPlantById = async () => {
+  try {
+    //TODO: plant queries here
+
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 Plant.search = async (value, limit = 10) => {
   try {
     const res = await pool.query(

@@ -15,10 +15,10 @@ const Profile = () => {
 
   const [userPosts, setUserPosts] = useState([]);
   const [savedPosts, setSavedPosts] = useState([]);
-  const [userLikedPosts, setUserLikedPosts] = useState([]);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [stats, setStats] = useState();
 
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
@@ -41,15 +41,6 @@ const Profile = () => {
     }
   };
 
-  const fetchUserLikedPosts = async () => {
-    try {
-      const res = await axios.get(`/api/getPostLikedNotOwned/${user?.id}`);
-      setUserLikedPosts(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const fetchFollowData = async () => {
     try {
       const res = await axios.get(
@@ -58,6 +49,17 @@ const Profile = () => {
       if (res.data.success) {
         setFollowers(res.data.followers);
         setFollowing(res.data.following);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const fetchUserStats = async () => {
+    try {
+      const res = await axios.get(`/api/userstats/${user?.id}`);
+      if (res.data.success) {
+        setStats(res.data.stats);
       }
     } catch (err) {
       console.log(err.message);
@@ -74,8 +76,8 @@ const Profile = () => {
   useEffect(() => {
     fetchUserPosts();
     fetchSavedPosts();
-    fetchUserLikedPosts();
     fetchFollowData();
+    fetchUserStats();
     handleDate();
   }, [user]);
 
@@ -128,16 +130,15 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <h5 className="card-title">Highlights</h5>
               <hr className="w-100"></hr>
-              <p>
-                Thinking about adding images of most liked posts by the user
-                here or posts they like with the most traffic. Maybe commments.
-              </p>
+              <p>Total Votes Received: {stats?.totalLikes}</p>
+              <p>Total Comments Received: {stats?.totalComments}</p>
+              <p>Most Votes Received: {stats?.mostLikes}</p>
+              <p>Most Comments Received: {stats?.mostComments}</p>
             </div>
           </div>
           <div className="d-flex flex-column mx-3 w-75">
             <div className="card-body">
               <ProfileTabs
-                userLikedPosts={userLikedPosts}
                 userPosts={userPosts}
                 savedPosts={savedPosts}
                 username={user?.username}

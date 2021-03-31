@@ -9,27 +9,13 @@ export default function ProfileTabs(props) {
   return (
     <Tabs>
       <TabList>
-        <Tab>{props.username ? `${props.username}'s Posts` : "Your Posts"}</Tab>
-        <Tab>
-          {props.username
-            ? `Posts ${props.username} Likes`
-            : "Posts You've Liked"}
-        </Tab>
+        <Tab>{props.username ? `${props.username}'s Posts` : `Your Posts`}</Tab>
         {user?.username === props.username && <Tab>{"Saved Posts"}</Tab>}
       </TabList>
 
       <TabPanel>
         {props.userPosts?.length > 0 ? (
           props?.userPosts.map((post) => (
-            <ProfilePostCard key={post.id} post={post}></ProfilePostCard>
-          ))
-        ) : (
-          <NullPost />
-        )}
-      </TabPanel>
-      <TabPanel>
-        {props.userLikedPosts?.length > 0 ? (
-          props.userLikedPosts?.map((post) => (
             <ProfilePostCard key={post.id} post={post}></ProfilePostCard>
           ))
         ) : (

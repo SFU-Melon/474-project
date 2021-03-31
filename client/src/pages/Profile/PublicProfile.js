@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
-import { useUserContext } from "../../contexts/UserContext";
-import FollowButton from "../../components/FollowButton";
+import { useUserContext } from "@contexts/UserContext";
+import FollowButton from "@components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
 import { useParams } from "react-router-dom";

@@ -1,8 +1,8 @@
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { useUserContext } from "../../contexts/UserContext";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { useUserContext } from "@contexts/UserContext";
+import { useAuthContext } from "@contexts/AuthContext";
 import "./login.css";
 
 export default function Login(props) {

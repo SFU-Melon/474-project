@@ -63,12 +63,13 @@ router.post(
 );
 
 router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
+
+router.get("/getPosts", postController.getPosts);
 router.get(
   "/getPost/:id",
   postController.checkSaveStatus,
   postController.getPostById
 );
-router.get("/getAllPosts", postController.getAllPosts);
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
   "/deletePost/:id",

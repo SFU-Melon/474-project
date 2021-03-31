@@ -1,6 +1,5 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-// import PostCard from "../../components/PostCard";
 import ProfilePostCard from "./ProfilePostCard";
 import NullPost from "./NullPost";
 import { useUserContext } from "../../contexts/UserContext";

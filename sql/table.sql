@@ -25,6 +25,7 @@ CREATE TABLE plants(
 
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    sortingid SERIAL,
     dateTime TIMESTAMP NOT NULL,
     title VARCHAR(200) NOT NULL,
     content TEXT,

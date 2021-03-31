@@ -105,7 +105,10 @@ Post.getPostById = async ({ userId, postId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        "SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val  FROM posts LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 WHERE posts.id = $1",
+        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val 
+         FROM posts 
+         LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 
+         WHERE posts.id = $1`,
         [postId, userId]
       );
       return res.rows[0];
@@ -241,18 +244,30 @@ Post.updateNumOfComments = async ({ change, postId }) => {
   }
 };
 
-Post.search = async ({ filterType, value }, limit = 10) => {
+Post.search = async (
+  { value, lastElementSubVal, lastElementRank, sortingId },
+  limit = 5
+) => {
+  //MIGHT NOT NEED ELEMENTSubVal
   try {
+    // Initializing wherePart
+    let wherePart = "";
+    if (lastElementRank != undefined) {
+      wherePart = `WHERE (rank < ${lastElementRank})
+       OR (rank = ${lastElementRank} AND numoflikes < ${lastElementSubVal}) 
+       OR (rank = ${lastElementRank} AND numoflikes = ${lastElementSubVal} AND sortingid > ${sortingId})`;
+    }
     const res = await pool.query(
-      `SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, ts_rank(document_with_weights, plainto_tsquery($1)) AS Rank \
+      `SELECT * FROM (
+      SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1)) AS rank \
       FROM posts \
-      WHERE document_with_weights @@ plainto_tsquery($1) \
-      ORDER BY Rank DESC, ${
-        filterType === "hot" ? "numoflikes" : "dateTime"
-      } DESC\
+      WHERE document_with_weights @@ plainto_tsquery($1)\
+      ORDER BY rank DESC, numoflikes DESC, sortingid ASC) AS SUB\
+      ${wherePart}
       LIMIT $2`,
       [value, limit]
     );
+    console.log(" data returned", res.rows);
     return res.rows;
   } catch (err) {
     console.log(err.mesage);

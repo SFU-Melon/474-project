@@ -5,8 +5,18 @@ const searchController = {};
 
 searchController.searchPosts = async (req, res) => {
   const { value } = req.params;
-  const { filterType } = req.query;
-  const data = { value, filterType };
+  const {
+    lastElementSubVal = undefined,
+    lastElementRank = undefined,
+    sortingId = undefined,
+  } = req.query;
+  const data = {
+    value,
+    lastElementSubVal,
+    lastElementRank,
+    sortingId,
+  };
+  console.log("data in search POsts", data);
   try {
     const result = await Post.search(data);
     if (result) {
@@ -65,8 +75,21 @@ searchController.searchUsers = async (req, res) => {
 
 searchController.searchAll = async (req, res) => {
   const { value } = req.params;
+  const {
+    filterType,
+    lastElementSubVal = undefined,
+    lastElementRank = undefined,
+    sortingId = undefined,
+  } = req.query;
+  const data = {
+    value,
+    filterType,
+    lastElementSubVal,
+    lastElementRank,
+    sortingId,
+  };
   try {
-    const posts = await Post.search(value, 5);
+    const posts = await Post.search(data, 5);
     const plants = await Plant.search(value, 5);
     const users = await User.search(value, 5);
     return res.json({

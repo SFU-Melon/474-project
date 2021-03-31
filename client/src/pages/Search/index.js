@@ -4,9 +4,9 @@ import ProfilePostCard from "../Profile/ProfilePostCard";
 import SmallPlantCard from "./SmallPlantCard";
 import UserCard from "../../components/UserCard";
 import { useLocation } from "react-router-dom";
-import SearchFilter from "../../components/SearchFilter";
 import NoResult from "./NoResult";
-
+import InfiniteScroll from "react-infinite-scroll-component";
+import "./section.css";
 const scopeList = ["posts", "all", "plants", "users"];
 
 export default function Search() {
@@ -17,34 +17,54 @@ export default function Search() {
   const [plants, setPlants] = useState([]);
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
   let location = useLocation();
-  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
+  let lastPost, lastElementRank;
 
-  const runSearch = async () => {
+  const runSearch = async (isFirst) => {
+    if (isFirst === "first") {
+      setHasMore(true);
+    }
     const res = await axios.get(`/api/search/${scope}/${value}`, {
       params: {
-        filterType,
+        lastElementSubVal: lastPost?.numoflikes,
+        lastElementRank: isFirst === "first" ? undefined : lastPost?.rank,
+        sortingId: lastPost?.sortingid,
       },
     });
     if (res.data.success) {
-      res.data.posts && setPosts(res.data.posts);
+      if (res.data.posts) {
+        if (isFirst !== "first") {
+          //filtering out the same posts from prev posts in newPosts
+          const newPosts = res.data.posts.filter(
+            (element) => !posts.map((post) => post.id).includes(element.id)
+          );
+          setPosts((prev) => [...prev, ...newPosts]);
+        } else {
+          setPosts(res.data.posts);
+        }
+      }
       res.data.users && setUsers(res.data.users);
       res.data.plants && setPlants(res.data.plants);
     }
+    if (res.data.posts === undefined || res.data.posts?.length === 0) {
+      setHasMore(false);
+    }
   };
 
+  //need to fix the behaviour when the user searches again. The state still has the prev values
   useEffect(() => {
     if (scope && value) {
       if (scopeList.includes(scope)) {
-        runSearch();
+        runSearch("first");
       }
     }
   }, [scope, value, location]);
 
   const renderPlantSection = () => {
     return (
-      <div>
+      <div className={`${scope === "all" && "mt-3"}`}>
         <h3>Plant Results:</h3>
         {plants.length === 0 ? (
           <NoResult />
@@ -58,12 +78,36 @@ export default function Search() {
   const renderPostSection = () => {
     return (
       <div>
-        {posts.length !== 0 && <SearchFilter />}
-        <h3>Post Results:</h3>
+        {scope !== "all" && <h3 className="">Post Results:</h3>}
         {posts.length === 0 ? (
           <NoResult />
         ) : (
-          posts.map((post) => <ProfilePostCard post={post} />)
+          <div className="">
+            <InfiniteScroll
+              dataLength={posts.length}
+              pageStart={0}
+              next={runSearch}
+              hasMore={hasMore}
+              scrollableTarget={scope === "all" && "post-scrollable"}
+              loader={
+                <div className="loader" key={0}>
+                  Loading ...
+                </div>
+              }
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >
+              {posts.map((post, index) => {
+                if (posts.length === index + 1) {
+                  lastPost = post;
+                }
+                return <ProfilePostCard key={post.id} post={post} />;
+              })}
+            </InfiniteScroll>
+          </div>
         )}
       </div>
     );
@@ -97,10 +141,15 @@ export default function Search() {
         return (
           <div className="row">
             <div className="col col-md-10">
-              <div className="row">{renderPostSection()}</div>
-              <div className="row">{renderPlantSection()}</div>
+              <h3 className="">Post Results:</h3>
+              <div className="post-section row" id="post-scrollable">
+                {renderPostSection()}
+              </div>
+              <div className="plant-section row">{renderPlantSection()}</div>
             </div>
-            <div className="col col-md-auto">{renderUserSection()}</div>
+            <div className="user-section col col-md-auto">
+              {renderUserSection()}
+            </div>
           </div>
         );
     }
@@ -110,7 +159,6 @@ export default function Search() {
     <Fragment>
       <div>
         <div className="container-fluid">
-          {console.log(location, "LOCATION IN SEARCH")}
           <div> {setUpTemplate()}</div>
         </div>
       </div>

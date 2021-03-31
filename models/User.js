@@ -166,4 +166,28 @@ User.editProfileInfo = async (userId, fname, lname, email, dobFinal) => {
     console.log(err.message);
   }
 };
+
+User.getStats = async (id) => {
+  try {
+    let res = await pool.query(
+      "SELECT SUM(numoflikes) as totallikes, SUM(numofcomments) as totalcomments, \
+      MAX(numoflikes) as mostlikes, MAX(numofcomments) as mostcomments \
+      FROM posts \
+      WHERE userid=$1 GROUP BY userid",
+      [id]
+    );
+    if (res.rows) {
+      res = res.rows[0];
+    }
+    const result = {
+      mostLikes: res?.mostlikes ? res.mostlikes : 0,
+      mostComments: res?.mostcomments ? res.mostcomments : 0,
+      totalLikes: res?.totallikes ? res.totallikes : 0,
+      totalComments: res?.totalcomments ? res.totalcomments : 0,
+    };
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
 module.exports = User;

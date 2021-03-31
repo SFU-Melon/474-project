@@ -64,7 +64,7 @@ export default function Home() {
     return () => {
       isMounted = false;
     };
-  }, [user]);
+  }, [user, location]);
 
   return (
     <Fragment>

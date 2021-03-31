@@ -1,4 +1,5 @@
 import Vote from "@components/Vote";
+import { useUserContext } from "@contexts/UserContext";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Utility from "../../utils";
@@ -8,6 +9,7 @@ export default function PostCard({ post }) {
   const [displayTime, setDisplayTime] = useState("");
   const encoded = Utility.encodeUUID(post.id);
   const encodedTitle = encodeURIComponent(post.title);
+  const { user } = useUserContext();
 
   useEffect(() => {
     const time = Utility.getDisplayTime(post.datetime);
@@ -41,7 +43,11 @@ export default function PostCard({ post }) {
             <p>
               Posted by{" "}
               <span>
-                <Link to={`profile/public/${post.authorname}`}>
+                <Link
+                  to={`profile/${
+                    post.authorname !== user?.username ? "public/" : ""
+                  }${post.authorname}`}
+                >
                   {post.authorname}
                 </Link>
               </span>{" "}

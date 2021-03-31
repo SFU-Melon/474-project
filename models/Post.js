@@ -76,7 +76,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId }) => {
   }
 };
 
-Post.getAllPostsFromUserId = async ({ userId }) => {
+Post.getAllPostsFromUserId = async (userId) => {
   try {
     if (userId != undefined) {
       const res = await pool.query("SELECT * FROM posts WHERE userId = $1", [
@@ -257,9 +257,10 @@ Post.search = async (
        OR (rank = ${lastElementRank} AND numoflikes < ${lastElementSubVal}) 
        OR (rank = ${lastElementRank} AND numoflikes = ${lastElementSubVal} AND sortingid > ${sortingId})`;
     }
+    console.log(wherePart);
     const res = await pool.query(
       `SELECT * FROM (
-      SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1)) AS rank \
+      SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
       FROM posts \
       WHERE document_with_weights @@ plainto_tsquery($1)\
       ORDER BY rank DESC, numoflikes DESC, sortingid ASC) AS SUB\

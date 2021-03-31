@@ -16,7 +16,6 @@ searchController.searchPosts = async (req, res) => {
     lastElementRank,
     sortingId,
   };
-  console.log("data in search POsts", data);
   try {
     const result = await Post.search(data);
     if (result) {

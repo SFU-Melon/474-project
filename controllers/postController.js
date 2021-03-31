@@ -133,7 +133,7 @@ postController.deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     await Post.delete(id);
-    res.json(`post ${id} is deleted`);
+    return res.json({ success: true });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ success: false });

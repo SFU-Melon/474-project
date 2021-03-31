@@ -3,6 +3,8 @@ import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import Utility from "../../utils";
 import { useUserContext } from "../../contexts/UserContext";
+import { useHistory } from "react-router-dom";
+import { Modal } from "react-responsive-modal";
 
 // Components
 import Vote from "../../components/Vote";
@@ -16,6 +18,11 @@ const Post = () => {
   const { id } = useParams();
   const { user } = useUserContext();
   const decoded = Utility.decodeUUID(id);
+  let history = useHistory();
+
+  const [open, setOpen] = useState(false);
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
 
   const fetchPost = async () => {
     const res = await axios.get(`/api/getPost/${decoded}`);
@@ -41,7 +48,19 @@ const Post = () => {
     }
   };
 
-  // TODO: Work with voting
+  const handleDelete = async () => {
+    try {
+      if (decoded) {
+        const res = await axios.delete(`/api/deletePost/${decoded}`);
+        if (res.data.success) {
+          history.push("/");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Fragment>
       {post && (
@@ -67,10 +86,25 @@ const Post = () => {
                   )}
                 </div>
                 <div>
-                  {post.content && <h3 className="m-4">{post.content}</h3>}
-                  {user && (
+                  {post.content && (
+                    <p
+                      className="m-4"
+                      style={{
+                        whiteSpace:
+                          "pre-wrap" /*** DO NOT DELETE THIS (NEEDED FOR LINE BREAKS) ***/,
+                      }}
+                    >
+                      {post.content}
+                    </p>
+                  )}
+                  {user && user.id !== post.userid && (
                     <button className="m-4" onClick={handleSave}>
                       {saveClicked ? "Saved!" : "Save"}
+                    </button>
+                  )}
+                  {user && user.id === post.userid && (
+                    <button className="m-4" onClick={onOpenModal}>
+                      Delete
                     </button>
                   )}
                 </div>
@@ -85,6 +119,39 @@ const Post = () => {
           </div>
         </div>
       )}
+
+      <Modal
+        className="custom-modal"
+        open={open}
+        onClose={onCloseModal}
+        center
+        classNames={{
+          overlay: "customOverlay",
+          modal: "customModal",
+        }}
+      >
+        <div>
+          <h3 id="ModalTitle">Are you sure?</h3>
+          <div className="row">
+            <div className="col">
+              <button
+                className="btn btn-danger form-control"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+            <div className="col">
+              <button
+                className="btn btn-secondary form-control"
+                onClick={onCloseModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </Fragment>
   );
 };

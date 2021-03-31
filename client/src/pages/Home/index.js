@@ -12,7 +12,6 @@ export default function Home() {
   const fetchAllPosts = async (isMounted) => {
     try {
       const res = await axios.get("/api/getAllPosts");
-      //setAllPosts(res.data);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -28,8 +27,6 @@ export default function Home() {
       isMounted = false;
     };
   }, [user]);
-
-  const handleSearch = () => {};
 
   return (
     <Fragment>

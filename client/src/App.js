@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Post from "./pages/Post";
+import Plant from "./pages/Plant";
 import Plants from "./pages/Plants";
 import Error from "./pages/Error";
 import { UserProvider } from "./contexts/UserContext";
@@ -24,6 +25,7 @@ function App() {
               <Switch>
                 <Route exact path="/post/:title/:id" component={Post} />
                 <Route exact path="/plants" component={Plants} />
+                <Route exact path="/plants/:sciName" component={Plant} />
                 <Route exact path="/" component={Home} />
                 <Route
                   exact

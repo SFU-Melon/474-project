@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useUserContext } from "@contexts/UserContext";
 import Utility from "../../utils";
 import "./style.css";
+import Vote from "@components/Vote";
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
@@ -33,11 +34,16 @@ export default function CommentList({ postId, comments, setComments }) {
     fetchAllComments();
   }, []);
 
-  //TODO: MAKE COMMENT DELETE WORK, delete button only showned for whom posted the comment.
   return (
     <>
       {comments.map((comment) => (
-        <div key={comment.id} className="card  w-75 align-self-center m-2">
+        <div
+          key={comment.id}
+          className="card  w-75 align-self-center m-2 flex-row"
+        >
+          <div className="m-1">
+            <Vote />
+          </div>
           <div className="">
             <div className="d-flex flex-row mt-1 ">
               <span>

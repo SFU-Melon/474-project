@@ -19,7 +19,7 @@ export default function PostCard({ post }) {
   return (
     <div className="post-card card flex-row p-3 m-2">
       <Vote
-        postId={post.id}
+        votedId={post.id}
         numOfLikes={post.numoflikes}
         preVoteStatus={post.val}
       />

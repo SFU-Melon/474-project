@@ -38,13 +38,13 @@ CREATE TABLE posts(
         ON DELETE CASCADE
 );
 
-CREATE TABLE likes(
+ACREATE TABLE likes(
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     val INTEGER, /*Integer restrictued to 1, -1*/
-    PRIMARY KEY(userId, postId)
+    PRIMRY KEY(userid, postid)
 );
 
 CREATE TABLE followers(
@@ -60,6 +60,17 @@ CREATE TABLE comments(
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     content TEXT
+);
+
+CREATE TABLE likescomment(
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    commentid uuid REFERENCES comments(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    val INTEGER, /*Integer restrictued to 1, -1*/
+    PRIMARY KEY(userid, commentid, postid)
 );
 
 CREATE TABLE outdoor(

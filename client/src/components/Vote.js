@@ -3,7 +3,7 @@ import { useUserContext } from "@contexts/UserContext";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 
-const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
+const Vote = ({ votedId, numOfLikes, preVoteStatus }) => {
   const { user } = useUserContext();
   const [voteStatus, setVoteStatus] = useState(0);
   const [totalLikes, setTotalLikes] = useState(numOfLikes);
@@ -13,7 +13,8 @@ const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
   const handleVote = async (voteOperation) => {
     try {
       const res = await axios.post(`/api/${voteOperation}/${user.id}`, {
-        postId: postId,
+        votedId,
+        type: "post",
       });
       setVoteStatus(res.data.newVoteStatus);
       setTotalLikes(res.data.numoflikes);

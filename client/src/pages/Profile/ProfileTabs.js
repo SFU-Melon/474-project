@@ -1,19 +1,16 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-// import PostCard from "../../components/PostCard";
 import ProfilePostCard from "./ProfilePostCard";
 import NullPost from "./NullPost";
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function ProfileTabs(props) {
+  const { user } = useUserContext();
   return (
     <Tabs>
       <TabList>
-        <Tab>{props.username ? `${props.username}'s Posts` : "Your Posts"}</Tab>
-        <Tab>
-          {props.username
-            ? `Posts ${props.username} Likes`
-            : "Posts You've Liked"}
-        </Tab>
+        <Tab>{props.username ? `${props.username}'s Posts` : `Your Posts`}</Tab>
+        {user?.username === props.username && <Tab>{"Saved Posts"}</Tab>}
       </TabList>
 
       <TabPanel>
@@ -25,9 +22,10 @@ export default function ProfileTabs(props) {
           <NullPost />
         )}
       </TabPanel>
+
       <TabPanel>
-        {props.userLikedPosts?.length > 0 ? (
-          props.userLikedPosts?.map((post) => (
+        {props.savedPosts?.length > 0 ? (
+          props.savedPosts?.map((post) => (
             <ProfilePostCard key={post.id} post={post}></ProfilePostCard>
           ))
         ) : (

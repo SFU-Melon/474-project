@@ -8,9 +8,9 @@ import Post from "./pages/Post";
 import Plant from "./pages/Plant";
 import Plants from "./pages/Plants";
 import Error from "./pages/Error";
-import { UserProvider } from "./contexts/UserContext";
+import { UserProvider } from "@contexts/UserContext";
 import ProtectedRoutes from "./protected-routes/ProtectedRoutes";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider } from "@contexts/AuthContext";
 import PublicProfile from "./pages/Profile/PublicProfile";
 import Search from "./pages/Search";
 
@@ -27,11 +27,14 @@ function App() {
                 <Route exact path="/plants" component={Plants} />
                 <Route exact path="/plants/:sciName" component={Plant} />
                 <Route exact path="/" component={Home} />
+                <Route exact path="/hot" component={Home} />
+                <Route exact path="/new" component={Home} />
                 <Route
                   exact
                   path="/profile/public/:username"
                   component={PublicProfile}
                 />
+                `
                 <ProtectedRoutes
                   exact
                   path="/profile/:username"

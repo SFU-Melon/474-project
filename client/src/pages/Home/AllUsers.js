@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import FollowButton from "../../components/FollowButton";
+import FollowButton from "@components/FollowButton";
 
 export default function AllUsers() {
   const [users, setUsers] = useState(null);

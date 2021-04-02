@@ -11,10 +11,10 @@ Plant.getAll = async () => {
   }
 };
 
-Plant.getPlantById = async () => {
+Plant.getPlantById = async (id) => {
   try {
-    //TODO: plant queries here
-
+    const res = await pool.query("SELECT * FROM plants WHERE id = $1", [id]);
+    return res.rows;
   } catch (err) {
     console.log(err.message);
   }

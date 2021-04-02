@@ -10,7 +10,7 @@ export default function PlantCard({ plant }) {
     <div className="card flex-row p-3 m-2">
       <div>
         <Link
-          to={`/plant/:commaname`}
+          to={`/plant/:commaname`} // TODO: what do i do about commname to display it in the page?
           style={{ textDecoration: "none", color: "black" }}
         >
           <h2>

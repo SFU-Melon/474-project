@@ -29,14 +29,14 @@ router.post("/unfollows", userController.unfollows);
 
 /******  User Edit Routes ********/
 router.post(
-  "/editProfilePhoto/:userId", 
-  ensureAuthenticated, 
+  "/editProfilePhoto/:userId",
+  ensureAuthenticated,
   userController.editProfilePhoto
 );
 
 router.post(
-  "/editProfileInfo/:userId", 
-  ensureAuthenticated, 
+  "/editProfileInfo/:userId",
+  ensureAuthenticated,
   userController.editProfileInfo
 );
 

@@ -16,4 +16,19 @@ plantController.getAllPlants = async (req, res) => {
   }
 };
 
+plantController.getPlantById = async (req, res) => {
+  try {
+    const plant = await Plant.getPlantById();
+    return res.json({
+      success: true,
+      plant,
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.json({
+      success: false,
+    });
+  }
+};
+
 module.exports = plantController;

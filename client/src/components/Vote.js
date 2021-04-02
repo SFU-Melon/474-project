@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useUserContext } from '../contexts/UserContext';
-import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useUserContext } from "@contexts/UserContext";
+import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 
 const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
   const { user } = useUserContext();
@@ -31,14 +31,14 @@ const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
       {user ? (
         <button
           className={`btn ${
-            voteStatus === 1 ? 'btn-secondary' : 'btn-outline-secondary'
+            voteStatus === 1 ? "btn-secondary" : "btn-outline-secondary"
           }  btn-sm`}
-          onClick={() => handleVote('upVotePost')}
+          onClick={() => handleVote("upVotePost")}
         >
           <span className="material-icons">arrow_upward</span>
         </button>
       ) : (
-        <Link to={{ pathname: '/login', state: { prevPath: location } }}>
+        <Link to={{ pathname: "/login", state: { prevPath: location } }}>
           <button className="btn btn-outline-secondary">
             <span className="material-icons">arrow_upward</span>
           </button>
@@ -48,14 +48,14 @@ const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
       {user ? (
         <button
           className={`btn ${
-            voteStatus === -1 ? 'btn-danger' : 'btn-outline-danger'
+            voteStatus === -1 ? "btn-danger" : "btn-outline-danger"
           }  btn-sm`}
-          onClick={() => handleVote('downVotePost')}
+          onClick={() => handleVote("downVotePost")}
         >
           <span className="material-icons">arrow_downward</span>
         </button>
       ) : (
-        <Link to={{ pathname: '/login', state: { prevPath: location } }}>
+        <Link to={{ pathname: "/login", state: { prevPath: location } }}>
           <button className="btn btn-outline-danger">
             <span className="material-icons">arrow_downward</span>
           </button>

@@ -12,10 +12,13 @@ router.post("/signup", userController.signup);
 router.get("/user", ensureAuthenticated, userController.getAuthUser);
 router.get("/logout", userController.logout);
 
-/******  Following Routes ********/
+/******  User Routes ********/
 router.get("/getAllUsers", userController.getAllUsers);
 router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUserByUsername/:username", userController.getUserByUsername);
+router.get("/userstats/:id", userController.getUserStats);
+
+/******  Following Routes ********/
 router.get(
   "/getFollowersAndFollowing/:userId",
   userController.getFollowersAndFollowing
@@ -60,12 +63,13 @@ router.post(
 );
 
 router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
+
+router.get("/getPosts", postController.getPosts);
 router.get(
   "/getPost/:id",
   postController.checkSaveStatus,
   postController.getPostById
 );
-router.get("/getAllPosts", postController.getAllPosts);
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
   "/deletePost/:id",

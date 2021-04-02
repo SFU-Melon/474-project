@@ -12,7 +12,9 @@ const Following = (props) => {
     <Fragment>
       {/* eslint-disable-next-line */}
       <a onClick={onOpenModal}>
-        <span>{props.following?.length} Following</span>
+        <span className="follow-links">
+          {props.following?.length} Following
+        </span>
       </a>
 
       {/* Modal */}

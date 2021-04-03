@@ -21,6 +21,20 @@ Post.create = async (data) => {
         tags
       ]
     );
+
+    const postId = res.rows[0].id;
+    
+    try {
+      for (const tag of tags){
+        await pool.query(
+          "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
+          [tag,postId,userId]
+        )
+      }
+    } catch (err){
+      console.error(err.message);
+    }
+
     return res.rows[0];
   } catch (err) {
     console.error(err.message);

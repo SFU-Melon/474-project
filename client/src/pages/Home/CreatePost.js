@@ -24,11 +24,11 @@ const CreatePost = (props) => {
   
   // Options for tags
   const options  = [
-    {key: 'firstpost', text: 'First Post', value: 'firstpost'},
-    {key: 'question', text: 'Question', value: 'question'},
-    {key: 'help', text: 'Help', value: 'help'},
-    {key: 'tips', text: 'Tips', value: 'tips'},
-    {key: 'suggestion', text: 'Suggestion', value: 'suggestion'},
+    {key: 'firstpost', text: 'First Post', value: 'First Post'},
+    {key: 'question', text: 'Question', value: 'Question'},
+    {key: 'help', text: 'Help', value: 'Help'},
+    {key: 'tips', text: 'Tips', value: 'Tips'},
+    {key: 'suggestion', text: 'Suggestion', value: 'Suggestion'},
   ]
 
   // Handle change of tags

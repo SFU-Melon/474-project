@@ -193,21 +193,19 @@ CREATE TABLE plantdiseases(
     PRIMARY KEY(id, plantid)
 );
 
+-- CREATE TABLE tags(
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(200) NOT NULL UNIQUE
+-- ); 
 
 CREATE TABLE tagged(
-    tagid SERIAL REFERENCES tags(id)
-        ON DELETE CASCADE,
+    tag TEXT NOT NULL,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
-    PRIMARY KEY(tagid, postid, userid)
+    PRIMARY KEY(tag, postid, userid)
 );
-
-CREATE TABLE tags(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(200) NOT NULL UNIQUE
-); 
 
 CREATE TABLE saves(
     userid uuid REFERENCES users(id)

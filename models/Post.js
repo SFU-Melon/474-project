@@ -21,21 +21,6 @@ Post.create = async (data) => {
         tags
       ]
     );
-
-    // tags.forEach(element => {
-    //   console.log(element)
-    //   const res = await pool.query(
-    //     "SELECT id FROM tag WHERE name LIKE '%1'",
-    //     [
-    //       element,
-    //     ]
-    //   );
-
-    //   console.log(res);
-    // });
-    // const res = await.query(
-    //   "INSERT INTO tags "
-    // )
     return res.rows[0];
   } catch (err) {
     console.error(err.message);

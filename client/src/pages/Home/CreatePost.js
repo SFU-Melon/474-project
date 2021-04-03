@@ -107,7 +107,7 @@ const CreatePost = (props) => {
       } else {
         sendToDatabase();
         onCloseModal();
-        // setTimeout(() => window.location.reload(), 200);
+        setTimeout(() => window.location.reload(), 200);
       }
     }
   };

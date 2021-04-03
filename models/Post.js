@@ -22,19 +22,20 @@ Post.create = async (data) => {
       ]
     );
 
-    const postId = res.rows[0].id;
-    
-    try {
-      for (const tag of tags){
-        await pool.query(
-          "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
-          [tag,postId,userId]
-        )
+    // Insert tags after post insertion
+    const postId = res.rows[0]?.id;    
+    if (postId && userId && tags.length > 0){
+      try {
+        for (const tag of tags){
+          await pool.query(
+            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
+            [tag,postId,userId]
+          )
+        }
+      } catch (err){
+        console.error(err.message);
       }
-    } catch (err){
-      console.error(err.message);
     }
-
     return res.rows[0];
   } catch (err) {
     console.error(err.message);

@@ -22,7 +22,7 @@ const CreatePost = (props) => {
   const [tags, setTags] = useState([]);
   const TITLE_MIN_LENGTH = 5;
   
-  // Options for tags
+  // Placeholder ptions for tags
   const options  = [
     {key: 'firstpost', text: 'First Post', value: 'First Post'},
     {key: 'question', text: 'Question', value: 'Question'},

@@ -193,11 +193,6 @@ CREATE TABLE plantdiseases(
     PRIMARY KEY(id, plantid)
 );
 
--- CREATE TABLE tags(
---     id SERIAL PRIMARY KEY,
---     name VARCHAR(200) NOT NULL UNIQUE
--- ); 
-
 CREATE TABLE tagged(
     tag TEXT NOT NULL,
     postid uuid REFERENCES posts(id)

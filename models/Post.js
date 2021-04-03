@@ -9,7 +9,7 @@ Post.create = async (data) => {
 
   try {
     const res = await pool.query(
-      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7) RETURNING *",
+      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname, tags) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7,$8) RETURNING *",
       [
         Date.now() / 1000.0,
         title,
@@ -18,8 +18,24 @@ Post.create = async (data) => {
         userId,
         content,
         authorname,
+        tags
       ]
     );
+
+    // tags.forEach(element => {
+    //   console.log(element)
+    //   const res = await pool.query(
+    //     "SELECT id FROM tag WHERE name LIKE '%1'",
+    //     [
+    //       element,
+    //     ]
+    //   );
+
+    //   console.log(res);
+    // });
+    // const res = await.query(
+    //   "INSERT INTO tags "
+    // )
     return res.rows[0];
   } catch (err) {
     console.error(err.message);

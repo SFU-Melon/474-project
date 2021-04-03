@@ -38,6 +38,7 @@ CREATE TABLE posts(
     numoflikes INTEGER DEFAULT 0 NOT NULL,
     numofcomments INTEGER DEFAULT 0 NOT NULL,
     authorname VARCHAR(200),
+    tags TEXT[],
     userid uuid references users(id)
         ON DELETE CASCADE
 );
@@ -274,6 +275,8 @@ INSERT INTO tags (name) VALUES
 (
     'Suggestion'
 );
+
+
 
 /* Insert saves */
 INSERT INTO saves (userid,postid) VALUES

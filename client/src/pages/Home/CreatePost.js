@@ -6,8 +6,9 @@ import { Modal } from "react-responsive-modal";
 import SearchInputLocation from "./SearchInputLocation";
 import "react-responsive-modal/styles.css";
 import "./style.css";
-import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
+import "semantic-ui-css/semantic.min.css";
+import { Dropdown } from 'semantic-ui-react';
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -18,8 +19,22 @@ const CreatePost = (props) => {
   const [location, setLocation] = useState("");
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [tags, setTags] = useState(["example tag"]);
+  const [tags, setTags] = useState([]);
   const TITLE_MIN_LENGTH = 5;
+  
+  // Options for tags
+  const options  = [
+    {key: 'firstpost', text: 'First Post', value: 'firstpost'},
+    {key: 'question', text: 'Question', value: 'question'},
+    {key: 'help', text: 'Help', value: 'help'},
+    {key: 'tips', text: 'Tips', value: 'tips'},
+    {key: 'suggestion', text: 'Suggestion', value: 'suggestion'},
+  ]
+
+  // Handle change of tags
+  const handleTags = (e, {value}) => {
+    setTags(value);
+  }
 
   // Handling modal open/close
   const onOpenModal = () => setOpen(true);
@@ -52,6 +67,7 @@ const CreatePost = (props) => {
           setLocation("");
           setFile(null);
           setFileType("");
+          setTags([]);
 
           // Use res post id to insert uid, pid and tag array
           // to Post model -- then parse and enter each tag into
@@ -141,7 +157,7 @@ const CreatePost = (props) => {
           <h3 id="ModalTitle">Create Post</h3>
           <div>
             <form onSubmit={handleUpload}>
-              <div className="mb-2">
+              <div className="mb-3">
                 <p className="control" style={{ color: "red" }}>
                   {errorMessage}
                 </p>
@@ -149,24 +165,27 @@ const CreatePost = (props) => {
                 <input
                   type="text"
                   className="form-control"
+                  placeholder="Add a title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <div className="mb-2">
+              <div className="mb-3">
+                <h6>Tags</h6>
+                <Dropdown placeholder="Select tags" 
+                  fluid multiple selection options={options} onChange={handleTags}/>
+              </div>
+              <div className="mb-3">
                 <h6>Description</h6>
                 <textarea
                   type="text"
                   className="form-control"
                   rows="10"
                   wrap="hard" //needed for line breaks
+                  placeholder="Enter a description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-              </div>
-              <div className="mb-2">
-                <h6>Location</h6>
-                <SearchInputLocation setLocation={setLocation} />
               </div>
               <div className="mb-3">
                 <h6>Image</h6>
@@ -179,11 +198,8 @@ const CreatePost = (props) => {
                 />
               </div>
               <div className="mb-3">
-                <h6>Tags</h6>
-                <ReactTagInput 
-                  tags={tags} 
-                  onChange={(newTags) => setTags(newTags)}
-                />
+                <h6>Location</h6>
+                <SearchInputLocation setLocation={setLocation} />
               </div>
               <button type="submit" className="btn btn-success form-control">
                 Submit

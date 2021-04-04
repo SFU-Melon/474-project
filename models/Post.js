@@ -3,12 +3,13 @@ const pool = require("../db");
 const Post = {};
 
 Post.create = async (data) => {
-  const { location, imageUrl, content, title } = data.body;
+  const { location, imageUrl, content, title, tags } = data.body;
   const { userId } = data.params;
   const { username: authorname } = data.user;
+
   try {
     const res = await pool.query(
-      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7) RETURNING *",
+      "INSERT INTO posts (dateTime, title, location, imageUrl, userId, content, authorname, tags) VALUES (to_timestamp($1),$2,$3,$4,$5,$6,$7,$8) RETURNING *",
       [
         Date.now() / 1000.0,
         title,
@@ -17,8 +18,24 @@ Post.create = async (data) => {
         userId,
         content,
         authorname,
+        tags
       ]
     );
+
+    // Insert tags after post insertion
+    const postId = res.rows[0]?.id;    
+    if (postId && userId && tags.length > 0){
+      try {
+        for (const tag of tags){
+          await pool.query(
+            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
+            [tag,postId,userId]
+          )
+        }
+      } catch (err){
+        console.error(err.message);
+      }
+    }
     return res.rows[0];
   } catch (err) {
     console.error(err.message);

@@ -72,7 +72,7 @@ router.get(
 );
 router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
-  "/deletePost/:id",
+  "/deletePost/:postId/:userId",
   ensureAuthenticated,
   postController.deletePost
 );

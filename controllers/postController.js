@@ -72,7 +72,6 @@ postController.downVote = async (req, res) => {
 };
 
 postController.editPostById = async (req, res) => {
-  console.log(req);
   try{
     const editPost = await Post.editPostById(req);
     res.status(200).json({message: "Edited post successfully!"});
@@ -145,8 +144,7 @@ postController.getAllPostsFromUserId = async (req, res) => {
 
 postController.deletePost = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Post.delete(id);
+    await Post.delete(req);
     return res.json({ success: true });
   } catch (err) {
     console.error(err.message);

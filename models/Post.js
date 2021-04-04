@@ -121,9 +121,6 @@ Post.getPostLikedNotOwned = async (userId) => {
 Post.editPostById = async (data) => {
   const { userId } = data.params;
   const { postId, title, content, location, tags } = data.body;
-  console.log("userid: " + userId);
-  console.log("postid: "+ postId);
-  console.log("title: "+ title);
   try{
     if(userId && postId && title){
       const res = await pool.query(
@@ -276,9 +273,22 @@ Post.cancelVote = async (data) => {
   }
 };
 
-Post.delete = async (id) => {
+Post.delete = async (data) => {
+  const { postId, userId } = data.params;
+
+  console.log("postId: " + postId);
+  console.log("userId: " + userId);
   try {
-    await pool.query("DELETE FROM posts WHERE id=$1", [id]);
+    await pool.query("DELETE FROM posts WHERE id = $1 AND userid = $2", [postId, userId]);
+
+    try{
+      await pool.query( // Remove current tags from tagged
+        `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
+        [userId, postId]
+      );
+    }catch (err){
+      console.error(err.message);
+    }
   } catch (err) {
     console.error(err.message);
   }

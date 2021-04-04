@@ -55,8 +55,8 @@ const Post = () => {
 
   const handleDelete = async () => {
     try {
-      if (decoded) {
-        const res = await axios.delete(`/api/deletePost/${decoded}`);
+      if (decoded && user?.id) {
+        const res = await axios.delete(`/api/deletePost/${decoded}/${user?.id}`)
         if (res.data.success) {
           history.push("/");
         }

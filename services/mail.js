@@ -30,6 +30,7 @@ const setUpNodeMailer = async () => {
     return err;
   }
 };
+
 Mails.sendPasswordResetMail = async ({ toEmail, url }) => {
   try {
     const transporter = await setUpNodeMailer();

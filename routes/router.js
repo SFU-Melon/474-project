@@ -17,6 +17,15 @@ router.get("/getAllUsers", userController.getAllUsers);
 router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUserByUsername/:username", userController.getUserByUsername);
 router.get("/userstats/:id", userController.getUserStats);
+router.get(
+  "/resetPasswordRequest/:username",
+  userController.resetPasswordRequest
+);
+router.post(
+  "/resetPassword/:username",
+  ensureAuthorized,
+  userController.resetPassword
+);
 
 /******  Following Routes ********/
 router.get(

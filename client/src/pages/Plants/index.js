@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PlantCard from "../../components/PlantCard";
+import PlantCard from "@components/PlantCard";
 
 const Plants = () => {
   const [plants, setPlants] = useState([]);

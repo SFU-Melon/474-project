@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
-import { useUserContext } from "../../contexts/UserContext";
-import FollowButton from "../../components/FollowButton";
+import { useUserContext } from "@contexts/UserContext";
+import FollowButton from "@components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
 import { useParams } from "react-router-dom";
@@ -22,6 +22,8 @@ const PublicProfile = () => {
   const [joinDate, setJoinDate] = useState("");
 
   const [profileUser, setProfileUser] = useState(null);
+
+  const [stats, setStats] = useState();
 
   const fetchProfileUser = async () => {
     try {
@@ -71,6 +73,18 @@ const PublicProfile = () => {
     setJoinDate(new Date(profileUser?.joindate).toDateString());
   };
 
+  const fetchUserStats = async () => {
+    try {
+      const res = await axios.get(`/api/userstats/${profileUser?.id}`);
+      console.log(res);
+      if (res.data.success) {
+        setStats(res.data.stats);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   useEffect(() => {
     fetchProfileUser();
   }, []);
@@ -80,6 +94,7 @@ const PublicProfile = () => {
       fetchUserPosts();
       fetchUserLikedPosts();
       fetchFollowData();
+      fetchUserStats();
       handleDate();
     }
   }, [profileUser]);
@@ -135,10 +150,10 @@ const PublicProfile = () => {
             <div className="container m-2 p-3">
               <h5 className="card-title">Highlights</h5>
               <hr className="w-100"></hr>
-              <p>
-                Thinking about adding images of most liked posts by the user
-                here or posts they like with the most traffic. Maybe commments.
-              </p>
+              <p>Total Votes Received: {stats?.totalLikes}</p>
+              <p>Total Comments Received: {stats?.totalComments}</p>
+              <p>Most Votes Received: {stats?.mostLikes}</p>
+              <p>Most Comments Received: {stats?.mostComments}</p>
             </div>
           </div>
           <div className="d-flex flex-column mx-3 w-75">

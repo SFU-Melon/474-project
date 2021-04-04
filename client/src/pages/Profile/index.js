@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
-import { useUserContext } from "../../contexts/UserContext";
-import FollowButton from "../../components/FollowButton";
+import { useUserContext } from "@contexts/UserContext";
+import FollowButton from "@components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
 import EditProfile from "./EditProfile";
@@ -14,10 +14,11 @@ const Profile = () => {
   const { user } = useUserContext();
 
   const [userPosts, setUserPosts] = useState([]);
-  const [userLikedPosts, setUserLikedPosts] = useState([]);
+  const [savedPosts, setSavedPosts] = useState([]);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [stats, setStats] = useState();
 
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
@@ -31,10 +32,10 @@ const Profile = () => {
     }
   };
 
-  const fetchUserLikedPosts = async () => {
+  const fetchSavedPosts = async () => {
     try {
-      const res = await axios.get(`/api/getPostLikedNotOwned/${user?.id}`);
-      setUserLikedPosts(res.data);
+      const res = await axios.get("/api/getAllSavedPosts");
+      setSavedPosts(res.data.posts);
     } catch (err) {
       console.log(err);
     }
@@ -54,6 +55,17 @@ const Profile = () => {
     }
   };
 
+  const fetchUserStats = async () => {
+    try {
+      const res = await axios.get(`/api/userstats/${user?.id}`);
+      if (res.data.success) {
+        setStats(res.data.stats);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const handleDate = () => {
     var tempBirthDate = Utility.formatDate(new Date(user?.dob));
     var tempJoinDate = Utility.formatDate(new Date(user?.joindate));
@@ -63,8 +75,9 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserPosts();
-    fetchUserLikedPosts();
+    fetchSavedPosts();
     fetchFollowData();
+    fetchUserStats();
     handleDate();
   }, [user]);
 
@@ -117,17 +130,18 @@ const Profile = () => {
             <div className="container m-2 p-3">
               <h5 className="card-title">Highlights</h5>
               <hr className="w-100"></hr>
-              <p>
-                Thinking about adding images of most liked posts by the user
-                here or posts they like with the most traffic. Maybe commments.
-              </p>
+              <p>Total Votes Received: {stats?.totalLikes}</p>
+              <p>Total Comments Received: {stats?.totalComments}</p>
+              <p>Most Votes Received: {stats?.mostLikes}</p>
+              <p>Most Comments Received: {stats?.mostComments}</p>
             </div>
           </div>
           <div className="d-flex flex-column mx-3 w-75">
             <div className="card-body">
               <ProfileTabs
-                userLikedPosts={userLikedPosts}
                 userPosts={userPosts}
+                savedPosts={savedPosts}
+                username={user?.username}
               />
             </div>
           </div>

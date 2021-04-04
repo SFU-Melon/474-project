@@ -1,8 +1,9 @@
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { useUserContext } from "../contexts/UserContext";
-import { useAuthContext } from "../contexts/AuthContext";
+import { useUserContext } from "@contexts/UserContext";
+import { useAuthContext } from "@contexts/AuthContext";
 import axios from "axios";
 import SearchBar from "./SearchBar";
+import "./nav.css";
 
 const Nav = () => {
   const { user, setUser } = useUserContext();

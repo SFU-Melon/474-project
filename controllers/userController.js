@@ -146,8 +146,8 @@ userController.getFollowersAndFollowingUsers = async (req, res) => {
 };
 
 userController.editProfilePhoto = async (req, res) => {
-  const {userId} = req.params;
-  const {profilePhotoUrl} = req.body;
+  const { userId } = req.params;
+  const { profilePhotoUrl } = req.body;
   const result = await User.editProfilePhoto(userId, profilePhotoUrl);
   return res.json({
     success: result,
@@ -155,14 +155,38 @@ userController.editProfilePhoto = async (req, res) => {
 };
 
 userController.editProfileInfo = async (req, res) => {
-  const {userId} = req.params;
-  const {fname, lname, email, dob} = req.body;
+  const { userId } = req.params;
+  const { fname, lname, email, dob } = req.body;
   const date = parse(dob, "dd/MM/yyyy", new Date());
   const dobFinal = lightFormat(date, "yyyy-MM-dd");
-  const result = await User.editProfileInfo(userId, fname, lname, email, dobFinal);
+  const result = await User.editProfileInfo(
+    userId,
+    fname,
+    lname,
+    email,
+    dobFinal
+  );
   return res.json({
     success: result,
   });
+};
+
+userController.getUserStats = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const result = await User.getStats(id);
+    return res.json({
+      success: true,
+      stats: result,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+      stats: result,
+    });
+  }
 };
 
 module.exports = userController;

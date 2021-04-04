@@ -42,16 +42,51 @@ Post.create = async (data) => {
   }
 };
 
-Post.getAllPosts = async (userId) => {
+Post.getPosts = async ({ filterType, userId, val, sortingId }) => {
+  //I NEED TO FIX TIME STAMP.
+  // val = '2021-03-28T07:39:22.668Z' --> why is it 07 when it's 16????
+  // BUT I NEED val = '2021-03-28 16:39:22.668'
+  // MANAGED TO  FIX IT but idk if it'll work for everyone. I don't get timestamp LOL
   try {
+    // Initializing orderPart
+    let orderByPart = "";
+    if (filterType === "hot") {
+      orderByPart = `ORDER BY numoflikes DESC, sortingid ASC`;
+    } else {
+      orderByPart = `ORDER By datetime DESC, sortingid ASC`;
+    }
+
+    // Initializing wherePart
+    let wherePart = "";
+    if (val != undefined) {
+      //When it's not the first time it fetches posts -> lastElement data is null. -> wherePart=""
+      wherePart = `WHERE ${
+        filterType === "hot"
+          ? `numoflikes < ${val} OR (numoflikes = ${val} AND sortingid > ${sortingId})`
+          : `datetime <  (select '${val}'::timestamp without time zone AT TIME ZONE 'UTC') `
+      }`;
+    }
+
+    //If the user exists (logged in)
     if (userId != undefined) {
       const res = await pool.query(
-        "SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, likes.val FROM posts LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1",
+        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, sortingid, likes.val
+        FROM posts
+        LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1
+        ${wherePart}
+        ${orderByPart}
+        LIMIT 4`,
         [userId]
       );
       return res.rows;
     }
-    const res = await pool.query("SELECT * FROM posts");
+    //If the user doesn't exist
+    const res = await pool.query(
+      `SELECT * FROM posts
+      ${wherePart}
+      ${orderByPart}
+      LIMIT 4`
+    );
     return res.rows;
   } catch (err) {
     console.error(err.message);
@@ -87,7 +122,10 @@ Post.getPostById = async ({ userId, postId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        "SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val  FROM posts LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 WHERE posts.id = $1",
+        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val 
+         FROM posts 
+         LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 
+         WHERE posts.id = $1`,
         [postId, userId]
       );
       return res.rows[0];
@@ -223,19 +261,86 @@ Post.updateNumOfComments = async ({ change, postId }) => {
   }
 };
 
-Post.search = async (value, limit = 10) => {
+Post.search = async (
+  { value, lastElementSubVal, lastElementRank, sortingId },
+  limit = 5
+) => {
+  //MIGHT NOT NEED ELEMENTSubVal
   try {
+    // Initializing wherePart
+    let wherePart = "";
+    if (lastElementRank != undefined) {
+      wherePart = `WHERE (rank < ${lastElementRank})
+       OR (rank = ${lastElementRank} AND numoflikes < ${lastElementSubVal}) 
+       OR (rank = ${lastElementRank} AND numoflikes = ${lastElementSubVal} AND sortingid > ${sortingId})`;
+    }
+    console.log(wherePart);
     const res = await pool.query(
-      "SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments \
+      `SELECT * FROM (
+      SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
       FROM posts \
-      WHERE document_with_weights @@ plainto_tsquery($1) \
-      ORDER BY ts_rank(document_with_weights, plainto_tsquery($1)) DESC \
-      LIMIT $2",
+      WHERE document_with_weights @@ plainto_tsquery($1)\
+      ORDER BY rank DESC, numoflikes DESC, sortingid ASC) AS SUB\
+      ${wherePart}
+      LIMIT $2`,
       [value, limit]
     );
+    console.log(" data returned", res.rows);
     return res.rows;
   } catch (err) {
     console.log(err.mesage);
+    return false;
+  }
+};
+
+Post.save = async (postId, userId) => {
+  try {
+    await pool.query("INSERT INTO saves (userid, postid) VALUES ($1, $2)", [
+      userId,
+      postId,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
+Post.unsave = async (postId, userId) => {
+  try {
+    await pool.query("DELETE FROM saves WHERE userid = $1 AND postid = $2", [
+      userId,
+      postId,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err.mesage);
+    return false;
+  }
+};
+
+Post.checkSaveStatus = async (postId, userId) => {
+  try {
+    const res = await pool.query(
+      "SELECT * FROM saves WHERE userid = $1 AND postid = $2",
+      [userId, postId]
+    );
+    return res.rows.length !== 0;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
+Post.getAllSavedPosts = async (userId) => {
+  try {
+    const res = await pool.query(
+      "SELECT * FROM posts WHERE id IN (SELECT s.postid FROM saves s WHERE s.userid = $1)",
+      [userId]
+    );
+    return res.rows;
+  } catch (err) {
+    console.error(err.message);
     return false;
   }
 };

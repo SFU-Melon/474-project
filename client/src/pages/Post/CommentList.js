@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from "@contexts/UserContext";
 import Utility from "../../utils";
 import "./style.css";
 

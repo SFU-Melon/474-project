@@ -7,7 +7,7 @@ import Following from "./Following";
 import EditProfile from "./EditProfile";
 import EditProfilePhoto from "./EditProfilePhoto";
 import Utility from "../../utils/index.js";
-
+import "./style.css";
 import ProfileTabs from "./ProfileTabs";
 
 const Profile = () => {
@@ -84,7 +84,7 @@ const Profile = () => {
   return (
     <div className="w-100 mx-auto">
       <Fragment>
-        <div className="d-flex flex-row m-5">
+        <div className="d-flex m-5">
           <div className="d-flex flex-column mx-3 w-25">
             <div className="container m-2 p-3">
               <img
@@ -136,14 +136,14 @@ const Profile = () => {
               <p>Most Comments Received: {stats?.mostComments}</p>
             </div>
           </div>
-          <div className="d-flex flex-column mx-3 w-75">
-            <div className="card-body">
-              <ProfileTabs
-                userPosts={userPosts}
-                savedPosts={savedPosts}
-                username={user?.username}
-              />
-            </div>
+        </div>
+        <div className="d-flex flex-column mx-3 w-75">
+          <div className="card-body">
+            <ProfileTabs
+              userPosts={userPosts}
+              savedPosts={savedPosts}
+              username={user?.username}
+            />
           </div>
         </div>
       </Fragment>

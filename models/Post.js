@@ -126,13 +126,28 @@ Post.editPostById = async (data) => {
   console.log("title: "+ title);
   try{
     if(userId && postId && title){
-      console.log("trying to edit");
       const res = await pool.query(
         `UPDATE posts 
         SET title = $1, content = $2, location = $3, tags = $4
         WHERE id = $5 AND userid = $6`,
         [ title, content, location, tags, postId, userId ]
       );
+
+      try{
+        await pool.query( // Remove current tags from tagged
+          `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
+          [userId, postId]
+        );
+        
+        for (const tag of tags){ // Insert new tags (or old tags) to update
+          await pool.query(
+            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
+            [tag,postId,userId]
+          )
+        }
+      } catch (err){
+        console.error(err.message);
+      }
       return res.rows[0]
     }
   } catch (err) {

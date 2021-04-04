@@ -89,9 +89,8 @@ const EditPost = (props) => {
 
     const handleEdit = async (e) => {
         e.preventDefault();
-        if(validatePost()) {
-            editPost();
-        }
+        if(validatePost()) editPost();
+        setTimeout(() => window.location.reload(), 200);
     }
     
     const handleTags = (e, {value}) => {

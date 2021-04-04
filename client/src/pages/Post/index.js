@@ -5,6 +5,8 @@ import Utility from "../../utils";
 import { useUserContext } from "@contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
+import EditPost from "./EditPost";
+import { Label } from 'semantic-ui-react'
 
 // Components
 import Vote from "@components/Vote";
@@ -18,20 +20,23 @@ const Post = () => {
   const { id } = useParams();
   const { user } = useUserContext();
   const decoded = Utility.decodeUUID(id);
+  const [tags, setTags] = useState([]);
   let history = useHistory();
 
-  const [open, setOpen] = useState(false);
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const onOpenModalDelete = () => setOpenDelete(true);
+  const onCloseModalDelete = () => setOpenDelete(false);
 
   const fetchPost = async () => {
     const res = await axios.get(`/api/getPost/${decoded}`);
     setPost(res.data);
     setSaveClicked(res.data.saveStatus);
+    setTags(res.data.tags);
   };
 
   useEffect(() => {
     fetchPost();
+    setTags(post?.tags);
   }, []);
 
   const handleSave = async () => {
@@ -60,23 +65,44 @@ const Post = () => {
       console.log(err);
     }
   };
+  
+  const getColor = (tagName) => {
+    if (tagName == 'First Post') return 'blue';
+    if (tagName == 'Question') return 'red';
+    if (tagName == 'Suggestion') return 'teal';
+    if (tagName == 'Help') return 'yellow';
+    if (tagName == 'Tip') return '';
+    return '';
+  }
 
   return (
     <Fragment>
       {post && (
         <div className="container">
-          <div className="card mt-4">
-            <div className="post d-flex flex-row">
-              <div className="mt-4">
+          <div className="card mt-5">
+            <div className="post d-flex flex-row p-5">
+              <div>
                 <Vote
                   postId={post.id}
                   numOfLikes={post.numoflikes}
                   preVoteStatus={post.val}
                 />
               </div>
-              <div>
-                <h1 className="m-4">{post.title}</h1>
-                <div>
+              <div className="mx-4">
+                <h1>{post.title}</h1>
+                <div className="d-flex flex-row mb-3 align-items-start">
+                  <h4 className ="me-2">{tags ? "Tags: " : ""}</h4>
+                  { tags ? 
+                  (
+                    tags.map((item, i) => (
+                      <Label as='a' color={`${getColor(item)}`} >
+                        {item}
+                      </Label>
+                    ))
+                  )
+                  :(<div></div>) }
+                </div>
+                <div className="mb-2">
                   {post.imageurl && (
                     <img
                       src={post.imageurl}
@@ -88,7 +114,7 @@ const Post = () => {
                 <div>
                   {post.content && (
                     <p
-                      className="m-4"
+                      className="mt-4"
                       style={{
                         whiteSpace:
                           "pre-wrap" /*** DO NOT DELETE THIS (NEEDED FOR LINE BREAKS) ***/,
@@ -103,10 +129,11 @@ const Post = () => {
                     </button>
                   )}
                   {user && user.id === post.userid && (
-                    <button className="m-4" onClick={onOpenModal}>
+                    <button className="btn btn-danger btn-sm me-1" onClick={onOpenModalDelete}>
                       Delete
                     </button>
                   )}
+                  <EditPost post={post}/>
                 </div>
               </div>
             </div>
@@ -120,10 +147,11 @@ const Post = () => {
         </div>
       )}
 
+      {/* Delete Modal */}
       <Modal
         className="custom-modal"
-        open={open}
-        onClose={onCloseModal}
+        open={openDelete}
+        onClose={onCloseModalDelete}
         center
         classNames={{
           overlay: "customOverlay",
@@ -144,7 +172,7 @@ const Post = () => {
             <div className="col">
               <button
                 className="btn btn-secondary form-control"
-                onClick={onCloseModal}
+                onClick={onCloseModalDelete}
               >
                 Cancel
               </button>

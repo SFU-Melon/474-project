@@ -60,5 +60,12 @@ Utility.diffTime = (date1, date2) => {
   return timeDiff;
 }
 
+Utility.tags  = [
+  {key: 'firstpost', text: 'First Post', value: 'First Post', color:'blue'},
+  {key: 'question', text: 'Question', value: 'Question', color:'teal'},
+  {key: 'help', text: 'Help', value: 'Help', color:'yellow'},
+  {key: 'tips', text: 'Tips', value: 'Tips', color:'red'},
+  {key: 'suggestion', text: 'Suggestion', value: 'Suggestion', color:''},
+]
 
 export default Utility;

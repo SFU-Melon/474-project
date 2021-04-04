@@ -70,7 +70,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId }) => {
     //If the user exists (logged in)
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, sortingid, likes.val
+        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, sortingid, likes.val, tags
         FROM posts
         LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1
         ${wherePart}
@@ -118,11 +118,33 @@ Post.getPostLikedNotOwned = async (userId) => {
   }
 };
 
+Post.editPostById = async (data) => {
+  const { userId } = data.params;
+  const { postId, title, content, location, tags } = data.body;
+  console.log("userid: " + userId);
+  console.log("postid: "+ postId);
+  console.log("title: "+ title);
+  try{
+    if(userId && postId && title){
+      console.log("trying to edit");
+      const res = await pool.query(
+        `UPDATE posts 
+        SET title = $1, content = $2, location = $3, tags = $4
+        WHERE id = $5 AND userid = $6`,
+        [ title, content, location, tags, postId, userId ]
+      );
+      return res.rows[0]
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
 Post.getPostById = async ({ userId, postId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val 
+        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, tags 
          FROM posts 
          LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 
          WHERE posts.id = $1`,

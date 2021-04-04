@@ -84,6 +84,13 @@ router.get(
   postController.getAllSavedPost
 );
 
+/******  Post Edit Routes ********/
+router.post(
+  "/editPost/:userId",
+  ensureAuthenticated,
+  postController.editPostById
+);
+
 /****** Comment Routes ********/
 router.get("/getComments/:postId", commentController.getComments);
 router.post(

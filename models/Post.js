@@ -53,7 +53,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId }) => {
     //If the user exists (logged in)
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, sortingid, likes.val
+        `SELECT id, dateTime, title, content, numofcomments, location, imageUrl, numOfLikes, authorname, sortingid, likes.val
         FROM posts
         LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1
         ${wherePart}

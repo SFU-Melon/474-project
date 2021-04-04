@@ -1,25 +1,20 @@
 import axios from "axios";
 import { Fragment } from "react";
 import PostCard from "./PostCard";
-import { useLocation } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useInfiniteQuery } from "react-query";
 
 export default function NewPosts() {
-  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
-
   const fetchPosts = async ({ pageParam }) => {
     console.log(data, "data in fetchPosts");
     try {
       const res = await axios.get("/api/getPosts", {
         params: {
-          filterType,
-          val:
-            filterType === "hot" ? pageParam?.numoflikes : pageParam?.datetime,
+          filterType: "new",
+          val: pageParam?.datetime,
           sortingId: pageParam?.sortingid,
         },
       });
-      //NEEDS TO FILTER PAGE ITEMS
       return res.data;
     } catch (err) {
       console.log(err);

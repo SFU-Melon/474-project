@@ -1,23 +1,38 @@
 import axios from "axios";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import PostCard from "./PostCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useInfiniteQuery } from "react-query";
 
+//NEED TO FILTER PAGES
 export default function PopularPosts() {
   const fetchPosts = async ({ pageParam }) => {
-    console.log(data, "data in fetchPosts");
     try {
       const res = await axios.get("/api/getPosts", {
         params: {
           filterType: "hot",
-          val: pageParam?.numoflikes,
-          sortingId: pageParam?.sortingid,
+          val: pageParam?.params?.numoflikes,
+          sortingId: pageParam?.params?.sortingid,
         },
       });
-      //NEEDS TO FILTER PAGE ITEMS
 
-      return res.data;
+      console.log(pageParam, "pageParam after fetching in fetchPost");
+      if (pageParam === undefined) {
+        //Return without filtering for the first page
+        console.log("first page");
+        return res.data;
+      }
+
+      //Filter out the elements that are in the previous pages
+      let newPage = res.data;
+      pageParam.prevPages.forEach((page) =>
+        page.forEach(
+          (post) =>
+            (newPage = newPage.filter((newPost) => newPost.id !== post.id))
+        )
+      );
+      console.log(newPage, "new Page data");
+      return newPage;
     } catch (err) {
       console.log(err);
     }
@@ -27,9 +42,24 @@ export default function PopularPosts() {
     "popularPosts",
     fetchPosts,
     {
-      getNextPageParam: (lastPage, pages) => lastPage?.[lastPage.length - 1],
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage?.[lastPage.length - 1] === undefined) {
+          return undefined;
+        }
+        return {
+          prevPages: pages,
+          params: lastPage?.[lastPage.length - 1],
+        };
+      },
     }
   );
+
+  const calculateLength = () => {
+    let count = 0;
+    data.pages.forEach((page) => page.forEach((post) => count++));
+    console.log(count);
+    return count;
+  };
 
   return status === "loading" ? (
     <p>Loading...</p>
@@ -39,7 +69,7 @@ export default function PopularPosts() {
     <div>
       {data && (
         <InfiniteScroll
-          dataLength={data.length * 4}
+          dataLength={calculateLength}
           pageStart={0}
           next={fetchNextPage}
           hasMore={hasNextPage}
@@ -61,6 +91,8 @@ export default function PopularPosts() {
               })}
             </Fragment>
           ))}
+
+          {console.log(data, "data in render")}
         </InfiniteScroll>
       )}
     </div>

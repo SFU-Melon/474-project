@@ -1,25 +1,36 @@
-import axios from "axios";
-import { Fragment, useEffect } from "react";
-import PostCard from "./PostCard";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useInfiniteQuery } from "react-query";
+import axios from 'axios';
+import { Fragment, useEffect } from 'react';
+import PostCard from './PostCard';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useInfiniteQuery } from 'react-query';
+import { useLocation } from 'react-router-dom';
 
 //NEED TO FILTER PAGES
-export default function PopularPosts() {
+export default function PostsList({ tags }) {
+  let filterType = useLocation().pathname.includes('new') ? 'new' : 'hot';
   const fetchPosts = async ({ pageParam }) => {
     try {
-      const res = await axios.get("/api/getPosts", {
+      const res = await axios.get('/api/getPosts', {
         params: {
-          filterType: "hot",
-          val: pageParam?.params?.numoflikes,
+          filterType,
+          val:
+            filterType === 'hot'
+              ? pageParam?.params?.numoflikes
+              : pageParam?.datetime,
           sortingId: pageParam?.params?.sortingid,
+          tags,
         },
       });
 
-      console.log(pageParam, "pageParam after fetching in fetchPost");
+      console.log(pageParam, 'pageParam after fetching in fetchPost');
+
+      if (filterType === 'new') {
+        return res.data;
+      }
+
       if (pageParam === undefined) {
         //Return without filtering for the first page
-        console.log("first page");
+        console.log('first page');
         return res.data;
       }
 
@@ -31,7 +42,6 @@ export default function PopularPosts() {
             (newPage = newPage.filter((newPost) => newPost.id !== post.id))
         )
       );
-      console.log(newPage, "new Page data");
       return newPage;
     } catch (err) {
       console.log(err);
@@ -39,14 +49,18 @@ export default function PopularPosts() {
   };
 
   const { data, error, fetchNextPage, hasNextPage, status } = useInfiniteQuery(
-    "popularPosts",
+    ['posts', filterType, tags],
     fetchPosts,
     {
       getNextPageParam: (lastPage, pages) => {
+        if (filterType === 'new') {
+          return lastPage?.[lastPage.length - 1];
+        }
         if (lastPage?.[lastPage.length - 1] === undefined) {
           return undefined;
         }
         return {
+          tags,
           prevPages: pages,
           params: lastPage?.[lastPage.length - 1],
         };
@@ -61,9 +75,9 @@ export default function PopularPosts() {
     return count;
   };
 
-  return status === "loading" ? (
+  return status === 'loading' ? (
     <p>Loading...</p>
-  ) : status === "error" ? (
+  ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
     <div>
@@ -79,20 +93,18 @@ export default function PopularPosts() {
             </div>
           }
           endMessage={
-            <p style={{ textAlign: "center" }}>
+            <p style={{ textAlign: 'center' }}>
               <b>Yay! You have seen it all</b>
             </p>
           }
         >
-          {data.pages.map((page, i) => (
+          {data.pages?.map((page, i) => (
             <Fragment key={i}>
-              {page.map((post) => {
+              {page?.map((post) => {
                 return <PostCard key={post.id} post={post}></PostCard>;
               })}
             </Fragment>
           ))}
-
-          {console.log(data, "data in render")}
         </InfiniteScroll>
       )}
     </div>

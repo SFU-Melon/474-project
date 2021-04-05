@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const lightFormat = require("date-fns/lightFormat");
 const parse = require("date-fns/parse");
-const Mails = require("../services/mail");
+const { TokenStore } = require("../routes/tokenstore");
 var { nanoid } = require("nanoid");
-//const { TokenStore } = require("../routes/tokenstore");
+const Mails = require("../services/mail");
 const userController = {};
 
 userController.login = (req, res, next) => {
@@ -174,24 +174,45 @@ userController.editProfileInfo = async (req, res) => {
   });
 };
 
+userController.getUserStats = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const result = await User.getStats(id);
+    return res.json({
+      success: true,
+      stats: result,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+      stats: result,
+    });
+  }
+};
+
 userController.resetPasswordRequest = async (req, res) => {
   const { username } = req.params;
   console.log(username);
   try {
     const toEmail = await User.getEmailFromUsername(username);
+    console.log(toEmail);
     if (toEmail) {
       const token = nanoid();
-      TokenStore.addToken(token);
-      TokenStore.printAllTokens();
-      const url = `http://localhost:3000/resetPassword/${token}`;
+      TokenStore.addToken(token, username);
+      TokenStore.print();
+      const url = `http://localhost:3000/resetpassword/${username}/${token}`;
       await Mails.sendPasswordResetMail({ toEmail, url });
       return res.json({
         success: true,
+        email: toEmail,
         message: "Email Sent.",
       });
     }
     return res.json({
       success: false,
+      email: null,
       message: "No email found.",
     });
   } catch (err) {
@@ -199,6 +220,24 @@ userController.resetPasswordRequest = async (req, res) => {
     return res.json({
       success: false,
       message: "No email sent.",
+    });
+  }
+};
+
+userController.resetPassword = async (req, res) => {
+  const { username } = req.params;
+  const { password } = req.body;
+  console.log(password);
+  try {
+    const hashed = await bcrypt.hash(password, 10);
+    const result = await User.resetPassword(username, hashed);
+    return res.json({
+      success: result,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
     });
   }
 };

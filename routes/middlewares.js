@@ -1,4 +1,4 @@
-//const { TokenStore } = require("./tokenstore");
+const { TokenStore } = require("./tokenstore");
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -13,7 +13,8 @@ const ensureAuthenticated = (req, res, next) => {
 
 const ensureAuthorized = (req, res, next) => {
   const { token } = req.body;
-
+  console.log("Token: ", token);
+  TokenStore.print();
   if (TokenStore.isValid(token)) {
     console.log("user is authorized");
     return next();

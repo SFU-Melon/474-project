@@ -35,6 +35,14 @@ export default function Login(props) {
     }
   };
 
+  const handleForgotPassword = () => {
+    if (username) {
+      history.push("/resetpassword/" + username);
+    } else {
+      setErrorMessage("Please provide username.");
+    }
+  };
+
   return (
     <div
       style={{
@@ -90,8 +98,11 @@ export default function Login(props) {
         <div className="signup">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </div>
-        <div className="signup">
-          <Link to="/signup">Reset Password</Link>
+        <div
+          className="signup"
+          style={{ textDecoration: "underline", color: "blue" }}
+        >
+          <a onClick={handleForgotPassword}>Forgot Password?</a>
         </div>
       </div>
     </div>

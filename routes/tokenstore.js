@@ -4,30 +4,45 @@ class TStore {
     this.expiration = 10 * 60 * 1000;
   }
 
-  addToken(token) {
-    const item = { token, timestamp: new Date() };
-    this.token.push(item);
+  addToken(token, username) {
+    const item = { token, username, timestamp: new Date() };
+    this.tokens.push(item);
   }
 
   removeToken(token) {
     this.tokens = this.tokens.filter((item) => item.token !== token);
   }
 
-  cleanUp() {
-    const date = new Date();
-    this.tokens = this.tokens.filter(
-      (item) => date - item.timestamp < this.expiration
-    );
-  }
-
-  isValid(token) {
+  updateUserToken(username, new_token) {
     for (let i = 0; i < this.tokens.length; i++) {
-      if (this.tokens[i].token === token) return true;
+      if (this.tokens[i].username === username) {
+        this.tokens[i].token = new_token;
+      }
+      return true;
     }
     return false;
   }
 
-  printAllTokens() {
+  cleanUp() {
+    const date = new Date();
+    this.tokens = this.tokens.filter(
+      (item) => date - item.timestamp <= this.expiration
+    );
+  }
+
+  isValid(token) {
+    const date = new Date();
+    for (let i = 0; i < this.tokens.length; i++) {
+      const item = this.tokens[i];
+      console.log(date - item.timestamp);
+      if (item.token === token && date - item.timestamp <= this.expiration) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  print() {
     console.log("Tokens: ", this.tokens);
   }
 }

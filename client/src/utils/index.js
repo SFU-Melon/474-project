@@ -68,4 +68,13 @@ Utility.tags  = [
   {key: 'suggestion', text: 'Suggestion', value: 'Suggestion', color:''},
 ]
 
+Utility.getLabelColor = (tagName) => {
+  if (tagName == 'First Post') return 'teal';
+  if (tagName == 'Question') return 'teal';
+  if (tagName == 'Suggestion') return 'teal';
+  if (tagName == 'Help') return 'teal';
+  if (tagName == 'Tip') return 'teal';
+  return '';
+}
+
 export default Utility;

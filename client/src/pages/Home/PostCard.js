@@ -4,16 +4,19 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Utility from "../../utils";
 import "./PostCard.css";
+import Tags from "@components/Tags";
 
 export default function PostCard({ post }) {
   const [displayTime, setDisplayTime] = useState("");
   const encoded = Utility.encodeUUID(post.id);
   const encodedTitle = encodeURIComponent(post.title);
+  const [tags, setTags] = useState([]);
   const { user } = useUserContext();
 
   useEffect(() => {
     const time = Utility.getDisplayTime(post.datetime);
     setDisplayTime(time);
+    setTags(post.tags);
   }, []);
 
   return (
@@ -31,6 +34,9 @@ export default function PostCard({ post }) {
           style={{ textDecoration: "none", color: "black" }}
         >
           <h2>{post.title}</h2>
+          <div className="d-flex flex-row mb-3 align-items-start">
+            <Tags tags={tags}/>
+          </div>
           <div>
             {post.imageurl && (
               <img

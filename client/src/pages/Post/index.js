@@ -6,7 +6,7 @@ import { useUserContext } from "@contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import EditPost from "./EditPost";
-import { Label } from 'semantic-ui-react'
+import Tags from "@components/Tags";
 
 // Components
 import Vote from "@components/Vote";
@@ -66,15 +66,6 @@ const Post = () => {
     }
   };
   
-  const getColor = (tagName) => {
-    if (tagName == 'First Post') return 'blue';
-    if (tagName == 'Question') return 'red';
-    if (tagName == 'Suggestion') return 'teal';
-    if (tagName == 'Help') return 'yellow';
-    if (tagName == 'Tip') return '';
-    return '';
-  }
-
   return (
     <Fragment>
       {post && (
@@ -91,16 +82,7 @@ const Post = () => {
               <div className="mx-4">
                 <h1>{post.title}</h1>
                 <div className="d-flex flex-row mb-3 align-items-start">
-                  <h4 className ="me-2">{tags ? "Tags: " : ""}</h4>
-                  { tags ? 
-                  (
-                    tags.map((item, i) => (
-                      <Label as='a' color={`${getColor(item)}`} >
-                        {item}
-                      </Label>
-                    ))
-                  )
-                  :(<div></div>) }
+                  <Tags tags={tags}/>                  
                 </div>
                 <div className="mb-2">
                   {post.imageurl && (

@@ -1,4 +1,4 @@
-class Store {
+class TStore {
   constructor() {
     this.tokens = [];
     this.expiration = 10 * 60 * 1000;
@@ -19,8 +19,13 @@ class Store {
       (item) => date - item.timestamp < this.expiration
     );
   }
+
+  tokenExists(token) {
+    for (let i = 0; i < this.tokens.length; i++) {
+      if (this.tokens[i].token === token) return true;
+    }
+    return false;
+  }
 }
 
-const TokenStore = new Store();
-
-module.exports = TokenStore;
+export const TokenStore = new TStore();

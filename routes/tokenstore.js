@@ -20,12 +20,19 @@ class TStore {
     );
   }
 
-  tokenExists(token) {
+  isValid(token) {
     for (let i = 0; i < this.tokens.length; i++) {
       if (this.tokens[i].token === token) return true;
     }
     return false;
   }
+
+  printAllTokens() {
+    console.log("Tokens: ", this.tokens);
+  }
 }
 
-export const TokenStore = new TStore();
+const TokenStore = new TStore();
+module.exports = {
+  TokenStore,
+};

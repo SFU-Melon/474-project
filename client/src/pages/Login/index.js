@@ -90,6 +90,9 @@ export default function Login(props) {
         <div className="signup">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </div>
+        <div className="signup">
+          <Link to="/signup">Reset Password</Link>
+        </div>
       </div>
     </div>
   );

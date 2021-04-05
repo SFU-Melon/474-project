@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const lightFormat = require("date-fns/lightFormat");
 const parse = require("date-fns/parse");
+const Mails = require("../services/mail");
+var { nanoid } = require("nanoid");
+//const { TokenStore } = require("../routes/tokenstore");
 const userController = {};
 
 userController.login = (req, res, next) => {
@@ -171,20 +174,31 @@ userController.editProfileInfo = async (req, res) => {
   });
 };
 
-userController.getUserStats = async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
+userController.resetPasswordRequest = async (req, res) => {
+  const { username } = req.params;
+  console.log(username);
   try {
-    const result = await User.getStats(id);
+    const toEmail = await User.getEmailFromUsername(username);
+    if (toEmail) {
+      const token = nanoid();
+      TokenStore.addToken(token);
+      TokenStore.printAllTokens();
+      const url = `http://localhost:3000/resetPassword/${token}`;
+      await Mails.sendPasswordResetMail({ toEmail, url });
+      return res.json({
+        success: true,
+        message: "Email Sent.",
+      });
+    }
     return res.json({
-      success: true,
-      stats: result,
+      success: false,
+      message: "No email found.",
     });
   } catch (err) {
     console.log(err);
     return res.json({
       success: false,
-      stats: result,
+      message: "No email sent.",
     });
   }
 };

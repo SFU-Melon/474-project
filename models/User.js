@@ -190,4 +190,19 @@ User.getStats = async (id) => {
     console.log(err);
   }
 };
+
+User.getEmailFromUsername = async (username) => {
+  try {
+    let res = await pool.query("SELECT email FROM users WHERE username = $1", [
+      username,
+    ]);
+    if (res.rows) {
+      res = res.rows[0].email;
+    }
+    console.log(res.rows);
+    return res.rows;
+  } catch (err) {
+    console.log(err);
+  }
+};
 module.exports = User;

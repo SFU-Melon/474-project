@@ -330,7 +330,7 @@ Post.search = async (
     console.log(wherePart);
     const res = await pool.query(
       `SELECT * FROM (
-      SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
+      SELECT id, datetime, title, imageurl, location, tags, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
       FROM posts \
       WHERE document_with_weights @@ plainto_tsquery($1)\
       ORDER BY rank DESC, numoflikes DESC, sortingid ASC) AS SUB\

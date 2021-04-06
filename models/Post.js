@@ -187,9 +187,11 @@ Post.getPostById = async ({ userId, postId }) => {
   }
 };
 
+//Voting
 Post.checkVoteStatus = async (data) => {
   const { userId } = data.params;
-  const { postId } = data.body;
+  const { votedId: postId } = data.body;
+  console.log('checking post vote status');
   try {
     const res = await pool.query(
       'SELECT * FROM likes WHERE userId = $1 AND postId = $2',
@@ -205,9 +207,10 @@ Post.checkVoteStatus = async (data) => {
 };
 
 Post.changeNumOfLikes = async (data) => {
+  console.log('changing numoflikes');
   const voteOperation = data.voteOperation;
   const voteStatus = data.voteStatus;
-  const { postId } = data.body;
+  const { votedId: postId } = data.body;
   let change;
   if (voteOperation === 'upVote') {
     switch (voteStatus) {
@@ -249,7 +252,7 @@ Post.changeNumOfLikes = async (data) => {
 
 Post.upVote = async (data) => {
   const { userId } = data.params;
-  const { postId } = data.body;
+  const { votedId: postId } = data.body;
   try {
     const res = await pool.query(
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
@@ -263,7 +266,7 @@ Post.upVote = async (data) => {
 
 Post.downVote = async (data) => {
   const { userId } = data.params;
-  const { postId } = data.body;
+  const { votedId: postId } = data.body;
   try {
     const res = await pool.query(
       'INSERT INTO likes (userid, postid, val) VALUES ($1, $2, $3) RETURNING *',
@@ -277,7 +280,7 @@ Post.downVote = async (data) => {
 
 Post.cancelVote = async (data) => {
   const { userId } = data.params;
-  const { postId } = data.body;
+  const { votedId: postId } = data.body;
   try {
     const res = await pool.query(
       'DELETE FROM likes WHERE userid=($1) AND postid=($2)',

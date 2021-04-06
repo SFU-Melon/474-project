@@ -33,12 +33,3 @@
 .error {
   color: red;
 }
-
-.follow-links {
-  color: blue;
-  text-decoration: underline;
-}
-
-.follow-links:hover {
-  cursor: pointer;
-}

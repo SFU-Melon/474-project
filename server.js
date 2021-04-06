@@ -7,6 +7,7 @@ const passport = require("passport");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const schedule = require("node-schedule");
 
 const app = express();
 app.use(
@@ -41,6 +42,12 @@ const router = require("./routes/router");
 const s3Router = require("./routes/s3Router");
 app.use("/api", router);
 app.use("/api", s3Router);
+
+const { TokenStore } = require("./routes/tokenstore");
+const cleanTokenStore = schedule.scheduleJob("0 */12 * * *", () => {
+  // runs every 12 hours
+  TokenStore.cleanUp();
+});
 
 const port = process.env.PORT || 5000;
 

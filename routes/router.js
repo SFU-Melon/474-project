@@ -4,7 +4,8 @@ const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 const plantController = require("../controllers/plantController");
 const searchController = require("../controllers/searchController");
-const { ensureAuthenticated } = require("./middlewares");
+const voteController = require("../controllers/voteController");
+const { ensureAuthenticated, ensureAuthorized } = require("./middlewares");
 
 /******  Auth Routes ********/
 router.post("/login", userController.login);
@@ -17,6 +18,15 @@ router.get("/getAllUsers", userController.getAllUsers);
 router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUserByUsername/:username", userController.getUserByUsername);
 router.get("/userstats/:id", userController.getUserStats);
+router.get(
+  "/resetPasswordRequest/:username",
+  userController.resetPasswordRequest
+);
+router.post(
+  "/resetPassword/:username",
+  ensureAuthorized,
+  userController.resetPassword
+);
 
 /******  Following Routes ********/
 router.get(
@@ -43,23 +53,25 @@ router.post(
   userController.editProfileInfo
 );
 
+/******  Vote Routes ********/
+router.post(
+  "/upVotePost/:userId",
+  ensureAuthenticated,
+  voteController.checkVoteStatus,
+  voteController.upVote
+);
+router.post(
+  "/downVotePost/:userId",
+  ensureAuthenticated,
+  voteController.checkVoteStatus,
+  voteController.downVote
+);
+
 /******  Post Routes ********/
 router.post(
   "/createPost/:userId",
   ensureAuthenticated,
   postController.createPost
-);
-router.post(
-  "/upVotePost/:userId",
-  ensureAuthenticated,
-  postController.checkVoteStatus,
-  postController.upVote
-);
-router.post(
-  "/downVotePost/:userId",
-  ensureAuthenticated,
-  postController.checkVoteStatus,
-  postController.downVote
 );
 
 router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);

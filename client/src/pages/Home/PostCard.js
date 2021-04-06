@@ -20,15 +20,14 @@ export default function PostCard({ post }) {
   }, []);
 
   return (
-    <div className="post-card card flex-row p-4 m-2">
-      <div className="me-4">
-        <Vote
-          postId={post.id}
-          numOfLikes={post.numoflikes}
-          preVoteStatus={post.val}
-        />
-      </div>
-      <div>
+    <div className="post-card card flex-row p-3 m-2">
+      <Vote
+        votedId={post.id}
+        numOfLikes={post.numoflikes}
+        preVoteStatus={post.val}
+        type={'post'}
+      />
+      <div className="ms-3">
         <Link
           to={`/post/${encodedTitle}/${encoded}`}
           style={{ textDecoration: 'none', color: 'black' }}

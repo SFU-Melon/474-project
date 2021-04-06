@@ -45,7 +45,7 @@ CREATE TABLE likes(
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     val INTEGER, /*Integer restrictued to 1, -1*/
-    PRIMARY KEY(userId, postId)
+    PRIMRY KEY(userid, postid)
 );
 
 CREATE TABLE followers(
@@ -56,11 +56,23 @@ CREATE TABLE followers(
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     dateTime TIMESTAMP NOT NULL,
+    numoflikes INTEGER DEFAULT 0 NOT NULL,
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     content TEXT
+);
+
+CREATE TABLE likescomment(
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    commentid uuid REFERENCES comments(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    val INTEGER, /*Integer restrictued to 1, -1*/
+    PRIMARY KEY(userid, commentid, postid)
 );
 
 CREATE TABLE outdoor(

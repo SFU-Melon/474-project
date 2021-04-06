@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useUserContext } from "@contexts/UserContext";
-import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useUserContext } from '@contexts/UserContext';
+import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
 
-const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
+const Vote = ({ votedId, numOfLikes, preVoteStatus, type }) => {
   const { user } = useUserContext();
   const [voteStatus, setVoteStatus] = useState(0);
   const [totalLikes, setTotalLikes] = useState(numOfLikes);
@@ -13,7 +13,8 @@ const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
   const handleVote = async (voteOperation) => {
     try {
       const res = await axios.post(`/api/${voteOperation}/${user.id}`, {
-        postId: postId,
+        votedId,
+        type,
       });
       setVoteStatus(res.data.newVoteStatus);
       setTotalLikes(res.data.numoflikes);
@@ -31,14 +32,14 @@ const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
       {user ? (
         <button
           className={`btn ${
-            voteStatus === 1 ? "btn-secondary" : "btn-outline-secondary"
+            voteStatus === 1 ? 'btn-secondary' : 'btn-outline-secondary'
           }  btn-sm`}
-          onClick={() => handleVote("upVotePost")}
+          onClick={() => handleVote('upVotePost')}
         >
           <span className="material-icons">arrow_upward</span>
         </button>
       ) : (
-        <Link to={{ pathname: "/login", state: { prevPath: location } }}>
+        <Link to={{ pathname: '/login', state: { prevPath: location } }}>
           <button className="btn btn-outline-secondary">
             <span className="material-icons">arrow_upward</span>
           </button>
@@ -48,14 +49,14 @@ const Vote = ({ postId, numOfLikes, preVoteStatus }) => {
       {user ? (
         <button
           className={`btn ${
-            voteStatus === -1 ? "btn-danger" : "btn-outline-danger"
+            voteStatus === -1 ? 'btn-danger' : 'btn-outline-danger'
           }  btn-sm`}
-          onClick={() => handleVote("downVotePost")}
+          onClick={() => handleVote('downVotePost')}
         >
           <span className="material-icons">arrow_downward</span>
         </button>
       ) : (
-        <Link to={{ pathname: "/login", state: { prevPath: location } }}>
+        <Link to={{ pathname: '/login', state: { prevPath: location } }}>
           <button className="btn btn-outline-danger">
             <span className="material-icons">arrow_downward</span>
           </button>

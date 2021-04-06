@@ -3,9 +3,13 @@ import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
-import SearchInputLocation from "./SearchInputLocation";
+import SearchInputLocation from "../../components/SearchInputLocation";
 import "react-responsive-modal/styles.css";
 import "./style.css";
+import "@pathofdev/react-tag-input/build/index.css";
+import "semantic-ui-css/semantic.min.css";
+import { Dropdown } from 'semantic-ui-react';
+import Utility from "../../utils";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -16,7 +20,16 @@ const CreatePost = (props) => {
   const [location, setLocation] = useState("");
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [tags, setTags] = useState([]);
   const TITLE_MIN_LENGTH = 5;
+  
+  // Placeholder ptions for tags
+  const options = Utility.tags;
+
+  // Handle change of tags
+  const handleTags = (e, {value}) => {
+    setTags(value);
+  }
 
   // Handling modal open/close
   const onOpenModal = () => setOpen(true);
@@ -41,6 +54,7 @@ const CreatePost = (props) => {
           content: description,
           location: location,
           imageUrl: imgUrl,
+          tags: tags,
         })
         .then((res) => {
           setTitle("");
@@ -48,6 +62,12 @@ const CreatePost = (props) => {
           setLocation("");
           setFile(null);
           setFileType("");
+          setTags([]);
+
+          // Use res post id to insert uid, pid and tag array
+          // to Post model -- then parse and enter each tag into
+          // Tags and then use that tag id 
+          console.log(res);
         });
     } catch (err) {
       console.error(err.message);
@@ -57,7 +77,7 @@ const CreatePost = (props) => {
   // Handle upload
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (validatePost()) {
       if (file) {
         try {
           let res;
@@ -87,8 +107,8 @@ const CreatePost = (props) => {
     }
   };
 
-  // Validate the form
-  const validateForm = () => {
+  // Validate the post
+  const validatePost = () => {
     if (title) {
       if (title.length < TITLE_MIN_LENGTH) {
         setErrorMessage("Title must be at least 5 characters.");
@@ -132,7 +152,7 @@ const CreatePost = (props) => {
           <h3 id="ModalTitle">Create Post</h3>
           <div>
             <form onSubmit={handleUpload}>
-              <div className="mb-2">
+              <div className="mb-3">
                 <p className="control" style={{ color: "red" }}>
                   {errorMessage}
                 </p>
@@ -140,24 +160,27 @@ const CreatePost = (props) => {
                 <input
                   type="text"
                   className="form-control"
+                  placeholder="Add a title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <div className="mb-2">
+              <div className="mb-3">
+                <h6>Tags</h6>
+                <Dropdown placeholder="Select tags" 
+                  fluid multiple selection options={options} onChange={handleTags}/>
+              </div>
+              <div className="mb-3">
                 <h6>Description</h6>
                 <textarea
                   type="text"
                   className="form-control"
                   rows="10"
                   wrap="hard" //needed for line breaks
+                  placeholder="Enter a description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-              </div>
-              <div className="mb-2">
-                <h6>Location</h6>
-                <SearchInputLocation setLocation={setLocation} />
               </div>
               <div className="mb-3">
                 <h6>Image</h6>
@@ -168,6 +191,10 @@ const CreatePost = (props) => {
                   accept=".jpg,.jpeg,.png"
                   onChange={handleChange}
                 />
+              </div>
+              <div className="mb-3">
+                <h6>Location</h6>
+                <SearchInputLocation setLocation={setLocation} />
               </div>
               <button type="submit" className="btn btn-success form-control">
                 Submit

@@ -132,11 +132,47 @@ Post.getPostLikedNotOwned = async (userId) => {
   }
 };
 
+Post.editPostById = async (data) => {
+  const { userId } = data.params;
+  const { postId, title, content, location, tags } = data.body;
+  try {
+    if (userId && postId && title) {
+      const res = await pool.query(
+        `UPDATE posts 
+        SET title = $1, content = $2, location = $3, tags = $4
+        WHERE id = $5 AND userid = $6`,
+        [title, content, location, tags, postId, userId]
+      );
+
+      try {
+        await pool.query(
+          // Remove current tags from tagged
+          `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
+          [userId, postId]
+        );
+
+        for (const tag of tags) {
+          // Insert new tags (or old tags) to update
+          await pool.query(
+            'INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *',
+            [tag, postId, userId]
+          );
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+      return res.rows[0];
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 Post.getPostById = async ({ userId, postId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, val 
+        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, tags 
          FROM posts 
          LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 
          WHERE posts.id = $1`,
@@ -253,9 +289,26 @@ Post.cancelVote = async (data) => {
   }
 };
 
-Post.delete = async (id) => {
+Post.delete = async (data) => {
+  const { postId, userId } = data.params;
+
+  console.log('postId: ' + postId);
+  console.log('userId: ' + userId);
   try {
-    await pool.query('DELETE FROM posts WHERE id=$1', [id]);
+    await pool.query('DELETE FROM posts WHERE id = $1 AND userid = $2', [
+      postId,
+      userId,
+    ]);
+
+    try {
+      await pool.query(
+        // Remove current tags from tagged
+        `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
+        [userId, postId]
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
   } catch (err) {
     console.error(err.message);
   }
@@ -291,7 +344,7 @@ Post.search = async (
     console.log(wherePart);
     const res = await pool.query(
       `SELECT * FROM (
-      SELECT id, datetime, title, imageurl, location, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
+      SELECT id, datetime, title, imageurl, location, tags, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
       FROM posts \
       WHERE document_with_weights @@ plainto_tsquery($1)\
       ORDER BY rank DESC, numoflikes DESC, sortingid ASC) AS SUB\

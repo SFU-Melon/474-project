@@ -4,37 +4,38 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Utility from '../../utils';
 import './PostCard.css';
+import Tags from '@components/Tags';
 
 export default function PostCard({ post }) {
   const [displayTime, setDisplayTime] = useState('');
   const encoded = Utility.encodeUUID(post.id);
   const encodedTitle = encodeURIComponent(post.title);
+  const [tags, setTags] = useState([]);
   const { user } = useUserContext();
 
   useEffect(() => {
     const time = Utility.getDisplayTime(post.datetime);
     setDisplayTime(time);
+    setTags(post.tags);
   }, []);
 
   return (
-    <div className="post-card card flex-row p-3 m-2">
-      <Vote
-        postId={post.id}
-        numOfLikes={post.numoflikes}
-        preVoteStatus={post.val}
-      />
+    <div className="post-card card flex-row p-4 m-2">
+      <div className="me-4">
+        <Vote
+          postId={post.id}
+          numOfLikes={post.numoflikes}
+          preVoteStatus={post.val}
+        />
+      </div>
       <div>
         <Link
           to={`/post/${encodedTitle}/${encoded}`}
           style={{ textDecoration: 'none', color: 'black' }}
         >
           <h2>{post.title}</h2>
-          <div className="d-flex flex-row mb-1">
-            {post.tags?.map((tag) => (
-              <span className="badge bg-primary text-wrap me-2 fs-6">
-                {tag}
-              </span>
-            ))}
+          <div className="d-flex flex-row mb-3 align-items-start">
+            <Tags tags={tags} />
           </div>
           <div>
             {post.imageurl && (

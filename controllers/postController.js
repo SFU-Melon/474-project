@@ -71,6 +71,16 @@ postController.downVote = async (req, res) => {
   }
 };
 
+postController.editPostById = async (req, res) => {
+  try{
+    const editPost = await Post.editPostById(req);
+    res.status(200).json({message: "Edited post successfully!"});
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Edit post did not succeed" });
+  }
+};
+ 
 postController.cancelVote = async (req, res) => {
   try {
     const canceledVote = await Post.cancelVote(req);
@@ -134,8 +144,7 @@ postController.getAllPostsFromUserId = async (req, res) => {
 
 postController.deletePost = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Post.delete(id);
+    await Post.delete(req);
     return res.json({ success: true });
   } catch (err) {
     console.error(err.message);

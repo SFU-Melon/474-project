@@ -1,22 +1,23 @@
-import { useLocation } from "react-router-dom";
-import NewPosts from "./NewPosts";
-import PopularPosts from "./PopularPosts";
-import CreatePost from "./CreatePost";
-import AllUsers from "./AllUsers";
-import SearchFilter from "@components/SearchFilter";
+import { useLocation } from 'react-router-dom';
+import CreatePost from './CreatePost';
+import AllUsers from './AllUsers';
+import SearchFilter from '@components/SearchFilter';
+import { useState } from 'react';
+import PostsList from './PostsList';
 
 const Home = () => {
-  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
+  const [tags, setTags] = useState([]);
+
   return (
     <div>
       <div className="container-fluid">
         <div className="row">
           <div className="col col-md-10">
-            <SearchFilter />
+            <SearchFilter setTags={setTags} />
             <div className="d-flex justify-content-start m-2 mt-4">
               <CreatePost />
             </div>
-            {filterType === "hot" ? <PopularPosts /> : <NewPosts />}
+            <PostsList tags={tags} />
           </div>
           <div className="col col-md-auto">
             <AllUsers />

@@ -120,8 +120,13 @@ postController.getPostById = async (req, res) => {
 postController.getPosts = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const { filterType, val = undefined, sortingId = undefined } = req.query;
-    const data = { userId, filterType, val, sortingId };
+    const {
+      filterType,
+      val = undefined,
+      sortingId = undefined,
+      tags = undefined,
+    } = req.query;
+    const data = { userId, filterType, val, sortingId, tags };
     console.log(data);
     const allPosts = await Post.getPosts(data);
     res.json(allPosts);

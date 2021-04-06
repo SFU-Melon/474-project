@@ -25,8 +25,9 @@ export default function PostCard({ post }) {
         votedId={post.id}
         numOfLikes={post.numoflikes}
         preVoteStatus={post.val}
+        type={'post'}
       />
-      <div>
+      <div className="ms-3">
         <Link
           to={`/post/${encodedTitle}/${encoded}`}
           style={{ textDecoration: 'none', color: 'black' }}

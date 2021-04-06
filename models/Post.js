@@ -191,6 +191,7 @@ Post.getPostById = async ({ userId, postId }) => {
 Post.checkVoteStatus = async (data) => {
   const { userId } = data.params;
   const { votedId: postId } = data.body;
+  console.log('checking post vote status');
   try {
     const res = await pool.query(
       'SELECT * FROM likes WHERE userId = $1 AND postId = $2',
@@ -206,6 +207,7 @@ Post.checkVoteStatus = async (data) => {
 };
 
 Post.changeNumOfLikes = async (data) => {
+  console.log('changing numoflikes');
   const voteOperation = data.voteOperation;
   const voteStatus = data.voteStatus;
   const { votedId: postId } = data.body;

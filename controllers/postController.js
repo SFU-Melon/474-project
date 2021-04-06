@@ -22,6 +22,16 @@ postController.getPostLikedNotOwned = async (req, res) => {
   }
 };
 
+postController.editPostById = async (req, res) => {
+  try {
+    const editPost = await Post.editPostById(req);
+    res.status(200).json({ message: 'Edited post successfully!' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Edit post did not succeed' });
+  }
+};
+
 postController.getPostById = async (req, res) => {
   try {
     const userId = req.user?.id;

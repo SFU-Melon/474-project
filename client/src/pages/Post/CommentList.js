@@ -43,9 +43,10 @@ export default function CommentList({ postId, comments, setComments }) {
         >
           <div className="m-1">
             <Vote
-              votedId={comment.id}
+              votedId={{ commentId: comment.id, postId: comment.postid }}
               numOfLikes={comment.numoflikes}
               preVoteStatus={comment.val}
+              type={'comment'}
             />
           </div>
           <div className="">

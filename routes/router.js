@@ -45,18 +45,18 @@ router.post(
 );
 
 /******  Vote Routes ********/
-// router.post(
-//   "/upVotePost/:userId",
-//   ensureAuthenticated,
-//   voteController.checkVoteStatus,
-//   voteController.upVote
-// );
-// router.post(
-//   "/downVotePost/:userId",
-//   ensureAuthenticated,
-//   voteController.checkVoteStatus,
-//   voteController.downVote
-// );
+router.post(
+  '/upVotePost/:userId',
+  ensureAuthenticated,
+  voteController.checkVoteStatus,
+  voteController.upVote
+);
+router.post(
+  '/downVotePost/:userId',
+  ensureAuthenticated,
+  voteController.checkVoteStatus,
+  voteController.downVote
+);
 
 /******  Post Routes ********/
 router.post(

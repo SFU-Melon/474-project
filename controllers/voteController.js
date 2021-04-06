@@ -36,8 +36,8 @@ voteController.upVote = async (req, res) => {
     }
     req.voteOperation = 'upVote';
     let numoflikes;
-    const res = await type.changeNumOfLikes(req);
-    numoflikes = res.numoflikes;
+    const result = await type.changeNumOfLikes(req);
+    numoflikes = result.numoflikes;
 
     res.status(200).json({ message, newVoteStatus, numoflikes });
   } catch (err) {
@@ -64,8 +64,8 @@ voteController.downVote = async (req, res) => {
     req.voteOperation = 'downVote';
     let numoflikes;
 
-    const res = await type.changeNumOfLikes(req);
-    numoflikes = res.numoflikes;
+    const result = await type.changeNumOfLikes(req);
+    numoflikes = result.numoflikes;
 
     res.status(200).json({ message, newVoteStatus, numoflikes });
   } catch (err) {

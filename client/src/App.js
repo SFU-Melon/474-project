@@ -20,51 +20,6 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-<<<<<<< HEAD
-    <AuthProvider>
-      <UserProvider>
-        <Router>
-          <div className="App">
-            <Nav />
-            <div className="content">
-              <Switch>
-                <Route exact path="/post/:title/:id" component={Post} />
-                <Route exact path="/plants" component={Plants} />
-                <Route exact path="/plants/:sciname" component={Plant} />
-                <Route exact path="/" component={Home} />
-                <Route exact path="/hot" component={Home} />
-                <Route exact path="/new" component={Home} />
-                <Route
-                  exact
-                  path="/profile/public/:username"
-                  component={PublicProfile}
-                />
-                `
-                <ProtectedRoutes
-                  exact
-                  path="/profile/:username"
-                  component={Profile}
-                  template={"accessibleAfterLogin"}
-                />
-                <ProtectedRoutes
-                  exact
-                  path="/login"
-                  component={Login}
-                  template={"accessibleBeforeLogin"}
-                />
-                <ProtectedRoutes
-                  path="/signup"
-                  exact
-                  component={SignUp}
-                  template={"accessibleBeforeLogin"}
-                />
-                <Route path="/search" component={Search} />
-                <Route
-                  path="*"
-                  component={() => <Error msg={"404 NOT FOUND"} />}
-                />
-              </Switch>
-=======
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <UserProvider>
@@ -75,6 +30,7 @@ function App() {
                 <Switch>
                   <Route exact path="/post/:title/:id" component={Post} />
                   <Route exact path="/plants" component={Plants} />
+                  <Route exact path="/plants/:sciname" component={Plant} />
                   <Route exact path="/" component={Home} />
                   <Route exact path="/hot" component={Home} />
                   <Route exact path="/new" component={Home} />
@@ -109,7 +65,6 @@ function App() {
                   />
                 </Switch>
               </div>
->>>>>>> main
             </div>
           </Router>
         </UserProvider>

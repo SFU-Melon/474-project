@@ -1,4 +1,4 @@
-const Post = require("../models/Post");
+const Post = require('../models/Post');
 const postController = {};
 
 postController.createPost = async (req, res) => {
@@ -7,77 +7,7 @@ postController.createPost = async (req, res) => {
     return res.status(200).json(newPost);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Creating post did not succeed" });
-  }
-};
-
-postController.checkVoteStatus = async (req, res, next) => {
-  try {
-    const checkVoteStatus = await Post.checkVoteStatus(req);
-    req.voteStatus = checkVoteStatus;
-    next();
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "checking vote status failed" });
-  }
-};
-
-postController.upVote = async (req, res) => {
-  try {
-    let message;
-    let newVoteStatus;
-    if (req.voteStatus != 0) {
-      // -1 , 1
-      await Post.cancelVote(req);
-      message = "Canceled successfully!";
-      newVoteStatus = 0;
-    }
-    if (req.voteStatus != 1) {
-      // -1 , 0
-      await Post.upVote(req);
-      message = "Upvoted successfully!";
-      newVoteStatus = 1;
-    }
-    req.voteOperation = "upVote";
-    const { numoflikes } = await Post.changeNumOfLikes(req);
-
-    res.status(200).json({ message, newVoteStatus, numoflikes });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "downVote did not succeed" });
-  }
-};
-
-postController.downVote = async (req, res) => {
-  try {
-    let message;
-    let newVoteStatus;
-    if (req.voteStatus != 0) {
-      await Post.cancelVote(req);
-      message = "Canceled successfully!";
-      newVoteStatus = 0;
-    }
-    if (req.voteStatus != -1) {
-      await Post.downVote(req);
-      message = "downVoted successfully!";
-      newVoteStatus = -1;
-    }
-    req.voteOperation = "downVote";
-    const { numoflikes } = await Post.changeNumOfLikes(req);
-    res.status(200).json({ message, newVoteStatus, numoflikes });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "downVote did not succeed" });
-  }
-};
-
-postController.cancelVote = async (req, res) => {
-  try {
-    const canceledVote = await Post.cancelVote(req);
-    res.status(200).json({ message: "Cancelled vote successfully!" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "CancelVote did not succeed" });
+    res.status(500).json({ message: 'Creating post did not succeed' });
   }
 };
 
@@ -89,6 +19,16 @@ postController.getPostLikedNotOwned = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ success: false });
+  }
+};
+
+postController.editPostById = async (req, res) => {
+  try {
+    const editPost = await Post.editPostById(req);
+    res.status(200).json({ message: 'Edited post successfully!' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Edit post did not succeed' });
   }
 };
 
@@ -110,8 +50,13 @@ postController.getPostById = async (req, res) => {
 postController.getPosts = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const { filterType, val = undefined, sortingId = undefined } = req.query;
-    const data = { userId, filterType, val, sortingId };
+    const {
+      filterType,
+      val = undefined,
+      sortingId = undefined,
+      tags = undefined,
+    } = req.query;
+    const data = { userId, filterType, val, sortingId, tags };
     console.log(data);
     const allPosts = await Post.getPosts(data);
     res.json(allPosts);
@@ -134,8 +79,7 @@ postController.getAllPostsFromUserId = async (req, res) => {
 
 postController.deletePost = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Post.delete(id);
+    await Post.delete(req);
     return res.json({ success: true });
   } catch (err) {
     console.error(err.message);
@@ -182,7 +126,7 @@ postController.checkSaveStatus = async (req, res, next) => {
     next();
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "checking save status failed" });
+    res.status(500).json({ message: 'checking save status failed' });
   }
 };
 
@@ -196,7 +140,7 @@ postController.getAllSavedPost = async (req, res, next) => {
     });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "checking vote status failed" });
+    res.status(500).json({ message: 'checking vote status failed' });
   }
 };
 

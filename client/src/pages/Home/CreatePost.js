@@ -3,12 +3,13 @@ import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
-import SearchInputLocation from "./SearchInputLocation";
+import SearchInputLocation from "../../components/SearchInputLocation";
 import "react-responsive-modal/styles.css";
 import "./style.css";
 import "@pathofdev/react-tag-input/build/index.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown } from 'semantic-ui-react';
+import Utility from "../../utils";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -23,13 +24,7 @@ const CreatePost = (props) => {
   const TITLE_MIN_LENGTH = 5;
   
   // Placeholder ptions for tags
-  const options  = [
-    {key: 'firstpost', text: 'First Post', value: 'First Post'},
-    {key: 'question', text: 'Question', value: 'Question'},
-    {key: 'help', text: 'Help', value: 'Help'},
-    {key: 'tips', text: 'Tips', value: 'Tips'},
-    {key: 'suggestion', text: 'Suggestion', value: 'Suggestion'},
-  ]
+  const options = Utility.tags;
 
   // Handle change of tags
   const handleTags = (e, {value}) => {
@@ -82,7 +77,7 @@ const CreatePost = (props) => {
   // Handle upload
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (validatePost()) {
       if (file) {
         try {
           let res;
@@ -112,8 +107,8 @@ const CreatePost = (props) => {
     }
   };
 
-  // Validate the form
-  const validateForm = () => {
+  // Validate the post
+  const validatePost = () => {
     if (title) {
       if (title.length < TITLE_MIN_LENGTH) {
         setErrorMessage("Title must be at least 5 characters.");

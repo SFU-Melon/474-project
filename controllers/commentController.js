@@ -1,10 +1,12 @@
-const Comment = require("../models/Comment");
+const Comment = require('../models/Comment');
 const commentController = {};
 
 commentController.getComments = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const comments = await Comment.getComments(postId);
+    const userId = req.user?.id;
+    const ids = { userId, postId };
+    const comments = await Comment.getComments(ids);
     return res.json({
       success: true,
       comments,

@@ -1,9 +1,9 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { useUserContext } from "@contexts/UserContext";
-import Utility from "../../utils";
-import "./style.css";
-import Vote from "@components/Vote";
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useUserContext } from '@contexts/UserContext';
+import Utility from '../../utils';
+import './style.css';
+import Vote from '@components/Vote';
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
@@ -42,7 +42,11 @@ export default function CommentList({ postId, comments, setComments }) {
           className="card  w-75 align-self-center m-2 flex-row"
         >
           <div className="m-1">
-            <Vote />
+            <Vote
+              votedId={comment.id}
+              numOfLikes={comment.numoflikes}
+              preVoteStatus={comment.val}
+            />
           </div>
           <div className="">
             <div className="d-flex flex-row mt-1 ">
@@ -51,7 +55,7 @@ export default function CommentList({ postId, comments, setComments }) {
                   src={
                     comment?.profilephoto
                       ? comment.profilephoto
-                      : "/null-user.png"
+                      : '/null-user.png'
                   }
                   alt="auther's profile in comment"
                   className="comment-photo"

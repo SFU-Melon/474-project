@@ -39,7 +39,7 @@ CREATE TABLE posts(
         ON DELETE CASCADE
 );
 
-ACREATE TABLE likes(
+CREATE TABLE likes(
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
@@ -56,6 +56,7 @@ CREATE TABLE followers(
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     dateTime TIMESTAMP NOT NULL,
+    numoflikes INTEGER DEFAULT 0 NOT NULL,
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)

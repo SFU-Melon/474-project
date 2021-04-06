@@ -28,7 +28,7 @@ const Vote = ({ votedId, numOfLikes, preVoteStatus }) => {
   }, [user, preVoteStatus]);
 
   return (
-    <div className="vote p-3 d-flex flex-column align-items-center">
+    <div className="vote d-flex flex-column align-items-center">
       {user ? (
         <button
           className={`btn ${

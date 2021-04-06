@@ -71,6 +71,16 @@ postController.downVote = async (req, res) => {
   }
 };
 
+postController.editPostById = async (req, res) => {
+  try{
+    const editPost = await Post.editPostById(req);
+    res.status(200).json({message: "Edited post successfully!"});
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Edit post did not succeed" });
+  }
+};
+ 
 postController.cancelVote = async (req, res) => {
   try {
     const canceledVote = await Post.cancelVote(req);
@@ -110,8 +120,13 @@ postController.getPostById = async (req, res) => {
 postController.getPosts = async (req, res) => {
   try {
     const userId = req.user?.id;
-    const { filterType, val = undefined, sortingId = undefined } = req.query;
-    const data = { userId, filterType, val, sortingId };
+    const {
+      filterType,
+      val = undefined,
+      sortingId = undefined,
+      tags = undefined,
+    } = req.query;
+    const data = { userId, filterType, val, sortingId, tags };
     console.log(data);
     const allPosts = await Post.getPosts(data);
     res.json(allPosts);
@@ -134,8 +149,7 @@ postController.getAllPostsFromUserId = async (req, res) => {
 
 postController.deletePost = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Post.delete(id);
+    await Post.delete(req);
     return res.json({ success: true });
   } catch (err) {
     console.error(err.message);

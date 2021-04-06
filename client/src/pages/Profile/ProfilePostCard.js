@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Utility from "../../utils";
 import "./ProfilePostCard.css";
+import Tags from "@components/Tags";
 
 export default function PostCard({ post }) {
   const [displayTime, setDisplayTime] = useState("");
   const encoded = Utility.encodeUUID(post.id);
   const encodedTitle = encodeURIComponent(post.title);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     const time = Utility.getDisplayTime(post.datetime);
     setDisplayTime(time);
+    setTags(post.tags);
   }, []);
 
   return (
@@ -31,6 +34,7 @@ export default function PostCard({ post }) {
         <div className="d-flex flex-column justify-content-between">
           <div>
             <h2>{post.title}</h2>
+            <Tags tags={tags}/>
             <p>{displayTime}</p>
           </div>
           <div className="">

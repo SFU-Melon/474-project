@@ -98,11 +98,10 @@ export default function Login(props) {
         <div className="signup">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </div>
-        <div
-          className="signup"
-          style={{ textDecoration: "underline", color: "blue" }}
-        >
-          <a onClick={handleForgotPassword}>Forgot Password?</a>
+        <div className="signup">
+          <a onClick={handleForgotPassword} className="custom-links">
+            Forgot Password?
+          </a>
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ const ensureAuthorized = (req, res, next) => {
   }
   console.log("user is not authorized");
   return res.json({
+    success: false,
     message: "user is not authorized",
   });
 };

@@ -1,7 +1,7 @@
 class TStore {
   constructor() {
     this.tokens = [];
-    this.expiration = 10 * 60 * 1000;
+    this.expiration = 10 * 60 * 1000; //10 mins
   }
 
   addToken(token, username) {
@@ -17,17 +17,11 @@ class TStore {
     for (let i = 0; i < this.tokens.length; i++) {
       if (this.tokens[i].username === username) {
         this.tokens[i].token = new_token;
+        this.tokens[i].timestamp = new Date();
       }
       return true;
     }
     return false;
-  }
-
-  cleanUp() {
-    const date = new Date();
-    this.tokens = this.tokens.filter(
-      (item) => date - item.timestamp <= this.expiration
-    );
   }
 
   isValid(token) {
@@ -40,6 +34,13 @@ class TStore {
       }
     }
     return false;
+  }
+
+  cleanUp() {
+    const date = new Date();
+    this.tokens = this.tokens.filter(
+      (item) => date - item.timestamp <= this.expiration
+    );
   }
 
   print() {

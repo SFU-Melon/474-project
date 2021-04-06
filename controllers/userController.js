@@ -176,7 +176,6 @@ userController.editProfileInfo = async (req, res) => {
 
 userController.getUserStats = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const result = await User.getStats(id);
     return res.json({
@@ -200,8 +199,9 @@ userController.resetPasswordRequest = async (req, res) => {
     console.log(toEmail);
     if (toEmail) {
       const token = nanoid();
-      TokenStore.addToken(token, username);
-      TokenStore.print();
+      if (!TokenStore.updateUserToken(username, token)) {
+        TokenStore.addToken(token, username);
+      }
       const url = `http://localhost:3000/resetpassword/${username}/${token}`;
       await Mails.sendPasswordResetMail({ toEmail, url });
       return res.json({
@@ -226,11 +226,13 @@ userController.resetPasswordRequest = async (req, res) => {
 
 userController.resetPassword = async (req, res) => {
   const { username } = req.params;
-  const { password } = req.body;
-  console.log(password);
+  const { password, token } = req.body;
   try {
     const hashed = await bcrypt.hash(password, 10);
     const result = await User.resetPassword(username, hashed);
+    if (result) {
+      TokenStore.removeToken(token);
+    }
     return res.json({
       success: result,
     });

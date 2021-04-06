@@ -56,7 +56,9 @@ const Post = () => {
   const handleDelete = async () => {
     try {
       if (decoded && user?.id) {
-        const res = await axios.delete(`/api/deletePost/${decoded}/${user?.id}`)
+        const res = await axios.delete(
+          `/api/deletePost/${decoded}/${user?.id}`
+        );
         if (res.data.success) {
           history.push("/");
         }
@@ -65,7 +67,7 @@ const Post = () => {
       console.log(err);
     }
   };
-  
+
   return (
     <Fragment>
       {post && (
@@ -82,7 +84,7 @@ const Post = () => {
               <div className="mx-4">
                 <h1>{post.title}</h1>
                 <div className="d-flex flex-row mb-3 align-items-start">
-                  <Tags tags={tags}/>                  
+                  <Tags tags={tags} />
                 </div>
                 <div className="mb-2">
                   {post.imageurl && (
@@ -111,11 +113,16 @@ const Post = () => {
                     </button>
                   )}
                   {user && user.id === post.userid && (
-                    <button className="btn btn-danger btn-sm me-1" onClick={onOpenModalDelete}>
-                      Delete
-                    </button>
+                    <div>
+                      <button
+                        className="btn btn-danger btn-sm me-1"
+                        onClick={onOpenModalDelete}
+                      >
+                        Delete
+                      </button>
+                      <EditPost post={post} />
+                    </div>
                   )}
-                  <EditPost post={post}/>
                 </div>
               </div>
             </div>

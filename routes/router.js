@@ -1,58 +1,67 @@
-const router = require('express').Router();
-const userController = require('../controllers/UserController');
-const postController = require('../controllers/postController');
-const commentController = require('../controllers/commentController');
-const plantController = require('../controllers/plantController');
-const searchController = require('../controllers/searchController');
-const voteController = require('../controllers/voteController');
-const { ensureAuthenticated } = require('./middlewares');
+const router = require("express").Router();
+const userController = require("../controllers/UserController");
+const postController = require("../controllers/postController");
+const commentController = require("../controllers/commentController");
+const plantController = require("../controllers/plantController");
+const searchController = require("../controllers/searchController");
+const voteController = require("../controllers/voteController");
+const { ensureAuthenticated, ensureAuthorized } = require("./middlewares");
 
 /******  Auth Routes ********/
-router.post('/login', userController.login);
-router.post('/signup', userController.signup);
-router.get('/user', ensureAuthenticated, userController.getAuthUser);
-router.get('/logout', userController.logout);
+router.post("/login", userController.login);
+router.post("/signup", userController.signup);
+router.get("/user", ensureAuthenticated, userController.getAuthUser);
+router.get("/logout", userController.logout);
 
 /******  User Routes ********/
-router.get('/getAllUsers', userController.getAllUsers);
-router.get('/getUserById/:id', userController.getUserById);
-router.get('/getUserByUsername/:username', userController.getUserByUsername);
-router.get('/userstats/:id', userController.getUserStats);
+router.get("/getAllUsers", userController.getAllUsers);
+router.get("/getUserById/:id", userController.getUserById);
+router.get("/getUserByUsername/:username", userController.getUserByUsername);
+router.get("/userstats/:id", userController.getUserStats);
+router.get(
+  "/resetPasswordRequest/:username",
+  userController.resetPasswordRequest
+);
+router.post(
+  "/resetPassword/:username",
+  ensureAuthorized,
+  userController.resetPassword
+);
 
 /******  Following Routes ********/
 router.get(
-  '/getFollowersAndFollowing/:userId',
+  "/getFollowersAndFollowing/:userId",
   userController.getFollowersAndFollowing
 );
 router.get(
-  '/getFollowersAndFollowingUsers/:userId',
+  "/getFollowersAndFollowingUsers/:userId",
   userController.getFollowersAndFollowingUsers
 );
-router.post('/follows', userController.follows);
-router.post('/unfollows', userController.unfollows);
+router.post("/follows", userController.follows);
+router.post("/unfollows", userController.unfollows);
 
 /******  User Edit Routes ********/
 router.post(
-  '/editProfilePhoto/:userId',
+  "/editProfilePhoto/:userId",
   ensureAuthenticated,
   userController.editProfilePhoto
 );
 
 router.post(
-  '/editProfileInfo/:userId',
+  "/editProfileInfo/:userId",
   ensureAuthenticated,
   userController.editProfileInfo
 );
 
 /******  Vote Routes ********/
 router.post(
-  '/upVotePost/:userId',
+  "/upVotePost/:userId",
   ensureAuthenticated,
   voteController.checkVoteStatus,
   voteController.upVote
 );
 router.post(
-  '/downVotePost/:userId',
+  "/downVotePost/:userId",
   ensureAuthenticated,
   voteController.checkVoteStatus,
   voteController.downVote
@@ -60,61 +69,61 @@ router.post(
 
 /******  Post Routes ********/
 router.post(
-  '/createPost/:userId',
+  "/createPost/:userId",
   ensureAuthenticated,
   postController.createPost
 );
 
-router.get('/getPostLikedNotOwned/:id', postController.getPostLikedNotOwned);
+router.get("/getPostLikedNotOwned/:id", postController.getPostLikedNotOwned);
 
-router.get('/getPosts', postController.getPosts);
+router.get("/getPosts", postController.getPosts);
 router.get(
-  '/getPost/:id',
+  "/getPost/:id",
   postController.checkSaveStatus,
   postController.getPostById
 );
-router.get('/getAllPosts/:userId', postController.getAllPostsFromUserId);
+router.get("/getAllPosts/:userId", postController.getAllPostsFromUserId);
 router.delete(
-  '/deletePost/:postId/:userId',
+  "/deletePost/:postId/:userId",
   ensureAuthenticated,
   postController.deletePost
 );
-router.get('/savePost/:id', postController.savePost);
-router.get('/unsavePost/:id', postController.unsavePost);
+router.get("/savePost/:id", postController.savePost);
+router.get("/unsavePost/:id", postController.unsavePost);
 router.get(
-  '/getAllSavedPosts',
+  "/getAllSavedPosts",
   ensureAuthenticated,
   postController.getAllSavedPost
 );
 
 /******  Post Edit Routes ********/
 router.post(
-  '/editPost/:userId',
+  "/editPost/:userId",
   ensureAuthenticated,
   postController.editPostById
 );
 
 /****** Comment Routes ********/
-router.get('/getComments/:postId', commentController.getComments);
+router.get("/getComments/:postId", commentController.getComments);
 router.post(
-  '/submitComment/:userId/:postId',
+  "/submitComment/:userId/:postId",
   ensureAuthenticated,
   commentController.submitComment
 );
 router.delete(
-  '/deleteComment/:postId/:commentId',
+  "/deleteComment/:postId/:commentId",
   ensureAuthenticated,
   commentController.deleteComment
 );
 
 /****** Plant Routes ********/
-router.get('/getAllPlants', plantController.getAllPlants);
-router.get('/getPlant/:id', plantController.getPlantById);
+router.get("/getAllPlants", plantController.getAllPlants);
+router.get("/getPlant/:id", plantController.getPlantById);
 
 /****** Search Routes ********/
-router.get('/search/posts/:value', searchController.searchPosts);
-router.get('/search/plants/:value', searchController.searchPlants);
-router.get('/search/users/:value', searchController.searchUsers);
-router.get('/search/all/:value', searchController.searchAll);
+router.get("/search/posts/:value", searchController.searchPosts);
+router.get("/search/plants/:value", searchController.searchPlants);
+router.get("/search/users/:value", searchController.searchUsers);
+router.get("/search/all/:value", searchController.searchAll);
 
 module.exports = router;

@@ -190,4 +190,31 @@ User.getStats = async (id) => {
     console.log(err);
   }
 };
+
+User.getEmailFromUsername = async (username) => {
+  try {
+    let res = await pool.query("SELECT email FROM users WHERE username = $1", [
+      username,
+    ]);
+    if (res.rows.length !== 0) {
+      return res.rows[0].email;
+    }
+    return null;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+User.resetPassword = async (username, password) => {
+  try {
+    await pool.query("UPDATE users SET password = $2 WHERE username = $1", [
+      username,
+      password,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
 module.exports = User;

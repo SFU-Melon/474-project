@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Post from "./pages/Post";
@@ -48,6 +49,18 @@ function App() {
                     exact
                     path="/login"
                     component={Login}
+                    template={"accessibleBeforeLogin"}
+                  />
+                  <ProtectedRoutes
+                    exact
+                    path="/resetpassword/:username"
+                    component={ResetPassword}
+                    template={"accessibleBeforeLogin"}
+                  />
+                  <ProtectedRoutes
+                    exact
+                    path="/resetpassword/:username/:token"
+                    component={ResetPassword}
                     template={"accessibleBeforeLogin"}
                   />
                   <ProtectedRoutes

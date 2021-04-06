@@ -1,3 +1,5 @@
+const { TokenStore } = require("./tokenstore");
+
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     console.log("user is authenticated");
@@ -9,6 +11,22 @@ const ensureAuthenticated = (req, res, next) => {
   });
 };
 
+const ensureAuthorized = (req, res, next) => {
+  const { token } = req.body;
+  console.log("Token: ", token);
+  TokenStore.print();
+  if (TokenStore.isValid(token)) {
+    console.log("user is authorized");
+    return next();
+  }
+  console.log("user is not authorized");
+  return res.json({
+    success: false,
+    message: "user is not authorized",
+  });
+};
+
 module.exports = {
   ensureAuthenticated,
+  ensureAuthorized,
 };

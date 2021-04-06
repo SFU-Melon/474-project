@@ -14,8 +14,8 @@ Plant.getAll = async () => {
 Plant.getPlantById = async (id) => {
   try {
     if (id != undefined) {
-      const res = await pool.query("SELECT * FROM plants WHERE id = $1", [id]);
-      return res.rows;
+      const res = await pool.query("SELECT * FROM plants WHERE sciname = $1", [id]);
+      return res.rows[0];
     }
   } catch (err) {
     console.log(err.message);

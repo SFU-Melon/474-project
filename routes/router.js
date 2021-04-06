@@ -99,7 +99,7 @@ router.delete(
 
 /****** Plant Routes ********/
 router.get("/getAllPlants", plantController.getAllPlants);
-router.get("/getPlant", plantController.getPlantById);
+router.get("/getPlant/:sciname", plantController.getPlantById);
 
 /****** Search Routes ********/
 router.get("/search/posts/:value", searchController.searchPosts);

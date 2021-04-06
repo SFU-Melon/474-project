@@ -88,7 +88,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
         LEFT JOIN likes ON p.id = likes.postId AND likes.userId = $1
         ${wherePart}
         ${orderByPart}
-        LIMIT 4`,
+        LIMIT 6`,
         [userId]
       );
       return res.rows;
@@ -98,7 +98,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
       `SELECT * FROM posts p
       ${wherePart}
       ${orderByPart}
-      LIMIT 4`
+      LIMIT 6`
     );
     console.log(res.rows, " res. rows in get Posts");
     return res.rows;

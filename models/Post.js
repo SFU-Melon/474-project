@@ -18,21 +18,21 @@ Post.create = async (data) => {
         userId,
         content,
         authorname,
-        tags
+        tags,
       ]
     );
 
     // Insert tags after post insertion
-    const postId = res.rows[0]?.id;    
-    if (postId && userId && tags.length > 0){
+    const postId = res.rows[0]?.id;
+    if (postId && userId && tags.length > 0) {
       try {
-        for (const tag of tags){
+        for (const tag of tags) {
           await pool.query(
-            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
-            [tag,postId,userId]
-          )
+            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *",
+            [tag, postId, userId]
+          );
         }
-      } catch (err){
+      } catch (err) {
         console.error(err.message);
       }
     }
@@ -70,7 +70,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId }) => {
     //If the user exists (logged in)
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageUrl, numOfLikes, authorname, sortingid, likes.val, tags
+        `SELECT id, dateTime, title, content, numofcomments, location, imageUrl, numOfLikes, authorname, sortingid, likes.val
         FROM posts
         LEFT JOIN likes ON posts.id = likes.postId AND likes.userId = $1
         ${wherePart}
@@ -121,36 +121,38 @@ Post.getPostLikedNotOwned = async (userId) => {
 Post.editPostById = async (data) => {
   const { userId } = data.params;
   const { postId, title, content, location, tags } = data.body;
-  try{
-    if(userId && postId && title){
+  try {
+    if (userId && postId && title) {
       const res = await pool.query(
         `UPDATE posts 
         SET title = $1, content = $2, location = $3, tags = $4
         WHERE id = $5 AND userid = $6`,
-        [ title, content, location, tags, postId, userId ]
+        [title, content, location, tags, postId, userId]
       );
 
-      try{
-        await pool.query( // Remove current tags from tagged
+      try {
+        await pool.query(
+          // Remove current tags from tagged
           `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
           [userId, postId]
         );
-        
-        for (const tag of tags){ // Insert new tags (or old tags) to update
+
+        for (const tag of tags) {
+          // Insert new tags (or old tags) to update
           await pool.query(
-            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *", 
-            [tag,postId,userId]
-          )
+            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *",
+            [tag, postId, userId]
+          );
         }
-      } catch (err){
+      } catch (err) {
         console.error(err.message);
       }
-      return res.rows[0]
+      return res.rows[0];
     }
   } catch (err) {
     console.error(err.message);
   }
-}
+};
 
 Post.getPostById = async ({ userId, postId }) => {
   try {
@@ -279,14 +281,18 @@ Post.delete = async (data) => {
   console.log("postId: " + postId);
   console.log("userId: " + userId);
   try {
-    await pool.query("DELETE FROM posts WHERE id = $1 AND userid = $2", [postId, userId]);
+    await pool.query("DELETE FROM posts WHERE id = $1 AND userid = $2", [
+      postId,
+      userId,
+    ]);
 
-    try{
-      await pool.query( // Remove current tags from tagged
+    try {
+      await pool.query(
+        // Remove current tags from tagged
         `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
         [userId, postId]
       );
-    }catch (err){
+    } catch (err) {
       console.error(err.message);
     }
   } catch (err) {

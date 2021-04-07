@@ -1,30 +1,3 @@
-INSERT INTO tagged (tagid, postid, userid) VALUES
-(
-    1,
-    '7cc6f605-a3fb-4b96-b21e-098d50b5eea7',
-    'e6998f41-4caa-4000-ba72-7a1fcd042112'
-),
-(
-    2,
-    '6a418175-df37-4df2-bca8-d09dd4b3735f',
-    '79409dd1-16a3-466d-a96e-cb08de8953a0'
-),
-(
-    3,
-    '75257dea-33e3-466e-8bab-ecd9894832b4',
-    '1d1a5cb5-9590-40c4-b1d6-462a5029d87d'
-),
-(
-    2,
-    '75257dea-33e3-466e-8bab-ecd9894832b4',
-    '1d1a5cb5-9590-40c4-b1d6-462a5029d87d'
-),
-(
-    2,
-    '6a83033c-01fd-46ff-ad49-8685ae37bce4',
-    '79409dd1-16a3-466d-a96e-cb08de8953a0'
-);
-
 INSERT INTO tags (name) VALUES
 (
     'First Post'

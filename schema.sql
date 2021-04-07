@@ -43,6 +43,10 @@ CREATE TABLE posts(
         ON DELETE CASCADE
 );
 
+CREATE TABLE tags(
+    name VARCHAR(50) PRIMARY KEY
+);
+
 CREATE TABLE likes(
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
@@ -101,14 +105,6 @@ CREATE TABLE plantdiseases(
     PRIMARY KEY(id, plantid)
 );
 
-CREATE TABLE tagged(
-    tag TEXT NOT NULL,
-    postid uuid REFERENCES posts(id)
-        ON DELETE CASCADE,
-    userid uuid REFERENCES users(id)
-        ON DELETE CASCADE,
-    PRIMARY KEY(tag, postid, userid)
-);
 
 CREATE TABLE saves(
     userid uuid REFERENCES users(id)

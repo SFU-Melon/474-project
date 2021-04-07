@@ -217,4 +217,14 @@ User.resetPassword = async (username, password) => {
     return false;
   }
 };
+
+User.getTotalAmount = async () => {
+  try {
+    const res = await pool.query("SELECT COUNT(*) AS numofusers from users");
+    return res.rows[0];
+  } catch (err) {
+    console.err(err);
+    return false;
+  }
+};
 module.exports = User;

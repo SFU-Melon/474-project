@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import SignupForm from './SignupForm';
-import SignupSuccess from './SignupSuccess';
+import SignupForm from "./SignupForm";
+import SignupSuccess from "./SignupSuccess";
 
 export default function SignUp(props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -12,7 +12,11 @@ export default function SignUp(props) {
 
   return (
     <div>
-      {!isSubmitted ? (<SignupForm submitForm={submitForm}/>) : (<SignupSuccess/>)}
+      {!isSubmitted ? (
+        <SignupForm submitForm={submitForm} />
+      ) : (
+        <SignupSuccess />
+      )}
     </div>
   );
 }

@@ -27,6 +27,7 @@ router.post(
   ensureAuthorized,
   userController.resetPassword
 );
+router.get("/getTotalAmountOfUsers", userController.getTotalAmount);
 
 /******  Following Routes ********/
 router.get(

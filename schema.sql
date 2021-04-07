@@ -43,7 +43,9 @@ CREATE TABLE posts(
         ON DELETE CASCADE
 );
 
-
+CREATE TABLE tags(
+    name VARCHAR(50) PRIMARY KEY
+);
 
 CREATE TABLE likes(
     userid uuid REFERENCES users(id)

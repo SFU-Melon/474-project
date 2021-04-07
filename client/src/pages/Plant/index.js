@@ -18,83 +18,99 @@ export default function Plant() {
     fetchPlant();
   }, []);
   return (
-    <div class="container">
-      <div class="main-body">
-        <div class="row gutters-sm">
-          <div class="col-md-11">
-            <div class="card mb-3">
-              <div className="card-body">
+    <div className="container-fluid" id="parentID">
+      <div className="row">
+        <div className="col align-self-start">
+          <div className="plantCard card mb-3" >
+            <div className="plantBody card-body">
 
-                <div class="row">
-                  <h1 class="mb-3">
-                    {plant?.comname}
-                  </h1>
-                </div>
+              <div className="row">
+                <h1 className="mb-3">
+                  {plant?.comname}
+                </h1>
+              </div>
 
-                <hr />
+              <hr />
 
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">
-                      Scientific Name:
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Scientific Name:
                     </h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {plant?.sciname}
-                  </div>
                 </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.sciname}
+                </div>
+              </div>
 
-                <hr />
+              <hr />
 
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">
-                      Description:
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Description:
                     </h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {plant?.description}
-                  </div>
                 </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.description}
+                </div>
+              </div>
 
-                <hr />
+              <hr />
 
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">
-                      Plant Instruction:
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Plant Instruction:
                     </h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {plant?.plantinstr}
-                  </div>
                 </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.plantinstr}
+                </div>
+              </div>
 
-                <hr />
+              <hr />
 
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">
-                      Grow Instruction:
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Grow Instruction:
                     </h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {plant?.growinstr}
-                  </div>
                 </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.growinstr}
+                </div>
+              </div>
 
-                <hr />
+              <hr />
 
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">
-                      Care Instruction:
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Care Instruction:
                     </h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {plant?.careinstr}
-                  </div>
                 </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.careinstr}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div className="col-md-12 col-lg-4">
+          <div className="row">
+            <div className="col">
+              <img src={plant?.plantphoto} className="plantImage" />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="plantCard card mb-3" >
+                <div className="plantBody card-body">
+                  Disease
+              </div>
               </div>
             </div>
           </div>

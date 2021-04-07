@@ -152,7 +152,7 @@ Roses require 1-2 inches of water a week to thrive. In dry climates, this water 
     'Apply a layer of compost under the shrub each spring, followed by a 2-inch layer of mulch to retain moisture and control weeds, keeping mulch a few inches away from the stems. Water plants during the summer if rainfall is less than 1 inch per week. Pruning techniques vary with the type of rose.',
 
 
-    NULL
+    'https://garden.org/pics/2020-06-09/AnnKNCalif/e0ab4e.jpg'
 ),
 
 (
@@ -178,7 +178,7 @@ Carrots are generally ready for harvest in two to three months, when they are ab
     'Thin carrots to 3 inches apart. Weed carefully and cultivate lightly near the plants. Add mulch about six weeks after sowing to prevent exposing the roots to the sun, which gives them a bitter taste. Water plants during the summer if rainfall is less than 1 inch per week. Carrots are rarely bothered by pests. Contact your local county extension office for controls of common carrot pests, such as wireworms.',
 
 
-    NULL
+    'https://garden.org/pics/2021-01-13/farmerdill/089656.jpg'
 ),
 
 (

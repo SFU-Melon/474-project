@@ -21,21 +21,6 @@ Post.create = async (data) => {
         tags,
       ]
     );
-
-    // Insert tags after post insertion
-    const postId = res.rows[0]?.id;
-    if (postId && userId && tags.length > 0) {
-      try {
-        for (const tag of tags) {
-          await pool.query(
-            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *",
-            [tag, postId, userId]
-          );
-        }
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
     return res.rows[0];
   } catch (err) {
     console.error(err.message);
@@ -144,23 +129,6 @@ Post.editPostById = async (data) => {
         [title, content, location, tags, postId, userId]
       );
 
-      try {
-        await pool.query(
-          // Remove current tags from tagged
-          `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
-          [userId, postId]
-        );
-
-        for (const tag of tags) {
-          // Insert new tags (or old tags) to update
-          await pool.query(
-            "INSERT INTO tagged (tag, postid, userid) VALUES ($1, $2, $3) RETURNING *",
-            [tag, postId, userId]
-          );
-        }
-      } catch (err) {
-        console.error(err.message);
-      }
       return res.rows[0];
     }
   } catch (err) {
@@ -302,16 +270,6 @@ Post.delete = async (data) => {
       postId,
       userId,
     ]);
-
-    try {
-      await pool.query(
-        // Remove current tags from tagged
-        `DELETE FROM tagged WHERE userid = $1 AND postid = $2`,
-        [userId, postId]
-      );
-    } catch (err) {
-      console.error(err.message);
-    }
   } catch (err) {
     console.error(err.message);
   }

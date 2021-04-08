@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from "@contexts/UserContext";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import Utility from "@utils";
 import { Dropdown } from "semantic-ui-react";
-import SearchInputLocation from "../../components/SearchInputLocation";
+import SearchInputLocation from "@components/SearchInputLocation";
 import { useParams } from "react-router-dom";
 
 const EditPost = (props) => {

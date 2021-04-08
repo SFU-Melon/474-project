@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";

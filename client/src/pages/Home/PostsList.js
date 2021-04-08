@@ -1,20 +1,20 @@
-import axios from 'axios';
-import { Fragment, useEffect } from 'react';
-import PostCard from './PostCard';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useInfiniteQuery } from 'react-query';
-import { useLocation } from 'react-router-dom';
+import axios from "axios";
+import { Fragment } from "react";
+import PostCard from "./PostCard";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useInfiniteQuery } from "react-query";
+import { useLocation } from "react-router-dom";
 
 //NEED TO FILTER PAGES
 export default function PostsList({ tags }) {
-  let filterType = useLocation().pathname.includes('new') ? 'new' : 'hot';
+  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
   const fetchPosts = async ({ pageParam }) => {
     try {
-      const res = await axios.get('/api/getPosts', {
+      const res = await axios.get("/api/getPosts", {
         params: {
           filterType,
           val:
-            filterType === 'hot'
+            filterType === "hot"
               ? pageParam?.params?.numoflikes
               : pageParam?.datetime,
           sortingId: pageParam?.params?.sortingid,
@@ -22,15 +22,12 @@ export default function PostsList({ tags }) {
         },
       });
 
-      console.log(pageParam, 'pageParam after fetching in fetchPost');
-
-      if (filterType === 'new') {
+      if (filterType === "new") {
         return res.data;
       }
 
       if (pageParam === undefined) {
         //Return without filtering for the first page
-        console.log('first page');
         return res.data;
       }
 
@@ -49,11 +46,11 @@ export default function PostsList({ tags }) {
   };
 
   const { data, error, fetchNextPage, hasNextPage, status } = useInfiniteQuery(
-    ['posts', filterType, tags],
+    ["posts", filterType, tags],
     fetchPosts,
     {
       getNextPageParam: (lastPage, pages) => {
-        if (filterType === 'new') {
+        if (filterType === "new") {
           return lastPage?.[lastPage.length - 1];
         }
         if (lastPage?.[lastPage.length - 1] === undefined) {
@@ -71,13 +68,12 @@ export default function PostsList({ tags }) {
   const calculateLength = () => {
     let count = 0;
     data.pages.forEach((page) => page.forEach((post) => count++));
-    console.log(count);
     return count;
   };
 
-  return status === 'loading' ? (
+  return status === "loading" ? (
     <p>Loading...</p>
-  ) : status === 'error' ? (
+  ) : status === "error" ? (
     <p>Error: {error.message}</p>
   ) : (
     <div>
@@ -93,7 +89,7 @@ export default function PostsList({ tags }) {
             </div>
           }
           endMessage={
-            <p style={{ textAlign: 'center' }}>
+            <p style={{ textAlign: "center" }}>
               <b>Yay! You have seen it all</b>
             </p>
           }

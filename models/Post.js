@@ -48,7 +48,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
       wherePart = `WHERE ${
         filterType === "hot"
           ? `numoflikes < ${val} OR (numoflikes = ${val} AND sortingid > ${sortingId})`
-          : `datetime <  (select '${val}'::timestamp without time zone AT TIME ZONE 'UTC') `
+          : `datetime <  (select '${val}'::timestamptz) `
       }`;
     }
 
@@ -85,7 +85,6 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
       ${orderByPart}
       LIMIT 6`
     );
-    console.log(res.rows, " res. rows in get Posts");
     return res.rows;
   } catch (err) {
     console.error(err.message);
@@ -263,9 +262,6 @@ Post.cancelVote = async (data) => {
 
 Post.delete = async (data) => {
   const { postId, userId } = data.params;
-
-  console.log("postId: " + postId);
-  console.log("userId: " + userId);
   try {
     await pool.query("DELETE FROM posts WHERE id = $1 AND userid = $2", [
       postId,
@@ -303,7 +299,6 @@ Post.search = async (
        OR (rank = ${lastElementRank} AND numoflikes < ${lastElementSubVal}) 
        OR (rank = ${lastElementRank} AND numoflikes = ${lastElementSubVal} AND sortingid > ${sortingId})`;
     }
-    console.log(wherePart);
     const res = await pool.query(
       `SELECT * FROM (
       SELECT id, datetime, title, imageurl, location, tags, authorname, numoflikes, numofcomments, sortingid, ts_rank(document_with_weights, plainto_tsquery($1))::numeric AS rank \
@@ -314,7 +309,6 @@ Post.search = async (
       LIMIT $2`,
       [value, limit]
     );
-    console.log(" data returned", res.rows);
     return res.rows;
   } catch (err) {
     console.log(err.mesage);

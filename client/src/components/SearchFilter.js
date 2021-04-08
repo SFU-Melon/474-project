@@ -22,10 +22,6 @@ export default function SearchFilter({ setTags }) {
   // location: /new type: new -> same
   // ->  location.pathname.includes(type) || (type==='hot' && !location.pathname.includes("new")) ? true : false
 
-  const handleFilter = () => {
-    console.log(filterType, "filtertype on Click");
-  };
-
   const handlePath = (type) => {
     return {
       pathname: location.pathname.includes("search")
@@ -49,7 +45,6 @@ export default function SearchFilter({ setTags }) {
             className={`btn m-2 btn-lg ${
               filterType === "hot" ? "btn-danger" : "btn-outline-danger"
             } `}
-            onClick={handleFilter}
           >
             hot
           </button>
@@ -59,7 +54,6 @@ export default function SearchFilter({ setTags }) {
             className={`btn m-2 btn-lg ${
               filterType === "new" ? "btn-primary" : "btn-outline-primary"
             } `}
-            onClick={handleFilter}
           >
             New
           </button>

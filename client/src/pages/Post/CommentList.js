@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useUserContext } from "@contexts/UserContext";
-import Utility from "../../utils";
+import Utility from "@utils";
 import "./style.css";
 import { Link } from "react-router-dom";
 import Vote from "@components/Vote";

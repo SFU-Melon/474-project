@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Utility from "../../utils";
+import Utility from "@utils";
 import "./ProfilePostCard.css";
 import Tags from "@components/Tags";
 
@@ -34,7 +34,7 @@ export default function PostCard({ post }) {
         <div className="d-flex flex-column justify-content-between">
           <div>
             <h2>{post.title}</h2>
-            <Tags tags={tags}/>
+            <Tags tags={tags} />
             <p>{displayTime}</p>
           </div>
           <div className="">

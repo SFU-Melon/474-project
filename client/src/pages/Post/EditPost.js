@@ -1,26 +1,23 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
-import Utility from '../../utils/index.js';
-import { Dropdown } from 'semantic-ui-react';
-import SearchInputLocation from '../../components/SearchInputLocation';
-import { useParams } from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from "react";
+import axios from "axios";
+import { useUserContext } from "../../contexts/UserContext";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import Utility from "@utils";
+import { Dropdown } from "semantic-ui-react";
+import SearchInputLocation from "../../components/SearchInputLocation";
+import { useParams } from "react-router-dom";
 
 const EditPost = (props) => {
-  const { id } = useParams();
   const { user } = useUserContext();
-  const decoded = Utility.decodeUUID(id);
 
   // Edit post variables
-  const [imgUrl, setImgUrl] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [tags, setTags] = useState([]);
-  const [postId, setPostId] = useState('');
+  const [postId, setPostId] = useState("");
   const TITLE_MIN_LENGTH = 5;
   const options = Utility.tags;
 
@@ -33,12 +30,11 @@ const EditPost = (props) => {
   // Handle user info fields
   const handleInfo = () => {
     console.log(props.post);
-    setTitle(props.post ? props.post.title : '');
+    setTitle(props.post ? props.post.title : "");
     setTags(props.post ? props.post.tags : []);
-    setDescription(props.post ? props.post.content : '');
-    setLocation(props.post ? props.post.location : '');
-    setPostId(props.post ? props.post.id : '');
-    setImgUrl(props.post ? props.post.imageurl : '');
+    setDescription(props.post ? props.post.content : "");
+    setLocation(props.post ? props.post.location : "");
+    setPostId(props.post ? props.post.id : "");
   };
 
   useEffect(() => {
@@ -53,20 +49,20 @@ const EditPost = (props) => {
       description === props.post.content &&
       location === props.post.location
     ) {
-      setErrorMessage('No changes have been made to the post');
+      setErrorMessage("No changes have been made to the post");
       return false;
     }
 
     if (title) {
       if (title.length < TITLE_MIN_LENGTH) {
-        setErrorMessage('Title must be at least 5 characters.');
+        setErrorMessage("Title must be at least 5 characters.");
         return false;
       } else {
-        setErrorMessage('');
+        setErrorMessage("");
         return true;
       }
     } else {
-      setErrorMessage('Please add a title to create a post.');
+      setErrorMessage("Please add a title to create a post.");
       return false;
     }
   };
@@ -117,15 +113,15 @@ const EditPost = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: 'customOverlay',
-          modal: 'customModal',
+          overlay: "customOverlay",
+          modal: "customModal",
         }}
       >
         <div>
           <h3 id="ModalTitle">Edit Post</h3>
           <form onSubmit={handleEdit}>
             <div className="mb-3">
-              <p className="control" style={{ color: 'red' }}>
+              <p className="control" style={{ color: "red" }}>
                 {errorMessage}
               </p>
               <h6>Title</h6>

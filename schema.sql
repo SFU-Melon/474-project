@@ -10,7 +10,7 @@ CREATE TABLE users(
     lname VARCHAR(200) NOT NULL,
     dob DATE NOT NULL,
     email VARCHAR(200) NOT NULL,
-    joindate TIMESTAMP NOT NULL,
+    joindate TIMESTAMPTZ NOT NULL,
     profilephoto VARCHAR(200),
     UNIQUE (username)
 );
@@ -30,7 +30,7 @@ CREATE TABLE plants(
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     sortingid SERIAL,
-    dateTime TIMESTAMP NOT NULL,
+    dateTime TIMESTAMPTZ NOT NULL,
     title VARCHAR(200) NOT NULL,
     content TEXT,
     location VARCHAR(200),
@@ -57,13 +57,13 @@ CREATE TABLE likes(
 );
 
 CREATE TABLE followers(
-    user1 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    user2 uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE
+    follower uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    followee uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    dateTime TIMESTAMP NOT NULL,
+    dateTime TIMESTAMPTZ NOT NULL,
     numoflikes INTEGER DEFAULT 0 NOT NULL,
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,

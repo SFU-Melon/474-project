@@ -4,7 +4,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-import Utility from "../../utils/index.js";
+import Utility from "@utils";
 
 const EditProfile = () => {
   const { user } = useUserContext();

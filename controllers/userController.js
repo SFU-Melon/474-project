@@ -86,18 +86,6 @@ userController.logout = (req, res) => {
   });
 };
 
-userController.getAllUsers = async (req, res) => {
-  const users = await User.getAllUsers();
-  for (let i = 0; i < users.length; i++) {
-    const result = await User.getFollowersAndFollowing(users[i].id);
-    users[i].followers = result[0];
-    users[i].following = result[1];
-  }
-  return res.json({
-    users: users,
-  });
-};
-
 userController.getUserById = async (req, res) => {
   const { id } = req.params;
   const result = await User.getUserById(id);
@@ -115,24 +103,16 @@ userController.getUserByUsername = async (req, res) => {
 };
 
 userController.follows = async (req, res) => {
-  const { user1_id, user2_id } = req.body;
-  const result = await User.follows(user1_id, user2_id);
+  const { follower_id, followee_id } = req.body;
+  const result = await User.follows(follower_id, followee_id);
   return res.json({
     success: result,
   });
 };
 
 userController.unfollows = async (req, res) => {
-  const { user1_id, user2_id } = req.body;
-  const result = await User.unfollows(user1_id, user2_id);
-  return res.json({
-    success: result,
-  });
-};
-
-userController.getFollowersAndFollowing = async (req, res) => {
-  const { userId } = req.params;
-  const result = await User.getFollowersAndFollowing(userId);
+  const { follower_id, followee_id } = req.body;
+  const result = await User.unfollows(follower_id, followee_id);
   return res.json({
     success: result,
   });
@@ -193,10 +173,8 @@ userController.getUserStats = async (req, res) => {
 
 userController.resetPasswordRequest = async (req, res) => {
   const { username } = req.params;
-  console.log(username);
   try {
     const toEmail = await User.getEmailFromUsername(username);
-    console.log(toEmail);
     if (toEmail) {
       const token = nanoid();
       if (!TokenStore.updateUserToken(username, token)) {

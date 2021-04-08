@@ -1,8 +1,8 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Loading from "../../components/Loading";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import Loading from "@components/Loading";
+import useLocalStorage from "@hooks/useLocalStorage";
 import "./styles.css";
 
 export default function ResetPassword(props) {
@@ -127,7 +127,7 @@ export default function ResetPassword(props) {
       sendEmail();
     }
     return () => {
-      console.log("clean up");
+      console.log("token clean up");
       localStorage.removeItem("cmpt354-email-sent");
       localStorage.removeItem("cmpt354-email");
     };

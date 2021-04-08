@@ -6,8 +6,8 @@ import Followers from "./Followers";
 import Following from "./Following";
 import EditProfile from "./EditProfile";
 import EditProfilePhoto from "./EditProfilePhoto";
-import Utility from "../../utils/index.js";
-
+import Utility from "@utils/index.js";
+import useLocalStorage from "@hooks/useLocalStorage";
 import ProfileTabs from "./ProfileTabs";
 
 const Profile = () => {
@@ -18,7 +18,7 @@ const Profile = () => {
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [stats, setStats] = useState();
+  const [stats, setStats] = useLocalStorage("user-stats", null);
 
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
@@ -74,10 +74,16 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    return () => {
+      localStorage.removeItem("cmpt354-user-stats");
+    };
+  }, []);
+
+  useEffect(() => {
     fetchUserPosts();
     fetchSavedPosts();
     fetchFollowData();
-    fetchUserStats();
+    !stats && fetchUserStats();
     handleDate();
   }, [user]);
 

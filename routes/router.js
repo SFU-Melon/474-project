@@ -14,7 +14,6 @@ router.get("/user", ensureAuthenticated, userController.getAuthUser);
 router.get("/logout", userController.logout);
 
 /******  User Routes ********/
-router.get("/getAllUsers", userController.getAllUsers);
 router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUserByUsername/:username", userController.getUserByUsername);
 router.get("/userstats/:id", userController.getUserStats);
@@ -30,10 +29,6 @@ router.post(
 router.get("/getTotalAmountOfUsers", userController.getTotalAmount);
 
 /******  Following Routes ********/
-router.get(
-  "/getFollowersAndFollowing/:userId",
-  userController.getFollowersAndFollowing
-);
 router.get(
   "/getFollowersAndFollowingUsers/:userId",
   userController.getFollowersAndFollowingUsers

@@ -1,9 +1,8 @@
-import { useLocation } from 'react-router-dom';
-import CreatePost from './CreatePost';
-import AllUsers from './AllUsers';
-import SearchFilter from '@components/SearchFilter';
-import { useState } from 'react';
-import PostsList from './PostsList';
+import CreatePost from "./CreatePost";
+import AllUsers from "./AllUsers";
+import SearchFilter from "@components/SearchFilter";
+import { useState } from "react";
+import PostsList from "./PostsList";
 
 const Home = () => {
   const [tags, setTags] = useState([]);

@@ -244,4 +244,19 @@ userController.resetPassword = async (req, res) => {
   }
 };
 
+userController.getTotalAmount = async (req, res) => {
+  try {
+    const { numofusers } = await User.getTotalAmount();
+    return res.status(200).json({
+      success: true,
+      numofusers,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+    });
+  }
+};
+
 module.exports = userController;

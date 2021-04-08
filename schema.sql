@@ -37,14 +37,14 @@ CREATE TABLE posts(
     imageurl VARCHAR(200),
     numoflikes INTEGER DEFAULT 0 NOT NULL,
     numofcomments INTEGER DEFAULT 0 NOT NULL,
-    authorname VARCHAR(200),
+    authorname VARCHAR(200) NOT NULL,
     tags TEXT[],
     userid uuid references users(id)
         ON DELETE CASCADE
 );
 
 CREATE TABLE tags(
-    name VARCHAR(50) PRIMARY KEY
+    name VARCHAR(100) PRIMARY KEY
 );
 
 CREATE TABLE likes(
@@ -58,7 +58,8 @@ CREATE TABLE likes(
 
 CREATE TABLE followers(
     follower uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    followee uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE
+    followee uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    PRIMARY KEY(follower, followee)
 );
 
 CREATE TABLE comments(

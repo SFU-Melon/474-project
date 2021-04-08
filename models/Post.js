@@ -95,9 +95,10 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
 Post.getAllPostsFromUserId = async (userId) => {
   try {
     if (userId != undefined) {
-      const res = await pool.query("SELECT * FROM posts WHERE userId = $1", [
-        userId,
-      ]);
+      const res = await pool.query(
+        "SELECT * FROM posts WHERE userId = $1 ORDER BY datetime DESC",
+        [userId]
+      );
       return res.rows;
     }
   } catch (err) {
@@ -363,7 +364,7 @@ Post.checkSaveStatus = async (postId, userId) => {
 Post.getAllSavedPosts = async (userId) => {
   try {
     const res = await pool.query(
-      "SELECT * FROM posts WHERE id IN (SELECT s.postid FROM saves s WHERE s.userid = $1)",
+      "SELECT * FROM posts WHERE id IN (SELECT s.postid FROM saves s WHERE s.userid = $1) ORDER BY datetime DESC",
       [userId]
     );
     return res.rows;

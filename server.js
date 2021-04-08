@@ -43,12 +43,7 @@ const s3Router = require("./routes/s3Router");
 app.use("/api", router);
 app.use("/api", s3Router);
 
-const { TokenStore } = require("./routes/tokenstore");
-const cleanTokenStore = schedule.scheduleJob("0 */12 * * *", () => {
-  // runs every 12 hours
-  TokenStore.cleanUp();
-});
-
+// For deployment
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
@@ -56,6 +51,12 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
+
+const { TokenStore } = require("./routes/tokenstore");
+schedule.scheduleJob("0 */12 * * *", () => {
+  // runs every 12 hours to clean up expired tokens
+  TokenStore.cleanUp();
+});
 
 const port = process.env.PORT || 5000;
 

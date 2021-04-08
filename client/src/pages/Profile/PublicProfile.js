@@ -141,7 +141,7 @@ const PublicProfile = () => {
                 <strong>Email:</strong> {profileUser?.email}
               </p>
               <p>
-                <strong>Join:</strong> {joinDate}
+                <strong>Joined on:</strong> {joinDate}
               </p>
               <p>
                 <strong>Date of Birth:</strong> {dateOfBirth}

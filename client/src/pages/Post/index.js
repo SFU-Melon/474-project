@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import EditPost from "./EditPost";
 import Tags from "@components/Tags";
+import { Link } from "react-router-dom";
 
 // Components
 import Vote from "@components/Vote";
@@ -86,6 +87,20 @@ const Post = () => {
                 <div className="d-flex flex-row mb-3 align-items-start">
                   <Tags tags={tags} />
                 </div>
+                <div className="d-flex flex-row mb-3 align-items-start">
+                  <p>
+                    Posted by{" "}
+                    <span>
+                      <Link
+                        to={`/profile/public/${post.authorname}`}
+                        className="m-2"
+                      >
+                        {post.authorname}
+                      </Link>
+                    </span>
+                  </p>
+                </div>
+
                 <div className="mb-2">
                   {post.imageurl && (
                     <img

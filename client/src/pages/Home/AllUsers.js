@@ -25,22 +25,24 @@ export default function AllUsers() {
     }
   };
 
+  const UserCardInHomePage = ({ user }) => {
+    return (
+      <div className="card p-2">
+        <h3 className="text-break">{user.username} </h3>
+        <FollowButton userId={user.id} />
+        <p>Following: {user.following.length}</p>
+        <p>Followers: {user.followers.length}</p>
+      </div>
+    );
+  };
+
   return (
-    <div className="display-grid-center">
-      <h2>Users:</h2>
-      <ul>
-        {users &&
-          users.map((user_i, i) => {
-            return (
-              <li key={i}>
-                <h3>{user_i.username} </h3>
-                <FollowButton userId={user_i.id} />
-                <p>Following: {user_i.following.length}</p>
-                <p>Followers: {user_i.followers.length}</p>
-              </li>
-            );
-          })}
-      </ul>
-    </div>
+    <>
+      <h2 className="card text-start p-2 mt-3 ">Users:</h2>
+      {users &&
+        users.map((user, i) => {
+          return <UserCardInHomePage key={i} user={user} />;
+        })}
+    </>
   );
 }

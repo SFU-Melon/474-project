@@ -1,4 +1,4 @@
-.form{
+.form {
     background-color: rgba(255, 255, 255, 0.8);
     padding-top: 50px;
     padding-bottom: 100px;
@@ -9,7 +9,18 @@
     resize: none;
 }
 
-.signUpHeader{
+.form2 {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    border-radius: 50px;
+    display: block;
+    resize: none;
+}
+
+.signUpHeader {
     text-align: center;
     padding-bottom: 20px;
     text-transform: capitalize;
@@ -21,7 +32,7 @@
     margin-right: 25px;
     margin-bottom: 10px;
 }
-  
+
 .signup-input {
     display: block;
     line-height: 2em;
@@ -38,7 +49,7 @@
     font-weight: 500;
 }
 
-.signup-input::placeholder{
+.signup-input::placeholder {
     color: gray;
 }
 
@@ -51,25 +62,10 @@
     font-weight: bold;
     transition: 0.2s ease-in-out transform;
 }
-  
-/* .signup-input:placeholder-shown + .signup-label {
-    z-index: -1;
-    visibility: hidden;
-    transition: 0.2s ease-in-out;
-}
-  
-.signup-input:not(:placeholder-shown) + .signup-label,
-.signup-input:focus:not(:placeholder-shown) + .signup-label {
-    visibility: visible;
-    opacity: 1;
-    z-index: 1;
-    transition: 0.2s ease-in-out transform;
-    transform: translateY(-10px);
-} */
 
 .signup-input-btn {
     width: 100%;
-    background-color:#00CC33;
+    background-color: #00CC33;
     color: white;
     font-weight: bold;
     padding: 10px;
@@ -81,17 +77,40 @@
     opacity: 0.7;
 }
 
-.signup-input-btn:hover{
+.signup-input-btn:hover {
     opacity: 1;
 }
 
-.error-msg{
+.error-msg {
     color: red;
     margin: 0;
     display: inline-block;
     padding: 0;
 }
 
-.login{
+.login {
     text-align: center;
+}
+
+.signupImage {
+    border-radius: 50%;
+    max-height: 200px;
+    max-width: 200px;
+    height: auto;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 60px;
+}
+
+.loginLink {
+    font-size: 22px;
+    color: darkgreen;
+}
+
+.loginLink:hover {
+    text-decoration: underline;
+    font-weight: bolder;
 }

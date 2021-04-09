@@ -1,0 +1,45 @@
+#plantcardID {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 30px;
+    background-color: #e8ebe8;
+}
+
+.plantsCard {
+
+    min-width: 0;
+    border: 2px solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+    padding: 2%;
+}
+
+.plantsBody {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+    margin: 0;
+}
+
+.plantsImage{
+    max-width:200px;
+    max-height:200px;
+    width: auto;
+    height: auto;
+    border-radius: 1rem;
+    margin: 0;
+    float: left;
+    margin-right: 2%;
+}
+
+.headingPlants{
+    margin-top: 0;
+    font-size: x-large;
+}
+
+
+.plantsCard:hover, 
+.plantsCard:focus {
+    background-color: rgba(255,255,255,.7);
+    box-shadow:0 0 5px rgba(0,0,0,0.125);
+}
+

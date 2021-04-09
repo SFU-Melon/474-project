@@ -4,46 +4,35 @@
  * }
  */
 import { Link } from "react-router-dom";
+import "./plantcard.css";
 
 export default function PlantCard({ plant }) {
   return (
-    <div className="card flex-row p-3 m-2">
-      <div>
-        <Link
-          to={`/plants/${plant.sciname}`}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <h2>
-            <u>{plant.comname}</u>
-          </h2>
-          <p>Scientific Name: {plant.sciname}</p>
-          <p>Description:</p>
-          <p style={{ whiteSpace: 'pre-wrap' /* needed for line breaks */ }}>
-            {plant.description}
-          </p>
-          <p>Plant Instruction:</p>
-          <p style={{ whiteSpace: 'pre-wrap' /* needed for line breaks */ }}>
-            {plant.plantinstr}
-          </p>
-          <p>Grow Instruction:</p>
-          <p style={{ whiteSpace: 'pre-wrap' /* needed for line breaks */ }}>
-            {plant.growinstr}
-          </p>
-          <p>Care Instruction:</p>
-          <p style={{ whiteSpace: 'pre-wrap' /* needed for line breaks */ }}>
-            {plant.careinstr}
-          </p>
-          <div>
+    <div className="container-fluid" id="plantcardID">
+      <Link
+        to={`/plants/${plant.sciname}`}
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <div className="plantsCard card">
+          <div className="plantsBody card-body">
             {plant.plantphoto && (
               <img
                 src={plant.plantphoto}
                 alt="plant database"
-                className="post-card"
+                className="plantsImage float-left"
               />
             )}
+
+            <h2 className="headingPlants">
+              {plant.comname}
+            </h2>
+            <p className="mb-0" style={{ whiteSpace: 'pre-wrap' /* needed for line breaks */ }}>
+              {plant.description}
+            </p>
+
           </div>
-        </Link>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useForm from "./useForm";
 import validateInfo from "./validateInfo";
-import "./SignupForm.css";
+import "./Signup.css";
 
 const SignupForm = ({ submitForm }) => {
   const {
@@ -17,7 +17,7 @@ const SignupForm = ({ submitForm }) => {
     <div
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "95.7vh",
+        height: "96vh",
         width: "100vw",
         display: "flex",
         justifyContent: "center",

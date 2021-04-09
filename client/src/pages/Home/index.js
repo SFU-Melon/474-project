@@ -1,6 +1,6 @@
 import CreatePost from "./CreatePost";
 import SearchFilter from "@components/SearchFilter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PostsList from "./PostsList";
 
 const Home = () => {

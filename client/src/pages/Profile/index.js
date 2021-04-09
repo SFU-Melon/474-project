@@ -9,6 +9,7 @@ import EditProfilePhoto from "./EditProfilePhoto";
 import Utility from "@utils/index.js";
 import useLocalStorage from "@hooks/useLocalStorage";
 import ProfileTabs from "./ProfileTabs";
+import ScreenLoading from "@components/ScreenLoading";
 
 const Profile = () => {
   const { user } = useUserContext();
@@ -22,6 +23,8 @@ const Profile = () => {
 
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
+
+  const [loading, setLoading] = useState(true);
 
   const fetchUserPosts = async () => {
     try {
@@ -74,6 +77,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
     return () => {
       localStorage.removeItem("cmpt354-user-stats");
     };
@@ -87,7 +91,9 @@ const Profile = () => {
     handleDate();
   }, [user]);
 
-  return (
+  return loading ? (
+    <ScreenLoading />
+  ) : (
     <div className="w-100 mx-auto">
       <Fragment>
         <div className="d-flex flex-row m-5">

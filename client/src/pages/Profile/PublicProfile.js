@@ -7,6 +7,7 @@ import Following from "./Following";
 import useLocalStorage from "@hooks/useLocalStorage";
 import { useParams } from "react-router-dom";
 import ProfileTabs from "./ProfileTabs";
+import ScreenLoading from "@components/ScreenLoading";
 
 const PublicProfile = () => {
   const { user } = useUserContext();
@@ -23,6 +24,8 @@ const PublicProfile = () => {
   const [profileUser, setProfileUser] = useState(null);
 
   const [stats, setStats] = useLocalStorage("user-stats", null);
+
+  const [loading, setLoading] = useState(true);
 
   const fetchProfileUser = async () => {
     try {
@@ -75,6 +78,7 @@ const PublicProfile = () => {
 
   useEffect(() => {
     fetchProfileUser();
+    setTimeout(() => setLoading(false), 1000);
     return () => {
       localStorage.removeItem("cmpt354-user-stats");
     };
@@ -89,7 +93,9 @@ const PublicProfile = () => {
     }
   }, [profileUser]);
 
-  return (
+  return loading ? (
+    <ScreenLoading />
+  ) : (
     <div className="w-100 mx-auto">
       <Fragment>
         <div className="d-flex flex-row m-5">

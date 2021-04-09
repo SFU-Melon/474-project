@@ -76,4 +76,7 @@ router.post("/deleteOldProfile", ensureAuthenticated, (req, res) => {
   deleteS3Object(req, res, DEMO_BUCKET); //change back to PROFILE_BUCKET
 });
 
+router.post("/deleteOldPostImage", ensureAuthenticated, (req, res) => {
+  deleteS3Object(req, res, DEMO_BUCKET); //change back to POST_BUCKET
+});
 module.exports = router;

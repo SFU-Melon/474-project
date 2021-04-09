@@ -17,6 +17,8 @@ const useForm = (callback, validateInfo) => {
   const [file, setFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -35,6 +37,7 @@ const useForm = (callback, validateInfo) => {
   };
 
   const handleSignUp = async () => {
+    setLoading(true);
     if (file) {
       axios
         .post("/api/profileUpload", {
@@ -49,30 +52,36 @@ const useForm = (callback, validateInfo) => {
                 "Content-Type": fileType,
               },
             };
-            //uploading to s3 bucket
-            axios.put(signedRequest, file, options).then(() => {
-              axios
-                .post("/api/signup", { values, profileUrl: res_url })
-                .then((res) => {
-                  if (res.data.success) {
-                    callback();
-                  } else {
+            axios
+              .post("/api/signup", { values, profileUrl: res_url })
+              .then((res) => {
+                if (res.data.success) {
+                  axios.put(signedRequest, file, options).then(() => {
+                    setTimeout(() => callback(), 1500);
+                  });
+                } else {
+                  setTimeout(() => {
+                    setLoading(false);
                     alert("Username already exists!");
-                  }
-                });
-            });
+                  }, 1500);
+                }
+              });
+            //uploading to s3 bucket
           }
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err.message);
         });
     } else {
-      //no profile image
       axios.post("/api/signup", { values }).then((res) => {
         if (res.data.success) {
-          callback();
+          setTimeout(() => callback(), 1500);
         } else {
-          alert("Username already exists!");
+          setTimeout(() => {
+            setLoading(false);
+            alert("Username already exists!");
+          }, 1500);
         }
       });
     }
@@ -90,7 +99,14 @@ const useForm = (callback, validateInfo) => {
     }
   }, [errors]);
 
-  return { handleChange, handleSubmit, handleFileChange, values, errors };
+  return {
+    handleChange,
+    handleSubmit,
+    handleFileChange,
+    values,
+    errors,
+    loading,
+  };
 };
 
 export default useForm;

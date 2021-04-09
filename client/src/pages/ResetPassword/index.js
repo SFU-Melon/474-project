@@ -127,7 +127,6 @@ export default function ResetPassword(props) {
       sendEmail();
     }
     return () => {
-      console.log("token clean up");
       localStorage.removeItem("cmpt354-email-sent");
       localStorage.removeItem("cmpt354-email");
     };

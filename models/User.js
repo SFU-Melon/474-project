@@ -190,4 +190,41 @@ User.getStats = async (id) => {
     console.log(err);
   }
 };
+
+User.getEmailFromUsername = async (username) => {
+  try {
+    let res = await pool.query("SELECT email FROM users WHERE username = $1", [
+      username,
+    ]);
+    if (res.rows.length !== 0) {
+      return res.rows[0].email;
+    }
+    return null;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+User.resetPassword = async (username, password) => {
+  try {
+    await pool.query("UPDATE users SET password = $2 WHERE username = $1", [
+      username,
+      password,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
+
+User.getTotalAmount = async () => {
+  try {
+    const res = await pool.query("SELECT COUNT(*) AS numofusers from users");
+    return res.rows[0];
+  } catch (err) {
+    console.err(err);
+    return false;
+  }
+};
 module.exports = User;

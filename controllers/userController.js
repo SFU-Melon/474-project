@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const lightFormat = require("date-fns/lightFormat");
 const parse = require("date-fns/parse");
+const { TokenStore } = require("../routes/tokenstore");
+var { nanoid } = require("nanoid");
+const Mails = require("../services/mail");
 const userController = {};
 
 userController.login = (req, res, next) => {
@@ -173,7 +176,6 @@ userController.editProfileInfo = async (req, res) => {
 
 userController.getUserStats = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const result = await User.getStats(id);
     return res.json({
@@ -185,6 +187,74 @@ userController.getUserStats = async (req, res) => {
     return res.json({
       success: false,
       stats: result,
+    });
+  }
+};
+
+userController.resetPasswordRequest = async (req, res) => {
+  const { username } = req.params;
+  console.log(username);
+  try {
+    const toEmail = await User.getEmailFromUsername(username);
+    console.log(toEmail);
+    if (toEmail) {
+      const token = nanoid();
+      if (!TokenStore.updateUserToken(username, token)) {
+        TokenStore.addToken(token, username);
+      }
+      const url = `http://localhost:3000/resetpassword/${username}/${token}`;
+      await Mails.sendPasswordResetMail({ toEmail, url });
+      return res.json({
+        success: true,
+        email: toEmail,
+        message: "Email Sent.",
+      });
+    }
+    return res.json({
+      success: false,
+      email: null,
+      message: "No email found.",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+      message: "No email sent.",
+    });
+  }
+};
+
+userController.resetPassword = async (req, res) => {
+  const { username } = req.params;
+  const { password, token } = req.body;
+  try {
+    const hashed = await bcrypt.hash(password, 10);
+    const result = await User.resetPassword(username, hashed);
+    if (result) {
+      TokenStore.removeToken(token);
+    }
+    return res.json({
+      success: result,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+    });
+  }
+};
+
+userController.getTotalAmount = async (req, res) => {
+  try {
+    const { numofusers } = await User.getTotalAmount();
+    return res.status(200).json({
+      success: true,
+      numofusers,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
     });
   }
 };

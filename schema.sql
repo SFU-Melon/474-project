@@ -43,6 +43,10 @@ CREATE TABLE posts(
         ON DELETE CASCADE
 );
 
+CREATE TABLE tags(
+    name VARCHAR(50) PRIMARY KEY
+);
+
 CREATE TABLE likes(
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
@@ -60,12 +64,25 @@ CREATE TABLE followers(
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     dateTime TIMESTAMP NOT NULL,
+    numoflikes INTEGER DEFAULT 0 NOT NULL,
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
     postid uuid REFERENCES posts(id)
         ON DELETE CASCADE,
     content TEXT
 );
+
+CREATE TABLE likescomment(
+    userid uuid REFERENCES users(id)
+        ON DELETE CASCADE,
+    commentid uuid REFERENCES comments(id)
+        ON DELETE CASCADE,
+    postid uuid REFERENCES posts(id)
+        ON DELETE CASCADE,
+    val INTEGER, /*Integer restrictued to 1, -1*/
+    PRIMARY KEY(userid, commentid, postid)
+);
+
 
 CREATE TABLE outdoor(
     id SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,
@@ -88,14 +105,6 @@ CREATE TABLE plantdiseases(
     PRIMARY KEY(id, plantid)
 );
 
-CREATE TABLE tagged(
-    tag TEXT NOT NULL,
-    postid uuid REFERENCES posts(id)
-        ON DELETE CASCADE,
-    userid uuid REFERENCES users(id)
-        ON DELETE CASCADE,
-    PRIMARY KEY(tag, postid, userid)
-);
 
 CREATE TABLE saves(
     userid uuid REFERENCES users(id)

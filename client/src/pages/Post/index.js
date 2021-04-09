@@ -76,7 +76,7 @@ const Post = () => {
             <div className="post d-flex flex-row p-5">
               <div>
                 <Vote
-                  postId={post.id}
+                  votedId={post.id}
                   numOfLikes={post.numoflikes}
                   preVoteStatus={post.val}
                 />

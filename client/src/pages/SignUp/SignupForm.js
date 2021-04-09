@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import useForm from "./useForm";
 import validateInfo from "./validateInfo";
 import "./Signup.css";
 
 const SignupForm = ({ submitForm }) => {
+  const [numOfUsers, setNumOfUsers] = useState();
   const {
     handleChange,
     handleSubmit,
@@ -12,6 +14,21 @@ const SignupForm = ({ submitForm }) => {
     values,
     errors,
   } = useForm(submitForm, validateInfo);
+
+  const fetchNumOfUsers = async () => {
+    try {
+      const res = await axios.get("api/getTotalAmountOfUsers");
+      if (res.data.success) {
+        setNumOfUsers(res.data.numofusers);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchNumOfUsers();
+  }, []);
 
   return (
     <div
@@ -26,6 +43,7 @@ const SignupForm = ({ submitForm }) => {
     >
       <form onSubmit={handleSubmit} className="form" noValidate>
         <h1 className="signUpHeader">Sign up</h1>
+        <p className="text-center fs-4"> Join {numOfUsers} Users</p>
         <div className="signup-inputs">
           <label htmlFor="username" className="signup-label">
             Username

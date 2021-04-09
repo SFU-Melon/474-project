@@ -6,6 +6,7 @@ import UserCard from "@components/UserCard";
 import { useLocation } from "react-router-dom";
 import NoResult from "./NoResult";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ScreenLoading from "@components/ScreenLoading";
 import "./section.css";
 const scopeList = ["posts", "all", "plants", "users"];
 
@@ -19,8 +20,14 @@ export default function Search() {
   const [users, setUsers] = useState([]);
   const [hasMore, setHasMore] = useState(true);
 
+  const [loading, setLoading] = useState(true);
+
   let location = useLocation();
   let lastPost;
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 1500);
+  }, []);
 
   const runSearch = async (isFirst) => {
     if (isFirst === "first") {
@@ -155,7 +162,9 @@ export default function Search() {
     }
   };
 
-  return (
+  return loading ? (
+    <ScreenLoading />
+  ) : (
     <Fragment>
       <div>
         <div className="container-fluid">

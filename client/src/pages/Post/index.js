@@ -61,7 +61,15 @@ const Post = () => {
           `/api/deletePost/${decoded}/${user?.id}`
         );
         if (res.data.success) {
-          history.push("/");
+          if (post?.imageurl) {
+            axios
+              .post("/api/deleteOldPostImage", { imageurl: post.imageurl })
+              .then(() => {
+                history.push("/");
+              });
+          } else {
+            history.push("/");
+          }
         }
       }
     } catch (err) {

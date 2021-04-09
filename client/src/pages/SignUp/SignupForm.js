@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useForm from "./useForm";
 import validateInfo from "./validateInfo";
 import "./SignupForm.css";
+import Loading from "@components/Loading";
 
 const SignupForm = ({ submitForm }) => {
   const [numOfUsers, setNumOfUsers] = useState();
@@ -13,6 +14,7 @@ const SignupForm = ({ submitForm }) => {
     handleFileChange,
     values,
     errors,
+    loading,
   } = useForm(submitForm, validateInfo);
 
   const fetchNumOfUsers = async () => {
@@ -43,141 +45,155 @@ const SignupForm = ({ submitForm }) => {
     >
       <form onSubmit={handleSubmit} className="form" noValidate>
         <h1 className="signUpHeader">Sign up</h1>
-        <p className="text-center fs-4"> Join {numOfUsers} Users</p>
-        <div className="signup-inputs">
-          <label htmlFor="username" className="signup-label">
-            Username
-          </label>
-          <input
-            type="text"
-            name="username"
-            className="signup-input"
-            placeholder="Enter your username"
-            value={values.username}
-            onChange={handleChange}
-          />
+        {loading ? (
+          <div className="display-grid-center">
+            <Loading />
+          </div>
+        ) : (
+          <div>
+            <p className="text-center fs-4"> Join {numOfUsers} planters.</p>
+            <div className="signup-inputs">
+              <label htmlFor="username" className="signup-label">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                className="signup-input"
+                placeholder="Enter your username"
+                value={values.username}
+                onChange={handleChange}
+              />
 
-          {errors.username && <p className="error-msg">{errors.username}</p>}
-        </div>
+              {errors.username && (
+                <p className="error-msg">{errors.username}</p>
+              )}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="password" className="signup-label">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            className="signup-input"
-            placeholder="Enter your password"
-            value={values.password}
-            onChange={handleChange}
-          />
+            <div className="signup-inputs">
+              <label htmlFor="password" className="signup-label">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                className="signup-input"
+                placeholder="Enter your password"
+                value={values.password}
+                onChange={handleChange}
+              />
 
-          {errors.password && <p className="error-msg">{errors.password}</p>}
-        </div>
+              {errors.password && (
+                <p className="error-msg">{errors.password}</p>
+              )}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="password2" className="signup-label">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="password2"
-            className="signup-input"
-            placeholder="Re-enter your password"
-            value={values.password2}
-            onChange={handleChange}
-          />
+            <div className="signup-inputs">
+              <label htmlFor="password2" className="signup-label">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                name="password2"
+                className="signup-input"
+                placeholder="Re-enter your password"
+                value={values.password2}
+                onChange={handleChange}
+              />
 
-          {errors.password2 && <p className="error-msg">{errors.password2}</p>}
-        </div>
+              {errors.password2 && (
+                <p className="error-msg">{errors.password2}</p>
+              )}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="fname" className="signup-label">
-            First Name
-          </label>
-          <input
-            type="fname"
-            name="fname"
-            className="signup-input"
-            placeholder="Enter your first name"
-            value={values.fname}
-            onChange={handleChange}
-          />
+            <div className="signup-inputs">
+              <label htmlFor="fname" className="signup-label">
+                First Name
+              </label>
+              <input
+                type="fname"
+                name="fname"
+                className="signup-input"
+                placeholder="Enter your first name"
+                value={values.fname}
+                onChange={handleChange}
+              />
 
-          {errors.fname && <p className="error-msg">{errors.fname}</p>}
-        </div>
+              {errors.fname && <p className="error-msg">{errors.fname}</p>}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="lname" className="signup-label">
-            Last Name
-          </label>
-          <input
-            type="lname"
-            name="lname"
-            className="signup-input"
-            placeholder="Enter your last name"
-            value={values.lname}
-            onChange={handleChange}
-          />
+            <div className="signup-inputs">
+              <label htmlFor="lname" className="signup-label">
+                Last Name
+              </label>
+              <input
+                type="lname"
+                name="lname"
+                className="signup-input"
+                placeholder="Enter your last name"
+                value={values.lname}
+                onChange={handleChange}
+              />
 
-          {errors.lname && <p className="error-msg">{errors.lname}</p>}
-        </div>
+              {errors.lname && <p className="error-msg">{errors.lname}</p>}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="dob" className="signup-label">
-            Date of Birth
-          </label>
-          <input
-            type="dob"
-            name="dob"
-            className="signup-input"
-            placeholder="DD/MM/YYYY"
-            value={values.dob}
-            onChange={handleChange}
-          />
+            <div className="signup-inputs">
+              <label htmlFor="dob" className="signup-label">
+                Date of Birth
+              </label>
+              <input
+                type="dob"
+                name="dob"
+                className="signup-input"
+                placeholder="DD/MM/YYYY"
+                value={values.dob}
+                onChange={handleChange}
+              />
 
-          {errors.dob && <p className="error-msg">{errors.dob}</p>}
-        </div>
+              {errors.dob && <p className="error-msg">{errors.dob}</p>}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="email" className="signup-label">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="signup-input"
-            placeholder="Enter your email"
-            value={values.email}
-            onChange={handleChange}
-          />
+            <div className="signup-inputs">
+              <label htmlFor="email" className="signup-label">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                className="signup-input"
+                placeholder="Enter your email"
+                value={values.email}
+                onChange={handleChange}
+              />
 
-          {errors.email && <p className="error-msg">{errors.email}</p>}
-        </div>
+              {errors.email && <p className="error-msg">{errors.email}</p>}
+            </div>
 
-        <div className="signup-inputs">
-          <label htmlFor="file" className="signup-label">
-            Profile Picture
-          </label>
-          <input
-            type="file"
-            name="file"
-            className="form-control"
-            accept=".jpg,.jpeg,.png"
-            onChange={handleFileChange}
-          />
-        </div>
+            <div className="signup-inputs">
+              <label htmlFor="file" className="signup-label">
+                Profile Picture
+              </label>
+              <input
+                type="file"
+                name="file"
+                className="form-control"
+                accept=".jpg,.jpeg,.png"
+                onChange={handleFileChange}
+              />
+            </div>
 
-        <div class="btn-container">
-          <button className="signup-input-btn" type="submit">
-            Sign Up
-          </button>
-        </div>
+            <div className="btn-container">
+              <button className="signup-input-btn" type="submit">
+                Sign Up
+              </button>
+            </div>
 
-        <div class="login">
-          Already have an account? <Link to="/login">Login</Link>
-        </div>
+            <div className="login">
+              Already have an account? <Link to="/login">Login</Link>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

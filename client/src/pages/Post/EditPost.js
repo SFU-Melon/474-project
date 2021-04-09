@@ -29,7 +29,6 @@ const EditPost = (props) => {
 
   // Handle user info fields
   const handleInfo = () => {
-    console.log(props.post);
     setTitle(props.post ? props.post.title : "");
     setTags(props.post ? props.post.tags : []);
     setDescription(props.post ? props.post.content : "");

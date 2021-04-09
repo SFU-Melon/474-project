@@ -1,9 +1,10 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useUserContext } from '@contexts/UserContext';
-import Utility from '../../utils';
-import './style.css';
-import Vote from '@components/Vote';
+import axios from "axios";
+import { useEffect } from "react";
+import { useUserContext } from "@contexts/UserContext";
+import Utility from "@utils";
+import "./style.css";
+import { Link } from "react-router-dom";
+import Vote from "@components/Vote";
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
@@ -46,7 +47,7 @@ export default function CommentList({ postId, comments, setComments }) {
               votedId={{ commentId: comment.id, postId: comment.postid }}
               numOfLikes={comment.numoflikes}
               preVoteStatus={comment.val}
-              type={'comment'}
+              type={"comment"}
             />
           </div>
           <div className="">
@@ -56,13 +57,15 @@ export default function CommentList({ postId, comments, setComments }) {
                   src={
                     comment?.profilephoto
                       ? comment.profilephoto
-                      : '/null-user.png'
+                      : "/null-user.png"
                   }
                   alt="auther's profile in comment"
                   className="comment-photo"
                 />
               </span>
-              <p className="m-2">{comment.username}</p>
+              <Link to={`/profile/public/${comment.username}`} className="m-2">
+                {comment.username}
+              </Link>
               <p className="m-2">{Utility.getDisplayTime(comment.datetime)}</p>
             </div>
             <div className="d-inline-flex flex-row justify-content-between ">

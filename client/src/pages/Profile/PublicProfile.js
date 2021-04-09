@@ -4,16 +4,16 @@ import { useUserContext } from "@contexts/UserContext";
 import FollowButton from "@components/FollowButton";
 import Followers from "./Followers";
 import Following from "./Following";
+import useLocalStorage from "@hooks/useLocalStorage";
 import { useParams } from "react-router-dom";
-
 import ProfileTabs from "./ProfileTabs";
+import ScreenLoading from "@components/ScreenLoading";
 
 const PublicProfile = () => {
   const { user } = useUserContext();
   const { username } = useParams();
 
   const [userPosts, setUserPosts] = useState([]);
-  const [userLikedPosts, setUserLikedPosts] = useState([]);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -23,7 +23,9 @@ const PublicProfile = () => {
 
   const [profileUser, setProfileUser] = useState(null);
 
-  const [stats, setStats] = useState();
+  const [stats, setStats] = useLocalStorage("user-stats", null);
+
+  const [loading, setLoading] = useState(true);
 
   const fetchProfileUser = async () => {
     try {
@@ -38,17 +40,6 @@ const PublicProfile = () => {
     try {
       const res = await axios.get(`/api/getAllPosts/${profileUser?.id}`);
       setUserPosts(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchUserLikedPosts = async () => {
-    try {
-      const res = await axios.get(
-        `/api/getPostLikedNotOwned/${profileUser?.id}`
-      );
-      setUserLikedPosts(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -87,19 +78,24 @@ const PublicProfile = () => {
 
   useEffect(() => {
     fetchProfileUser();
+    setTimeout(() => setLoading(false), 1000);
+    return () => {
+      localStorage.removeItem("cmpt354-user-stats");
+    };
   }, []);
 
   useEffect(() => {
     if (profileUser) {
       fetchUserPosts();
-      fetchUserLikedPosts();
       fetchFollowData();
-      fetchUserStats();
+      !stats && fetchUserStats();
       handleDate();
     }
   }, [profileUser]);
 
-  return (
+  return loading ? (
+    <ScreenLoading />
+  ) : (
     <div className="w-100 mx-auto">
       <Fragment>
         <div className="d-flex flex-row m-5">
@@ -141,7 +137,7 @@ const PublicProfile = () => {
                 <strong>Email:</strong> {profileUser?.email}
               </p>
               <p>
-                <strong>Join:</strong> {joinDate}
+                <strong>Joined on:</strong> {joinDate}
               </p>
               <p>
                 <strong>Date of Birth:</strong> {dateOfBirth}
@@ -159,7 +155,6 @@ const PublicProfile = () => {
           <div className="d-flex flex-column mx-3 w-75">
             <div className="card-body">
               <ProfileTabs
-                userLikedPosts={userLikedPosts}
                 userPosts={userPosts}
                 username={profileUser?.username}
               />

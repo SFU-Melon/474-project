@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
 import { Modal } from "react-responsive-modal";
-import UserCard from "../../components/UserCard";
+import UserCard from "@components/UserCard";
 
 const Followers = (props) => {
   // Handling modal open/close

@@ -6,9 +6,10 @@ import Followers from "./Followers";
 import Following from "./Following";
 import EditProfile from "./EditProfile";
 import EditProfilePhoto from "./EditProfilePhoto";
-import Utility from "../../utils/index.js";
-
+import Utility from "@utils/index.js";
+import useLocalStorage from "@hooks/useLocalStorage";
 import ProfileTabs from "./ProfileTabs";
+import ScreenLoading from "@components/ScreenLoading";
 
 const Profile = () => {
   const { user } = useUserContext();
@@ -18,10 +19,12 @@ const Profile = () => {
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [stats, setStats] = useState();
+  const [stats, setStats] = useLocalStorage("user-stats", null);
 
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
+
+  const [loading, setLoading] = useState(true);
 
   const fetchUserPosts = async () => {
     try {
@@ -74,14 +77,23 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
+    return () => {
+      localStorage.removeItem("cmpt354-user-stats");
+    };
+  }, []);
+
+  useEffect(() => {
     fetchUserPosts();
     fetchSavedPosts();
     fetchFollowData();
-    fetchUserStats();
+    !stats && fetchUserStats();
     handleDate();
   }, [user]);
 
-  return (
+  return loading ? (
+    <ScreenLoading />
+  ) : (
     <div className="w-100 mx-auto">
       <Fragment>
         <div className="d-flex flex-row m-5">
@@ -121,7 +133,7 @@ const Profile = () => {
                 <strong>Email:</strong> {user?.email}
               </p>
               <p>
-                <strong>Join Date:</strong> {joinDate}
+                <strong>Joined on:</strong> {joinDate}
               </p>
               <p>
                 <strong>Date of Birth:</strong> {dateOfBirth}

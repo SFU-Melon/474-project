@@ -180,7 +180,10 @@ userController.resetPasswordRequest = async (req, res) => {
       if (!TokenStore.updateUserToken(username, token)) {
         TokenStore.addToken(token, username);
       }
-      const url = `http://localhost:3000/resetpassword/${username}/${token}`;
+      const url =
+        process.env.NODE_ENV === "production"
+          ? `https://planters-social.herokuapp.com/resetpassword/${username}/${token}`
+          : `http://localhost:3000/resetpassword/${username}/${token}`;
       await Mails.sendPasswordResetMail({ toEmail, url });
       return res.json({
         success: true,

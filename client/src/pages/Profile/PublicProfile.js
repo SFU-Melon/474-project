@@ -98,11 +98,11 @@ const PublicProfile = () => {
   ) : (
     <div className="w-100 mx-auto">
       <Fragment>
-        <div className="d-flex flex-row m-5">
-          <div className="d-flex flex-column mx-3 w-25">
+        <div className="d-flex outer_flex_box ">
+          <div className="d-flex flex-column px-3 flex-item-left">
             <div className="container m-2 p-3">
               <img
-                className="rounded img-fluid"
+                className="rounded img-fluid border border-1 border-dark"
                 alt="user profile pic"
                 src={
                   profileUser?.profilephoto
@@ -111,10 +111,10 @@ const PublicProfile = () => {
                 }
               ></img>
             </div>
-            <div className="container m-2 p-3">
-              <h5 className="card-title">{profileUser?.username}</h5>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h5 className="user-name">{profileUser?.username}</h5>
               <div className="d-flex flex-row">
-                <div className="w-25 me-1">
+                <div>
                   {user && <FollowButton userId={profileUser?.id} />}
                 </div>
               </div>
@@ -124,27 +124,18 @@ const PublicProfile = () => {
                   <Following following={following} />
                 </span>
               </div>
-              <hr className="w-100"></hr>
-              <h5 className="card-title">About</h5>
-              <hr className="w-100"></hr>
-              <p>
-                <strong>First Name</strong>: {profileUser?.fname}
-              </p>
-              <p>
-                <strong>Last Name:</strong> {profileUser?.lname}
-              </p>
-              <p>
-                <strong>Email:</strong> {profileUser?.email}
-              </p>
-              <p>
-                <strong>Joined on:</strong> {joinDate}
-              </p>
-              <p>
-                <strong>Date of Birth:</strong> {dateOfBirth}
-              </p>
             </div>
-            <div className="container m-2 p-3">
-              <h5 className="card-title">Highlights</h5>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h4 className="profile-section">About</h4>
+              <hr className="w-100"></hr>
+              <p><strong>First Name</strong>: {user?.fname}</p>
+              <p><strong>Last Name:</strong> {user?.lname}</p>
+              <p><strong>Email:</strong> {user?.email}</p>
+              <p><strong>Joined on:</strong> {joinDate}</p>
+              <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
+            </div>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h5 className="profile-section">Highlights</h5>
               <hr className="w-100"></hr>
               <p>Total Votes Received: {stats?.totalLikes}</p>
               <p>Total Comments Received: {stats?.totalComments}</p>
@@ -152,8 +143,8 @@ const PublicProfile = () => {
               <p>Most Comments Received: {stats?.mostComments}</p>
             </div>
           </div>
-          <div className="d-flex flex-column mx-3 w-75">
-            <div className="card-body">
+          <div className="d-flex flex-column px-3 flex-item-right">
+            <div className="mt-5">
               <ProfileTabs
                 userPosts={userPosts}
                 username={profileUser?.username}

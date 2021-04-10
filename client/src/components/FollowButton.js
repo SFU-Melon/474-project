@@ -51,7 +51,7 @@ export default function FollowButton(props) {
     <div>
       {user ? (
         user.id !== props.userId && (
-          <button
+          <button className="btn btn-primary btn-sm"
             onClick={() => {
               following ? unfollow() : follow();
             }}
@@ -61,7 +61,7 @@ export default function FollowButton(props) {
         )
       ) : (
         <Link to="/login">
-          <button>Follow</button>
+          <button className="btn">Follow</button>
         </Link>
       )}
     </div>

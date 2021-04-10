@@ -108,7 +108,7 @@ const Profile = () => {
             <div className="m-2 p-3 mt-0 pt-0">
               <EditProfilePhoto />
               <EditProfile />
-              <h5 className="card-title">{user?.username}</h5>
+              <h4 className="user-name">{user?.username}</h4>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1">
                   <FollowButton userId={user?.id} />
@@ -122,7 +122,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="m-2 p-3 mt-0 pt-0">
-              <h4 className="card-title">About</h4>
+              <h4 className="profile-section">About</h4>
               <hr className="w-100"></hr>
               <p><strong>First Name</strong>: {user?.fname}</p>
               <p><strong>Last Name:</strong> {user?.lname}</p>
@@ -131,7 +131,7 @@ const Profile = () => {
               <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
             </div>
             <div className="m-2 p-3 mt-0 pt-0">
-              <h4 className="card-title">Highlights</h4>
+              <h4 className="profile-section">Highlights</h4>
               <hr className="w-100"></hr>
               <p><strong>Total Votes Received:</strong> {stats?.totalLikes}</p>
               <p><strong>Total Comments Received:</strong> {stats?.totalComments}</p>
@@ -140,7 +140,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="d-flex flex-column px-3 flex-item-right">
-            <div className="card-body">
+            <div className="mt-5">
               <ProfileTabs
                 userPosts={userPosts}
                 savedPosts={savedPosts}

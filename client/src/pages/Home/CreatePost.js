@@ -8,7 +8,7 @@ import "react-responsive-modal/styles.css";
 import "./style.css";
 import "@pathofdev/react-tag-input/build/index.css";
 import "semantic-ui-css/semantic.min.css";
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown } from "semantic-ui-react";
 import Utility from "../../utils";
 
 const CreatePost = (props) => {
@@ -22,14 +22,14 @@ const CreatePost = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [tags, setTags] = useState([]);
   const TITLE_MIN_LENGTH = 5;
-  
+
   // Placeholder ptions for tags
   const options = Utility.tags;
 
   // Handle change of tags
-  const handleTags = (e, {value}) => {
+  const handleTags = (e, { value }) => {
     setTags(value);
-  }
+  };
 
   // Handling modal open/close
   const onOpenModal = () => setOpen(true);
@@ -66,7 +66,7 @@ const CreatePost = (props) => {
 
           // Use res post id to insert uid, pid and tag array
           // to Post model -- then parse and enter each tag into
-          // Tags and then use that tag id 
+          // Tags and then use that tag id
           console.log(res);
         });
     } catch (err) {
@@ -123,7 +123,7 @@ const CreatePost = (props) => {
   };
 
   return (
-    <Fragment>
+    <div className="custom">
       {/* Modal Trigger */}
       {user ? (
         <button type="button" className="btn btn-primary" onClick={onOpenModal}>
@@ -167,8 +167,14 @@ const CreatePost = (props) => {
               </div>
               <div className="mb-3">
                 <h6>Tags</h6>
-                <Dropdown placeholder="Select tags" 
-                  fluid multiple selection options={options} onChange={handleTags}/>
+                <Dropdown
+                  placeholder="Select tags"
+                  fluid
+                  multiple
+                  selection
+                  options={options}
+                  onChange={handleTags}
+                />
               </div>
               <div className="mb-3">
                 <h6>Description</h6>
@@ -203,7 +209,7 @@ const CreatePost = (props) => {
           </div>
         </div>
       </Modal>
-    </Fragment>
+    </div>
   );
 };
 

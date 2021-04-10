@@ -82,7 +82,7 @@ const Post = () => {
                 />
               </div>
               <div className="mx-4">
-                <h1>{post.title}</h1>
+                <h1 className="text-break">{post.title}</h1>
                 <div className="d-flex flex-row mb-3 align-items-start">
                   <Tags tags={tags} />
                 </div>
@@ -98,7 +98,7 @@ const Post = () => {
                 <div>
                   {post.content && (
                     <p
-                      className="mt-4"
+                      className="mt-4 text-break"
                       style={{
                         whiteSpace:
                           "pre-wrap" /*** DO NOT DELETE THIS (NEEDED FOR LINE BREAKS) ***/,

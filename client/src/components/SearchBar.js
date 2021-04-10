@@ -5,6 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
  * handleSearch: func
  * }
  */
+import "./nav.css";
 
 const SearchBar = (props) => {
   let history = useHistory();
@@ -20,7 +21,7 @@ const SearchBar = (props) => {
     }
   };
   return (
-    <div className="d-flex flex-col w-50">
+    <div className="d-flex flex-col">
       <input
         className="w-100"
         placeholder="What are you looking for?"
@@ -28,7 +29,7 @@ const SearchBar = (props) => {
         onKeyDown={handleSearch}
       />
       <select
-        className="form-select w-25"
+        className="form-select w-25 search-bar"
         value={scope}
         onChange={(e) => setScope(e.target.value)}
       >

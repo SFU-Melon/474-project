@@ -5,7 +5,7 @@
 .customModal {
   /* background: linear-gradient(317deg, rgba(102,184,94,1) 0%, rgba(185,214,114,1) 100%); */
   background: white;
-  max-width: 700px;
+  max-width: 400px;
   width: 100%;
   border-radius: 5px;
 }
@@ -30,6 +30,41 @@
   height: 0px;
 }
 
+.circular--portrait {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circular--square {
+  border-radius: 50%;
+}
+
 .error {
   color: red;
+}
+
+.outer_flex_box {
+  flex-direction: row;
+  flex-wrap:wrap;
+}
+
+.flex-item-left {
+  flex: 25%;
+}
+
+.flex-item-right {
+  flex: 75%;
+}
+
+@media (max-width: 800px) {
+  .flex-item-right {
+    flex: 75%;
+  }
+
+  .flex-item-left {
+    flex: 100%;
+  }
 }

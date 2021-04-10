@@ -96,16 +96,16 @@ const Profile = () => {
   ) : (
     <div className="w-100 mx-auto">
       <Fragment>
-        <div className="d-flex flex-row m-5">
-          <div className="d-flex flex-column mx-3 w-25">
-            <div className="container m-2 p-3">
+        <div className="d-flex outer_flex_box p-5">
+          <div className="d-flex flex-column px-3 flex-item-left">
+            <div className="circular--portrait">
               <img
-                className="rounded img-fluid"
+                className="img-fluid"
                 alt="user profile pic"
                 src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
               ></img>
             </div>
-            <div className="container m-2 p-3">
+            <div className="m-2 p-3">
               <EditProfilePhoto />
               <EditProfile />
               <h5 className="card-title">{user?.username}</h5>
@@ -139,16 +139,16 @@ const Profile = () => {
                 <strong>Date of Birth:</strong> {dateOfBirth}
               </p>
             </div>
-            <div className="container m-2 p-3">
+            <div className="m-2 p-3">
               <h5 className="card-title">Highlights</h5>
               <hr className="w-100"></hr>
-              <p>Total Votes Received: {stats?.totalLikes}</p>
-              <p>Total Comments Received: {stats?.totalComments}</p>
-              <p>Most Votes Received: {stats?.mostLikes}</p>
-              <p>Most Comments Received: {stats?.mostComments}</p>
+              <p><strong>Total Votes Received:</strong> {stats?.totalLikes}</p>
+              <p><strong>Total Comments Received:</strong> {stats?.totalComments}</p>
+              <p><strong>Most Votes Received:</strong> {stats?.mostLikes}</p>
+              <p><strong>Most Comments Received:</strong> {stats?.mostComments}</p>
             </div>
           </div>
-          <div className="d-flex flex-column mx-3 w-75">
+          <div className="d-flex flex-column px-3 flex-item-right">
             <div className="card-body">
               <ProfileTabs
                 userPosts={userPosts}

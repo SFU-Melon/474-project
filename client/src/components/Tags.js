@@ -19,6 +19,7 @@ const Tags = (props) => {
               as="a"
               color={`${Utility.getLabelColor(item)}`}
               className="mb-1 mb-md-0"
+              key={i}
             >
               {item}
             </Label>

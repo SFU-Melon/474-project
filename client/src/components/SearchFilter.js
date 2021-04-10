@@ -1,10 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TagFilter from "./TagFilter";
+import { Dropdown } from "semantic-ui-react";
+
 import "./searchfilter.css";
+
+const filterOptions = [
+  {
+    key: "hot",
+    text: "HOT",
+    value: "hot",
+  },
+  {
+    key: "new",
+    text: "NEW",
+    value: "new",
+  },
+];
 
 export default function SearchFilter({ setTags }) {
   let location = useLocation();
+  let history = useHistory();
   const [filterType, setFilterType] = useState("");
 
   useEffect(() => {
@@ -38,6 +54,10 @@ export default function SearchFilter({ setTags }) {
     };
   };
 
+  const handleFilterType = (e, { value }) => {
+    history.push(`/${value}`);
+  };
+
   return (
     <div className="card flex-row m-2 mt-3 align-items-center justify-content-between">
       <div className="d-none d-md-block ">
@@ -60,27 +80,15 @@ export default function SearchFilter({ setTags }) {
           </button>
         </Link>
       </div>
-      <div className="d-md-none dropdown">
-        <button
-          className="btn btn-secondary dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-        >
-          Dropdown
-        </button>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a className="dropdown-item" href="#nogo">
-            Item 1
-          </a>
-          <a className="dropdown-item" href="#nogo">
-            Item 2
-          </a>
-          <a className="dropdown-item" href="#nogo">
-            Item 3
-          </a>
-        </div>
+      <div className="d-md-none m-2">
+        <Dropdown
+          placeholder="HOT"
+          fluid
+          selection
+          defaultValue={"hot"}
+          options={filterOptions}
+          onChange={handleFilterType}
+        />
       </div>
       <div className="m-2">
         <p className="m-1">Filter By Tags</p>

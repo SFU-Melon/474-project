@@ -95,7 +95,7 @@ export default function PostsList({ tags }) {
           }
         >
           {data.pages?.map((page, i) => (
-            <Fragment key={i} className="">
+            <Fragment key={i}>
               {page?.map((post) => {
                 return <PostCard key={post.id} post={post}></PostCard>;
               })}

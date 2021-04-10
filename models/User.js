@@ -227,4 +227,20 @@ User.getTotalAmount = async () => {
     return false;
   }
 };
+
+User.getTopUsers = async (limit = 10) => {
+  try {
+    const res = await pool.query(
+      "SELECT u.username, u.id, COUNT(f.user1) as numoffollowers FROM users u \
+      INNER JOIN followers f ON u.id = f.user2 \
+      GROUP BY u.id ORDER BY count(f.user1) \
+      DESC LIMIT $1",
+      [limit]
+    );
+    return res.rows;
+  } catch (err) {
+    console.err(err);
+    return false;
+  }
+};
 module.exports = User;

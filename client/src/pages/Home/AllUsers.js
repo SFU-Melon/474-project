@@ -20,7 +20,7 @@ export default function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("/api/getAllUsers");
+      const res = await axios.get("/api/getTopUsers");
       //setUsers(res.data.users);
       return res.data.users;
     } catch (err) {
@@ -54,8 +54,7 @@ export default function AllUsers() {
           </Link>
           <FollowButton userId={userInCard.id} />
 
-          <p className="mt-1">Following: {userInCard.following.length}</p>
-          <p>Followers: {userInCard.followers.length}</p>
+          <p className="mt-1">Followers: {userInCard.numoffollowers}</p>
         </div>
       </div>
     );

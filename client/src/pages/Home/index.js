@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import CreatePost from "./CreatePost";
 import AllUsers from "./AllUsers";
 import SearchFilter from "@components/SearchFilter";

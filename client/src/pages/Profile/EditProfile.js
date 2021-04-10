@@ -112,14 +112,14 @@ const EditProfile = () => {
       {user ? (
         <button
           type="button"
-          className="form-control mb-3"
+          className="form-control mb-3 btn-primary"
           onClick={onOpenModal}
         >
           Edit Profile
         </button>
       ) : (
         <Link to="/login">
-          <button type="button" className="form-control mb-3">
+          <button type="button" className="form-control mb-3 btn-primary">
             Edit Profile
           </button>
         </Link>
@@ -132,8 +132,8 @@ const EditProfile = () => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: "customOverlay",
-          modal: "customModal",
+          overlay: "editOverlay",
+          modal: "editModal",
         }}
       >
         <div>

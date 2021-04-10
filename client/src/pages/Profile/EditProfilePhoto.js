@@ -93,15 +93,15 @@ const EditProfilePhoto = (props) => {
       {user ? (
         <button
           type="button"
-          className="form-control mb-1"
+          className="form-control mb-1 btn-primary"
           onClick={onOpenModal}
         >
           Change Profile Photo
         </button>
       ) : (
         <Link to="/login">
-          <button type="button" className="form-control">
-            Change Profile Photo
+          <button type="button" className="form-control btn-primary">
+            Login
           </button>
         </Link>
       )}
@@ -113,8 +113,8 @@ const EditProfilePhoto = (props) => {
         onClose={onCloseModal}
         center
         classNames={{
-          overlay: "customOverlay",
-          modal: "customModal",
+          overlay: "editOverlay",
+          modal: "editModal",
         }}
       >
         <div>

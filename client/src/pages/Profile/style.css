@@ -1,8 +1,8 @@
-.customOverlay {
+.editOverlay {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.customModal {
+.editModal {
   /* background: linear-gradient(317deg, rgba(102,184,94,1) 0%, rgba(185,214,114,1) 100%); */
   background: white;
   max-width: 400px;
@@ -30,18 +30,6 @@
   height: 0px;
 }
 
-.circular--portrait {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-.circular--square {
-  border-radius: 50%;
-}
-
 .error {
   color: red;
 }
@@ -49,6 +37,7 @@
 .outer_flex_box {
   flex-direction: row;
   flex-wrap:wrap;
+  padding: 20px;
 }
 
 .flex-item-left {
@@ -59,6 +48,29 @@
   flex: 75%;
 }
 
+html {
+  font-size: 16px;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+  }
+}
+
+@media (max-width: 500px) {
+  .editModal{
+    max-width:250px;
+    margin-left:0;
+    margin-right:0;
+  }
+
+  .followModal {
+    max-width:250px;
+    margin-left:0;
+    margin-right:0;
+  }
+}
+
 @media (max-width: 800px) {
   .flex-item-right {
     flex: 75%;
@@ -66,5 +78,19 @@
 
   .flex-item-left {
     flex: 100%;
+  }
+
+  .editModal{
+    max-width:300px;
+  }
+
+  .followModal {
+    max-width:300px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 22px;
   }
 }

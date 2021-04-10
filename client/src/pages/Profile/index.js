@@ -96,16 +96,16 @@ const Profile = () => {
   ) : (
     <div className="w-100 mx-auto">
       <Fragment>
-        <div className="d-flex outer_flex_box p-5">
+        <div className="d-flex outer_flex_box ">
           <div className="d-flex flex-column px-3 flex-item-left">
-            <div className="circular--portrait">
+            <div className="m-2 p-3">
               <img
-                className="img-fluid"
+                className="rounded img-fluid border border-1 border-dark"
                 alt="user profile pic"
                 src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
               ></img>
             </div>
-            <div className="m-2 p-3">
+            <div className="m-2 p-3 mt-0 pt-0">
               <EditProfilePhoto />
               <EditProfile />
               <h5 className="card-title">{user?.username}</h5>
@@ -120,27 +120,18 @@ const Profile = () => {
                   <Following following={following} />
                 </span>
               </div>
-              <hr className="w-100"></hr>
-              <h5 className="card-title">About</h5>
-              <hr className="w-100"></hr>
-              <p>
-                <strong>First Name</strong>: {user?.fname}
-              </p>
-              <p>
-                <strong>Last Name:</strong> {user?.lname}
-              </p>
-              <p>
-                <strong>Email:</strong> {user?.email}
-              </p>
-              <p>
-                <strong>Joined on:</strong> {joinDate}
-              </p>
-              <p>
-                <strong>Date of Birth:</strong> {dateOfBirth}
-              </p>
             </div>
-            <div className="m-2 p-3">
-              <h5 className="card-title">Highlights</h5>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h4 className="card-title">About</h4>
+              <hr className="w-100"></hr>
+              <p><strong>First Name</strong>: {user?.fname}</p>
+              <p><strong>Last Name:</strong> {user?.lname}</p>
+              <p><strong>Email:</strong> {user?.email}</p>
+              <p><strong>Joined on:</strong> {joinDate}</p>
+              <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
+            </div>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h4 className="card-title">Highlights</h4>
               <hr className="w-100"></hr>
               <p><strong>Total Votes Received:</strong> {stats?.totalLikes}</p>
               <p><strong>Total Comments Received:</strong> {stats?.totalComments}</p>

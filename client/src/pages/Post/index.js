@@ -91,7 +91,7 @@ const Post = () => {
                     <img
                       src={post.imageurl}
                       alt="plant in each post page"
-                      className="plant-image"
+                      className="plant-image-individual"
                     />
                   )}
                 </div>

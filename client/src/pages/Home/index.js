@@ -11,8 +11,8 @@ const Home = () => {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row">
-          <div className="col col-lg-9">
+        <div className="row m-1 mt-3">
+          <div className="col col-lg-9 ">
             <SearchFilter setTags={setTags} />
             <div className="d-flex justify-content-start m-2 mt-4">
               <CreatePost />

@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import FollowButton from "@components/FollowButton";
+import { useUserContext } from "@contexts/UserContext";
+import { Link } from "react-router-dom";
 
 export default function AllUsers() {
   const [users, setUsers] = useState(null);
+  const { user } = useUserContext();
 
   useEffect(() => {
     let isMounted = true;
@@ -25,13 +28,35 @@ export default function AllUsers() {
     }
   };
 
-  const UserCardInHomePage = ({ user }) => {
+  const UserCardInHomePage = ({ userInCard }) => {
     return (
-      <div className="card p-2">
-        <h3 className="text-break">{user.username} </h3>
-        <FollowButton userId={user.id} />
-        <p>Following: {user.following.length}</p>
-        <p>Followers: {user.followers.length}</p>
+      <div className="card p-2 flex-row">
+        <div className="w-25 m-0">
+          <div className="w-75">
+            <img
+              className="img-fluid rounded m-0"
+              alt="User Profile Pic"
+              src={
+                userInCard?.profilephoto
+                  ? userInCard.profilephoto
+                  : "/null-user.png"
+              }
+            ></img>
+          </div>
+        </div>
+        <div>
+          <Link
+            to={`profile/${
+              userInCard.username !== user?.username ? "public/" : ""
+            }${userInCard.username}`}
+          >
+            <h3 className="text-break">{userInCard.username} </h3>
+          </Link>
+          <FollowButton userId={userInCard.id} />
+
+          <p className="mt-1">Following: {userInCard.following.length}</p>
+          <p>Followers: {userInCard.followers.length}</p>
+        </div>
       </div>
     );
   };
@@ -40,8 +65,8 @@ export default function AllUsers() {
     <>
       <h2 className="card text-start p-2 mt-3 ">Users:</h2>
       {users &&
-        users.map((user, i) => {
-          return <UserCardInHomePage key={i} user={user} />;
+        users.map((userInCard, i) => {
+          return <UserCardInHomePage key={i} userInCard={userInCard} />;
         })}
     </>
   );

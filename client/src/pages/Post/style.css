@@ -3,3 +3,10 @@
   height: 3rem;
   object-fit: contain;
 }
+
+.plant-image-individual {
+  object-fit: cover;
+  max-width: 3200px;
+  width: 100%;
+  height: auto;
+}

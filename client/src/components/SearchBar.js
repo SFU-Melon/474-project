@@ -21,7 +21,7 @@ const SearchBar = (props) => {
     }
   };
   return (
-    <div className="d-flex flex-col">
+    <div className="d-flex flex-col search-container">
       <input
         className="w-100"
         placeholder="What are you looking for?"

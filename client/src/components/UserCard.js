@@ -55,7 +55,7 @@ const Following = (props) => {
           <div className="w-25 m-0">
             <div className="w-75">
               <img
-                className="img-fluid rounded m-0"
+                className="small-profile-pic-dim rounded m-0"
                 alt="User Profile Pic"
                 src={
                   props.person?.profilephoto

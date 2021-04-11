@@ -38,3 +38,17 @@ code {
   display: block;
   position: absolute;
 }
+
+.small-profile-pic-dim {
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+}
+
+.profile-pic-dim {
+  display: block;
+  width: 23rem;
+  height: 23rem;
+  object-fit: cover;
+}

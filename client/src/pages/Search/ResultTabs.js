@@ -3,7 +3,7 @@ import "react-tabs/style/react-tabs.css";
 import ProfilePostCard from "../Profile/ProfilePostCard";
 import SmallPlantCard from "./SmallPlantCard";
 import SmallUserCard from "./SmallUserCard";
-import NullPost from "../Profile/NullPost";
+import NullPost from "../../components/NullPost";
 
 export default function ResultTabs(props) {
   return (
@@ -36,7 +36,7 @@ export default function ResultTabs(props) {
         {props.users?.length > 0 ? (
           props?.users.map((user) => <SmallUserCard person={user} />)
         ) : (
-          <NullPost />
+          <NullPost custom={"Users"} />
         )}
       </TabPanel>
     </Tabs>

@@ -128,13 +128,13 @@ const PublicProfile = () => {
               <h4 className="profile-section">About</h4>
               <hr className="w-100"></hr>
               <p>
-                <strong>First Name</strong>: {user?.fname}
+                <strong>First Name</strong>: {profileUser?.fname}
               </p>
               <p>
-                <strong>Last Name:</strong> {user?.lname}
+                <strong>Last Name:</strong> {profileUser?.lname}
               </p>
               <p>
-                <strong>Email:</strong> {user?.email}
+                <strong>Email:</strong> {profileUser?.email}
               </p>
               <p>
                 <strong>Joined on:</strong> {joinDate}

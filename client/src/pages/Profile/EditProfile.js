@@ -81,9 +81,7 @@ const EditProfile = () => {
     if (!dob) {
       tempErr.dob = "Date of birth is required";
     } else if (
-      !/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-](19|20)\d\d$/.test(
-        dob
-      )
+      !/^(0?[1-9]|[12][0-9]|3[01])[/](0?[1-9]|1[012])[/](19|20)\d\d$/.test(dob)
     ) {
       tempErr.dob = "Date of birth is invalid";
     }

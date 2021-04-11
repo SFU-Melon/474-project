@@ -1,16 +1,12 @@
 import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
-import { useUserContext } from "@contexts/UserContext";
-import Utility from "@utils/index.js";
-import useLocalStorage from "@hooks/useLocalStorage";
-import ScreenLoading from "@components/ScreenLoading";
 import "./style.css";
 
 const About = () => {
   return (
     <Fragment>
       <div
-        className="full-plant-bg"
+        className="full-plant-bg display-grid-center"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
         }}
@@ -27,7 +23,7 @@ const About = () => {
                 Planter's Social is a platform for plant enthusiasts. Its main
                 functionality is to allow users to share posts with
                 descriptions, and images of their plants so that other users can
-                then like, save and their comments.{" "}
+                then like, save and comment.{" "}
               </p>
             </div>
             <div className="card about-paragraph p-3 m-1">
@@ -56,16 +52,16 @@ const About = () => {
               <p>Planters Social is brought to you by:</p>
               <ul className="creator-list">
                 <li>
-                  <a href="https://github.com/phyeony">Hyeonyoung Park</a>
+                  <a href="https://github.com/phyeony"> Hyeonyoung Park</a>
                 </li>
                 <li>
-                  <a href="https://github.com/cxtruong70">Calvin Truong</a>
+                  <a href="https://github.com/cxtruong70"> Calvin Truong</a>
                 </li>
                 <li>
-                  <a href="https://github.com/zwemsoe">Zwe Min Soe</a>
+                  <a href="https://github.com/zwemsoe"> Zwe Min Soe</a>
                 </li>
                 <li>
-                  <a href="https://github.com/ACimensel">Artun Cimensel</a>
+                  <a href="https://github.com/ACimensel"> Artun Cimensel</a>
                 </li>
               </ul>
             </div>

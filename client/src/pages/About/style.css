@@ -10,7 +10,7 @@
 }
 
 .creator-list li::before {
-  content: "📌";
+  content: "📌 ";
 }
 
 .content {

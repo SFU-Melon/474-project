@@ -70,8 +70,8 @@ const Profile = () => {
   };
 
   const handleDate = () => {
-    var tempBirthDate = Utility.formatDate(new Date(user?.dob));
-    var tempJoinDate = Utility.formatDate(new Date(user?.joindate));
+    var tempBirthDate = Utility.formatDate(user?.dob);
+    var tempJoinDate = Utility.formatDate(user?.joindate);
     setDateOfBirth(tempBirthDate ? tempBirthDate : "");
     setJoinDate(tempJoinDate ? tempJoinDate : "");
   };
@@ -124,19 +124,37 @@ const Profile = () => {
             <div className="m-2 p-3 mt-0 pt-0">
               <h4 className="profile-section">About</h4>
               <hr className="w-100"></hr>
-              <p><strong>First Name</strong>: {user?.fname}</p>
-              <p><strong>Last Name:</strong> {user?.lname}</p>
-              <p><strong>Email:</strong> {user?.email}</p>
-              <p><strong>Joined on:</strong> {joinDate}</p>
-              <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
+              <p>
+                <strong>First Name</strong>: {user?.fname}
+              </p>
+              <p>
+                <strong>Last Name:</strong> {user?.lname}
+              </p>
+              <p>
+                <strong>Email:</strong> {user?.email}
+              </p>
+              <p>
+                <strong>Joined on:</strong> {joinDate}
+              </p>
+              <p>
+                <strong>Date of Birth:</strong> {dateOfBirth}
+              </p>
             </div>
             <div className="m-2 p-3 mt-0 pt-0">
               <h4 className="profile-section">Highlights</h4>
               <hr className="w-100"></hr>
-              <p><strong>Total Votes Received:</strong> {stats?.totalLikes}</p>
-              <p><strong>Total Comments Received:</strong> {stats?.totalComments}</p>
-              <p><strong>Most Votes Received:</strong> {stats?.mostLikes}</p>
-              <p><strong>Most Comments Received:</strong> {stats?.mostComments}</p>
+              <p>
+                <strong>Total Votes Received:</strong> {stats?.totalLikes}
+              </p>
+              <p>
+                <strong>Total Comments Received:</strong> {stats?.totalComments}
+              </p>
+              <p>
+                <strong>Most Votes Received:</strong> {stats?.mostLikes}
+              </p>
+              <p>
+                <strong>Most Comments Received:</strong> {stats?.mostComments}
+              </p>
             </div>
           </div>
           <div className="d-flex flex-column px-3 flex-item-right">

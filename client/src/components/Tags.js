@@ -10,7 +10,7 @@ const Tags = (props) => {
   }, [props]);
 
   return (
-    <div className="d-flex flex-row mb-3 align-items-start">
+    <div className="d-flex flex-row flex-wrap mb-3 align-items-start">
       <h4 className="me-2">{tags ? "Tags: " : ""}</h4>
       {tags ? (
         tags.map((item, i) => (

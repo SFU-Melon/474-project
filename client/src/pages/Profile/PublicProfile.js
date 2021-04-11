@@ -8,6 +8,7 @@ import useLocalStorage from "@hooks/useLocalStorage";
 import { useParams } from "react-router-dom";
 import ProfileTabs from "./ProfileTabs";
 import ScreenLoading from "@components/ScreenLoading";
+import "./style.css";
 
 const PublicProfile = () => {
   const { user } = useUserContext();
@@ -102,7 +103,7 @@ const PublicProfile = () => {
           <div className="d-flex flex-column px-3 flex-item-left">
             <div className="container m-2 p-3">
               <img
-                className="rounded img-fluid border border-1 border-dark"
+                className="rounded profile-pic-dim border border-1 border-dark"
                 alt="user profile pic"
                 src={
                   profileUser?.profilephoto
@@ -114,9 +115,7 @@ const PublicProfile = () => {
             <div className="m-2 p-3 mt-0 pt-0">
               <h5 className="user-name">{profileUser?.username}</h5>
               <div className="d-flex flex-row">
-                <div>
-                  {user && <FollowButton userId={profileUser?.id} />}
-                </div>
+                <div>{user && <FollowButton userId={profileUser?.id} />}</div>
               </div>
               <div className="me-1">
                 <span>
@@ -128,11 +127,21 @@ const PublicProfile = () => {
             <div className="m-2 p-3 mt-0 pt-0">
               <h4 className="profile-section">About</h4>
               <hr className="w-100"></hr>
-              <p><strong>First Name</strong>: {user?.fname}</p>
-              <p><strong>Last Name:</strong> {user?.lname}</p>
-              <p><strong>Email:</strong> {user?.email}</p>
-              <p><strong>Joined on:</strong> {joinDate}</p>
-              <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
+              <p>
+                <strong>First Name</strong>: {user?.fname}
+              </p>
+              <p>
+                <strong>Last Name:</strong> {user?.lname}
+              </p>
+              <p>
+                <strong>Email:</strong> {user?.email}
+              </p>
+              <p>
+                <strong>Joined on:</strong> {joinDate}
+              </p>
+              <p>
+                <strong>Date of Birth:</strong> {dateOfBirth}
+              </p>
             </div>
             <div className="m-2 p-3 mt-0 pt-0">
               <h5 className="profile-section">Highlights</h5>

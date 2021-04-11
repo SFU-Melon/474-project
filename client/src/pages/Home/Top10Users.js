@@ -34,7 +34,7 @@ export default function Top10Users() {
         <div className="w-25 m-0">
           <div className="w-75">
             <img
-              className="img-fluid rounded m-0"
+              className="small-profile-pic-dim rounded m-0"
               alt="User Profile Pic"
               src={
                 userInCard?.profilephoto
@@ -62,7 +62,7 @@ export default function Top10Users() {
 
   return (
     <>
-      <h2 className="card text-start p-2 mt-3 ">Users:</h2>
+      <h2 className="card text-start p-2 mt-3 ">Top Planters:</h2>
       {users &&
         users.map((userInCard, i) => {
           return <UserCardInHomePage key={i} userInCard={userInCard} />;

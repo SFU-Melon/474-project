@@ -231,7 +231,7 @@ User.getTotalAmount = async () => {
 User.getTopUsers = async (limit = 10) => {
   try {
     const res = await pool.query(
-      "SELECT u.username, u.id, COUNT(f.follower) as numoffollowers FROM users u \
+      "SELECT u.username, u.id, u.profilephoto, COUNT(f.follower) as numoffollowers FROM users u \
       INNER JOIN followers f ON u.id = f.followee \
       GROUP BY u.id ORDER BY count(f.follower) \
       DESC LIMIT $1",

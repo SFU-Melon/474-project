@@ -1,0 +1,30 @@
+.about-paragraph{
+    width:250px;
+    font-size:1rem;
+}
+
+ul {
+    list-style: none;
+    padding-left:10px;
+    list-style-type: none;
+}
+
+ul li::before {
+    content: "📌";
+}
+
+code{
+    color:grey;
+}
+
+@media (max-width: 1257px) {
+    .about-paragraph{
+        width:250px;
+    }
+}
+
+@media (max-width: 700px) {
+    .about-paragraph{
+        width:350px;
+    }
+}

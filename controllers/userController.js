@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const lightFormat = require("date-fns/lightFormat");
 const parse = require("date-fns/parse");
@@ -231,6 +231,21 @@ userController.getTotalAmount = async (req, res) => {
     return res.status(200).json({
       success: true,
       numofusers,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      success: false,
+    });
+  }
+};
+
+userController.getTopUsers = async (req, res) => {
+  try {
+    const users = await User.getTopUsers();
+    return res.status(200).json({
+      success: true,
+      users,
     });
   } catch (err) {
     console.log(err);

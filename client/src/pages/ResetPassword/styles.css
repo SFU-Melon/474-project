@@ -6,7 +6,6 @@
   padding-right: 8%;
   border-radius: 50px;
   display: block;
-  resize: none;
 }
 
 .resetHeader {
@@ -79,4 +78,16 @@
 
 .signup {
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .reset-inputs {
+    width: 300px;
+  }
+  .reset-button {
+    width: 80%;
+  }
+  .reset-input-btn {
+    width: 80%;
+  }
 }

@@ -33,3 +33,8 @@ code {
 .custom-links:hover {
   cursor: pointer;
 }
+
+.show > .dropdown-menu {
+  display: block;
+  position: absolute;
+}

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Nav from "./components/Nav";
+import Nav from "@components/Nav";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import SignUp from "./pages/SignUp";

@@ -2,7 +2,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import ProfilePostCard from "./ProfilePostCard";
 import NullPost from "./NullPost";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from "@contexts/UserContext";
 
 export default function ProfileTabs(props) {
   const { user } = useUserContext();

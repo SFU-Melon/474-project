@@ -14,7 +14,6 @@ export default function CommentInput({ postId, setComments }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
-      console.log("not validated");
       return;
     }
     try {

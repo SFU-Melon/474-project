@@ -28,7 +28,6 @@ class TStore {
     const date = new Date();
     for (let i = 0; i < this.tokens.length; i++) {
       const item = this.tokens[i];
-      console.log(date - item.timestamp);
       if (item.token === token && date - item.timestamp <= this.expiration) {
         return true;
       }

@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const lightFormat = require("date-fns/lightFormat");
 const parse = require("date-fns/parse");

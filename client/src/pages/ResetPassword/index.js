@@ -50,7 +50,7 @@ export default function ResetPassword(props) {
             />
           </div>
 
-          <div className="btn-container">
+          <div className="display-grid-center">
             <button className="reset-input-btn" onClick={handleReset}>
               Reset Password
             </button>

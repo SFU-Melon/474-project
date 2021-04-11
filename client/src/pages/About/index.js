@@ -10,35 +10,30 @@ import "./style.css";
 const About = () => {
   return (
     <Fragment>
-      <div
+      <div className="full-plant-bg"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-          height: "96vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
         }}
       >
         <div className="d-flex flex-column flex-wrap justify-content-start">
-          <div className="p-5 display-grid-center">
-            <h1 className="text-white">About Planters Social</h1>
+          <div className="display-grid-center">
+            <h1 className="text-white mt-5 mb-2">About Planters Social</h1>
           </div>
 
           <div className="d-flex flex-row flex-wrap justify-content-center">
-            <div className = "card about-paragraph p-3 m-2 align-self-start">
+            <div className = "card about-paragraph p-3 m-1">
                 <h3>Introduction</h3>
                 <p>Planter's Social is a platform for plant enthusiasts. Its main functionality is to
                 allow users to share posts with descriptions, and images of their plants so that
                 other users can then like, save and their comments. </p>
             </div>
-            <div className = "card about-paragraph p-3 m-2 align-self-start">
+            <div className = "card about-paragraph p-3 m-1">
                 <h3>Purpose</h3>
                 <p>Over time users can like and save
                 posts for inspiration, share fruits of their own labor, and build a community fostering
                 appreciation for the growing of plants.</p>
             </div>
-            <div className = "card about-paragraph p-3 m-2 align-self-start">
+            <div className = "card about-paragraph p-3 m-1">
                 <h3>Technology Stack</h3>
                 <code>Front-end</code>
                 <p>We used a combination of React, various react packages
@@ -48,7 +43,7 @@ const About = () => {
                   alongside PostgreSQL for our database. 
                 </p>
             </div>
-            <div className = "card about-paragraph p-3 m-2 align-self-start">
+            <div className = "card about-paragraph p-3 m-1">
               <h3>Creators</h3>
                 <p>Planters Social is brought to you by:</p>
                 <ul>

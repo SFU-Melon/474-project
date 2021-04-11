@@ -13,6 +13,17 @@ ul li::before {
     content: "📌";
 }
 
+.content{
+    height:100%;
+}
+
+.full-plant-bg{
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 code{
     color:grey;
 }
@@ -26,5 +37,11 @@ code{
 @media (max-width: 700px) {
     .about-paragraph{
         width:350px;
+    }
+}
+
+@media (max-width: 300px) {
+    .about-paragraph{
+        width:95%;
     }
 }

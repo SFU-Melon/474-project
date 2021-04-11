@@ -35,6 +35,11 @@ CREATE TABLE plantdiseases(
     description TEXT
 );
 
+CREATE TABLE plantpests(
+    pestName VARCHAR(100) PRIMARY KEY,
+    description TEXT
+);
+
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     sortingid SERIAL,

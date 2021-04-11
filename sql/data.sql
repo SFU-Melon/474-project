@@ -18,7 +18,7 @@ INSERT INTO tags (name) VALUES
 
 INSERT INTO plantdiseases (diseaseName) VALUES 
 ('anthracnose'),
-('basal Rot'),
+('basal rot'),
 ('botrytis blight'),
 ('blossom-end rot'),
 ('crown gall'),
@@ -42,6 +42,19 @@ INSERT INTO plantdiseases (diseaseName) VALUES
 ('stem and bulb nematode'),
 ('scale tip rot'),
 ('leaf scorch');
+
+
+INSERT INTO plantpests (pestName) VALUES 
+('aphids'),
+('armyworms'),
+('nematodes'),
+('thrips'),
+('mites'),
+('carrot rust flies'),
+('beetles'),
+('cutworms '),
+('weevils'),
+('wireworms');
 
 
 /* Insert 10 plants into plants table */

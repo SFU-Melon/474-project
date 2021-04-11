@@ -115,6 +115,66 @@ INSERT INTO plantpests (pestName) VALUES
 ('wireworms');
 
 
+INSERT INTO plantHasPests (plantSciName, pestName) VALUES 
+-- rose
+('Rosa cvs.', 'aphids'),
+('Rosa cvs.', 'thrips'),
+('Rosa cvs.', 'mites'),
+('Rosa cvs.', 'beetles'),
+-- carrot
+('Daucus carota subsp. sativus', 'aphids'),
+('Daucus carota subsp. sativus', 'nematodes'),
+('Daucus carota subsp. sativus', 'carrot rust flies'),
+('Daucus carota subsp. sativus', 'beetles'),
+('Daucus carota subsp. sativus', 'weevils'),
+-- celery
+('Apium graveolens', 'aphids'),
+('Apium graveolens', 'armyworms'),
+('Apium graveolens', 'nematodes'),
+('Apium graveolens', 'carrot rust flies'),
+-- eggplant
+('Solanum melongena', 'aphids'),
+('Solanum melongena', 'mites'),
+('Solanum melongena', 'beetles'),
+('Solanum melongena', 'cutworms '),
+-- tomato
+('Solanum lycopersicum', 'aphids'),
+('Solanum lycopersicum', 'nematodes'),
+('Solanum lycopersicum', 'thrips'),
+('Solanum lycopersicum', 'mites'),
+('Solanum lycopersicum', 'beetles'),
+('Solanum lycopersicum', 'cutworms '),
+-- okra
+('Abelmoschus esculentus', 'aphids'),
+('Abelmoschus esculentus', 'armyworms'),
+('Abelmoschus esculentus', 'nematodes'),
+('Abelmoschus esculentus', 'thrips'),
+('Abelmoschus esculentus', 'mites'),
+('Abelmoschus esculentus', 'beetles'),
+-- bell pepper
+('Capsicum annuum Group', 'aphids'),
+('Capsicum annuum Group', 'thrips'),
+('Capsicum annuum Group', 'mites'),
+('Capsicum annuum Group', 'beetles'),
+('Capsicum annuum Group', 'weevils'),
+-- peony
+('Paeonia lactiflora', 'nematodes'),
+('Paeonia lactiflora', 'thrips'),
+('Paeonia lactiflora', 'mites'),
+('Paeonia lactiflora', 'beetles'),
+-- lily
+('Lilium longiflorum', 'aphids'),
+('Lilium longiflorum', 'nematodes'),
+('Lilium longiflorum', 'thrips'),
+('Lilium longiflorum', 'weevils'),
+('Lilium longiflorum', 'wireworms'),
+-- tulip
+('Tulipa cvs.', 'aphids'),
+('Tulipa cvs.', 'nematodes'),
+('Tulipa cvs.', 'beetles'),
+('Tulipa cvs.', 'wireworms');
+
+
 /* Insert 10 plants into plants table */
 INSERT INTO plants (sciname, comname, description, plantinstr, growinstr, careinstr, hardiness, exposure, waterNeed, plantphoto) VALUES 
 (

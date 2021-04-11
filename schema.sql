@@ -46,6 +46,12 @@ CREATE TABLE plantpests(
     description TEXT
 );
 
+CREATE TABLE plantHasPests(
+    plantSciName varchar(100) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,
+    pestName varchar(100) NOT NULL REFERENCES plantpests (pestName) ON DELETE CASCADE,
+    PRIMARY KEY (plantSciName, pestName)
+);
+
 CREATE TABLE posts(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     sortingid SERIAL,

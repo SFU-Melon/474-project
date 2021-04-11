@@ -8,6 +8,7 @@ export default function TagFilter({ setTags }) {
     { key: "help", text: "Help", value: "Help" },
     { key: "tips", text: "Tips", value: "Tips" },
     { key: "suggestion", text: "Suggestion", value: "Suggestion" },
+    { key: "meme", text: "Meme", value: "Meme" },
   ];
 
   const handleTags = (e, { value }) => {

@@ -53,7 +53,7 @@ export default function Login(props) {
     <div
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "95.7vh",
+        height: "96vh",
         width: "100vw",
         display: "flex",
         justifyContent: "center",

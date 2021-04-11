@@ -125,7 +125,7 @@ Roses require 1-2 inches of water a week to thrive. In dry climates, this water 
     'Apply a layer of compost under the shrub each spring, followed by a 2-inch layer of mulch to retain moisture and control weeds, keeping mulch a few inches away from the stems. Water plants during the summer if rainfall is less than 1 inch per week. Pruning techniques vary with the type of rose.',
 
 
-    NULL
+    'https://garden.org/pics/2020-06-09/AnnKNCalif/e0ab4e.jpg'
 ),
 
 (
@@ -151,7 +151,7 @@ Carrots are generally ready for harvest in two to three months, when they are ab
     'Thin carrots to 3 inches apart. Weed carefully and cultivate lightly near the plants. Add mulch about six weeks after sowing to prevent exposing the roots to the sun, which gives them a bitter taste. Water plants during the summer if rainfall is less than 1 inch per week. Carrots are rarely bothered by pests. Contact your local county extension office for controls of common carrot pests, such as wireworms.',
 
 
-    NULL
+    'https://garden.org/pics/2021-01-13/farmerdill/089656.jpg'
 ),
 
 (
@@ -175,7 +175,7 @@ Start harvesting outer stalks when they are 6 to 8 inches tall. Harvest stalks i
     'Thin direct-seeded celery plants to stand 8 to 10 inches apart when they''re 4 to 5 inches tall. Apply a heavy layer of mulch immediately after planting and provide a regular supply of water. Celery is a heavy feeder, so you may want to fertilize plants with compost tea or side-dress plants with rich compost several times during the growing season. Blanch varieties that require it when the plants are 12 inches tall. Contact your local county extension office for controls of common celery pests, such as earwigs.',
 
 
-    NULL
+    'https://images.ctfassets.net/3s5io6mnxfqz/2WJ9a10P27IeETZ2a11l0A/d4779f256fa2dd6d179de67077dbc0b5/AdobeStock_298730847.jpeg'
 ),
 
 (
@@ -199,7 +199,7 @@ Most eggplants can be harvested when they are 4 to 5 inches long. The skin shoul
     'Add an organic mulch to retain moisture and control weeds after the soil has completely warmed up, about 1 month after setting out transplants. Water plants during the summer if rainfall is less than 1 inch per week. Contact your local County Extension office for controls of common eggplant pests such as flea beetles, Colorado potato beetles, and tomato hornworms.',
 
 
-    NULL
+    'https://www.nature-and-garden.com/wp-content/uploads/sites/4/2018/10/eggplant.jpg'
 ),
 
 (
@@ -223,7 +223,7 @@ For best flavor, harvest tomatoes when they are firm and fully colored. Fruits w
     'Provide an even supply of water all season. If staking or trellising, prune suckers to allow one or two central stems to grow on staked plants, two or three central stems for trellis systems. Apply a thick layer of organic mulch 4 or 5 weeks after transplanting. Contact your local County Extension office for controls of common tomato insect pests such as tomato hornworms and whiteflies.',
 
 
-    NULL
+    'https://edge.bonnieplants.com/www/tiny/uploads/20200810204147/BONNIE_tomatoes_iStock-481349128-1800px.jpg'
 ),
 
 (
@@ -247,7 +247,7 @@ The first pods will be ready in 50 to 60 days. Harvest the pods when still immat
     'When the seedlings are about 3 inches tall, thin to stand 1 to 2 feet apart. Provide at least 1 inch of water per week; more in hot, arid regions. When plants are young, cultivate lightly to eliminate weeds. Mulch heavily (4 to 8 inches) to keep weeds down and conserve moisture. Side-dress plants with rich compost. Side-dress three times: after thinning, when the first pods begin to develop, and at least once midway through the growing season. Contact your local County Extension office for controls of common okra pests such as flea beetles.',
 
 
-    NULL
+    'https://gardenseason.com/wp-content/uploads/2020/06/Lady-Fingers-or-Okra-vegetable-on-plant-in-farm-_-growing-okra-_-ss-_-featured.jpg'
 ),
 
 (
@@ -271,7 +271,7 @@ Most peppers, except for a few varieties like Sweet Banana, are green when young
     'Provide deep watering weekly for pepper plants. Support bushy, heavy-yielding plants with 2-foot-high cages, or stake them. Apply heavy organic mulches when summer heat begins to peak. Temperatures over 90 degrees F can cause buds and blossoms to drop; the condition is more serious if humidity is low also. Pests are not a serious concern. However, contact your local County Extension office for controls of common pepper pests such as corn borers, flea beetles, and leaf miners.',
 
 
-    NULL
+    'https://www.beautifulwildlifegarden.com/wp-content/uploads/2019/11/Tips-for-Growing-Peppers.jpg'
 ),
 
 (
@@ -293,7 +293,7 @@ Most peppers, except for a few varieties like Sweet Banana, are green when young
     'Apply a thin layer of compost each spring, followed by a 2-inch layer of mulch to retain moisture and control weeds. Water plants during the summer if rainfall is less than 1 inch per week. Stake tall varieties to keep them upright. After the first killing frost, cut stems back to an inch or two above soil line. The first winter, apply a 4- to 6-inch layer of protective mulch after the ground freezes, to prevent roots from being heaved out of the ground by alternate freezing and thawing. Once your peonies are established, annual winter mulching is not necessary. Remove this protective mulch in the spring.',
 
 
-    NULL
+    'https://www.almanac.com/sites/default/files/image_nodes/peony-pink-e.jpg'
 ),
 
 (
@@ -315,7 +315,7 @@ Most peppers, except for a few varieties like Sweet Banana, are green when young
     'Apply a thin layer of compost each spring, followed by a 2-inch layer of mulch to retain moisture and control weeds. Water plants during the summer if rainfall is less than 1 inch per week. Stake tall varieties to keep them upright. As flowers fade, dead-head the spent blooms. Once the stem and leaves turn brown at the end of the season, cut back at ground level.',
 
 
-    NULL
+    'https://www.gardeningknowhow.com/wp-content/uploads/2013/05/Easter-Lily.jpg'
 ),
 
 (
@@ -337,6 +337,6 @@ Most peppers, except for a few varieties like Sweet Banana, are green when young
     'Keep tulips watered during dry spells in the fall. After plants are finished flowering in spring, cut back flower stalks but allow the leaves to die back naturally, hiding the unsightly foliage with annual or perennial plantings. An annual application of compost should provide adequate nutrients. Large varieties may need replanting every few years; small types usually multiply and spread on their own.',
 
 
-    NULL
+    'https://garden.org/pics/2014-02-03/dirtdorphins/59e635.jpg'
 );
 

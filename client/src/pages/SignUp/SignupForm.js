@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import useForm from "./useForm";
 import validateInfo from "./validateInfo";
-import "./SignupForm.css";
 import Loading from "@components/Loading";
 
 const SignupForm = ({ submitForm }) => {
@@ -36,7 +35,7 @@ const SignupForm = ({ submitForm }) => {
     <div
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "95.7vh",
+        height: "96vh",
         width: "100vw",
         display: "flex",
         justifyContent: "center",

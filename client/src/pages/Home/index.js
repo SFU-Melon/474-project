@@ -1,5 +1,5 @@
 import CreatePost from "./CreatePost";
-import AllUsers from "./AllUsers";
+import Top10Users from "./Top10Users";
 import SearchFilter from "@components/SearchFilter";
 import { useState } from "react";
 import PostsList from "./PostsList";
@@ -19,7 +19,7 @@ const Home = () => {
             <PostsList tags={tags} />
           </div>
           <div className="d-none d-lg-block col">
-            <AllUsers />
+            <Top10Users />
           </div>
         </div>
       </div>

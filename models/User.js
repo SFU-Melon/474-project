@@ -43,7 +43,7 @@ User.getUserById = async (id) => {
   }
 };
 
-User.getAllUsers = async () => {
+User.getTop10Users = async () => {
   try {
     const res = await pool.query("SELECT * FROM users");
     return res.rows;
@@ -223,7 +223,7 @@ User.getTotalAmount = async () => {
     const res = await pool.query("SELECT COUNT(*) AS numofusers from users");
     return res.rows[0];
   } catch (err) {
-    console.err(err);
+    console.error(err);
     return false;
   }
 };
@@ -239,7 +239,7 @@ User.getTopUsers = async (limit = 10) => {
     );
     return res.rows;
   } catch (err) {
-    console.err(err);
+    console.error(err);
     return false;
   }
 };

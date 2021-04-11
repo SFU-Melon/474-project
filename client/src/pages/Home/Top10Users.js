@@ -4,7 +4,7 @@ import FollowButton from "@components/FollowButton";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 
-export default function AllUsers() {
+export default function Top10Users() {
   const [users, setUsers] = useState(null);
   const { user } = useUserContext();
 

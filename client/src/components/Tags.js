@@ -1,6 +1,6 @@
 import { Label } from "semantic-ui-react";
 import { useEffect, useState } from "react";
-import Utility from "../utils";
+import Utility from "@utils";
 
 const Tags = (props) => {
   const [tags, setTags] = useState([]);

@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { useUserContext } from "@contexts/UserContext";
-import Utility from "../utils/index.js";
+import Utility from "@utils";
 
 const Following = (props) => {
   const { user } = useUserContext();

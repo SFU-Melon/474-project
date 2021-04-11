@@ -8,14 +8,10 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const schedule = require("node-schedule");
+const path = require("path");
 
 const app = express();
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -43,9 +39,18 @@ const s3Router = require("./routes/s3Router");
 app.use("/api", router);
 app.use("/api", s3Router);
 
+// For deployment
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("/*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const { TokenStore } = require("./routes/tokenstore");
-const cleanTokenStore = schedule.scheduleJob("0 */12 * * *", () => {
-  // runs every 12 hours
+schedule.scheduleJob("0 */12 * * *", () => {
+  // runs every 12 hours to clean up expired tokens
   TokenStore.cleanUp();
 });
 

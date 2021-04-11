@@ -55,14 +55,14 @@ User.getAllUsers = async () => {
 User.follows = async (id_1, id_2) => {
   try {
     const res = await pool.query(
-      "SELECT * FROM followers WHERE user1 = $1 AND user2 = $2",
+      "SELECT * FROM followers WHERE follower = $1 AND followee = $2",
       [id_1, id_2]
     );
     if (res.rows.length == 0) {
-      await pool.query("INSERT INTO followers (user1, user2) VALUES ($1, $2)", [
-        id_1,
-        id_2,
-      ]);
+      await pool.query(
+        "INSERT INTO followers (follower, followee) VALUES ($1, $2)",
+        [id_1, id_2]
+      );
       return true;
     }
     return false;
@@ -74,10 +74,10 @@ User.follows = async (id_1, id_2) => {
 
 User.unfollows = async (id_1, id_2) => {
   try {
-    await pool.query("DELETE FROM followers WHERE user1 = $1 AND user2 = $2", [
-      id_1,
-      id_2,
-    ]);
+    await pool.query(
+      "DELETE FROM followers WHERE follower = $1 AND followee = $2",
+      [id_1, id_2]
+    );
     return true;
   } catch (err) {
     console.log(err.message);
@@ -88,7 +88,7 @@ User.unfollows = async (id_1, id_2) => {
 User.getFollowersAndFollowing = async (id) => {
   try {
     const res = await pool.query(
-      "SELECT user1 AS follower, user2 AS following FROM followers WHERE user1 = $1 OR user2 = $1",
+      "SELECT follower, followee AS following FROM followers WHERE follower = $1 OR followee = $1",
       [id]
     );
     let followers = [],
@@ -110,12 +110,12 @@ User.getFollowersAndFollowingUsers = async (id) => {
   try {
     // get followers
     const followers = await pool.query(
-      "SELECT id, username, joindate, profilephoto FROM users WHERE users.id IN (SELECT user1 FROM followers WHERE user2 = $1)",
+      "SELECT id, username, joindate, profilephoto FROM users WHERE users.id IN (SELECT follower FROM followers WHERE followee = $1)",
       [id]
     );
     // get following
     const following = await pool.query(
-      "SELECT id, username, joindate, profilephoto FROM users WHERE users.id IN (SELECT user2 FROM followers WHERE user1 = $1)",
+      "SELECT id, username, joindate, profilephoto FROM users WHERE users.id IN (SELECT followee FROM followers WHERE follower = $1)",
       [id]
     );
 

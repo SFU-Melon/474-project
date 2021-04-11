@@ -1,15 +1,15 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
-import SearchInputLocation from "../../components/SearchInputLocation";
+import SearchInputLocation from "@components/SearchInputLocation";
 import "react-responsive-modal/styles.css";
 import "./style.css";
 import "@pathofdev/react-tag-input/build/index.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown } from "semantic-ui-react";
-import Utility from "../../utils";
+import Utility from "@utils";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -67,7 +67,6 @@ const CreatePost = (props) => {
           // Use res post id to insert uid, pid and tag array
           // to Post model -- then parse and enter each tag into
           // Tags and then use that tag id
-          console.log(res);
         });
     } catch (err) {
       console.error(err.message);

@@ -6,9 +6,10 @@ import Followers from "./Followers";
 import Following from "./Following";
 import EditProfile from "./EditProfile";
 import EditProfilePhoto from "./EditProfilePhoto";
-import Utility from "../../utils/index.js";
-
+import Utility from "@utils/index.js";
+import useLocalStorage from "@hooks/useLocalStorage";
 import ProfileTabs from "./ProfileTabs";
+import ScreenLoading from "@components/ScreenLoading";
 
 const Profile = () => {
   const { user } = useUserContext();
@@ -18,10 +19,12 @@ const Profile = () => {
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [stats, setStats] = useState();
+  const [stats, setStats] = useLocalStorage("user-stats", null);
 
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [joinDate, setJoinDate] = useState("");
+
+  const [loading, setLoading] = useState(true);
 
   const fetchUserPosts = async () => {
     try {
@@ -74,29 +77,38 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
+    return () => {
+      localStorage.removeItem("cmpt354-user-stats");
+    };
+  }, []);
+
+  useEffect(() => {
     fetchUserPosts();
     fetchSavedPosts();
     fetchFollowData();
-    fetchUserStats();
+    !stats && fetchUserStats();
     handleDate();
   }, [user]);
 
-  return (
+  return loading ? (
+    <ScreenLoading />
+  ) : (
     <div className="w-100 mx-auto">
       <Fragment>
-        <div className="d-flex flex-row m-5">
-          <div className="d-flex flex-column mx-3 w-25">
-            <div className="container m-2 p-3">
+        <div className="d-flex outer_flex_box ">
+          <div className="d-flex flex-column px-3 flex-item-left">
+            <div className="m-2 p-3">
               <img
-                className="rounded img-fluid"
+                className="rounded img-fluid border border-1 border-dark"
                 alt="user profile pic"
                 src={user?.profilephoto ? user.profilephoto : "/null-user.png"}
               ></img>
             </div>
-            <div className="container m-2 p-3">
+            <div className="m-2 p-3 mt-0 pt-0">
               <EditProfilePhoto />
               <EditProfile />
-              <h5 className="card-title">{user?.username}</h5>
+              <h4 className="user-name">{user?.username}</h4>
               <div className="d-flex flex-row">
                 <div className="w-25 me-1">
                   <FollowButton userId={user?.id} />
@@ -108,36 +120,27 @@ const Profile = () => {
                   <Following following={following} />
                 </span>
               </div>
-              <hr className="w-100"></hr>
-              <h5 className="card-title">About</h5>
-              <hr className="w-100"></hr>
-              <p>
-                <strong>First Name</strong>: {user?.fname}
-              </p>
-              <p>
-                <strong>Last Name:</strong> {user?.lname}
-              </p>
-              <p>
-                <strong>Email:</strong> {user?.email}
-              </p>
-              <p>
-                <strong>Join Date:</strong> {joinDate}
-              </p>
-              <p>
-                <strong>Date of Birth:</strong> {dateOfBirth}
-              </p>
             </div>
-            <div className="container m-2 p-3">
-              <h5 className="card-title">Highlights</h5>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h4 className="profile-section">About</h4>
               <hr className="w-100"></hr>
-              <p>Total Votes Received: {stats?.totalLikes}</p>
-              <p>Total Comments Received: {stats?.totalComments}</p>
-              <p>Most Votes Received: {stats?.mostLikes}</p>
-              <p>Most Comments Received: {stats?.mostComments}</p>
+              <p><strong>First Name</strong>: {user?.fname}</p>
+              <p><strong>Last Name:</strong> {user?.lname}</p>
+              <p><strong>Email:</strong> {user?.email}</p>
+              <p><strong>Joined on:</strong> {joinDate}</p>
+              <p><strong>Date of Birth:</strong> {dateOfBirth}</p>
+            </div>
+            <div className="m-2 p-3 mt-0 pt-0">
+              <h4 className="profile-section">Highlights</h4>
+              <hr className="w-100"></hr>
+              <p><strong>Total Votes Received:</strong> {stats?.totalLikes}</p>
+              <p><strong>Total Comments Received:</strong> {stats?.totalComments}</p>
+              <p><strong>Most Votes Received:</strong> {stats?.mostLikes}</p>
+              <p><strong>Most Comments Received:</strong> {stats?.mostComments}</p>
             </div>
           </div>
-          <div className="d-flex flex-column mx-3 w-75">
-            <div className="card-body">
+          <div className="d-flex flex-column px-3 flex-item-right">
+            <div className="mt-5">
               <ProfileTabs
                 userPosts={userPosts}
                 savedPosts={savedPosts}

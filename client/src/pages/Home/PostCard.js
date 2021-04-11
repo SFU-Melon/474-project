@@ -2,7 +2,7 @@ import Vote from "@components/Vote";
 import { useUserContext } from "@contexts/UserContext";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Utility from "../../utils";
+import Utility from "@utils";
 import "./PostCard.css";
 import Tags from "@components/Tags";
 

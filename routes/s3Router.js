@@ -9,6 +9,8 @@ const { ensureAuthenticated } = require("./middlewares");
 TEST_BUCKET = process.env.TEST_BUCKET;
 PROFILE_BUCKET = process.env.PROFILE_BUCKET;
 POST_BUCKET = process.env.POST_BUCKET;
+/* FOR DEMO */
+DEMO_BUCKET = process.env.DEMO_BUCKET;
 
 aws.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,
@@ -46,11 +48,11 @@ router.post("/testUpload", (req, res) => {
 });
 
 router.post("/profileUpload", (req, res) => {
-  getPreSignedRequest(req, res, PROFILE_BUCKET);
+  getPreSignedRequest(req, res, DEMO_BUCKET); //change back to PROFILE_BUCKET
 });
 
 router.post("/postUpload", ensureAuthenticated, (req, res) => {
-  getPreSignedRequest(req, res, POST_BUCKET);
+  getPreSignedRequest(req, res, DEMO_BUCKET); //change back to POST_BUCKET
 });
 
 const deleteS3Object = async (req, res, bucketName) => {
@@ -71,7 +73,10 @@ const deleteS3Object = async (req, res, bucketName) => {
 };
 
 router.post("/deleteOldProfile", ensureAuthenticated, (req, res) => {
-  deleteS3Object(req, res, PROFILE_BUCKET);
+  deleteS3Object(req, res, DEMO_BUCKET); //change back to PROFILE_BUCKET
 });
 
+router.post("/deleteOldPostImage", ensureAuthenticated, (req, res) => {
+  deleteS3Object(req, res, DEMO_BUCKET); //change back to POST_BUCKET
+});
 module.exports = router;

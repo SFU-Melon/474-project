@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import PostCard from "./PostCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useInfiniteQuery } from "react-query";
@@ -27,7 +27,6 @@ export default function PostsList({ tags }) {
 
       if (pageParam === undefined) {
         //Return without filtering for the first page
-        console.log("first page");
         return res.data;
       }
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PlantCard from "@components/PlantCard";
+import "./plants.css";
 
 const Plants = () => {
   const [plants, setPlants] = useState([]);
@@ -14,7 +15,7 @@ const Plants = () => {
     fetchPlants();
   }, []);
   return (
-    <div>
+    <div className ="mainContainer">
       {plants.map((plant, i) => {
         return <PlantCard key={i} plant={plant} />;
       })}

@@ -18,7 +18,9 @@ plantController.getAllPlants = async (req, res) => {
 
 plantController.getPlantById = async (req, res) => {
   try {
-    const plant = await Plant.getPlantById();
+    const { sciname } = req.params;
+    const plant = await Plant.getPlantById(sciname);
+
     return res.json({
       success: true,
       plant,

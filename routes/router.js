@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const userController = require("../controllers/UserController");
+const userController = require("../controllers/userController");
 const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 const plantController = require("../controllers/plantController");
@@ -14,7 +14,6 @@ router.get("/user", ensureAuthenticated, userController.getAuthUser);
 router.get("/logout", userController.logout);
 
 /******  User Routes ********/
-router.get("/getAllUsers", userController.getAllUsers);
 router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUserByUsername/:username", userController.getUserByUsername);
 router.get("/userstats/:id", userController.getUserStats);
@@ -31,10 +30,6 @@ router.get("/getTotalAmountOfUsers", userController.getTotalAmount);
 router.get("/getTopUsers", userController.getTopUsers);
 
 /******  Following Routes ********/
-router.get(
-  "/getFollowersAndFollowing/:userId",
-  userController.getFollowersAndFollowing
-);
 router.get(
   "/getFollowersAndFollowingUsers/:userId",
   userController.getFollowersAndFollowingUsers
@@ -120,7 +115,7 @@ router.delete(
 
 /****** Plant Routes ********/
 router.get("/getAllPlants", plantController.getAllPlants);
-router.get("/getPlant/:id", plantController.getPlantById);
+router.get("/getPlant/:sciname", plantController.getPlantById);
 
 /****** Search Routes ********/
 router.get("/search/posts/:value", searchController.searchPosts);

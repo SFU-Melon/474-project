@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import Utility from "../../utils";
+import Utility from "@utils";
 import { useUserContext } from "@contexts/UserContext";
 import { useHistory } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import EditPost from "./EditPost";
 import Tags from "@components/Tags";
+import { Link } from "react-router-dom";
 
 // Components
 import Vote from "@components/Vote";
@@ -60,7 +61,15 @@ const Post = () => {
           `/api/deletePost/${decoded}/${user?.id}`
         );
         if (res.data.success) {
-          history.push("/");
+          if (post?.imageurl) {
+            axios
+              .post("/api/deleteOldPostImage", { imageurl: post.imageurl })
+              .then(() => {
+                history.push("/");
+              });
+          } else {
+            history.push("/");
+          }
         }
       }
     } catch (err) {
@@ -86,6 +95,20 @@ const Post = () => {
                 <div className="d-flex flex-row mb-3 align-items-start">
                   <Tags tags={tags} />
                 </div>
+                <div className="d-flex flex-row mb-3 align-items-start">
+                  <p>
+                    Posted by{" "}
+                    <span>
+                      <Link
+                        to={`/profile/public/${post.authorname}`}
+                        className="m-2"
+                      >
+                        {post.authorname}
+                      </Link>
+                    </span>
+                  </p>
+                </div>
+
                 <div className="mb-2">
                   {post.imageurl && (
                     <img

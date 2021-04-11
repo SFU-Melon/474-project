@@ -35,15 +35,12 @@ const Nav = () => {
 
   return (
     <nav
-      className="navbar navbar-expand-lg "
+      className="navbar navbar-expand-lg d-flex 
+      align-items-center w-100 "
       style={{ backgroundColor: "#ACC5AA" }}
     >
-      <div
-        className={`d-flex flex-fill ${
-          isToggled && "flex-wrap"
-        } justify-content-between align-items-center`}
-      >
-        <div className="">
+      <div className="small-container d-flex w-75">
+        <div className="align-item-start">
           <Link className="navbar-brand ms-4 " to="/">
             Planter
           </Link>
@@ -54,7 +51,7 @@ const Nav = () => {
         </div>
 
         <button
-          className="navbar-toggler bg-primary d-lg-none me-4"
+          className="navbar-toggler bg-primary d-lg-none"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarToggler"
@@ -65,66 +62,66 @@ const Nav = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+      </div>
 
-        <div
-          className="me-1 d-lg-none collapse navbar-collapse "
-          id="navbarToggler"
-        >
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link to="/plants" className="nav-link me-3">
-                <button type="button" className="btn btn-outline-light">
-                  Plants
-                </button>
-              </Link>
-            </li>
+      <div
+        className="w-25 d-lg-none collapse navbar-collapse "
+        id="navbarToggler"
+      >
+        <ul className="navbar-nav  mb-2 mb-lg-0">
+          <li className="nav-item">
+            <Link to="/plants" className="nav-link me-3">
+              <button type="button" className="btn btn-outline-light">
+                Plants
+              </button>
+            </Link>
+          </li>
 
-            {auth || user ? (
-              <>
-                <li className="nav-item">
-                  <Link
-                    to={`/profile/${encodeURIComponent(user?.username)}`}
-                    className="nav-link me-3"
-                  >
-                    <button type="button" className="btn btn-outline-light">
-                      Profile
-                    </button>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <button
-                    type="button"
-                    className="nav-link btn btn-outline-light "
-                    onClick={logout}
-                  >
-                    Logout
+          {auth || user ? (
+            <>
+              <li className="nav-item">
+                <Link
+                  to={`/profile/${encodeURIComponent(user?.username)}`}
+                  className="nav-link me-3"
+                >
+                  <button type="button" className="btn btn-outline-light">
+                    Profile
                   </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <Link
-                    key={"login"}
-                    to={{ pathname: "/login", state: { prevPath: location } }}
-                    className="nav-link me-3 "
-                  >
-                    <button type="button" className="btn btn-outline-light">
-                      Login
-                    </button>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link key={"signup"} to="/signup" className="nav-link">
-                    <button type="button" className="btn btn-outline-light">
-                      Sign Up
-                    </button>
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button
+                  type="button"
+                  className="nav-link btn btn-outline-light "
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link
+                  key={"login"}
+                  to={{ pathname: "/login", state: { prevPath: location } }}
+                  className="nav-link me-3 "
+                >
+                  <button type="button" className="btn btn-outline-light">
+                    Login
+                  </button>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link key={"signup"} to="/signup" className="nav-link">
+                  <button type="button" className="btn btn-outline-light">
+                    Sign Up
+                  </button>
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </nav>
   );

@@ -10,3 +10,24 @@
 .search-bar {
   min-width: 75px;
 }
+
+@media only screen and (max-width: 992px) {
+  .navbar-container {
+    flex-wrap: wrap;
+  }
+  .small-container {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 325px) {
+  .navbar-container {
+    flex-wrap: nowrap;
+  }
+  .navbar-nav {
+    position: fixed;
+    left: 50px;
+    width: 100vh;
+  }
+}

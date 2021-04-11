@@ -66,6 +66,14 @@ const Nav = () => {
         <div className="d-lg-none collapse navbar-collapse " id="navbarToggler">
           <ul className="navbar-nav">
             <li className="nav-item ">
+              <Link to="/about" className="nav-link">
+                <button type="button" className="btn btn-outline-light">
+                  About
+                </button>
+              </Link>
+            </li>
+
+            <li className="nav-item ">
               <Link to="/plants" className="nav-link">
                 <button type="button" className="btn btn-outline-light">
                   Plants

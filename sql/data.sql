@@ -22,26 +22,84 @@ INSERT INTO plantdiseases (diseaseName) VALUES
 ('botrytis blight'),
 ('blossom-end rot'),
 ('crown gall'),
-('colletotrichum fruit rot'),
-('celery mosaic'),
-('cercospora leaf blight'),
 ('charcoal rot'),
 ('damping-off'),
 ('downy mildew'),
 ('early blight'),
-('fusarium wilt'),
 ('late blight'),
 ('powdery mildew'),
 ('soft rot'),
 ('southern blight'),
-('yellow vein mosaic disease'),
 ('phomopsis fruit rot'),
-('verticillium wilt'),
-('rose rosette'),
 ('pythium root rot'),
 ('stem and bulb nematode'),
 ('scale tip rot'),
-('leaf scorch');
+('rose rosette'),
+('verticillium wilt');
+
+
+INSERT INTO plantHasDiseases (plantSciName, diseaseName) VALUES 
+-- rose
+('Rosa cvs.', 'anthracnose'),
+('Rosa cvs.', 'botrytis blight'),
+('Rosa cvs.', 'crown gall'),
+('Rosa cvs.', 'downy mildew'),
+('Rosa cvs.', 'powdery mildew'),
+('Rosa cvs.', 'rose rosette'),
+-- carrot
+('Daucus carota subsp. sativus', 'damping-off'),
+('Daucus carota subsp. sativus', 'downy mildew'),
+('Daucus carota subsp. sativus', 'powdery mildew'),
+('Daucus carota subsp. sativus', 'soft rot'),
+-- celery
+('Apium graveolens', 'damping-off'),
+('Apium graveolens', 'downy mildew'),
+('Apium graveolens', 'powdery mildew'),
+('Apium graveolens', 'early blight'),
+('Apium graveolens', 'late blight'),
+('Apium graveolens', 'soft rot'),
+-- eggplant
+('Solanum melongena', 'blossom-end rot'),
+('Solanum melongena', 'damping-off'),
+('Solanum melongena', 'early blight'),
+('Solanum melongena', 'powdery mildew'),
+('Solanum melongena', 'phomopsis fruit rot'),
+('Solanum melongena', 'verticillium wilt'),
+-- tomato
+('Solanum lycopersicum', 'anthracnose'),
+('Solanum lycopersicum', 'blossom-end rot'),
+('Solanum lycopersicum', 'early blight'),
+('Solanum lycopersicum', 'late blight'),
+('Solanum lycopersicum', 'verticillium wilt'),
+-- okra
+('Abelmoschus esculentus', 'charcoal rot'),
+('Abelmoschus esculentus', 'powdery mildew'),
+('Abelmoschus esculentus', 'southern blight'),
+('Abelmoschus esculentus', 'verticillium wilt'),
+-- bell pepper
+('Capsicum annuum Group', 'anthracnose'),
+('Capsicum annuum Group', 'blossom-end rot'),
+('Capsicum annuum Group', 'damping-off'),
+('Capsicum annuum Group', 'powdery mildew'),
+('Capsicum annuum Group', 'southern blight'),
+('Capsicum annuum Group', 'verticillium wilt'),
+-- peony
+('Paeonia lactiflora', 'botrytis blight'),
+('Paeonia lactiflora', 'crown gall'),
+('Paeonia lactiflora', 'powdery mildew'),
+('Paeonia lactiflora', 'southern blight'),
+('Paeonia lactiflora', 'pythium root rot'),
+('Paeonia lactiflora', 'verticillium wilt'),
+-- lily
+('Lilium longiflorum', 'basal rot'),
+('Lilium longiflorum', 'botrytis blight'),
+('Lilium longiflorum', 'pythium root rot'),
+('Lilium longiflorum', 'scale tip rot'),
+-- tulip
+('Tulipa cvs.', 'basal rot'),
+('Tulipa cvs.', 'pythium root rot'),
+('Tulipa cvs.', 'stem and bulb nematode'),
+('Tulipa cvs.', 'rose rosette');
 
 
 INSERT INTO plantpests (pestName) VALUES 

@@ -35,6 +35,12 @@ CREATE TABLE plantdiseases(
     description TEXT
 );
 
+CREATE TABLE plantHasDiseases(
+    plantSciName varchar(100) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,
+    diseaseName varchar(100) NOT NULL REFERENCES plantdiseases (diseaseName) ON DELETE CASCADE,
+    PRIMARY KEY (plantSciName, diseaseName)
+);
+
 CREATE TABLE plantpests(
     pestName VARCHAR(100) PRIMARY KEY,
     description TEXT

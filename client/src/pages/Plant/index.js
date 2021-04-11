@@ -94,9 +94,47 @@ export default function Plant() {
                   {plant?.careinstr}
                 </div>
               </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Hardiness Rating:
+                  </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.hardiness}
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Exposure:
+                  </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.exposure}
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">
+                    Water Use:
+                  </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {plant?.waterneed}
+                </div>
+              </div>
             </div>
           </div>
-
 
         </div>
         <div className="col-md-12 col-lg-4">

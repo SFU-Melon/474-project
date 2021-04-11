@@ -9,10 +9,9 @@
 }
 
 .plantCard {
-
     min-width: 0;
     word-wrap: break-word;
-    border: 2px solid rgba(0,0,0,.125);
+    border: 2px solid rgba(0, 0, 0, .125);
     border-radius: 1rem;
     padding: 4%;
 }
@@ -23,16 +22,14 @@
     padding: 1rem;
 }
 
-
 .mb-0 {
     margin-bottom: 1rem!important;
     font-size: 18px;
     line-height: normal;
 }
 
-.plantImage{
+.plantImage {
     width: 100%;
     border-radius: 1rem;
     margin-bottom: 2%;
-    padding-right: 4%;
 }

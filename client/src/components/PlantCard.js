@@ -26,10 +26,10 @@ export default function PlantCard({ plant }) {
             <h2 className="headingPlants">
               {plant.comname}
             </h2>
+
             <p className="mb-0" style={{ whiteSpace: 'pre-wrap' /* needed for line breaks */ }}>
               {plant.description}
             </p>
-
           </div>
         </div>
       </Link>

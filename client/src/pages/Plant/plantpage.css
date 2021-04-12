@@ -41,5 +41,10 @@
 }
 
 .headers {
-    margin: 0;
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+
+ul {
+    margin-left: 12px;
 }

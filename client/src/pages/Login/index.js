@@ -51,15 +51,12 @@ export default function Login(props) {
 
   return (
     <div
+      className="full-plant-bg display-grid-center"
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "96vh",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
       }}
     >
+
       <div className="form">
         {user && user.username}
         <h1 className="loginHeader">Login</h1>

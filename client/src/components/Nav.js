@@ -128,6 +128,9 @@ const Nav = () => {
               </>
             )}
           </ul>
+          <div className="searchbar-small ">
+            <SearchBar />
+          </div>
         </div>
       </div>
     </nav>

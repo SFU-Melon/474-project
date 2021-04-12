@@ -79,6 +79,7 @@ const Post = () => {
 
   return (
     <Fragment>
+      {console.log(post)}
       {post && (
         <div className="container">
           <div className="card mt-5">
@@ -88,6 +89,7 @@ const Post = () => {
                   votedId={post.id}
                   numOfLikes={post.numoflikes}
                   preVoteStatus={post.val}
+                  type={"post"}
                 />
               </div>
               <div className="mx-4">

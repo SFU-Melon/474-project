@@ -67,7 +67,7 @@ export default function SearchFilter({ setTags }) {
               filterType === "hot" ? "btn-danger" : "btn-outline-danger"
             } `}
           >
-            hot
+            Hot
           </button>
         </Link>
         <Link to={handlePath("new")}>

@@ -5,7 +5,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useInfiniteQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 
-//NEED TO FILTER PAGES
 export default function PostsList({ tags }) {
   let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
   const fetchPosts = async ({ pageParam }) => {

@@ -43,7 +43,7 @@ User.getUserById = async (id) => {
   }
 };
 
-User.getAllUsers = async () => {
+User.getTop10Users = async () => {
   try {
     const res = await pool.query("SELECT * FROM users");
     return res.rows;
@@ -223,7 +223,23 @@ User.getTotalAmount = async () => {
     const res = await pool.query("SELECT COUNT(*) AS numofusers from users");
     return res.rows[0];
   } catch (err) {
-    console.err(err);
+    console.error(err);
+    return false;
+  }
+};
+
+User.getTopUsers = async (limit = 10) => {
+  try {
+    const res = await pool.query(
+      "SELECT u.username, u.id, u.profilephoto, COUNT(f.follower) as numoffollowers FROM users u \
+      INNER JOIN followers f ON u.id = f.followee \
+      GROUP BY u.id ORDER BY count(f.follower) \
+      DESC LIMIT $1",
+      [limit]
+    );
+    return res.rows;
+  } catch (err) {
+    console.error(err);
     return false;
   }
 };

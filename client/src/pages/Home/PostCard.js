@@ -32,7 +32,7 @@ export default function PostCard({ post }) {
           to={`/post/${encodedTitle}/${encoded}`}
           style={{ textDecoration: "none", color: "black" }}
         >
-          <h2>{post.title}</h2>
+          <h2 className="text-break">{post.title}</h2>
           <div className="d-flex flex-row mb-3 align-items-start">
             <Tags tags={tags} />
           </div>
@@ -46,7 +46,7 @@ export default function PostCard({ post }) {
             )}
           </div>
           <p>{displayTime}</p>
-          <div className="d-flex flex-row justify-content-between">
+          <div className="d-flex flex-row justify-content-between text-break">
             <p>
               Posted by{" "}
               <span>

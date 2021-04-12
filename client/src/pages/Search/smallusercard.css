@@ -1,0 +1,11 @@
+.small-user-img {
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+}
+
+.small-user-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+}

@@ -1,8 +1,10 @@
 .post-card:hover {
   border: 1px solid black;
 }
+
 .plant-image {
   object-fit: cover;
-  width: 450px;
-  height: 350px;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9;
 }

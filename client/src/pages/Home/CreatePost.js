@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
@@ -122,7 +122,7 @@ const CreatePost = (props) => {
   };
 
   return (
-    <Fragment>
+    <div className="custom">
       {/* Modal Trigger */}
       {user ? (
         <button type="button" className="btn btn-primary" onClick={onOpenModal}>
@@ -208,7 +208,7 @@ const CreatePost = (props) => {
           </div>
         </div>
       </Modal>
-    </Fragment>
+    </div>
   );
 };
 

@@ -1,10 +1,92 @@
-.navbar
-{
-    background-color: #ACC5AA;
-    overflow: hidden;
-    position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-    z-index: 1;
+.navbar {
+  background-color: #acc5aa;
+  overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
+.search-bar {
+  min-width: 75px;
+  width: 70%;
+}
+.searchbar {
+  position: absolute;
+  left: 20%;
+  bottom: -3px;
+  width: 40%;
+  min-width: 260px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-self: center;
+}
+.navbar-container {
+  position: relative;
+  justify-content: space-around;
+}
+.small-container {
+  display: flex;
+  flex-grow: 6;
+}
+.navbar-collapse {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-item {
+  margin-top: -25px;
+  margin-bottom: -25px;
+}
+
+.nav-item:last-child {
+  margin-left: 0%;
+}
+
+@media only screen and (max-width: 992px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .small-container {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navbar-toggler {
+    align-items: flex-end;
+    margin-right: 4%;
+    margin-left: 4%;
+  }
+  .search-bar {
+    width: 100%;
+  }
+  .search-container {
+    max-width: 100%;
+  }
+  .nav-item {
+    margin-top: -10%;
+    margin-bottom: -15%;
+  }
+  .navbar-nav {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .navbar-collapse {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .searchbar {
+    position: static;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .searchbar {
+    min-width: 0px;
+  }
+}

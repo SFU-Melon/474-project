@@ -2,12 +2,13 @@ import axios from "axios";
 import { useEffect, useState, Fragment } from "react";
 import ProfilePostCard from "../Profile/ProfilePostCard";
 import SmallPlantCard from "./SmallPlantCard";
-import UserCard from "@components/UserCard";
+import SmallUserCard from "./SmallUserCard";
 import { useLocation } from "react-router-dom";
 import NoResult from "./NoResult";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ScreenLoading from "@components/ScreenLoading";
-import "./section.css";
+import "./styles.css";
+import ResultTabs from "./ResultTabs";
 const scopeList = ["posts", "all", "plants", "users"];
 
 export default function Search() {
@@ -72,7 +73,7 @@ export default function Search() {
   const renderPlantSection = () => {
     return (
       <div className={`${scope === "all" && "mt-3"}`}>
-        <h3>Plant Results:</h3>
+        <h2 style={{ textAlign: "center" }}>Plant Results:</h2>
         {plants.length === 0 ? (
           <NoResult />
         ) : (
@@ -85,7 +86,9 @@ export default function Search() {
   const renderPostSection = () => {
     return (
       <div>
-        {scope !== "all" && <h3 className="">Post Results:</h3>}
+        {scope !== "all" && (
+          <h2 style={{ textAlign: "center" }}>Post Results:</h2>
+        )}
         {posts.length === 0 ? (
           <NoResult />
         ) : (
@@ -123,11 +126,11 @@ export default function Search() {
   const renderUserSection = () => {
     return (
       <div>
-        <h3>User Results:</h3>
+        <h2 style={{ textAlign: "center" }}>User Results:</h2>
         {users.length === 0 ? (
           <NoResult />
         ) : (
-          users.map((user) => <UserCard person={user} />)
+          users.map((user) => <SmallUserCard person={user} />)
         )}
       </div>
     );
@@ -145,20 +148,7 @@ export default function Search() {
         return renderUserSection();
 
       default:
-        return (
-          <div className="row">
-            <div className="col col-md-10">
-              <h3 className="">Post Results:</h3>
-              <div className="post-section row" id="post-scrollable">
-                {renderPostSection()}
-              </div>
-              <div className="plant-section row">{renderPlantSection()}</div>
-            </div>
-            <div className="user-section col col-md-auto">
-              {renderUserSection()}
-            </div>
-          </div>
-        );
+        return <ResultTabs posts={posts} plants={plants} users={users} />;
     }
   };
 
@@ -168,7 +158,7 @@ export default function Search() {
     <Fragment>
       <div>
         <div className="container-fluid">
-          <div> {setUpTemplate()}</div>
+          <div style={{ marginTop: "2em" }}> {setUpTemplate()}</div>
         </div>
       </div>
     </Fragment>

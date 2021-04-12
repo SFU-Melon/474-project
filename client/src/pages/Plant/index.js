@@ -5,17 +5,23 @@ import "./plantpage.css";
 
 export default function Plant() {
   const [plant, setPlant] = useState();
+  const [diseases, setDiseases] = useState();
+  const [pests, setPests] = useState();
   const { sciname } = useParams();
   const decodedSciName = decodeURIComponent(sciname);
 
-  const fetchPlant = async () => {
-    const res = await axios.get(`/api/getPlant/${decodedSciName}`);
+  const fetchInfo = async () => {
+    const res_plant = await axios.get(`/api/getPlant/${decodedSciName}`);
+    const res_diseases = await axios.get(`/api/getDiseasesByPlantSciName/${decodedSciName}`);
+    const res_pests = await axios.get(`/api/getPestsByPlantSciName/${decodedSciName}`);
 
-    setPlant(res.data.plant);
+    setPlant(res_plant.data.plant);
+    setDiseases(res_diseases.data.diseases);
+    setPests(res_pests.data.pests);
   };
 
   useEffect(() => {
-    fetchPlant();
+    fetchInfo();
   }, []);
   return (
     <div className="container-fluid" id="parentID">
@@ -147,8 +153,36 @@ export default function Plant() {
             <div className="col">
               <div className="plantCard card mb-3" >
                 <div className="plantBody card-body">
-                  Disease
-              </div>
+
+                  <h3>
+                    Susceptible To
+                  </h3>
+
+                  <h4 class="headers">
+                    Diseases:
+                  </h4>
+
+                  <div>
+                    <ul>
+                      {diseases?.map((disease, index) => {
+                        return <li key={index}>{disease.diseasename}</li>
+                      })}
+                    </ul>
+                  </div>
+
+                  <h4 class="headers">
+                    Pests:
+                  </h4>
+
+                  <div>
+                    <ul>
+                      {pests?.map((pest, index) => {
+                        return <li key={index}>{pest.pestname}</li>
+                      })}
+                    </ul>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>

@@ -33,3 +33,13 @@
     border-radius: 1rem;
     margin-bottom: 2%;
 }
+
+.listValues {
+    font-size: 12px;
+    line-height: normal;
+    padding: 0px;
+}
+
+.headers {
+    margin: 0;
+}

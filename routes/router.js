@@ -3,6 +3,8 @@ const userController = require("../controllers/userController");
 const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 const plantController = require("../controllers/plantController");
+const diseaseController = require("../controllers/diseaseController");
+const pestController = require("../controllers/pestController");
 const searchController = require("../controllers/searchController");
 const voteController = require("../controllers/voteController");
 const { ensureAuthenticated, ensureAuthorized } = require("./middlewares");
@@ -115,6 +117,12 @@ router.delete(
 /****** Plant Routes ********/
 router.get("/getAllPlants", plantController.getAllPlants);
 router.get("/getPlant/:sciname", plantController.getPlantById);
+
+/****** Plant Disease Routes ********/
+router.get("/getDiseasesByPlantSciName/:sciname", diseaseController.getAllBySciName);
+
+/****** Plant Pest Routes ********/
+router.get("/getPestsByPlantSciName/:sciname", pestController.getAllBySciName);
 
 /****** Search Routes ********/
 router.get("/search/posts/:value", searchController.searchPosts);

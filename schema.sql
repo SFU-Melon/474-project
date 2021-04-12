@@ -23,8 +23,33 @@ CREATE TABLE plants(
     plantinstr TEXT,
     growinstr TEXT,
     careinstr TEXT,
+    hardiness TEXT,
+    exposure TEXT,
+    waterNeed TEXT,
     plantphoto VARCHAR(200),
     UNIQUE (sciname)
+);
+
+CREATE TABLE plantdiseases(
+    diseaseName VARCHAR(100) PRIMARY KEY,
+    description TEXT
+);
+
+CREATE TABLE plantHasDiseases(
+    plantSciName varchar(100) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,
+    diseaseName varchar(100) NOT NULL REFERENCES plantdiseases (diseaseName) ON DELETE CASCADE,
+    PRIMARY KEY (plantSciName, diseaseName)
+);
+
+CREATE TABLE plantpests(
+    pestName VARCHAR(100) PRIMARY KEY,
+    description TEXT
+);
+
+CREATE TABLE plantHasPests(
+    plantSciName varchar(100) NOT NULL REFERENCES plants (sciname) ON DELETE CASCADE,
+    pestName varchar(100) NOT NULL REFERENCES plantpests (pestName) ON DELETE CASCADE,
+    PRIMARY KEY (plantSciName, pestName)
 );
 
 CREATE TABLE posts(
@@ -85,28 +110,6 @@ CREATE TABLE likescomment(
 );
 
 
-CREATE TABLE outdoor(
-    id SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,
-    outdoorclimate DECIMAL,
-    PRIMARY KEY(id)
-);
-
-CREATE TABLE indoor(
-    id SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,   
-    temperature DECIMAL,
-    humidity DECIMAL,
-    PRIMARY KEY(id)
-);
-
-CREATE TABLE plantdiseases(
-    id SERIAL,
-    name VARCHAR(100),
-    plantid SERIAL NOT NULL REFERENCES plants (id) ON DELETE CASCADE,   
-    description TEXT,
-    PRIMARY KEY(id, plantid)
-);
-
-
 CREATE TABLE saves(
     userid uuid REFERENCES users(id)
         ON DELETE CASCADE,
@@ -114,6 +117,7 @@ CREATE TABLE saves(
         ON DELETE CASCADE,
     PRIMARY KEY(userId, postId)
 );
+
 
 ALTER TABLE posts
   ADD COLUMN document_with_weights tsvector;

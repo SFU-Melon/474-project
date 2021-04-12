@@ -1,35 +1,42 @@
 #parentID {
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 30px;
-    height: 100vh;
-    width: 100vw;
-    background-color: #e8ebe8;
-    overflow: auto;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 30px;
+  height: 100vh;
+  width: 100vw;
+  background-color: #e8ebe8;
+  overflow: auto;
 }
 
 .plantCard {
-    min-width: 0;
-    word-wrap: break-word;
-    border: 2px solid rgba(0, 0, 0, .125);
-    border-radius: 1rem;
-    padding: 4%;
+  min-width: 0;
+  word-wrap: break-word;
+  border: 2px solid rgba(0, 0, 0, 0.125);
+  border-radius: 1rem;
+  padding: 4%;
 }
 
 .plantBody {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1rem;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1rem;
 }
 
 .mb-0 {
-    margin-bottom: 1rem!important;
-    font-size: 18px;
-    line-height: normal;
+  margin-bottom: 1rem !important;
+  font-size: 18px;
+  line-height: normal;
 }
 
 .plantImage {
-    width: 100%;
-    border-radius: 1rem;
-    margin-bottom: 2%;
+  width: 100%;
+  border-radius: 1rem;
+  margin-bottom: 2%;
+}
+
+@media only screen and (max-width: 450px) {
+  #parentID {
+    width: auto;
+    height: auto;
+  }
 }

@@ -79,7 +79,6 @@ const Post = () => {
 
   return (
     <Fragment>
-      {console.log(post)}
       {post && (
         <div className="container">
           <div className="card mt-5">

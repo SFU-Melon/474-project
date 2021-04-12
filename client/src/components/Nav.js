@@ -42,7 +42,7 @@ const Nav = () => {
         <div className="small-container d-flex ">
           <div className="navbar-brand">
             <Link className=" ms-4 " to="/">
-              Planter
+              Muskmelon
             </Link>
           </div>
           <div className="searchbar ">

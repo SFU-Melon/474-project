@@ -9,7 +9,6 @@ const About = () => {
         className="full-plant-bg display-grid-center"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-          height: "100vh",
         }}>
           
         <div className="d-flex flex-column flex-wrap justify-content-start">

@@ -11,12 +11,18 @@ export default function SignUp(props) {
   }
 
   return (
-    <div>
-      {!isSubmitted ? (
-        <SignupForm submitForm={submitForm} />
-      ) : (
-        <SignupSuccess />
-      )}
+    <div
+      className="full-plant-bg-signup display-grid-center"
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`
+      }}>
+      <div>
+        {!isSubmitted ? (
+          <SignupForm submitForm={submitForm} />
+        ) : (
+          <SignupSuccess />
+        )}
+      </div>
     </div>
   );
 }

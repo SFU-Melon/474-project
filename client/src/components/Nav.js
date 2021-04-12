@@ -42,7 +42,21 @@ const Nav = () => {
         <div className="small-container d-flex ">
           <div className="navbar-brand">
             <Link className=" ms-4 " to="/">
-              Muskmelon
+              <div className="row">
+                <div className="col" style={{ paddingRight: 0 }}>
+                  <img
+                    src={process.env.PUBLIC_URL + "/muskmelon-logo.png"}
+                    width="30"
+                    height="30"
+                  />
+                </div>
+                <div
+                  className="col display-grid-center"
+                  style={{ paddingLeft: 0 }}
+                >
+                  <h3 className="brand-name">Muskmelon</h3>
+                </div>
+              </div>
             </Link>
           </div>
           <div className="searchbar ">

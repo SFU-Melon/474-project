@@ -104,3 +104,11 @@
     align-items: flex-start;
   }
 }
+
+.brand-name {
+  color: black;
+}
+
+.brand-name:hover {
+  color: white;
+}

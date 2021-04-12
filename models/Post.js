@@ -47,7 +47,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
       //When it's not the first time it fetches posts -> lastElement data is null. -> wherePart=""
       wherePart = `WHERE ${
         filterType === "hot"
-          ? `numoflikes < ${val} OR (numoflikes = ${val} AND sortingid > ${sortingId})`
+          ? `((numoflikes < ${val}) OR (numoflikes = ${val} AND sortingid > ${sortingId}))`
           : `datetime <  (select '${val}'::timestamptz) `
       }`;
     }
@@ -57,7 +57,7 @@ Post.getPosts = async ({ filterType, userId, val, sortingId, tags }) => {
       tags.forEach((tag, i) => {
         subQuery += `${i === 0 ? "" : " OR"} name = '${tag}'`;
       });
-      wherePart += `${val !== undefined ? "AND" : "WHERE"} NOT EXISTS ( 
+      wherePart += `${val !== undefined ? " AND" : "WHERE"} NOT EXISTS ( 
         SELECT name FROM (${subQuery}) as SUB 
         WHERE name NOT IN (
           SELECT UNNEST(tags) from posts where id = p.id
@@ -159,7 +159,6 @@ Post.getPostById = async ({ userId, postId }) => {
 Post.checkVoteStatus = async (data) => {
   const { userId } = data.params;
   const { votedId: postId } = data.body;
-  console.log("checking post vote status");
   try {
     const res = await pool.query(
       "SELECT * FROM likes WHERE userId = $1 AND postId = $2",
@@ -175,7 +174,6 @@ Post.checkVoteStatus = async (data) => {
 };
 
 Post.changeNumOfLikes = async (data) => {
-  console.log("changing numoflikes");
   const voteOperation = data.voteOperation;
   const voteStatus = data.voteStatus;
   const { votedId: postId } = data.body;

@@ -31,20 +31,18 @@ export default function Top10Users() {
   const UserCardInHomePage = ({ userInCard }) => {
     return (
       <div className="card p-2 flex-row">
-        <div className="w-25 m-0">
-          <div className="w-75">
-            <img
-              className="small-profile-pic-dim rounded m-0"
-              alt="User Profile Pic"
-              src={
-                userInCard?.profilephoto
-                  ? userInCard.profilephoto
-                  : "/null-user.png"
-              }
-            ></img>
-          </div>
+        <div className="mw-25">
+          <img
+            className="small-profile-pic-dim rounded m-0"
+            alt="User Profile Pic"
+            src={
+              userInCard?.profilephoto
+                ? userInCard.profilephoto
+                : "/null-user.png"
+            }
+          ></img>
         </div>
-        <div>
+        <div className="w-75 ms-2">
           <Link
             to={`profile/${
               userInCard.username !== user?.username ? "public/" : ""

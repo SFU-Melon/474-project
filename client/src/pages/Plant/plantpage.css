@@ -34,6 +34,21 @@
   margin-bottom: 2%;
 }
 
+.listValues {
+  font-size: 12px;
+  line-height: normal;
+  padding: 0px;
+}
+
+.headers {
+  margin-top: 0px;
+  margin-bottom: 4px;
+}
+
+ul {
+  margin-left: 12px;
+}
+
 @media only screen and (max-width: 450px) {
   #parentID {
     width: auto;

@@ -33,15 +33,12 @@ const SignupForm = ({ submitForm }) => {
 
   return (
     <div
+      className="full-plant-bg display-grid-center"
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "96vh",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+        height: "100vh",
+      }}>
+
       <form onSubmit={handleSubmit} className="form" noValidate>
         <h1 className="signUpHeader">Sign up</h1>
         {loading ? (

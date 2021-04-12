@@ -140,7 +140,7 @@ Post.getPostById = async ({ userId, postId }) => {
   try {
     if (userId != undefined) {
       const res = await pool.query(
-        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, tags 
+        `SELECT id, dateTime, title, content, location, imageurl, numoflikes, numofcomments, authorname, posts.userid, tags, likes.val 
          FROM posts 
          LEFT JOIN likes ON likes.postId = posts.id AND likes.userId = $2 
          WHERE posts.id = $1`,

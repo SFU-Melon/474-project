@@ -84,9 +84,31 @@
     position: static;
   }
 }
+.searchbar-small {
+  display: none;
+}
 
 @media only screen and (max-width: 450px) {
   .searchbar {
-    min-width: 0px;
+    display: none;
   }
+  .searchbar-small {
+    display: initial;
+    margin-left: 3%;
+    width: 90%;
+    margin-top: 1%;
+  }
+  .navbar-collapse {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.brand-name {
+  color: black;
+}
+
+.brand-name:hover {
+  color: white;
 }

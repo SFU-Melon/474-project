@@ -13,14 +13,14 @@ const About = () => {
           
         <div className="d-flex flex-column flex-wrap justify-content-start">
           <div className="display-grid-center">
-            <h1 className="text-white mt-5 mb-2">About Planters Social</h1>
+            <h1 className="text-white mt-5 mb-2">About Muskmelon</h1>
           </div>
 
           <div className="d-flex flex-row flex-wrap justify-content-center">
             <div className="card about-paragraph p-3 m-1">
               <h3>Introduction</h3>
               <p>
-                Planter's Social is a platform for plant enthusiasts. Its main
+                Muskmelon is a platform for plant enthusiasts. Its main
                 functionality is to allow users to share posts with
                 descriptions, and images of their plants so that other users can
                 then like, save and comment.{" "}
@@ -49,7 +49,7 @@ const About = () => {
             </div>
             <div className="card about-paragraph p-3 m-1">
               <h3>Creators</h3>
-              <p>Planters Social is brought to you by:</p>
+              <p>Muskmelon is brought to you by:</p>
               <ul className="creator-list">
                 <li>
                   <a href="https://github.com/phyeony"> Hyeonyoung Park</a>

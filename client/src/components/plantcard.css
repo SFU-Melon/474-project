@@ -1,40 +1,49 @@
 #plantcardID {
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 30px;
-    background-color: #e8ebe8;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 30px;
+  background-color: #e8ebe8;
 }
 
 .plantsCard {
-    min-width: 0;
-    border: 2px solid rgba(0, 0, 0, .125);
-    border-radius: 1rem;
-    padding: 24px;
+  min-width: 0;
+  border: 2px solid rgba(0, 0, 0, 0.125);
+  border-radius: 1rem;
+  padding: 24px;
 }
 
 .plantsBody {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1rem;
-    margin: 0;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1rem;
+  margin: 0;
 }
 
 .plantsImage {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 1rem;
-    margin: 0;
-    float: left;
-    margin-right: 16px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 1rem;
+  margin: 0;
+  float: left;
+  margin-right: 16px;
 }
 
 .headingPlants {
-    margin-top: 0;
-    font-size: x-large;
+  margin-top: 0;
+  font-size: x-large;
 }
 
-.plantsCard:hover, .plantsCard:focus {
-    background-color: rgba(255, 255, 255, .7);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.125);
+.plantsCard:hover,
+.plantsCard:focus {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.125);
+}
+
+@media only screen and (max-width: 430px) {
+  .plantsImage {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
 }

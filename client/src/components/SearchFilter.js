@@ -73,7 +73,7 @@ export default function SearchFilter({ setTags }) {
         <Link to={handlePath("new")}>
           <button
             className={`btn m-2 btn-lg ${
-              filterType === "new" ? "btn-primary" : "btn-outline-primary"
+              filterType === "new" ? "btn-success" : "btn-outline-success"
             } `}
           >
             New

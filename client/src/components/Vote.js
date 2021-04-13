@@ -32,7 +32,7 @@ const Vote = ({ votedId, numOfLikes, preVoteStatus, type }) => {
       {user ? (
         <button
           className={`btn ${
-            voteStatus === 1 ? "btn-secondary" : "btn-outline-secondary"
+            voteStatus === 1 ? "btn-success" : "btn-outline-success"
           }  btn-sm`}
           onClick={() => handleVote("upVotePost")}
         >
@@ -40,7 +40,7 @@ const Vote = ({ votedId, numOfLikes, preVoteStatus, type }) => {
         </button>
       ) : (
         <Link to={{ pathname: "/login", state: { prevPath: location } }}>
-          <button className="btn btn-outline-secondary">
+          <button className="btn btn-outline-success">
             <span className="material-icons">arrow_upward</span>
           </button>
         </Link>

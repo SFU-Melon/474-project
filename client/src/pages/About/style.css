@@ -40,7 +40,7 @@ code {
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 362px) {
   .about-paragraph {
     width: 95%;
   }

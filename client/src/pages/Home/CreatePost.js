@@ -125,12 +125,12 @@ const CreatePost = (props) => {
     <div className="custom">
       {/* Modal Trigger */}
       {user ? (
-        <button type="button" className="btn btn-primary" onClick={onOpenModal}>
+        <button type="button" className="btn btn-success" onClick={onOpenModal}>
           Create Post
         </button>
       ) : (
         <Link to="/login">
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-success">
             Create Post
           </button>
         </Link>

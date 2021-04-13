@@ -14,9 +14,9 @@
 .searchbar {
   position: absolute;
   left: 20%;
-  bottom: -3px;
-  width: 40%;
-  min-width: 260px;
+  bottom: 5%;
+  width: 39%;
+  min-width: 240px;
 }
 
 .navbar-brand {
@@ -88,13 +88,13 @@
   display: none;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
   .searchbar {
     display: none;
   }
   .searchbar-small {
     display: initial;
-    margin-left: 3%;
+    margin-left: 5%;
     width: 90%;
     margin-top: 1%;
   }
@@ -107,6 +107,7 @@
 
 .brand-name {
   color: black;
+  min-width: none;
 }
 
 .brand-name:hover {

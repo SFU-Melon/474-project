@@ -32,7 +32,7 @@ const SignupForm = ({ submitForm }) => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="form" noValidate>
+    <div onSubmit={handleSubmit} noValidate>
       <h1 className="signUpHeader">Sign up</h1>
       {loading ? (
         <div className="display-grid-center">
@@ -40,7 +40,7 @@ const SignupForm = ({ submitForm }) => {
         </div>
       ) : (
         <div>
-          <p className="text-center fs-4"> Join {numOfUsers} planters.</p>
+          <p className="text-center fs-4"> Join {numOfUsers} other members</p>
           <div className="signup-inputs">
             <label htmlFor="username" className="signup-label">
               Username
@@ -183,7 +183,7 @@ const SignupForm = ({ submitForm }) => {
           </div>
         </div>
       )}
-    </form>
+    </div>
   );
 };
 

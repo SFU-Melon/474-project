@@ -16,7 +16,7 @@ export default function SignUp(props) {
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`
       }}>
-      <div>
+      <div className="form-signup">
         {!isSubmitted ? (
           <SignupForm submitForm={submitForm} />
         ) : (

@@ -3,25 +3,15 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 5%;
   }
 
-.form {
+.form-signup {
     background-color: rgba(255, 255, 255, 0.8);
-    padding-top: 50px;
-    padding-bottom: 100px;
-    padding-left: 100px;
-    padding-right: 100px;
-    border-radius: 50px;
-    display: block;
-    resize: none;
-}
-
-.form2 {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 8%;
+    padding-right: 8%;
     border-radius: 50px;
     display: block;
     resize: none;
@@ -29,15 +19,14 @@
 
 .signUpHeader {
     text-align: center;
-    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     text-transform: capitalize;
 }
 
 .signup-inputs {
-  width: 350px;
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .signup-input {

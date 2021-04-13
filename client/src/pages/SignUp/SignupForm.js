@@ -32,166 +32,158 @@ const SignupForm = ({ submitForm }) => {
   }, []);
 
   return (
-    <div
-      className="full-plant-bg display-grid-center"
-      style={{
-        backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        height: "100vh",
-      }}>
+    <form onSubmit={handleSubmit} noValidate>
+      <h1 className="signUpHeader">Sign up</h1>
+      {loading ? (
+        <div className="display-grid-center">
+          <Loading />
+        </div>
+      ) : (
+        <div>
+          <p className="text-center fs-4"> Join {numOfUsers} other members</p>
+          <div className="signup-inputs">
+            <label htmlFor="username" className="signup-label">
+              Username
+              </label>
+            <input
+              type="text"
+              name="username"
+              className="signup-input"
+              placeholder="Enter your username"
+              value={values.username}
+              onChange={handleChange}
+            />
 
-      <form onSubmit={handleSubmit} className="form" noValidate>
-        <h1 className="signUpHeader">Sign up</h1>
-        {loading ? (
-          <div className="display-grid-center">
-            <Loading />
+            {errors.username && (
+              <p className="error-msg">{errors.username}</p>
+            )}
           </div>
-        ) : (
-          <div>
-            <p className="text-center fs-4"> Join {numOfUsers} planters.</p>
-            <div className="signup-inputs">
-              <label htmlFor="username" className="signup-label">
-                Username
+
+          <div className="signup-inputs">
+            <label htmlFor="password" className="signup-label">
+              Password
               </label>
-              <input
-                type="text"
-                name="username"
-                className="signup-input"
-                placeholder="Enter your username"
-                value={values.username}
-                onChange={handleChange}
-              />
+            <input
+              type="password"
+              name="password"
+              className="signup-input"
+              placeholder="Enter your password"
+              value={values.password}
+              onChange={handleChange}
+            />
 
-              {errors.username && (
-                <p className="error-msg">{errors.username}</p>
-              )}
-            </div>
+            {errors.password && (
+              <p className="error-msg">{errors.password}</p>
+            )}
+          </div>
 
-            <div className="signup-inputs">
-              <label htmlFor="password" className="signup-label">
-                Password
+          <div className="signup-inputs">
+            <label htmlFor="password2" className="signup-label">
+              Confirm Password
               </label>
-              <input
-                type="password"
-                name="password"
-                className="signup-input"
-                placeholder="Enter your password"
-                value={values.password}
-                onChange={handleChange}
-              />
+            <input
+              type="password"
+              name="password2"
+              className="signup-input"
+              placeholder="Re-enter your password"
+              value={values.password2}
+              onChange={handleChange}
+            />
 
-              {errors.password && (
-                <p className="error-msg">{errors.password}</p>
-              )}
-            </div>
+            {errors.password2 && (
+              <p className="error-msg">{errors.password2}</p>
+            )}
+          </div>
 
-            <div className="signup-inputs">
-              <label htmlFor="password2" className="signup-label">
-                Confirm Password
+          <div className="signup-inputs">
+            <label htmlFor="fname" className="signup-label">
+              First Name
               </label>
-              <input
-                type="password"
-                name="password2"
-                className="signup-input"
-                placeholder="Re-enter your password"
-                value={values.password2}
-                onChange={handleChange}
-              />
+            <input
+              type="fname"
+              name="fname"
+              className="signup-input"
+              placeholder="Enter your first name"
+              value={values.fname}
+              onChange={handleChange}
+            />
 
-              {errors.password2 && (
-                <p className="error-msg">{errors.password2}</p>
-              )}
-            </div>
+            {errors.fname && <p className="error-msg">{errors.fname}</p>}
+          </div>
 
-            <div className="signup-inputs">
-              <label htmlFor="fname" className="signup-label">
-                First Name
+          <div className="signup-inputs">
+            <label htmlFor="lname" className="signup-label">
+              Last Name
               </label>
-              <input
-                type="fname"
-                name="fname"
-                className="signup-input"
-                placeholder="Enter your first name"
-                value={values.fname}
-                onChange={handleChange}
-              />
+            <input
+              type="lname"
+              name="lname"
+              className="signup-input"
+              placeholder="Enter your last name"
+              value={values.lname}
+              onChange={handleChange}
+            />
 
-              {errors.fname && <p className="error-msg">{errors.fname}</p>}
-            </div>
+            {errors.lname && <p className="error-msg">{errors.lname}</p>}
+          </div>
 
-            <div className="signup-inputs">
-              <label htmlFor="lname" className="signup-label">
-                Last Name
+          <div className="signup-inputs">
+            <label htmlFor="dob" className="signup-label">
+              Date of Birth
               </label>
-              <input
-                type="lname"
-                name="lname"
-                className="signup-input"
-                placeholder="Enter your last name"
-                value={values.lname}
-                onChange={handleChange}
-              />
+            <input
+              type="dob"
+              name="dob"
+              className="signup-input"
+              placeholder="DD/MM/YYYY"
+              value={values.dob}
+              onChange={handleChange}
+            />
 
-              {errors.lname && <p className="error-msg">{errors.lname}</p>}
-            </div>
+            {errors.dob && <p className="error-msg">{errors.dob}</p>}
+          </div>
 
-            <div className="signup-inputs">
-              <label htmlFor="dob" className="signup-label">
-                Date of Birth
+          <div className="signup-inputs">
+            <label htmlFor="email" className="signup-label">
+              Email
               </label>
-              <input
-                type="dob"
-                name="dob"
-                className="signup-input"
-                placeholder="DD/MM/YYYY"
-                value={values.dob}
-                onChange={handleChange}
-              />
+            <input
+              type="email"
+              name="email"
+              className="signup-input"
+              placeholder="Enter your email"
+              value={values.email}
+              onChange={handleChange}
+            />
 
-              {errors.dob && <p className="error-msg">{errors.dob}</p>}
-            </div>
+            {errors.email && <p className="error-msg">{errors.email}</p>}
+          </div>
 
-            <div className="signup-inputs">
-              <label htmlFor="email" className="signup-label">
-                Email
+          <div className="signup-inputs">
+            <label htmlFor="file" className="signup-label">
+              Profile Picture
               </label>
-              <input
-                type="email"
-                name="email"
-                className="signup-input"
-                placeholder="Enter your email"
-                value={values.email}
-                onChange={handleChange}
-              />
+            <input
+              type="file"
+              name="file"
+              className="form-control"
+              accept=".jpg,.jpeg,.png"
+              onChange={handleFileChange}
+            />
+          </div>
 
-              {errors.email && <p className="error-msg">{errors.email}</p>}
-            </div>
-
-            <div className="signup-inputs">
-              <label htmlFor="file" className="signup-label">
-                Profile Picture
-              </label>
-              <input
-                type="file"
-                name="file"
-                className="form-control"
-                accept=".jpg,.jpeg,.png"
-                onChange={handleFileChange}
-              />
-            </div>
-
-            <div className="btn-container">
-              <button className="signup-input-btn" type="submit">
-                Sign Up
+          <div className="btn-container">
+            <button className="signup-input-btn" type="submit">
+              Sign Up
               </button>
-            </div>
-
-            <div className="login">
-              Already have an account? <Link to="/login">Login</Link>
-            </div>
           </div>
-        )}
-      </form>
-    </div>
+
+          <div className="login">
+            Already have an account? <Link to="/login">Login</Link>
+          </div>
+        </div>
+      )}
+    </form>
   );
 };
 

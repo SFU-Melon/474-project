@@ -51,13 +51,12 @@ export default function Login(props) {
 
   return (
     <div
-      className="full-plant-bg display-grid-center"
+      className="full-plant-bg-login display-grid-center"
       style={{
-        backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-      }}
-    >
+        backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`
+      }}>
 
-      <div className="form">
+      <div className="form-login">
         {user && user.username}
         <h1 className="loginHeader">Login</h1>
         {loading ? (

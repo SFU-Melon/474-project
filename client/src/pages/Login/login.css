@@ -1,13 +1,15 @@
-.full-plant-bg {
+.full-plant-bg-login {
+    min-height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 5%;
   }
 
-.form{
+.form-login{
     background-color: rgba(255, 255, 255, 0.8);
-    padding-top: 50px;
-    padding-bottom: 100px;
+    padding-top: 4%;
+    padding-bottom: 4%;
     padding-left: 8%;
     padding-right: 8%;
     border-radius: 50px;
@@ -17,14 +19,13 @@
 
 .loginHeader{
     text-align: center;
-    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     text-transform: capitalize;
 }
 
 .login-inputs {
-    width: 350px;
-    margin-left: 25px;
-    margin-right: 25px;
+    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -50,7 +51,6 @@
 
 .login-label {
     display: block;
-    /* bottom: 3rem; */
     opacity: 1;
     color: gray;
     font-size: 14px;

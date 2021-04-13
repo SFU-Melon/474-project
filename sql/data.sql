@@ -26,6 +26,8 @@ INSERT INTO plantdiseases (diseaseName) VALUES
 ('damping-off'),
 ('downy mildew'),
 ('early blight'),
+('fusarium wilt'),
+('gummy stem blight'),
 ('late blight'),
 ('powdery mildew'),
 ('soft rot'),
@@ -39,6 +41,13 @@ INSERT INTO plantdiseases (diseaseName) VALUES
 
 
 INSERT INTO plantHasDiseases (plantSciName, diseaseName) VALUES 
+-- muskmelon
+('Cucumis melo', 'charcoal rot'),
+('Cucumis melo', 'downy mildew'),
+('Cucumis melo', 'gummy stem blight'),
+('Cucumis melo', 'powdery mildew'),
+('Cucumis melo', 'southern blight'),
+('Cucumis melo', 'fusarium wilt'),
 -- rose
 ('Rosa cvs.', 'anthracnose'),
 ('Rosa cvs.', 'botrytis blight'),
@@ -112,10 +121,18 @@ INSERT INTO plantpests (pestName) VALUES
 ('beetles'),
 ('cutworms '),
 ('weevils'),
+('seed corn maggot'),
+('squash vine borer'),
 ('wireworms');
 
-
 INSERT INTO plantHasPests (plantSciName, pestName) VALUES 
+-- muskmelon
+('Cucumis melo', 'aphids'),
+('Cucumis melo', 'beetles'),
+('Cucumis melo', 'thrips'),
+('Cucumis melo', 'mites'),
+('Cucumis melo', 'seed corn maggot'),
+('Cucumis melo', 'squash vine borer'),
 -- rose
 ('Rosa cvs.', 'aphids'),
 ('Rosa cvs.', 'thrips'),
@@ -177,6 +194,37 @@ INSERT INTO plantHasPests (plantSciName, pestName) VALUES
 
 /* Insert 10 plants into plants table */
 INSERT INTO plants (sciname, comname, description, plantinstr, growinstr, careinstr, hardiness, exposure, waterNeed, plantphoto) VALUES 
+(
+    'Cucumis melo', 
+
+
+    'Muskmelon', 
+
+
+    'Muskmelon is a vining plant in the family Cucurbitaceae, grown for its large, sweet fruit of the same name. Muskmelon vines are trailing and are slightly hairy with simple oval leaves arranged alternately on the stem. The plant produces small yellow flowers which are 1.2–3.0 cm (0.5–1.2 in) in diameter and large oval to round fruit with green to orange flesh. Muskmelon is an annual plant and a vine can grow up to 3 m (9.8 ft) in length. Muskmelon may be referred to as cantaloupe or melon and likely originate from East and Northeast Africa.',
+    
+
+    'All melons are warm-season crops, and so they do not tolerate cold temperatures. They can be started indoors two to three weeks before the last frost date. Transplants can be set out after the danger of frost has passed and nighttime temperatures are consistently above 50F. Before transplanting, water muskmelons minimally. Once transplanted, water all plants moderately. It''s also a good idea to give your transplants some liquid kelp at the time of transplanting. They can also be planted directly into your garden after danger of frost has passed. Plant seeds at a depth of ½” every 3 to 5 feet. Water seedlings moderately. If a cold snap threatens your plants, it’s a good idea to give them some extra protection.',
+
+
+    'All melons need full sun in order to thrive. Plan your melon patch for the hottest, sunniest part of your garden. If you live in a cool climate, you may want to use mulch plastic to increase your soil temperature. Melons like it hot, with their ideal soil temperature around 65 to 80F. Make sure you give each plant a full 3 to 5 feet to sprawl, as they will grow into big creeping vines. If space is limited, you can trellis the vines instead, and support their fruits in slings. Melons like moderately rich, fertile soil with good levels of organic matter. The soil should be well drained to help prevent disease. Ideal soil will have plenty of phosphorus and potassium, and a pH of 6.0-6.8 for muskmelons, and 5.5-6.5 for watermelons.',
+
+
+    'Add mulch around melon plants with straw or dry, chopped leaves to retain soil moisture, slow weed growth, and keep fruits off of the soil. Pinch back flowers to permit just 4 fruits to form on each vine. Fewer melons on a plant will be larger, sweeter, and come to harvest quicker. Depending on the variety you select for your garden, the fruit will be ready to harvest in 90 days or more from the time of planting. Most melons are ready to harvest when the rind changes color to the final ripe appearance and gentle pressure separates the stem from the vine, and typically have a sweet aroma. However, some melons do not slip or become fragrant, such as Jaune Canary. These should be judged ripe by appearance and when the blossom end softens. Remove all new blossoms that appear within 50 days of the first frost in autumn. This will allow the plant to ripen fruit already on the vine before the first frost. To prevent diseases, it is suggested that you rotate your melon patch, and don’t plant melons in the same spot for five years.',
+
+    
+    'Zone 8a: (-12 to -9.5 C)',
+
+
+    'Full sun',
+
+
+    'Moderate, High',
+
+
+    'https://cdn.shopify.com/s/files/1/0061/1391/9089/articles/sweet-summer-mix-blog_1080x.jpg?v=1556195610'
+),
+
 (
     'Rosa cvs.', 
 

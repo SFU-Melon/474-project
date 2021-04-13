@@ -68,12 +68,14 @@
     max-width: 100%;
   }
   .nav-item {
-    margin-top: -10%;
-    margin-bottom: -15%;
+    margin-top: 0%;
+    margin-bottom: 0%;
   }
+
   .navbar-nav {
     display: flex;
     justify-content: flex-end;
+    margin-left: 5%;
   }
   .navbar-collapse {
     display: flex;

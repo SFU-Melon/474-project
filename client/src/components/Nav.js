@@ -133,7 +133,7 @@ const Nav = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link key={"signup"} to="/signup" className="nav-link">
+                  <Link key={"signup"} to="/signup" className=" nav-link">
                     <button type="button" className="btn btn-outline-light">
                       Sign Up
                     </button>

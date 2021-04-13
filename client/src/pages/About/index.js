@@ -9,8 +9,8 @@ const About = () => {
         className="full-plant-bg display-grid-center"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL + "/plant-bg.png"})`,
-        }}>
-          
+        }}
+      >
         <div className="d-flex flex-column flex-wrap justify-content-start">
           <div className="display-grid-center">
             <h1 className="text-white mt-5 mb-2">About Muskmelon</h1>
@@ -64,6 +64,29 @@ const About = () => {
                   <a href="https://github.com/ACimensel"> Artun Cimensel</a>
                 </li>
               </ul>
+            </div>
+          </div>
+        </div>
+        <div className="display-grid-center">
+          <div className="row">
+            <div className="col">
+              <a
+                href="https://github.com/planter-social/Muskmelon"
+                target="_blank"
+                className="btn btn-dark"
+              >
+                Github
+              </a>
+            </div>
+            <div className="col">
+              <a
+                href="https://github.com/planter-social/Muskmelon/issues"
+                target="_blank"
+                className="btn btn-danger"
+                style={{ width: "9rem" }}
+              >
+                Report for bugs
+              </a>
             </div>
           </div>
         </div>

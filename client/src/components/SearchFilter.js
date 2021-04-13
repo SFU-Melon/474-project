@@ -60,7 +60,7 @@ export default function SearchFilter({ setTags }) {
 
   return (
     <div className="card flex-row m-2 mt-3 align-items-center justify-content-between">
-      <div className="d-none d-md-block ">
+      <div className="button-filter">
         <Link to={handlePath("hot")}>
           <button
             className={`btn m-2 btn-lg ${
@@ -80,7 +80,7 @@ export default function SearchFilter({ setTags }) {
           </button>
         </Link>
       </div>
-      <div className="d-md-none m-2">
+      <div className="dropdown-filter m-2">
         <Dropdown
           placeholder="HOT"
           fluid

@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_API_GATEWAY_BASE_URL ?? "http://localhost:5000/"
 
 ReactDOM.render(
   <React.StrictMode>

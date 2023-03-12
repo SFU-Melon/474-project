@@ -1,12 +1,12 @@
 exports.handler = async (event, context, cb) => {
     const { Client } = require('pg');
     const client = new Client({
-                     user: "postgres",
-                     host: "user-profile.cnclnzrhebsa.us-east-2.rds.amazonaws.com",
-                     database: "users",
-                     password: "cmpt474dev",
-                     port: 5432
-                   });
+      user: process.env.user,
+      host: process.env.write,
+      database: process.env.database,
+      password: process.env.password,
+      port: process.env.port
+    });
     await client.connect();
     await client.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
     await client.query(`CREATE TABLE users(

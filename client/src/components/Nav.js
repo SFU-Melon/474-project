@@ -5,6 +5,7 @@ import axios from "axios";
 import SearchBar from "./SearchBar";
 import "./nav.css";
 import { useState } from "react";
+import { Auth } from 'aws-amplify';
 
 const Nav = () => {
   const { user, setUser } = useUserContext();
@@ -16,7 +17,8 @@ const Nav = () => {
 
   const logout = async () => {
     try {
-      await axios.get("/auth/api/logout");
+      await Auth.signOut();
+      // await axios.get("/auth/api/logout");
       setUser(null);
       setAuth(false);
       if (location === `/profile/${user.username}`) {

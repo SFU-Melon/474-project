@@ -4,6 +4,7 @@ import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { useAuthContext } from "@contexts/AuthContext";
 import Loading from "@components/Loading";
+import { Auth } from 'aws-amplify';
 import "./login.css";
 
 export default function Login(props) {
@@ -15,29 +16,33 @@ export default function Login(props) {
   const [loading, setLoading] = useState(false);
   let history = useHistory();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (username && password) {
       setLoading(true);
-      axios
-        .post("/auth/api/login", { username: username, password: password })
-        .then((res) => {
-          if (res.data.success) {
-            setTimeout(() => {
-              setUser(res.data.user);
-              setAuth(true);
-              if (props.location.state !== undefined) {
-                history.replace(props.location.state.prevPath);
-              } else {
-                history.replace("/");
-              }
-            }, 1500);
-          } else {
-            setTimeout(() => {
-              setLoading(false);
-              setErrorMessage("Username or Password is incorrect. Try Again.");
-            }, 1500);
-          }
-        });
+      // axios
+      //   .post("/auth/api/login", { username: username, password: password })
+      //   .then((res) => {
+      //     if (res.data.success) {
+      //       setTimeout(() => {
+      //         setUser(res.data.user);
+      //         setAuth(true);
+      //         if (props.location.state !== undefined) {
+      //           history.replace(props.location.state.prevPath);
+      //         } else {
+      //           history.replace("/");
+      //         }
+      //       }, 1500);
+      //     } else {
+      //       setTimeout(() => {
+      //         setLoading(false);
+      //         setErrorMessage("Username or Password is incorrect. Try Again.");
+      //       }, 1500);
+      //     }
+      //   });
+      const user = await Auth.signIn(username, password);
+      console.log(user);
+      // TODO: do the if-else statement in .then() function above.
+      // You'll need to find out how you can check if the call succeeded or not.
     }
   };
 

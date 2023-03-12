@@ -32,12 +32,12 @@ const EditProfilePhoto = (props) => {
     try {
       const url = user?.profilephoto;
       axios
-        .post(`/api/editProfilePhoto/${user.id}`, {
+        .post(`/api/user/editProfilePhoto/${user.id}`, {
           profilePhotoUrl: imgUrl,
         })
         .then((res) => {
           axios
-            .post("/api/deleteOldProfile", {
+            .post("/api/image/deleteOldProfile", {
               imageurl: url,
             })
             .then(() => {
@@ -56,7 +56,7 @@ const EditProfilePhoto = (props) => {
     if (validateForm()) {
       try {
         let res;
-        res = await axios.post("/api/profileUpload", { fileType: fileType });
+        res = await axios.post("/api/image/profileUpload", { fileType: fileType });
         if (res.data.success) {
           const signedRequest = res.data.signedRequest;
           const res_url = res.data.url;

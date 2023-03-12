@@ -49,7 +49,7 @@ const CreatePost = (props) => {
   const sendToDatabase = (imgUrl) => {
     try {
       axios
-        .post(`/api/createPost/${user.id}`, {
+        .post(`/api/post/createPost/${user.id}`, {
           title: title,
           content: description,
           location: location,
@@ -80,7 +80,7 @@ const CreatePost = (props) => {
       if (file) {
         try {
           let res;
-          res = await axios.post("/api/postUpload", { fileType: fileType });
+          res = await axios.post("/api/post/postUpload", { fileType: fileType });
           if (res.data.success) {
             const signedRequest = res.data.signedRequest;
             const res_url = res.data.url;

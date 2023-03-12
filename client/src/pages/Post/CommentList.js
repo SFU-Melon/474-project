@@ -12,7 +12,7 @@ export default function CommentList({ postId, comments, setComments }) {
   const handleDelete = async (commentId) => {
     try {
       const res = await axios.delete(
-        `/api/post/deleteComment/${postId}/${commentId}`
+        `/post/api/deleteComment/${postId}/${commentId}`
       );
       if (res.data.success) {
         setComments(comments.filter((comment) => comment.id !== commentId));
@@ -24,7 +24,7 @@ export default function CommentList({ postId, comments, setComments }) {
 
   const fetchAllComments = async () => {
     try {
-      const res = await axios.get(`/api/post/getComments/${postId}`);
+      const res = await axios.get(`/post/api/getComments/${postId}`);
       setComments(res.data.comments);
     } catch (err) {
       console.error(err.message);

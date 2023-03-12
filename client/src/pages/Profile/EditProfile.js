@@ -42,7 +42,7 @@ const EditProfile = () => {
     if (validateForm()) {
       try {
         axios
-          .post(`/api/user/editProfileInfo/${user.id}`, {
+          .post(`/user/api/editProfileInfo/${user.id}`, {
             fname: firstName,
             lname: lastName,
             email: email,

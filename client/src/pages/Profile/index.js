@@ -28,7 +28,7 @@ const Profile = () => {
 
   const fetchUserPosts = async () => {
     try {
-      const res = await axios.get(`/api/post/getAllPosts/${user?.id}`);
+      const res = await axios.get(`/post/api/getAllPosts/${user?.id}`);
       setUserPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -37,7 +37,7 @@ const Profile = () => {
 
   const fetchSavedPosts = async () => {
     try {
-      const res = await axios.get("/api/post/getAllSavedPosts");
+      const res = await axios.get("/post/api/getAllSavedPosts");
       setSavedPosts(res.data.posts);
     } catch (err) {
       console.log(err);
@@ -47,7 +47,7 @@ const Profile = () => {
   const fetchFollowData = async () => {
     try {
       const res = await axios.get(
-        `/api/user/getFollowersAndFollowingUsers/${user?.id}`
+        `/user/api/getFollowersAndFollowingUsers/${user?.id}`
       );
       if (res.data.success) {
         setFollowers(res.data.followers);
@@ -60,7 +60,7 @@ const Profile = () => {
 
   const fetchUserStats = async () => {
     try {
-      const res = await axios.get(`/api/user/userstats/${user?.id}`);
+      const res = await axios.get(`/user/api/userstats/${user?.id}`);
       if (res.data.success) {
         setStats(res.data.stats);
       }

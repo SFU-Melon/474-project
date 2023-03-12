@@ -40,7 +40,7 @@ const useForm = (callback, validateInfo) => {
     setLoading(true);
     if (file) {
       axios
-        .post("/api/image/profileUpload", {
+        .post("/image/api/profileUpload", {
           fileType: fileType,
         })
         .then((res) => {
@@ -53,7 +53,7 @@ const useForm = (callback, validateInfo) => {
               },
             };
             axios
-              .post("/api/auth/signup", { values, profileUrl: res_url })
+              .post("/auth/api/signup", { values, profileUrl: res_url })
               .then((res) => {
                 if (res.data.success) {
                   axios.put(signedRequest, file, options).then(() => {
@@ -74,7 +74,7 @@ const useForm = (callback, validateInfo) => {
           console.log(err.message);
         });
     } else {
-      axios.post("/api/auth/signup", { values }).then((res) => {
+      axios.post("/auth/api/signup", { values }).then((res) => {
         if (res.data.success) {
           setTimeout(() => callback(), 1500);
         } else {

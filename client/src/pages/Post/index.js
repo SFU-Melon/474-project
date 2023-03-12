@@ -29,7 +29,7 @@ const Post = () => {
   const onCloseModalDelete = () => setOpenDelete(false);
 
   const fetchPost = async () => {
-    const res = await axios.get(`/api/getPost/${decoded}`);
+    const res = await axios.get(`/api/post/getPost/${decoded}`);
     setPost(res.data);
     setSaveClicked(res.data.saveStatus);
     setTags(res.data.tags);
@@ -42,12 +42,12 @@ const Post = () => {
 
   const handleSave = async () => {
     if (saveClicked) {
-      const res = await axios.get(`/api/unsavePost/${decoded}`);
+      const res = await axios.get(`/api/post/unsavePost/${decoded}`);
       if (res.data.success) {
         setSaveClicked(false);
       }
     } else {
-      const res = await axios.get(`/api/savePost/${decoded}`);
+      const res = await axios.get(`/api/post/savePost/${decoded}`);
       if (res.data.success) {
         setSaveClicked(true);
       }
@@ -58,12 +58,12 @@ const Post = () => {
     try {
       if (decoded && user?.id) {
         const res = await axios.delete(
-          `/api/deletePost/${decoded}/${user?.id}`
+          `/api/post/deletePost/${decoded}/${user?.id}`
         );
         if (res.data.success) {
           if (post?.imageurl) {
             axios
-              .post("/api/deleteOldPostImage", { imageurl: post.imageurl })
+              .post("/api/image/deleteOldPostImage", { imageurl: post.imageurl })
               .then(() => {
                 history.push("/");
               });

@@ -9,7 +9,7 @@ export default function PostsList({ tags }) {
   let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
   const fetchPosts = async ({ pageParam }) => {
     try {
-      const res = await axios.get("/api/post/getPosts", {
+      const res = await axios.get("/post/api/getPosts", {
         params: {
           filterType,
           val:

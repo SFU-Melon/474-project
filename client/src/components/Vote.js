@@ -12,7 +12,7 @@ const Vote = ({ votedId, numOfLikes, preVoteStatus, type }) => {
 
   const handleVote = async (voteOperation) => {
     try {
-      const res = await axios.post(`/api/post/${voteOperation}/${user.id}`, {
+      const res = await axios.post(`/post/api/${voteOperation}/${user.id}`, {
         votedId,
         type,
       });

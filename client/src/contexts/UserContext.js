@@ -17,7 +17,7 @@ export function UserProvider({ children }) {
 
   const authenticateUser = async () => {
     try {
-      const res = await axios.get("/api/auth/user");
+      const res = await axios.get("/auth/api/user");
       if (res.data.user) {
         setUser(res.data.user);
         setAuth(true);

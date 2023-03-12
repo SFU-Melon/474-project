@@ -30,7 +30,7 @@ const PublicProfile = () => {
 
   const fetchProfileUser = async () => {
     try {
-      const res = await axios.get(`/api/user/getUserByUsername/${username}`);
+      const res = await axios.get(`/user/api/getUserByUsername/${username}`);
       setProfileUser(res.data.success);
     } catch (err) {
       console.log(err);
@@ -39,7 +39,7 @@ const PublicProfile = () => {
 
   const fetchUserPosts = async () => {
     try {
-      const res = await axios.get(`/api/post/getAllPosts/${profileUser?.id}`);
+      const res = await axios.get(`/post/api/getAllPosts/${profileUser?.id}`);
       setUserPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -49,7 +49,7 @@ const PublicProfile = () => {
   const fetchFollowData = async () => {
     try {
       const res = await axios.get(
-        `/api/user/getFollowersAndFollowingUsers/${profileUser?.id}`
+        `/user/api/getFollowersAndFollowingUsers/${profileUser?.id}`
       );
       if (res.data.success) {
         setFollowers(res.data.followers);
@@ -67,7 +67,7 @@ const PublicProfile = () => {
 
   const fetchUserStats = async () => {
     try {
-      const res = await axios.get(`/api/user/userstats/${profileUser?.id}`);
+      const res = await axios.get(`/user/api/userstats/${profileUser?.id}`);
       console.log(res);
       if (res.data.success) {
         setStats(res.data.stats);

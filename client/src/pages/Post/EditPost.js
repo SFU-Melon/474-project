@@ -70,7 +70,7 @@ const EditPost = (props) => {
   const editPost = () => {
     try {
       axios
-        .post(`/api/post/editPost/${user.id}`, {
+        .post(`/post/api/editPost/${user.id}`, {
           title: title,
           content: description,
           location: location,

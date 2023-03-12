@@ -83,7 +83,7 @@ export default function ResetPassword(props) {
         setErrorMessage("Password needs to be at least 8 characters.");
       } else {
         if (password === confirmPassword) {
-          const res = await axios.post(`/api/auth/resetPassword/${username}`, {
+          const res = await axios.post(`/auth/api/resetPassword/${username}`, {
             token,
             password,
           });
@@ -105,7 +105,7 @@ export default function ResetPassword(props) {
   const sendEmail = async () => {
     try {
       setResend(false);
-      const res = await axios.get(`/api/auth/resetPasswordRequest/${username}`);
+      const res = await axios.get(`/auth/api/resetPasswordRequest/${username}`);
       if (res.data.success) {
         setEmail(res.data.email);
       }

@@ -20,11 +20,11 @@ export default function ImageUpload(props) {
         let res;
         //getting to presigned url
         if (props.type === 'profile') {
-          res = await axios.post('/api/image/profileUpload', { fileType: fileType });
+          res = await axios.post('/image/api/profileUpload', { fileType: fileType });
         } else if (props.type === 'post') {
-          res = await axios.post('/api/image/postUpload', { fileType: fileType });
+          res = await axios.post('/image/api/postUpload', { fileType: fileType });
         } else {
-          res = await axios.post('/api/image/testUpload', { fileType: fileType });
+          res = await axios.post('/image/api/testUpload', { fileType: fileType });
         }
         if (res.data.success) {
           const signedRequest = res.data.signedRequest;

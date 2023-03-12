@@ -21,7 +21,7 @@ export default function FollowButton(props) {
 
   const unfollow = async () => {
     try {
-      const res = await axios.post("/api/user/unfollows", {
+      const res = await axios.post("/user/api/unfollows", {
         follower_id: user.id,
         followee_id: props.userId,
       });
@@ -35,7 +35,7 @@ export default function FollowButton(props) {
 
   const follow = async () => {
     try {
-      const res = await axios.post("/api/user/follows", {
+      const res = await axios.post("/user/api/follows", {
         follower_id: user.id,
         followee_id: props.userId,
       });

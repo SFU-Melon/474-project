@@ -19,7 +19,7 @@ export default function CommentInput({ postId, setComments }) {
     try {
       // User should already be logged in.
       const result = await axios.post(
-        `/api/post/submitComment/${user.id}/${postId}`,
+        `/post/api/submitComment/${user.id}/${postId}`,
         {
           content,
         }

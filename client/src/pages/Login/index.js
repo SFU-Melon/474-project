@@ -43,6 +43,30 @@ export default function Login(props) {
       console.log(user);
       // TODO: do the if-else statement in .then() function above.
       // You'll need to find out how you can check if the call succeeded or not.
+      try {
+        const user = await Auth.signIn(username, password);
+        console.log(user);
+
+        setTimeout(() => {
+          setUser(user);
+          setAuth(true);
+          if (props.location.state !== undefined) {
+            history.replace(props.location.state.prevPath);
+          } else {
+            history.replace("/");
+          }
+        }, 1500);
+      
+      } catch {
+        setTimeout(() => {
+          setLoading(false);
+          setErrorMessage("Username or Password is incorrect. Try Again.");
+        }, 1500);
+      }
+
+
+
+
     }
   };
 

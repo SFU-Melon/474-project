@@ -19,7 +19,7 @@ export default function Login(props) {
     if (username && password) {
       setLoading(true);
       axios
-        .post("/api/login", { username: username, password: password })
+        .post("/api/auth/login", { username: username, password: password })
         .then((res) => {
           if (res.data.success) {
             setTimeout(() => {

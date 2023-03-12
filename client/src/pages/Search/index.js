@@ -34,7 +34,7 @@ export default function Search() {
     if (isFirst === "first") {
       setHasMore(true);
     }
-    const res = await axios.get(`/api/search/${scope}/${value}`, {
+    const res = await axios.get(`/api/post/search/${scope}/${value}`, {
       params: {
         lastElementSubVal: lastPost?.numoflikes,
         lastElementRank: isFirst === "first" ? undefined : lastPost?.rank,

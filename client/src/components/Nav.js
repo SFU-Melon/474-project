@@ -16,7 +16,7 @@ const Nav = () => {
 
   const logout = async () => {
     try {
-      await axios.get("/api/logout");
+      await axios.get("/api/auth/logout");
       setUser(null);
       setAuth(false);
       if (location === `/profile/${user.username}`) {

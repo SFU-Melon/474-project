@@ -1,15 +1,18 @@
-from datetime import datetime as dt
+from datetime import datetime
 from uuid import uuid4
 import json
 # import the AWS SDK (for Python the package name is boto3)
 import boto3
 
+
+    
 def lambda_handler( event, context ):
     """Setup DB connection"""
     # create a DynamoDB object using the AWS SDK
     dynamodb = boto3.resource('dynamodb')
+    client = boto3.client('dynamodb')
     # use the DynamoDB object to select our table
-    table = dynamodb.Table('posts')
+    table = dynamodb.Table('Posts')
     METHOD = event["httpMethod"]
     ENDPOINT = event["path"]
     res = None
@@ -18,10 +21,28 @@ def lambda_handler( event, context ):
         print("GET")
 
         if "getPosts" in ENDPOINT:
-            print("getPosts")
+            data = client.scan(
+                TableName='posts'
+            )
+            parsed_data = [{"id": item["id"]["S"],"content": item["content"]["S"],"location":item["location"]["S"],"datetime":item["datetime"]["S"],
+                "title":item["title"]["S"],"imageurl":item["imageurl"]["S"]
+            } for item in data['Items']]
+            res=parsed_data
 
-        elif "postId" in ENDPOINT:
-            print("postId")
+        elif event["pathParameters"]["postId"]:
+            postId = event["pathParameters"]["postId"]
+            data = client.get_item(
+                TableName='posts',
+                Key={
+                    'id': {
+                      'S': postId
+                    }
+                }
+              )
+            item = data['Item']
+            parsed_data = {"id": item["id"]["S"],"content": item["content"]["S"],"location":item["location"]["S"],"datetime":item["datetime"]["S"],
+                "title":item["title"]["S"],"imageurl":item["imageurl"]["S"]}
+            res = parsed_data
 
         elif "getPostLikedNotOwned" in ENDPOINT:
             print("getPostLikedNotOwned")
@@ -39,44 +60,44 @@ def lambda_handler( event, context ):
             data = json.loads(event['body'])
 
             # CITATION: https://bitesizedserverless.com/bite/reliable-auto-increments-in-dynamodb/
-            curr_id = table.get_item(
-                TableName = "Posts",
-                Key = { "id": {"N": -420} },
-                AttributesToGet = ["LastId"],
-                ConsistentRead = True
-            )["Item"]["LastID"]["N"]
-            next_id = curr_id + 1
+            # curr_id = table.get_item(
+            #     TableName = "Posts",
+            #     Key = { "id": {"N": -420},"sortingid":{"N":-420 }},
+            #     AttributesToGet = ["sortingid"],
+            #     ConsistentRead = True
+            # )["Item"]["sortingid"]["N"]
+            # next_id = curr_id + 1
             u_id = uuid4()
-            timestamp = float(int(dt.today().timestamp())) # casts to .0 instead of ugly .23740
+            timestamp = datetime.today().strftime('%Y-%m-%d') # casts to .0 instead of ugly .23740
 
             transaction = [
-                {
-                    # this is to check for sortingid, SERIAL work around
-                    "Update": {
-                    "TableName": "posts",
-                    "Key": { "id": {"N": -420} },
-                    "ConditionExpression": "LastID = :current_id",
-                    "UpdateExpression": "SET LastID = LastID + :incr",
-                    "ExpressionAttributeValues": {
-                        ":incr": {"N": 1},
-                        ":current_id": {"N": curr_id},
-                        },
-                    },
-                },
+                # {
+                #     # this is to check for sortingid, SERIAL work around
+                #     "Update": {
+                #     "TableName": "posts",
+                #     "Key": { "id": {"N": -420} },
+                #     "ConditionExpression": "sortingid = :current_id",
+                #     "UpdateExpression": "SET sortingid = sortingid + :incr",
+                #     "ExpressionAttributeValues": {
+                #         ":incr": {"N": 1},
+                #         ":current_id": {"N": curr_id},
+                #         },
+                #     },
+                # },
                 {
                     # this should
                     "Put": {
-                    "TableName": "Users",
+                    "TableName": "posts",
                     "Item": {
-                        "id": {"N", u_id},
-                        "sortingid": {"N": next_id},
+                        "id": {"S": str(u_id)},
+                        # "sortingid": {"N": '1'},
                         "datetime": {"S": timestamp},
                         "title": {"S": data['title']},
                         "location": {"S": data["location"]},
-                        "imageUrl": {"S": data['imageUrl']},
-                        "numoflikes": {"N": 0},
-                        "numofcomments": {"N": 0},
-                        "userId": {"N": data['userId']},
+                        "imageurl": {"S": data['imageurl']},
+                        "numoflikes": {"N": '0'},
+                        "numofcomments": {"N": '0'},
+                        "userId": {"S": data['userId']},
                         "content": {"S": data['content']},
                         # "authorname": {"S": data['authorname']},
                         "tags": {"SS": data['tags']}
@@ -87,7 +108,7 @@ def lambda_handler( event, context ):
             ]
 
             try:
-                table.transact_write_items(
+                client.transact_write_items(
                     TransactItems = transaction
                 )
             except Exception as e:
@@ -99,8 +120,8 @@ def lambda_handler( event, context ):
         # transact_write_items doesnt return item so just append
         # some fields to the input dict and return it instead
         res = data
-        res["id"] = u_id
-        res["sortingid"] = next_id
+        res["id"] = str(u_id)
+        # res["sortingid"] = next_id
         res["datetime"] = timestamp
         res["numoflikes"] = 0
         res["numofcomments"] = 0
@@ -118,6 +139,7 @@ def lambda_handler( event, context ):
     # assume all went well
     return {
         "statusCode": 200,
+        'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
         "body": json.dumps(res)
     }
 

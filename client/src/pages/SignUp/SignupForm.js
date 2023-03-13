@@ -5,7 +5,7 @@ import useForm from "./useForm";
 import validateInfo from "./validateInfo";
 import Loading from "@components/Loading";
 
-const SignupForm = ({ submitForm }) => {
+const SignupForm = ({ formCallback }) => {
   const [numOfUsers, setNumOfUsers] = useState();
   const {
     handleChange,
@@ -14,7 +14,7 @@ const SignupForm = ({ submitForm }) => {
     values,
     errors,
     loading,
-  } = useForm(submitForm, validateInfo);
+  } = useForm(formCallback, validateInfo);
 
   const fetchNumOfUsers = async () => {
     try {

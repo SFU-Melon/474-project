@@ -4,8 +4,18 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
+import { Amplify } from 'aws-amplify';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_GATEWAY_BASE_URL ?? "http://localhost:5000/"
+
+// Configure Amplify in index file or root file
+Amplify.configure({
+  Auth: {
+      region: process.env.REACT_APP_AWS_REGION ?? "",
+      userPoolId: process.env.REACT_APP_AWS_USER_POOL_ID ?? "",
+      userPoolWebClientId: process.env.REACT_APP_AWS_USER_POOL_APP_CLIENT_ID ?? ""
+  }
+})
 
 ReactDOM.render(
   <React.StrictMode>

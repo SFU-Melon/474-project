@@ -39,16 +39,30 @@ export default function Login(props) {
       //       }, 1500);
       //     }
       //   });
-      const user = await Auth.signIn(username, password);
-      console.log(user);
       // TODO: do the if-else statement in .then() function above.
       // You'll need to find out how you can check if the call succeeded or not.
       try {
         const user = await Auth.signIn(username, password);
         console.log(user);
+        const data = {
+          id: user.username,
+          username: user.username,
+          profilephoto: '',
+          fname: user.family_name,
+          lname: user.given_name,
+          email: user.email,
+          dob: user.birthdate,
+          following: '',
+          followers: ''
+        };
 
+        console.log("between");
+        console.log(data);
+        console.log("between");
+
+        
         setTimeout(() => {
-          setUser(user);
+          setUser(data);
           setAuth(true);
           if (props.location.state !== undefined) {
             history.replace(props.location.state.prevPath);
@@ -57,7 +71,16 @@ export default function Login(props) {
           }
         }, 1500);
       
-      } catch {
+      } catch(error) {
+        if (error.code === 'UserNotFoundException') {
+          console.log('User does not exist.');
+        } else if (error.code === 'NotAuthorizedException') {
+          console.log('Incorrect username or password.');
+        } else if (error.code === 'UserNotConfirmedException') {
+          console.log('User has not been confirmed.');
+        } else {
+          console.log('An error occurred:', error);
+        }
         setTimeout(() => {
           setLoading(false);
           setErrorMessage("Username or Password is incorrect. Try Again.");

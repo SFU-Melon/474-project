@@ -64,7 +64,7 @@ const useForm = (callback, validateInfo) => {
                 picture: res_url,
                 given_name: values.fname,
                 family_name: values.lname,
-                birthdate: values.dob 
+                birthdate: values.dob
               },
               // autoSignIn: { // optional - enables auto sign in after user is confirmed
               //     enabled: true,
@@ -74,7 +74,7 @@ const useForm = (callback, validateInfo) => {
             // TODO:
             // The app does not have a page to verify a user atm. 
             // I think the easiest way for now is configure the Cognito to send the email link not verification code.
-            
+
 
             // axios
             //   .post("/auth/api/signup", { values, profileUrl: res_url })
@@ -100,62 +100,53 @@ const useForm = (callback, validateInfo) => {
         });
     } else {
       // TODO work on this.
-      const { user } = await Auth.signUp({
-        username: values.username,
-        password: values.password,
-        attributes: {
-          email: values.email,
-          given_name: values.fname,
-          family_name: values.lname,
-          birthdate: values.dob 
-        },
-        // autoSignIn: { // optional - enables auto sign in after user is confirmed
-        //     enabled: true,
-        // }
-      });
-      console.log(user);
-      // TODO:
-      // If success, call callback
-      // else, call setLoading(false) and an alert
-      // Refer commented out code.
-
-      //   axios.post("/auth/api/signup", { values }).then((res) => {
-      //     if (res.data.success) {
-      //       setTimeout(() => callback(), 1500);
-      //     } else {
-      //       setTimeout(() => {
-      //         setLoading(false);
-      //         alert("Username already exists!");
-      //       }, 1500);
-      //     }
-      //   });
-
-      
-
-
+      try {
+        const { user } = await Auth.signUp({
+          username: values.username,
+          password: values.password,
+          attributes: {
+            email: values.email,
+            given_name: values.fname,
+            family_name: values.lname,
+            birthdate: values.dob
+          },
+          // autoSignIn: { // optional - enables auto sign in after user is confirmed
+          //     enabled: true,
+          // }
+        });
+        console.log(user);
+        if (user) {
+          setTimeout(() => callback(values.username), 1500);
+        }
+      } catch (err) {
+        setTimeout(() => {
+          setLoading(false);
+          alert(err);
+        }, 1500);
       }
-    };
+    }
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      setErrors(validateInfo(values));
-      setIsSubmitting(true);
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(validateInfo(values));
+    setIsSubmitting(true);
+  };
 
-    useEffect(() => {
-      if (Object.keys(errors).length === 0 && isSubmitting) {
-        handleSignUp();
-      }
-    }, [errors]);
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && isSubmitting) {
+      handleSignUp();
+    }
+  }, [errors]);
 
-    return {
-      handleChange,
-      handleSubmit,
-      handleFileChange,
-      values,
-      errors,
-      loading,
-    };
+  return {
+    handleChange,
+    handleSubmit,
+    handleFileChange,
+    values,
+    errors,
+    loading,
+  };
 };
 
 export default useForm;

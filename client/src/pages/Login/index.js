@@ -56,11 +56,6 @@ export default function Login(props) {
           followers: ''
         };
 
-        console.log("between");
-        console.log(data);
-        console.log("between");
-
-        
         setTimeout(() => {
           setUser(data);
           setAuth(true);

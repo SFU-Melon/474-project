@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
+import { axiosApiInstance } from "../../utils/axiosConfig";
 import Utility from "@utils";
 import { useUserContext } from "@contexts/UserContext";
 import { useHistory } from "react-router-dom";
@@ -29,7 +30,7 @@ const Post = () => {
   const onCloseModalDelete = () => setOpenDelete(false);
 
   const fetchPost = async () => {
-    const res = await axios.get(`/post/api/getPost/${decoded}`);
+    const res = await axiosApiInstance.get(`/post/api/getPost/${decoded}`);
     setPost(res.data);
     setSaveClicked(res.data.saveStatus);
     setTags(res.data.tags);
@@ -42,12 +43,12 @@ const Post = () => {
 
   const handleSave = async () => {
     if (saveClicked) {
-      const res = await axios.get(`/post/api/unsavePost/${decoded}`);
+      const res = await axiosApiInstance.get(`/post/api/unsavePost/${decoded}`);
       if (res.data.success) {
         setSaveClicked(false);
       }
     } else {
-      const res = await axios.get(`/post/api/savePost/${decoded}`);
+      const res = await axiosApiInstance.get(`/post/api/savePost/${decoded}`);
       if (res.data.success) {
         setSaveClicked(true);
       }
@@ -57,12 +58,12 @@ const Post = () => {
   const handleDelete = async () => {
     try {
       if (decoded && user?.id) {
-        const res = await axios.delete(
+        const res = await axiosApiInstance.delete(
           `/post/api/deletePost/${decoded}/${user?.id}`
         );
         if (res.data.success) {
           if (post?.imageurl) {
-            axios
+            axiosApiInstance
               .post("/image/api/deleteOldPostImage", { imageurl: post.imageurl })
               .then(() => {
                 history.push("/");

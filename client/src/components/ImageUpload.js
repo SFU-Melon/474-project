@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import { axiosApiInstance } from '../utils/axiosConfig';
 
 export default function ImageUpload(props) {
   const [file, setFile] = useState(null);
@@ -20,11 +20,11 @@ export default function ImageUpload(props) {
         let res;
         //getting to presigned url
         if (props.type === 'profile') {
-          res = await axios.post('/image/api/profileUpload', { fileType: fileType });
+          res = await axiosApiInstance.post('/image/api/profileUpload', { fileType: fileType });
         } else if (props.type === 'post') {
-          res = await axios.post('/image/api/postUpload', { fileType: fileType });
+          res = await axiosApiInstance.post('/image/api/postUpload', { fileType: fileType });
         } else {
-          res = await axios.post('/image/api/testUpload', { fileType: fileType });
+          res = await axiosApiInstance.post('/image/api/testUpload', { fileType: fileType });
         }
         if (res.data.success) {
           const signedRequest = res.data.signedRequest;
@@ -35,7 +35,7 @@ export default function ImageUpload(props) {
             },
           };
           //uploading to s3 bucket
-          await axios.put(signedRequest, file, options);
+          await axiosApiInstance.put(signedRequest, file, options);
           console.log('Successfully uploaded.');
           props.uploadCallback(res_url);
         }

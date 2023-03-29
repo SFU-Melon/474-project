@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosApiInstance } from "../../utils/axiosConfig";
 import { useEffect } from "react";
 import { useUserContext } from "@contexts/UserContext";
 import Utility from "@utils";
@@ -11,7 +11,7 @@ export default function CommentList({ postId, comments, setComments }) {
 
   const handleDelete = async (commentId) => {
     try {
-      const res = await axios.delete(
+      const res = await axiosApiInstance.delete(
         `/post/api/deleteComment/${postId}/${commentId}`
       );
       if (res.data.success) {
@@ -24,7 +24,7 @@ export default function CommentList({ postId, comments, setComments }) {
 
   const fetchAllComments = async () => {
     try {
-      const res = await axios.get(`/post/api/getComments/${postId}`);
+      const res = await axiosApiInstance.get(`/post/api/getComments/${postId}`);
       setComments(res.data.comments);
     } catch (err) {
       console.error(err.message);

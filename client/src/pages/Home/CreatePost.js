@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
@@ -10,6 +9,7 @@ import "@pathofdev/react-tag-input/build/index.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown } from "semantic-ui-react";
 import Utility from "@utils";
+import {axiosApiInstance} from "../../utils/axiosConfig";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -45,15 +45,18 @@ const CreatePost = (props) => {
     }
   };
 
+  
   // Send post data to database
   const sendToDatabase = (imgUrl) => {
     try {
-      axios
-        .post(`/post/api/createPost/${user.id}`, {
+      axiosApiInstance
+        .post(`/post/api/createPost`, {
           title: title,
+          userId: user.id,
           content: description,
           location: location,
-          imageUrl: imgUrl,
+          imageurl: imgUrl ?? "",
+          authorname: user.id, // Might be redundant
           tags: tags,
         })
         .then((res) => {
@@ -80,7 +83,7 @@ const CreatePost = (props) => {
       if (file) {
         try {
           let res;
-          res = await axios.post("/post/api/postUpload", { fileType: fileType });
+          res = await axiosApiInstance.post("/image/api/postUpload", { fileType: fileType });
           if (res.data.success) {
             const signedRequest = res.data.signedRequest;
             const res_url = res.data.url;
@@ -90,10 +93,10 @@ const CreatePost = (props) => {
               },
             };
             //uploading to s3 bucket
-            await axios.put(signedRequest, file, options);
+            await axiosApiInstance.put(signedRequest, file, options);
             sendToDatabase(res_url);
             onCloseModal();
-            setTimeout(() => window.location.reload(), 200);
+            setTimeout(() => window.location.reload(), 400);
           }
         } catch (err) {
           console.log(err.message);
@@ -101,7 +104,7 @@ const CreatePost = (props) => {
       } else {
         sendToDatabase();
         onCloseModal();
-        setTimeout(() => window.location.reload(), 200);
+        setTimeout(() => window.location.reload(), 400);
       }
     }
   };

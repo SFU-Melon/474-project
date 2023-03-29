@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUserContext } from "@contexts/UserContext";
-import axios from "axios";
+import { axiosApiInstance } from "../utils/axiosConfig";
 import { Link, useLocation } from "react-router-dom";
 
 const Vote = ({ votedId, numOfLikes, preVoteStatus, type }) => {
@@ -12,7 +12,7 @@ const Vote = ({ votedId, numOfLikes, preVoteStatus, type }) => {
 
   const handleVote = async (voteOperation) => {
     try {
-      const res = await axios.post(`/post/api/${voteOperation}/${user.id}`, {
+      const res = await axiosApiInstance.post(`/post/api/${voteOperation}/${user.id}`, {
         votedId,
         type,
       });

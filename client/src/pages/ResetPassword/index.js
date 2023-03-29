@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Loading from "@components/Loading";
 import useLocalStorage from "@hooks/useLocalStorage";
 import "./styles.css";
+import { axiosApiInstance } from "../../utils/axiosConfig";
 
 export default function ResetPassword(props) {
   const [password, setPassword] = useState("");
@@ -83,7 +83,7 @@ export default function ResetPassword(props) {
         setErrorMessage("Password needs to be at least 8 characters.");
       } else {
         if (password === confirmPassword) {
-          const res = await axios.post(`/auth/api/resetPassword/${username}`, {
+          const res = await axiosApiInstance.post(`/auth/api/resetPassword/${username}`, {
             token,
             password,
           });
@@ -105,7 +105,7 @@ export default function ResetPassword(props) {
   const sendEmail = async () => {
     try {
       setResend(false);
-      const res = await axios.get(`/auth/api/resetPasswordRequest/${username}`);
+      const res = await axiosApiInstance.get(`/auth/api/resetPasswordRequest/${username}`);
       if (res.data.success) {
         setEmail(res.data.email);
       }

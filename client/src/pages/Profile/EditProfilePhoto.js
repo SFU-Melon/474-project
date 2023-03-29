@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
-import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import "./style.css";
+import { axiosApiInstance } from "../../utils/axiosConfig";
 
 const EditProfilePhoto = (props) => {
   const { user } = useUserContext();
@@ -31,12 +31,12 @@ const EditProfilePhoto = (props) => {
   const sendToDatabase = (imgUrl) => {
     try {
       const url = user?.profilephoto;
-      axios
+      axiosApiInstance
         .post(`/user/api/editProfilePhoto/${user.id}`, {
           profilePhotoUrl: imgUrl,
         })
         .then((res) => {
-          axios
+          axiosApiInstance
             .post("/image/api/deleteOldProfile", {
               imageurl: url,
             })
@@ -56,7 +56,7 @@ const EditProfilePhoto = (props) => {
     if (validateForm()) {
       try {
         let res;
-        res = await axios.post("/image/api/profileUpload", { fileType: fileType });
+        res = await axiosApiInstance.post("/image/api/profileUpload", { fileType: fileType });
         if (res.data.success) {
           const signedRequest = res.data.signedRequest;
           const res_url = res.data.url;
@@ -66,7 +66,7 @@ const EditProfilePhoto = (props) => {
             },
           };
           //uploading to s3 bucket
-          await axios.put(signedRequest, file, options);
+          await axiosApiInstance.put(signedRequest, file, options);
           sendToDatabase(res_url);
           onCloseModal();
           setTimeout(() => window.location.reload(), 200);

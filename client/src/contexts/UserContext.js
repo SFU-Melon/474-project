@@ -1,6 +1,7 @@
 import { useState, useContext, createContext, useEffect, useMemo } from "react";
-import axios from "axios";
+import { axiosApiInstance } from "../utils/axiosConfig";
 import { useAuthContext } from "./AuthContext";
+import { Auth } from 'aws-amplify';
 
 const UserContext = createContext(null);
 
@@ -17,7 +18,17 @@ export function UserProvider({ children }) {
 
   const authenticateUser = async () => {
     try {
-      const res = await axios.get("/auth/api/user");
+      const data = await Auth.currentAuthenticatedUser();
+      console.log("IN AUTH USER:", data);
+      if(data) {
+        // temporary. We should fetch user data through /api/user
+        setUser({
+          id: data.username,
+          username: data.username,
+        });
+         setAuth(true);
+      }
+      const res = await axiosApiInstance.get("/auth/api/user");
       if (res.data.user) {
         setUser(res.data.user);
         setAuth(true);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useUserContext } from "@contexts/UserContext";
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
+import { axiosApiInstance } from "../../utils/axiosConfig";
 
 export default function CommentInput({ postId, setComments }) {
   const [content, setContent] = useState("");
@@ -18,7 +18,7 @@ export default function CommentInput({ postId, setComments }) {
     }
     try {
       // User should already be logged in.
-      const result = await axios.post(
+      const result = await axiosApiInstance.post(
         `/post/api/submitComment/${user.id}/${postId}`,
         {
           content,

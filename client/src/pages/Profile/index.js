@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
 import { useUserContext } from "@contexts/UserContext";
 import FollowButton from "@components/FollowButton";
@@ -10,6 +9,7 @@ import Utility from "@utils/index.js";
 import useLocalStorage from "@hooks/useLocalStorage";
 import ProfileTabs from "./ProfileTabs";
 import ScreenLoading from "@components/ScreenLoading";
+import { axiosApiInstance } from "../../utils/axiosConfig";
 
 const Profile = () => {
   const { user } = useUserContext();
@@ -28,7 +28,7 @@ const Profile = () => {
 
   const fetchUserPosts = async () => {
     try {
-      const res = await axios.get(`/post/api/getAllPosts/${user?.id}`);
+      const res = await axiosApiInstance.get(`/post/api/getAllPosts/${user?.id}`);
       setUserPosts(res.data);
     } catch (err) {
       console.log(err);
@@ -37,7 +37,7 @@ const Profile = () => {
 
   const fetchSavedPosts = async () => {
     try {
-      const res = await axios.get("/post/api/getAllSavedPosts");
+      const res = await axiosApiInstance.get("/post/api/getAllSavedPosts");
       setSavedPosts(res.data.posts);
     } catch (err) {
       console.log(err);
@@ -46,7 +46,7 @@ const Profile = () => {
 
   const fetchFollowData = async () => {
     try {
-      const res = await axios.get(
+      const res = await axiosApiInstance.get(
         `/user/api/getFollowersAndFollowingUsers/${user?.id}`
       );
       if (res.data.success) {
@@ -60,7 +60,7 @@ const Profile = () => {
 
   const fetchUserStats = async () => {
     try {
-      const res = await axios.get(`/user/api/userstats/${user?.id}`);
+      const res = await axiosApiInstance.get(`/user/api/userstats/${user?.id}`);
       if (res.data.success) {
         setStats(res.data.stats);
       }

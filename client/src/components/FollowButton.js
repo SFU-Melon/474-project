@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useUserContext } from "@contexts/UserContext";
 import { Link } from "react-router-dom";
+import { axiosApiInstance } from "../utils/axiosConfig";
 
 /***
  * props: {
@@ -21,7 +21,7 @@ export default function FollowButton(props) {
 
   const unfollow = async () => {
     try {
-      const res = await axios.post("/user/api/unfollows", {
+      const res = await axiosApiInstance.post("/user/api/unfollows", {
         follower_id: user.id,
         followee_id: props.userId,
       });
@@ -35,7 +35,7 @@ export default function FollowButton(props) {
 
   const follow = async () => {
     try {
-      const res = await axios.post("/user/api/follows", {
+      const res = await axiosApiInstance.post("/user/api/follows", {
         follower_id: user.id,
         followee_id: props.userId,
       });

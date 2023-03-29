@@ -20,18 +20,18 @@ const About = () => {
             <div className="card about-paragraph p-3 m-1">
               <h3>Introduction</h3>
               <p>
-                Muskmelon is a platform for plant enthusiasts. Its main
+                Muskmelon is a platform for education. Its main
                 functionality is to allow users to share posts with
-                descriptions, and images of their plants so that other users can
-                then like, save and comment.{" "}
+                questions, and images of their questions so that other users can
+                then like, save, and answer.{" "}
               </p>
             </div>
             <div className="card about-paragraph p-3 m-1">
               <h3>Purpose</h3>
               <p>
                 Over time users can like and save posts for inspiration, share
-                fruits of their own labor, and build a community fostering
-                appreciation for the growing of plants.
+                fruits of their own knowledge, and build a community fostering
+                appreciation for sharing the knowledge.
               </p>
             </div>
             <div className="card about-paragraph p-3 m-1">
@@ -43,8 +43,8 @@ const About = () => {
               </p>
               <code>Back-end</code>
               <p>
-                For our back-end we used Node.js and Express.js alongside
-                PostgreSQL for our database.
+                For our back-end we used AWS serverless lambda in both Node.js and Python alongside
+                DynamoDB for our database.
               </p>
             </div>
             <div className="card about-paragraph p-3 m-1">
@@ -52,16 +52,19 @@ const About = () => {
               <p>Muskmelon is brought to you by:</p>
               <ul className="creator-list">
                 <li>
-                  <a href="https://github.com/phyeony"> Hyeonyoung Park</a>
+                  <a href=""> Hyeonyoung</a>
                 </li>
                 <li>
-                  <a href="https://github.com/cxtruong70"> Calvin Truong</a>
+                  <a href=""> Vy</a>
                 </li>
                 <li>
-                  <a href="https://github.com/zwemsoe"> Zwe Min Soe</a>
+                  <a href=""> Rick</a>
                 </li>
                 <li>
-                  <a href="https://github.com/ACimensel"> Artun Cimensel</a>
+                  <a href=""> Serena</a>
+                </li>
+                <li>
+                  <a href=""> Vj</a>
                 </li>
               </ul>
             </div>
@@ -71,7 +74,7 @@ const About = () => {
           <div className="row">
             <div className="col">
               <a
-                href="https://github.com/planter-social/Muskmelon"
+                href="https://github.com/SFU-Melon/474-project/"
                 target="_blank"
                 className="btn btn-dark"
               >
@@ -80,7 +83,7 @@ const About = () => {
             </div>
             <div className="col">
               <a
-                href="https://github.com/planter-social/Muskmelon/issues"
+                href="https://github.com/SFU-Melon/474-project/issues"
                 target="_blank"
                 className="btn btn-danger"
                 style={{ width: "9rem" }}

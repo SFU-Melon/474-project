@@ -89,14 +89,6 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li className="nav-item ">
-              <Link to="/plants" className="nav-link">
-                <button type="button" className="btn btn-outline-light">
-                  Plants
-                </button>
-              </Link>
-            </li>
-
             {auth || user ? (
               <>
                 <li className="nav-item">

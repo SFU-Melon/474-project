@@ -5,8 +5,6 @@ import ResetPassword from "./pages/ResetPassword";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Post from "./pages/Post";
-import Plant from "./pages/Plant";
-import Plants from "./pages/Plants";
 import Error from "./pages/Error";
 import About from "./pages/About";
 import { UserProvider } from "@contexts/UserContext";
@@ -31,8 +29,6 @@ function App() {
               <div className="content">
                 <Switch>
                   <Route exact path="/post/:title/:id" component={Post} />
-                  <Route exact path="/plants" component={Plants} />
-                  <Route exact path="/plants/:sciname" component={Plant} />
                   <Route exact path="/" component={Home} />
                   <Route exact path="/hot" component={Home} />
                   <Route exact path="/new" component={Home} />

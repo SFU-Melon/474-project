@@ -115,8 +115,8 @@ const Post = () => {
                   {post.imageurl && (
                     <img
                       src={post.imageurl}
-                      alt="plant in each post page"
-                      className="plant-image-individual"
+                      alt="question in each post page"
+                      className="question-image-individual"
                     />
                   )}
                 </div>

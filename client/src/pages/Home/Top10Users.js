@@ -60,7 +60,7 @@ export default function Top10Users() {
 
   return (
     <>
-      <h2 className="card text-start p-2 mt-3 ">Top Planters:</h2>
+      <h2 className="card text-start p-2 mt-3 ">Top Sharer:</h2>
       {users &&
         users.map((userInCard, i) => {
           return <UserCardInHomePage key={i} userInCard={userInCard} />;

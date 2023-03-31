@@ -18,20 +18,28 @@ export function UserProvider({ children }) {
 
   const authenticateUser = async () => {
     try {
-      const data = await Auth.currentAuthenticatedUser();
-      console.log("IN AUTH USER:", data);
-      if(data) {
-        // temporary. We should fetch user data through /api/user
-        setUser({
-          id: data.username,
-          username: data.username,
-        });
-         setAuth(true);
-      }
-      const res = await axiosApiInstance.get("/auth/api/user");
-      if (res.data.user) {
-        setUser(res.data.user);
-        setAuth(true);
+      const authData = await Auth.currentAuthenticatedUser();
+      console.log("IN AUTH USER:", authData);
+      if(authData) {
+        const response = await axiosApiInstance.get(`/user/api/getUserById/${authData.username}`);
+        if(response.status === 200) {
+          const lambdaData = response.data;
+          // temporary. We should fetch user authData through /api/user
+          setUser({
+            id: authData.username,
+            username: authData.username,
+            lname: lambdaData.lname,
+            fnmae: lambdaData.fname,
+            dob: lambdaData.dob, // might need to change to Date object
+            email: lambdaData.email,
+            joindate: lambdaData.joindate,
+            profilephoto: lambdaData.profilephoto,
+            following: lambdaData.following,
+            followers: lambdaData.followers
+          });
+           setAuth(true);
+        }
+
       } else {
         setAuth(false);
       }

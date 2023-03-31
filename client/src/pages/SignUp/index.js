@@ -10,8 +10,8 @@ export default function SignUp(props) {
   const [selectedView, setSelectedView] = useState(SIGN_UP_FORM)
   const previousFormData = useRef()
 
-  const formCallback = (username) =>{
-    previousFormData.current = username;
+  const formCallback = (values) =>{
+    previousFormData.current = values;
     setSelectedView(VERIFY_REGISTRATION)
   }
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Auth } from 'aws-amplify';
+import { axiosApiInstance } from '../../utils/axiosConfig';
 import "./Signup.css";
 
-const SignupVerification = ({ username, navigateToFormCallback, navigateToSuccessCallback }) => {
+const SignupVerification = ({ values, navigateToFormCallback, navigateToSuccessCallback }) => {
     const [code, setCode] = React.useState("");
 
     const handleChange = (e) => {
@@ -12,8 +13,14 @@ const SignupVerification = ({ username, navigateToFormCallback, navigateToSucces
 
     const handleSubmit = async () => {
         try {
-            const result = await Auth.confirmSignUp(username, code);
+            const result = await Auth.confirmSignUp(values.username, code);
+            console.log("VALUES: ",values)
+            const response = await axiosApiInstance.post(`/user/api/createUser`, {
+                ...values
+            });
+        
             console.log(result, "RESULT");
+            console.log(response, "labmda response")
             navigateToSuccessCallback();
         } catch (error) {
             console.log("err", error);

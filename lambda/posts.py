@@ -54,6 +54,35 @@ def lambda_handler( event, context ):
         print("POST")
         if "editPost" in ENDPOINT:
             print("editPost")
+            data = json.loads(event['body'])
+            postId = event["pathParameters"]["postId"]
+
+            try:
+                res = client.update_item(
+                    TableName='posts',
+                    Key={
+                        'id': {
+                          'S': postId
+                        }
+                    },
+                    ExpressionAttributeNames={
+                        "#L":"location"
+                    },
+                    ExpressionAttributeValues={
+                        ":t": {"S": data["title"]},
+                        ":l": {"S": data["location"]},
+                        ":i": {"S": data["imageurl"]},
+                        ":c": {"S": data["content"]},
+                        ":ta": {"SS": data["tags"]}
+                    },
+                    UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'body': json.dumps({"error": str(e)})
+                }
 
         elif "createPost" in ENDPOINT:
             print("createPost")
@@ -118,17 +147,36 @@ def lambda_handler( event, context ):
                     'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
-        # transact_write_items doesnt return item so just append
-        # some fields to the input dict and return it instead
-        res = data
-        res["id"] = str(u_id)
-        # res["sortingid"] = next_id
-        res["datetime"] = timestamp
-        res["numoflikes"] = 0
-        res["numofcomments"] = 0
+            # transact_write_items doesnt return item so just append
+            # some fields to the input dict and return it instead
+            res = data
+            res["id"] = str(u_id)
+            # res["sortingid"] = next_id
+            res["datetime"] = timestamp
+            res["numoflikes"] = 0
+            res["numofcomments"] = 0
 
     elif METHOD == "DELETE":
         print("DELETE")
+        if "deletePost" in ENDPOINT:
+            print("deletePost")
+            postId = event["pathParameters"]["postId"]
+
+            try:
+                res = client.delete_item(
+                    TableName='posts',
+                     Key={
+                        'id': {
+                             'S': postId
+                        }
+                    }
+                )
+
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'body': json.dumps({"error": str(e)})
+                }
 
     else: # invalid request
         # raise Exception("Invalid request")

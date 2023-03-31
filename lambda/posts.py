@@ -5,7 +5,7 @@ import json
 import boto3
 
 
-    
+
 def lambda_handler( event, context ):
     """Setup DB connection"""
     # create a DynamoDB object using the AWS SDK
@@ -29,7 +29,7 @@ def lambda_handler( event, context ):
             } for item in data['Items']]
             res=parsed_data
 
-        elif event["pathParameters"]["postId"]:
+        elif "getPost" in ENDPOINT:
             postId = event["pathParameters"]["postId"]
             data = client.get_item(
                 TableName='posts',

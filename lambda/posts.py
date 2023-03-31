@@ -115,6 +115,7 @@ def lambda_handler( event, context ):
                 # condition check prob failed
                 return {
                     'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
         # transact_write_items doesnt return item so just append
@@ -133,6 +134,7 @@ def lambda_handler( event, context ):
         # raise Exception("Invalid request")
         return {
                 'statusCode': 400,
+                'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                 'body': json.dumps({"error": "Invalid request"})
         }
 

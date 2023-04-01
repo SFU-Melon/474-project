@@ -45,6 +45,7 @@ export function UserProvider({ children }) {
       }
     } catch (err) {
       console.log(err);
+      setAuth(false);
     }
   };
 

@@ -1,106 +1,48 @@
 import axios from "axios";
-import { Fragment } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PostCard from "./PostCard";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useInfiniteQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 
 export default function PostsList({ tags }) {
   let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
-  const fetchPosts = async ({ pageParam }) => {
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchPosts = useCallback(async()=> {
     try {
       const res = await axios.get("/post/api/getPosts", {
         params: {
           filterType,
-          val:
-            filterType === "hot"
-              ? pageParam?.params?.numoflikes
-              : pageParam?.datetime,
-          sortingId: pageParam?.params?.sortingid,
           tags,
         },
       });
-
-      if (filterType === "new") {
-        return res.data;
+      
+      if(res.status === 200){ 
+        setPosts(res.data);
       }
+      setIsLoading(false);
 
-      if (pageParam === undefined) {
-        //Return without filtering for the first page
-        return res.data;
-      }
-
-      //Filter out the elements that are in the previous pages
-      let newPage = res.data;
-      pageParam.prevPages.forEach((page) =>
-        page.forEach(
-          (post) =>
-            (newPage = newPage.filter((newPost) => newPost.id !== post.id))
-        )
-      );
-      return newPage;
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
+      setError(true);
     }
-  };
+  }, [])
 
-  const { data, error, fetchNextPage, hasNextPage, status } = useInfiniteQuery(
-    ["posts", filterType, tags],
-    fetchPosts,
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (filterType === "new") {
-          return lastPage?.[lastPage.length - 1];
-        }
-        if (lastPage?.[lastPage.length - 1] === undefined) {
-          return undefined;
-        }
-        return {
-          tags,
-          prevPages: pages,
-          params: lastPage?.[lastPage.length - 1],
-        };
-      },
-    }
-  );
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-  const calculateLength = () => {
-    let count = 0;
-    data.pages.forEach((page) => page.forEach((post) => count++));
-    return count;
-  };
 
-  return status === "loading" ? (
+  return isLoading ? (
     <p>Loading...</p>
-  ) : status === "error" ? (
-    <p>Error: {error.message}</p>
+  ) : error ? (
+    <p>Server failed to retrieve posts</p>
   ) : (
     <div>
-      {data && (
-        <InfiniteScroll
-          dataLength={calculateLength}
-          pageStart={0}
-          next={fetchNextPage}
-          hasMore={hasNextPage}
-          loader={
-            <div className="loader" key={0}>
-              Loading ...
-            </div>
-          }
-          endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }
-        >
-          {data.pages?.map((page, i) => (
-            <Fragment key={i}>
-              {page?.map((post) => {
-                return <PostCard key={post.id} post={post}></PostCard>;
-              })}
-            </Fragment>
-          ))}
-        </InfiniteScroll>
+      {posts?.map((post, i) => 
+          <PostCard key={post.id} post={post}></PostCard>
       )}
     </div>
   );

@@ -8,7 +8,15 @@ export const axiosApiInstance = axios.create();
 // Request interceptor for API calls
 axiosApiInstance.interceptors.request.use(
   async config => {
-    config.headers['Authorization'] = `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`;
+    try{
+      const currentSession = await Auth.currentSession();
+      console.log("SESS", currentSession)
+      if(currentSession) {
+        config.headers['Authorization'] = `Bearer ${currentSession.getAccessToken().getJwtToken()}`;
+      }
+    } catch(e) {
+      console.error("current session does not exist", e) 
+    }
     return config;
   },
   error => {

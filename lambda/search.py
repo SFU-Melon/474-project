@@ -1,6 +1,5 @@
 import json
 import boto3
-from boto3.dynamodb.conditions import Key, Attr
 
 def lambda_handler(event, context):
     """Setup DB connection"""

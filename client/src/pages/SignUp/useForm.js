@@ -73,7 +73,7 @@ const useForm = (callback, validateInfo) => {
             console.log(user);
             console.log(user);
             if (user) {
-              setTimeout(() => callback({...values, profilephoto: res_url}), 1500);
+              setTimeout(() => callback({...values, profilephoto: res_url, password: undefined, password2: undefined}), 1500);
             }
             // TODO:
             // The app does not have a page to verify a user atm. 
@@ -120,7 +120,7 @@ const useForm = (callback, validateInfo) => {
         });
         console.log(user);
         if (user) {
-          setTimeout(() => callback(values), 1500);
+          setTimeout(() => callback({...values, profilephoto: '', password: undefined, password2: undefined}), 1500);
         }
       } catch (err) {
         setTimeout(() => {

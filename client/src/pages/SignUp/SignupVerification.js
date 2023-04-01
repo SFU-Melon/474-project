@@ -13,16 +13,14 @@ const SignupVerification = ({ values, navigateToFormCallback, navigateToSuccessC
 
     const handleSubmit = async () => {
         try {
-            const result = await Auth.confirmSignUp(values.username, code);
             console.log("VALUES: ",values)
-            const response = await axiosApiInstance.post(`/user/api/createUser`, {
-                ...values
-            });
-        
-            console.log(result, "RESULT");
+            const result = await Auth.confirmSignUp(values.username, code);
+            const response = await axiosApiInstance.post(`/user/api/createUser`, values);
+            console.log(result, 'auth result')
             console.log(response, "labmda response")
             navigateToSuccessCallback();
         } catch (error) {
+
             console.log("err", error);
             alert(error)
         }
@@ -30,7 +28,7 @@ const SignupVerification = ({ values, navigateToFormCallback, navigateToSuccessC
     }
 
     return (
-        <span class="login ">
+        <span className="login ">
             <h1>Account Verificiation<br />Please check your email inbox and enter your verfication code here.</h1>
             <div className="signup-inputs">
                 <label htmlFor="password" className="signup-label">
@@ -52,7 +50,7 @@ const SignupVerification = ({ values, navigateToFormCallback, navigateToSuccessC
             </div>
             {/* 
             <img className="signupImage" src={process.env.PUBLIC_URL + '/signup.png'} /> */}
-            <Link onClick={navigateToFormCallback}><p className="loginLink">Go back to sign up form</p></Link>
+            <a href="#" onClick={navigateToFormCallback}><p className="loginLink">Go back to sign up form</p></a>
         </span>
     )
 }

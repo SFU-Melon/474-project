@@ -11,7 +11,7 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 // Create a user in DynamoDB
 exports.createUser = async (event) => {
   const body = JSON.parse(event.body);
-  const id = body.userId
+  const id = body.username
 //   const username = body.userId;
   const fname = body.fname;
   const lname = body.lname;

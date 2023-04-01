@@ -28,7 +28,7 @@ export default function SignUp(props) {
       case SIGN_UP_FORM:
         return <SignupForm formCallback={formCallback} />
       case VERIFY_REGISTRATION:
-        return <SignupVerification username={previousFormData.current} navigateToFormCallback={navigateToFormCallback} navigateToSuccessCallback={navigateToSuccessCallback}/>
+        return <SignupVerification values={previousFormData.current} navigateToFormCallback={navigateToFormCallback} navigateToSuccessCallback={navigateToSuccessCallback}/>
       case SIGN_UP_SUCCESS:
         return <SignupSuccess />
     }

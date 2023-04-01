@@ -12,9 +12,9 @@ const SmallUserCard = (props) => {
       <Link
         style={{ textDecoration: "none", color: "black" }}
         to={
-          user?.id === props.person.id
-            ? `/profile/${user?.username}`
-            : `/profile/public/${props.person.username}`
+          user?.id === props.person.userId
+            ? `/profile/${user?.id}`
+            : `/profile/public/${props.person.userId}`
         }
       >
         <div
@@ -36,7 +36,7 @@ const SmallUserCard = (props) => {
               ></img>
             </div>
             <div className="col display-grid-center">
-              <p className="small-user-name">{props.person.username}</p>
+              <p className="small-user-name">{props.person.userId}</p>
             </div>
           </div>
         </div>

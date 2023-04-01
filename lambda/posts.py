@@ -49,11 +49,57 @@ def lambda_handler( event, context ):
 
         elif "getAllPosts" in ENDPOINT:
             print("getAllPosts")
+        
+        elif "getAllSavedPosts" in ENDPOINT:
+            print("getAllSavedPosts")
+
+    elif METHOD == "POST" and ("savePost" in ENDPOINT or "editPost" in ENDPOINT):
+        if "savePost" in ENDPOINT:
+            try:
+                response = client.update_item(
+                    TableName='posts',
+                    Key={'id': {
+                        'S': item['id']
+                    }},
+                    UpdateExpression=f'set location:={"S": data["location"]} , set imageurl:={"S": data["imageurl"]} , set content:={"S": data["content"]}, tags:={"SS": data["tags"]}',
+                    # ExpressionAttributeValues={},
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'body': json.dumps({"error": str(e)})
+                }
+            
+
+            
+        elif "editPost" in ENDPOINT:
+            try:
+                response = client.update_item(
+                    TableName='posts',
+                    Key={'id': {
+                        'S': item['id']
+                    }},
+                    UpdateExpression=f'set location:={"S": data["location"]} , set imageurl:={"S": data["imageurl"]} , set content:={"S": data["content"]}, tags:={"SS": data["tags"]}',
+                    # ExpressionAttributeValues={},
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'body': json.dumps({"error": str(e)})
+                }
 
     elif METHOD == "POST":
         print("POST")
         if "editPost" in ENDPOINT:
             print("editPost")
+
+        elif "savePost" in ENDPOINT:
+            print("savePost")
+
+        elif "unsavePost" in ENDPOINT:
+            print("unsavePost")
 
         elif "createPost" in ENDPOINT:
             print("createPost")

@@ -1,7 +1,7 @@
 import Vote from "@components/Vote";
 import { useUserContext } from "@contexts/UserContext";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Utility from "@utils";
 import "./PostCard.css";
 import Tags from "@components/Tags";
@@ -12,12 +12,20 @@ export default function PostCard({ post }) {
   const encodedTitle = encodeURIComponent(post.title);
   const [tags, setTags] = useState([]);
   const { user } = useUserContext();
+  const history = useHistory();
 
   useEffect(() => {
     const time = Utility.getDisplayTime(post.datetime);
     setDisplayTime(time);
     setTags(post.tags);
   }, []);
+
+  const handleAuthorClick = (e) => {
+    e.stopPropagation();
+    history.push(`/profile/${
+      post.authorname !== user?.username ? "public/" : ""
+    }${post.authorname}`);
+  }
 
   return (
     <div className="post-card card flex-row p-3 m-2">
@@ -49,14 +57,8 @@ export default function PostCard({ post }) {
           <div className="d-flex flex-row justify-content-between text-break">
             <p>
               Posted by{" "}
-              <span>
-                <Link
-                  to={`profile/${
-                    post.authorname !== user?.username ? "public/" : ""
-                  }${post.authorname}`}
-                >
-                  {post.authorname}
-                </Link>
+              <span onClick={handleAuthorClick} style={{ cursor: "pointer" }}>
+                {post.authorname}
               </span>{" "}
               {post.location && "from"} {post.location}
             </p>

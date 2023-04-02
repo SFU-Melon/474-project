@@ -31,7 +31,9 @@ const PublicProfile = () => {
   const fetchProfileUser = async () => {
     try {
       const res = await axios.get(`/user/api/getUserById/${username}`);
-      setProfileUser(res.data.success);
+      if(res.status === 200) {
+        setProfileUser(res.data);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -51,9 +53,10 @@ const PublicProfile = () => {
       const res = await axios.get(
         `/user/api/getFollowersAndFollowingUsers/${profileUser?.id}`
       );
-      if (res.data.success) {
+      console.log("FETCH")
+      if (res.status === 200) {
         setFollowers(res.data.followers);
-        setFollowing(res.data.following);
+        setFollowing(res.data.followees);
       }
     } catch (err) {
       console.log(err.message);

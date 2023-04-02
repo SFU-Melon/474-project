@@ -170,7 +170,7 @@ def lambda_handler( event, context ):
                         "userId": {"S": data['userId']},
                         "content": {"S": data['content']},
                         # "authorname": {"S": data['authorname']},
-                        "tags": {"L": data['tags']}
+                        "tags": {"L": [{"S": tag} for tag in data['tags']]}
                         },
                     "ConditionExpression": "attribute_not_exists(id)"
                     },

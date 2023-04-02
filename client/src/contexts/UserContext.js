@@ -21,21 +21,25 @@ export function UserProvider({ children }) {
       const authData = await Auth.currentAuthenticatedUser();
       console.log("IN AUTH USER:", authData);
       if(authData) {
-        const response = await axiosApiInstance.get(`/user/api/getUserById/${authData.username}`);
-        if(response.status === 200) {
-          const lambdaData = response.data;
+        const [response, followResponse] = await Promise.all([
+          axiosApiInstance.get(`/user/api/getUserById/${authData.username}`),
+          axiosApiInstance.get(`/user/api/getFollowersAndFollowingUsers/${authData.username}`)
+        ]);
+        if(response.status === 200 && followResponse.status === 200) {
+          const userData = response.data;
+          const followData = followResponse.data;
           // temporary. We should fetch user authData through /api/user
           setUser({
             id: authData.username,
             username: authData.username,
-            lname: lambdaData.lname,
-            fnmae: lambdaData.fname,
-            dob: lambdaData.dob, // might need to change to Date object
-            email: lambdaData.email,
-            joindate: lambdaData.joindate,
-            profilephoto: lambdaData.profilephoto,
-            following: lambdaData.following,
-            followers: lambdaData.followers
+            lname: userData.lname,
+            fname: userData.fname,
+            dob: userData.dob, // might need to change to Date object
+            email: userData.email,
+            joindate: userData.joindate,
+            profilephoto: userData.profilephoto,
+            following: followData.followees,
+            followers: followData.followers
           });
            setAuth(true);
         }

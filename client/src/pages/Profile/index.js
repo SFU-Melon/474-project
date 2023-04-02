@@ -49,9 +49,9 @@ const Profile = () => {
       const res = await axiosApiInstance.get(
         `/user/api/getFollowersAndFollowingUsers/${user?.id}`
       );
-      if (res.data.success) {
+      if (res.status === 200) {
         setFollowers(res.data.followers);
-        setFollowing(res.data.following);
+        setFollowing(res.data.followees);
       }
     } catch (err) {
       console.log(err.message);

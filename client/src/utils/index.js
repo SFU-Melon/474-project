@@ -30,7 +30,9 @@ Utility.decodeUUID = (id) => {
 };
 
 Utility.formatDate = (date) => {
-  if (date) return lightFormat(new Date(date), "dd/MM/yyyy");
+  console.log("DATE: ", date)
+  return date;
+  // if (date) return lightFormat(new Date(date), "dd/MM/yyyy");
 };
 
 Utility.monthNames = [

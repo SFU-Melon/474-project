@@ -99,7 +99,7 @@ def lambda_handler( event, context ):
 
             try:
                 res = client.update_item(
-                    TableName='posts',
+                    TableName=TABLE_NAME,
                     Key={
                         'id': {
                           'S': postId
@@ -113,7 +113,7 @@ def lambda_handler( event, context ):
                         ":l": {"S": data["location"]},
                         ":i": {"S": data["imageurl"]},
                         ":c": {"S": data["content"]},
-                        ":ta": {"SS": data["tags"]}
+                        ":ta": {"L": data["tags"]}
                     },
                     UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
                     ReturnValues="UPDATED_NEW"
@@ -121,6 +121,7 @@ def lambda_handler( event, context ):
             except Exception as e:
                 return {
                     'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
 
@@ -204,7 +205,7 @@ def lambda_handler( event, context ):
 
             try:
                 res = client.delete_item(
-                    TableName='posts',
+                    TableName=TABLE_NAME,
                      Key={
                         'id': {
                              'S': postId
@@ -215,6 +216,7 @@ def lambda_handler( event, context ):
             except Exception as e:
                 return {
                     'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
 

@@ -12,13 +12,11 @@ def lambda_handler( event, context ):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('comments')
     # use the DynamoDB object to select our table
-    METHOD = event["httpMethod"]
     ENDPOINT = event["path"]
     PATHPARAMS = event["pathParameters"]
     res = {}
     """Handle Requests"""
-    if METHOD == "GET":
-
+    try:
         if "getComments" in ENDPOINT:
             
             data = table.scan(
@@ -31,15 +29,14 @@ def lambda_handler( event, context ):
             key = 'numoflikes'
             parsed_data.sort( key=lambda item: item[key], reverse=True )
             res['comments']=parsed_data
-
-    elif METHOD == "POST":
-        if "submitComment" in ENDPOINT:
+    
+        elif "submitComment" in ENDPOINT:
             data = json.loads(event['body'])
             userid = PATHPARAMS['userid']
             postid = PATHPARAMS['postid']
             u_id = uuid4()
             timestamp = datetime.today().strftime('%Y-%m-%d') # casts to .0 instead of ugly .23740
-
+    
             transaction = [
                 {
                     # this should
@@ -57,7 +54,7 @@ def lambda_handler( event, context ):
                     },
                 }
             ]
-
+    
             try:
                 client.transact_write_items(
                     TransactItems = transaction
@@ -68,23 +65,23 @@ def lambda_handler( event, context ):
                     'statusCode': 500,
                     'body': json.dumps({"error": str(e)})
                 }
-        # transact_write_items doesnt return item so just append
-        # some fields to the input dict and return it instead
-        comment = data
-        comment["username"] = userid
-        comment["id"] = str(u_id)
-        comment["datetime"] = timestamp
-        comment["numoflikes"] = 0
-        res["success"] = 1
-        res["comment"] = comment
+            # transact_write_items doesnt return item so just append
+            # some fields to the input dict and return it instead
+            comment = data
+            comment["username"] = userid
+            comment["id"] = str(u_id)
+            comment["datetime"] = timestamp
+            comment["numoflikes"] = 0
+            res["success"] = 1
+            res["comment"] = comment
 
 
-    else: # invalid request
+    except Exception as e: # invalid request
         # raise Exception("Invalid request")
         res["success"] = 0
         return {
                 'statusCode': 400,
-                'body': json.dumps({"error": "Invalid request"})
+                'body': json.dumps({"error": str(e)})
         }
 
     # assume all went well

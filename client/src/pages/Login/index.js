@@ -5,6 +5,8 @@ import { useUserContext } from "@contexts/UserContext";
 import { useAuthContext } from "@contexts/AuthContext";
 import Loading from "@components/Loading";
 import { Auth } from 'aws-amplify';
+import {axiosApiInstance } from "@utils/axiosConfig"
+
 import "./login.css";
 
 export default function Login(props) {
@@ -44,28 +46,37 @@ export default function Login(props) {
       try {
         const user = await Auth.signIn(username, password);
         console.log(user);
-        const data = {
-          id: user.username,
-          username: user.username,
-          profilephoto: '',
-          fname: user.family_name,
-          lname: user.given_name,
-          email: user.email,
-          dob: user.birthdate,
-          following: '',
-          followers: ''
-        };
-
-        setTimeout(() => {
-          setUser(data);
-          setAuth(true);
-          if (props.location.state !== undefined) {
-            history.replace(props.location.state.prevPath);
-          } else {
-            history.replace("/");
+        if(user) {
+          const response = await axiosApiInstance.get(`/user/api/getUserById/${user.username}`);
+          if(response.status === 200) {
+            const lambdaData = response.data;
+            const data = {
+              id: user.username,
+              username: user.username,
+              profilephoto: lambdaData.profilephoto,
+              lname: lambdaData.lname,
+              fnmae: lambdaData.fname,
+              dob: lambdaData.dob, // might need to change to Date object
+              email: lambdaData.email,
+              joindate: lambdaData.joindate,
+              profilephoto: lambdaData.profilephoto,
+              following: lambdaData.following,
+              followers: lambdaData.followers
+            };
+    
+            setTimeout(() => {
+              setUser(data);
+              setAuth(true);
+              if (props.location.state !== undefined) {
+                history.replace(props.location.state.prevPath);
+              } else {
+                history.replace("/");
+              }
+            }, 1500);
           }
-        }, 1500);
-      
+
+        }
+
       } catch(error) {
         if (error.code === 'UserNotFoundException') {
           console.log('User does not exist.');

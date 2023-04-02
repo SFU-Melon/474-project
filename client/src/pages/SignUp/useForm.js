@@ -59,7 +59,7 @@ const useForm = (callback, validateInfo) => {
             const { user } = await Auth.signUp({
               username: values.username,
               password: values.password,
-              attributes: {
+              attributes: {// TODO: SHOULD DELETE THESE ATTRIBUTES
                 email: values.email,
                 picture: res_url,
                 given_name: values.fname,
@@ -71,6 +71,10 @@ const useForm = (callback, validateInfo) => {
               // }
             });
             console.log(user);
+            console.log(user);
+            if (user) {
+              setTimeout(() => callback({...values, profilephoto: res_url, password: undefined, password2: undefined}), 1500);
+            }
             // TODO:
             // The app does not have a page to verify a user atm. 
             // I think the easiest way for now is configure the Cognito to send the email link not verification code.
@@ -104,7 +108,7 @@ const useForm = (callback, validateInfo) => {
         const { user } = await Auth.signUp({
           username: values.username,
           password: values.password,
-          attributes: {
+          attributes: { // TODO: SHOULD DELETE THESE ATTRIBUTES
             email: values.email,
             given_name: values.fname,
             family_name: values.lname,
@@ -116,7 +120,7 @@ const useForm = (callback, validateInfo) => {
         });
         console.log(user);
         if (user) {
-          setTimeout(() => callback(values.username), 1500);
+          setTimeout(() => callback({...values, profilephoto: '', password: undefined, password2: undefined}), 1500);
         }
       } catch (err) {
         setTimeout(() => {

@@ -1,63 +1,40 @@
 import axios from "axios";
+// import { axiosApiInstance } from "../../utils/axiosConfig";
 import { useEffect, useState, Fragment } from "react";
 import ProfilePostCard from "../Profile/ProfilePostCard";
-import SmallPlantCard from "./SmallPlantCard";
 import SmallUserCard from "./SmallUserCard";
 import { useLocation } from "react-router-dom";
 import NoResult from "./NoResult";
-import InfiniteScroll from "react-infinite-scroll-component";
 import ScreenLoading from "@components/ScreenLoading";
 import "./styles.css";
 import ResultTabs from "./ResultTabs";
-const scopeList = ["posts", "all", "plants", "users"];
+const scopeList = ["posts", "users"]; // TODO: add search all if time permits , "all"
 
 export default function Search() {
   const query = new URLSearchParams(useLocation().search);
   const scope = query.get("scope");
   const value = decodeURIComponent(query.get("value"));
 
-  const [plants, setPlants] = useState([]);
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
 
   const [loading, setLoading] = useState(true);
 
   let location = useLocation();
-  let lastPost;
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1500);
   }, []);
 
-  const runSearch = async (isFirst) => {
-    if (isFirst === "first") {
-      setHasMore(true);
-    }
-    const res = await axios.get(`/post/api/search/${scope}/${value}`, {
-      params: {
-        lastElementSubVal: lastPost?.numoflikes,
-        lastElementRank: isFirst === "first" ? undefined : lastPost?.rank,
-        sortingId: lastPost?.sortingid,
-      },
-    });
-    if (res.data.success) {
-      if (res.data.posts) {
-        if (isFirst !== "first") {
-          //filtering out the same posts from prev posts in newPosts
-          const newPosts = res.data.posts.filter(
-            (element) => !posts.map((post) => post.id).includes(element.id)
-          );
-          setPosts((prev) => [...prev, ...newPosts]);
-        } else {
-          setPosts(res.data.posts);
-        }
+  const runSearch = async () => {
+    const res = await axios.get(`/search/api/search/${scope}/${value}`);
+    console.log("SEARECH DATA: ", res);
+    if (res.status===200) {
+      if(scope==="posts") {
+        setPosts(res.data);
+      } else if(scope==="users") {
+        setUsers(res.data);
       }
-      res.data.users && setUsers(res.data.users);
-      res.data.plants && setPlants(res.data.plants);
-    }
-    if (res.data.posts === undefined || res.data.posts?.length === 0) {
-      setHasMore(false);
     }
   };
 
@@ -65,23 +42,10 @@ export default function Search() {
   useEffect(() => {
     if (scope && value) {
       if (scopeList.includes(scope)) {
-        runSearch("first");
+        runSearch();
       }
     }
   }, [scope, value, location]);
-
-  const renderPlantSection = () => {
-    return (
-      <div className={`${scope === "all" && "mt-3"}`}>
-        <h2 style={{ textAlign: "center" }}>Plant Results:</h2>
-        {plants.length === 0 ? (
-          <NoResult />
-        ) : (
-          plants.map((plant) => <SmallPlantCard plant={plant} />)
-        )}
-      </div>
-    );
-  };
 
   const renderPostSection = () => {
     return (
@@ -93,30 +57,9 @@ export default function Search() {
           <NoResult />
         ) : (
           <div className="">
-            <InfiniteScroll
-              dataLength={posts.length}
-              pageStart={0}
-              next={runSearch}
-              hasMore={hasMore}
-              scrollableTarget={scope === "all" && "post-scrollable"}
-              loader={
-                <div className="loader" key={0}>
-                  Loading ...
-                </div>
-              }
-              endMessage={
-                <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
-            >
               {posts.map((post, index) => {
-                if (posts.length === index + 1) {
-                  lastPost = post;
-                }
                 return <ProfilePostCard key={post.id} post={post} />;
               })}
-            </InfiniteScroll>
           </div>
         )}
       </div>
@@ -141,14 +84,11 @@ export default function Search() {
       case "posts":
         return renderPostSection();
 
-      case "plants":
-        return renderPlantSection();
-
       case "users":
         return renderUserSection();
 
       default:
-        return <ResultTabs posts={posts} plants={plants} users={users} />;
+        return <ResultTabs posts={posts} users={users} />;
     }
   };
 

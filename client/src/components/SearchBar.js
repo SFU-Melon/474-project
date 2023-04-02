@@ -36,7 +36,7 @@ const SearchBar = (props) => {
         <option value="posts">Posts</option>
         <option value="users">Users</option>
         {/* <option value="plants">Plants</option> */}
-        <option value="all">All</option>
+        {/* <option value="all">All</option> */}
       </select>
     </div>
   );

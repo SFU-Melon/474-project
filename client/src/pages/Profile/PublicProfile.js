@@ -30,7 +30,7 @@ const PublicProfile = () => {
 
   const fetchProfileUser = async () => {
     try {
-      const res = await axios.get(`/user/api/getUserByUsername/${username}`);
+      const res = await axios.get(`/user/api/getUserById/${username}`);
       setProfileUser(res.data.success);
     } catch (err) {
       console.log(err);

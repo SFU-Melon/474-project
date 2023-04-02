@@ -82,6 +82,7 @@ exports.getUserById = async (event) => {
     if (result.Item) {
       return {
         statusCode: 200,
+        headers: defaultHeaders,
         body: JSON.stringify(result.Item)
       };
     } else {

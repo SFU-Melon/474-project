@@ -16,7 +16,7 @@ const Tags = (props) => {
         {tags ? (
           tags.map((item, i) => (
             <Label
-              as="a"
+              //as="a"
               color={`${Utility.getLabelColor(item)}`}
               className="mb-1 mb-md-0"
               key={i}

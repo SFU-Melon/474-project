@@ -5,43 +5,83 @@ import json
 import boto3
 
 
-
 def lambda_handler( event, context ):
     """Setup DB connection"""
-    # create a DynamoDB object using the AWS SDK
+    TABLE_NAME = "posts"
     dynamodb = boto3.resource('dynamodb')
     client = boto3.client('dynamodb')
-    # use the DynamoDB object to select our table
-    table = dynamodb.Table('Posts')
+    table = dynamodb.Table(TABLE_NAME)
+
     METHOD = event["httpMethod"]
     ENDPOINT = event["path"]
     res = None
+
     """Handle Requests"""
     if METHOD == "GET":
         print("GET")
 
         if "getPosts" in ENDPOINT:
-            data = client.scan(
-                TableName='posts'
-            )
+            params = event['queryStringParameters']
+            filterType = params['filterType']
+
+            if 'tags[]' in params:
+                # filter by tags
+                filterTags = event['multiValueQueryStringParameters']['tags[]']
+                # print(f"tags to filter by {filterTags}")
+
+                tagsList = [ {'S':tag} for tag in filterTags ]
+                keyList = [f":{tags}" for tags in filterTags]
+                attrDict = dict( zip(keyList, tagsList) )
+                filterExp = [ f'contains(#tags, {key})' for key in keyList ]
+                AND = " and "
+                OR = " or "
+
+                # print(filterExp)
+                # print( attrDict)
+                data = client.scan(
+                    TableName = TABLE_NAME,
+                    FilterExpression = AND.join( filterExp ),
+                    ExpressionAttributeNames = { '#tags' : 'tags' },
+                    ExpressionAttributeValues = attrDict
+                    )
+            else:
+                data = client.scan(
+                    TableName=TABLE_NAME
+                )
+
             parsed_data = [{"id": item["id"]["S"],"content": item["content"]["S"],"location":item["location"]["S"],"datetime":item["datetime"]["S"],
-                "title":item["title"]["S"],"imageurl":item["imageurl"]["S"], "numoflikes":item["numoflikes"]["N"], "userId":item["userId"]["S"], "authorname":item["userId"]["S"]
+                "title":item["title"]["S"],"imageurl":item["imageurl"]["S"], "numoflikes":item["numoflikes"]["N"], "tags":item["tags"]["L"]
             } for item in data['Items']]
+
+            for post in parsed_data:
+                post["tags"] = [item["S"] for item in post["tags"]]
+
+            # sort by filter type
+            key = 'numoflikes' if filterType == 'hot' else 'datetime'
+            parsed_data.sort( key=lambda item: item[key], reverse=True )
             res=parsed_data
+            # res[0]["event"] = json.dumps(event['requestContext']['identity'])
 
         elif "getPost" in ENDPOINT:
             postId = event["pathParameters"]["postId"]
             data = client.get_item(
-                TableName='posts',
-                Key={
-                    'id': {
-                      'S': postId
-                    }
-                }
+                TableName=TABLE_NAME,
+                Key={ 'id': { 'S': postId } }
               )
-            item = data['Item']
+            try:
+                item = data['Item']
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
+
             parsed_data = {"id": item["id"]["S"],"content": item["content"]["S"],"location":item["location"]["S"],"datetime":item["datetime"]["S"],
-                "title":item["title"]["S"],"imageurl":item["imageurl"]["S"],"numoflikes":item["numoflikes"]["N"], "userId":item["userId"]["S"], "authorname":item["userId"]["S"]}
+                "title":item["title"]["S"],"imageurl":item["imageurl"]["S"],"numoflikes":item["numoflikes"]["N"], "userId":item["userId"]["S"],
+                "authorname":item["userId"]["S"], "tags":item["tags"]["L"]}
+            parsed_data["tags"] = [item["S"] for item in parsed_data["tags"]]
+
             res = parsed_data
 
         elif "getPostLikedNotOwned" in ENDPOINT:
@@ -59,7 +99,7 @@ def lambda_handler( event, context ):
 
             try:
                 res = client.update_item(
-                    TableName='posts',
+                    TableName=TABLE_NAME,
                     Key={
                         'id': {
                           'S': postId
@@ -73,7 +113,7 @@ def lambda_handler( event, context ):
                         ":l": {"S": data["location"]},
                         ":i": {"S": data["imageurl"]},
                         ":c": {"S": data["content"]},
-                        ":ta": {"SS": data["tags"]}
+                        ":ta": {"L": data["tags"]}
                     },
                     UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
                     ReturnValues="UPDATED_NEW"
@@ -81,6 +121,7 @@ def lambda_handler( event, context ):
             except Exception as e:
                 return {
                     'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
 
@@ -116,7 +157,7 @@ def lambda_handler( event, context ):
                 {
                     # this should
                     "Put": {
-                    "TableName": "posts",
+                    "TableName": TABLE_NAME,
                     "Item": {
                         "id": {"S": str(u_id)},
                         # "sortingid": {"N": '1'},
@@ -129,7 +170,7 @@ def lambda_handler( event, context ):
                         "userId": {"S": data['userId']},
                         "content": {"S": data['content']},
                         # "authorname": {"S": data['authorname']},
-                        "tags": {"SS": data['tags']}
+                        "tags": {"L": data['tags']}
                         },
                     "ConditionExpression": "attribute_not_exists(id)"
                     },
@@ -164,7 +205,7 @@ def lambda_handler( event, context ):
 
             try:
                 res = client.delete_item(
-                    TableName='posts',
+                    TableName=TABLE_NAME,
                      Key={
                         'id': {
                              'S': postId
@@ -175,6 +216,7 @@ def lambda_handler( event, context ):
             except Exception as e:
                 return {
                     'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
 

@@ -2,11 +2,11 @@ import json
 import boto3
 
 def lambda_handler(event, context):
-    dynamodb = boto3.resource('dynamodb')
     client = boto3.client('dynamodb')
     body = json.loads(event['body'])
     username = event["pathParameters"]["username"]
     endpoint = event["path"]
+    res = None
     # get the current post to make sure it exists
     try:
         data = client.get_item(

@@ -2,20 +2,49 @@ import json
 import boto3
 
 def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
     client = boto3.client('dynamodb')
     body = json.loads(event['body'])
     username = event["pathParameters"]["username"]
     endpoint = event["path"]
     res = None
     # get the current post to make sure it exists
-    try:
-        data = client.get_item(
-            TableName='posts',
-            Key={
+    if (body['type'] == 'post'):
+        typeTable = 'posts'
+        likesTable = 'likes'
+        likesQueryKey = {'postid': {
+                      'S': body['votedId']
+                    },
+                    'userid':{
+                        'S':username
+                    }
+                    }
+        queryId = {
                 'id': {
                   'S': body['votedId']
                 }
             }
+        
+    elif (body['type'] == 'comment'):
+        typeTable = 'comments'
+        likesTable = 'likescomment'
+        likesQueryKey = {'commentid': {
+                      'S': body['votedId']['commentId']
+                    },
+                    'userid':{
+                        'S':username
+                    }
+                    }
+        queryId = {
+                'id': {
+                  'S': body['votedId']['commentId']
+                }
+            }
+    
+    try:
+        data = client.get_item(
+            TableName=typeTable,
+            Key=queryId
           )
         postExists = data['Item']
         if (not postExists):
@@ -23,22 +52,17 @@ def lambda_handler(event, context):
         
         # if post does exist, check if user has liked it yet
         likeData = client.get_item(
-            TableName='likes',
-            Key={
-                'postid': {
-                  'S': body['votedId']
-                },
-                'userid':{
-                    'S':username
-                }
-            }
+            TableName=likesTable,
+            Key=likesQueryKey
           )
+       
     except Exception as e:
         # condition check prob failed
         return {
             'statusCode': 500,
-            'body': json.dumps({"big err": str(e)})
+            'body': json.dumps({"get post/comments and likes failed": str(e)})
         }
+        
     if ('Item' in likeData):
         likeStatus = likeData['Item']["val"]["N"]
         numLikes = int(postExists["numoflikes"]["N"])
@@ -76,29 +100,25 @@ def lambda_handler(event, context):
                 numLikes -= 1
                 likeStatus = -1
                 res = "downvoted"
-            
         
         # update the user's like status in the like table to the correct value
         client.update_item(
-            TableName='likes',
-            Key={'userid': {
-                'S': username
-            },'postid':{'S':body["votedId"]}},
+            TableName=likesTable,
+            Key=likesQueryKey,
             UpdateExpression="set val=:l",
             ExpressionAttributeValues={
                 ':l': {"N":str(likeStatus)}},
             ReturnValues="UPDATED_NEW"
         )
+       
     # if user has never voted on this before, must insert new item into likes table
     else:
+        new_item = likesQueryKey
+        new_item['val'] = {"N": "1"}
         numLikes = int(postExists["numoflikes"]["N"]) + 1
         client.put_item(
-            TableName= 'likes',
-            Item= {
-                "userid": {"S": username},
-                "postid": {"S": body['votedId']},
-                "val":{"N": "1"}
-                },
+            TableName= likesTable,
+            Item= new_item,
             ConditionExpression= "attribute_not_exists(userid)"
         )
    
@@ -106,10 +126,8 @@ def lambda_handler(event, context):
     # finally, update number of likes in posts table accordingly.
     try:
         response = client.update_item(
-            TableName='posts',
-            Key={'id': {
-                'S': body['votedId']
-            }},
+            TableName=typeTable,
+            Key=queryId,
             UpdateExpression="set numoflikes=:l",
             ExpressionAttributeValues={
                 ':l': {"N":str(numLikes)}},
@@ -120,7 +138,6 @@ def lambda_handler(event, context):
         'statusCode': 500,
         'body': json.dumps({"error": str(err)})
         }
-    
     
     
     return {

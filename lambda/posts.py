@@ -125,7 +125,7 @@ def lambda_handler(event, context):
                         ":l": {"S": data["location"]},
                         ":i": {"S": data["imageurl"]},
                         ":c": {"S": data["content"]},
-                        ":ta": {"L": data["tags"]},
+                        ":ta": {"L": [{"S": tag} for tag in data["tags"]]},
                     },
                     UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
                     ReturnValues="UPDATED_NEW",

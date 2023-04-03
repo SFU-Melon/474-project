@@ -38,7 +38,7 @@ export default function PostsList({ tags }) {
 
   useEffect(() => {
     fetchPosts();
-  }, [filterType, tags, username]);
+  }, [filterType, tags]);
 
 
   return isLoading ? (

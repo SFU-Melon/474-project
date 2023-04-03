@@ -89,42 +89,7 @@ def lambda_handler( event, context ):
 
         elif "getAllPosts" in ENDPOINT:
             print("getAllPosts")
-
-    elif METHOD == "POST":
-        print("POST")
-        if "editPost" in ENDPOINT:
-            print("editPost")
-            data = json.loads(event['body'])
-            postId = event["pathParameters"]["postId"]
-
-            try:
-                res = client.update_item(
-                    TableName=TABLE_NAME,
-                    Key={
-                        'id': {
-                          'S': postId
-                        }
-                    },
-                    ExpressionAttributeNames={
-                        "#L":"location"
-                    },
-                    ExpressionAttributeValues={
-                        ":t": {"S": data["title"]},
-                        ":l": {"S": data["location"]},
-                        ":i": {"S": data["imageurl"]},
-                        ":c": {"S": data["content"]},
-                        ":ta": {"L": data["tags"]}
-                    },
-                    UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
-                    ReturnValues="UPDATED_NEW"
-                )
-            except Exception as e:
-                return {
-                    'statusCode': 500,
-                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
-                    'body': json.dumps({"error": str(e)})
-                }
-
+        
         elif "savePost" in ENDPOINT:
             print("savePost")
             TABLE_NAME = "users"
@@ -132,7 +97,6 @@ def lambda_handler( event, context ):
             client = boto3.client('dynamodb')
             table = dynamodb.Table(TABLE_NAME)
 
-            data = json.loads(event['body'])
             postId = event["pathParameters"]["postId"]
             userId = data["pathParameters"]['userId']
 
@@ -162,16 +126,20 @@ def lambda_handler( event, context ):
 
         elif "unsavePost" in ENDPOINT:
             print("unsavePost")
-            data = json.loads(event['body'])
+            TABLE_NAME = "users"
+            dynamodb = boto3.resource('dynamodb')
+            client = boto3.client('dynamodb')
+            table = dynamodb.Table(TABLE_NAME)
+
             postId = event["pathParameters"]["postId"]
-            userId = data['userId']
+            userId = data["pathParameters"]['userId']
             
             try:
                 res = client.update_item(
                     TableName=TABLE_NAME,
                     Key={
                         'id': {
-                          'S': postId
+                          'S': userId
                         }
                     },
                     ExpressionAttributeValues={
@@ -180,6 +148,42 @@ def lambda_handler( event, context ):
                         }
                     },
                     UpdateExpression="remove postlist :my_value)",
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
+
+    elif METHOD == "POST":
+        print("POST")
+        if "editPost" in ENDPOINT:
+            print("editPost")
+            data = json.loads(event['body'])
+            postId = event["pathParameters"]["postId"]
+            userId = event["pathParameters"]['userId']
+
+            try:
+                res = client.update_item(
+                    TableName=TABLE_NAME,
+                    Key={
+                        'id': {
+                          'S': postId
+                        }
+                    },
+                    ExpressionAttributeNames={
+                        "#L":"location"
+                    },
+                    ExpressionAttributeValues={
+                        ":t": {"S": data["title"]},
+                        ":l": {"S": data["location"]},
+                        ":i": {"S": data["imageurl"]},
+                        ":c": {"S": data["content"]},
+                        ":ta": {"L": data["tags"]}
+                    },
+                    UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
                     ReturnValues="UPDATED_NEW"
                 )
             except Exception as e:

@@ -18,7 +18,7 @@ const SignupForm = ({ formCallback }) => {
 
   const fetchNumOfUsers = async () => {
     try {
-      const res = await axios.get("api/getTotalAmountOfUsers");
+      const res = await axios.get("/user/api/getTotalAmountOfUsers");
       if (res.data.success) {
         setNumOfUsers(res.data.numofusers);
       }

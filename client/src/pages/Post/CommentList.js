@@ -8,7 +8,7 @@ import Vote from "@components/Vote";
 
 export default function CommentList({ postId, comments, setComments }) {
   const { user } = useUserContext();
-
+  let username = user ? user.id : ""
   const handleDelete = async (commentId) => {
     try {
       const res = await axiosApiInstance.delete(
@@ -24,7 +24,10 @@ export default function CommentList({ postId, comments, setComments }) {
 
   const fetchAllComments = async () => {
     try {
-      const res = await axiosApiInstance.get(`/post/api/getComments/${postId}`);
+      const res = await axiosApiInstance.get(`/post/api/getComments/${postId}`,
+      {params:{
+        username
+      }});
       setComments(res.data.comments);
     } catch (err) {
       console.error(err.message);

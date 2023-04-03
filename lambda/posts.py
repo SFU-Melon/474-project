@@ -13,7 +13,7 @@ def batchDelete(write_requests,tablename):
         batch = write_requests[:25]  # DynamoDB supports a maximum of 25 write requests per batch
         write_requests = write_requests[25:]
         response = boto3.client("dynamodb").batch_write_item(RequestItems={tablename: batch})
-        
+
         # If there are unprocessed items, retry them
         unprocessed_items = response.get('UnprocessedItems', {})
         while unprocessed_items:
@@ -65,7 +65,7 @@ def lambda_handler(event, context):
             else:
                 data = client.scan(TableName=TABLE_NAME)
 
-   
+
             if username != "":
                 for item in data["Items"]:
                     likeStatus = client.get_item(
@@ -105,7 +105,7 @@ def lambda_handler(event, context):
             if (queryString and 'username' in queryString):
                 username = queryString['username']
             data = client.get_item(TableName=TABLE_NAME, Key={"id": {"S": postId}})
-            
+
             try:
                 item = data["Item"]
                 if username != "":
@@ -186,12 +186,70 @@ def lambda_handler(event, context):
 
             res=data
 
+        elif "savePost" in ENDPOINT:
+            print("savePost")
+            postId = event["pathParameters"]["postId"]
+            userId = data["pathParameters"]['userId']
+
+            try:
+                res = client.update_item(
+                    TableName="users",
+                    Key={
+                        'id': {
+                          'S': userId
+                        }
+                    },
+                    ExpressionAttributeValues={
+                        {
+                            ":my_value": {"L": [postId]}
+                        }
+                    },
+                    UpdateExpression="set postist=list_append(if_not_exists(postlist, :my_value), :my_value)",
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
+
+
+        elif "unsavePost" in ENDPOINT:
+            print("unsavePost")
+            postId = event["pathParameters"]["postId"]
+            userId = data["pathParameters"]['userId']
+
+            try:
+                res = client.update_item(
+                    TableName="users",
+                    Key={
+                        'id': {
+                          'S': userId
+                        }
+                    },
+                    ExpressionAttributeValues={
+                        {
+                            ":my_value": {"L": [postId]}
+                        }
+                    },
+                    UpdateExpression="remove postlist :my_value)",
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
+
     elif METHOD == "POST":
         print("POST")
         if "editPost" in ENDPOINT:
             print("editPost")
-            data = json.loads(event["body"])
-            userid = event["pathParameters"]["userid"]
+            data = json.loads(event['body'])
+            postId = event["pathParameters"]["postId"]
+            userId = event["pathParameters"]['userId']
 
             try:
                 res = client.update_item(
@@ -303,7 +361,7 @@ def lambda_handler(event, context):
                 comments_data = dynamodb.Table('comments').scan(
                     FilterExpression=Attr('postid').eq(postId)
                 )
-                
+
                 # Create a list of write requests to delete the items with the specified comment ids
                 write_requests = [{'DeleteRequest': {
                     'Key': {
@@ -311,7 +369,7 @@ def lambda_handler(event, context):
                     }
                 }} for item in comments_data['Items']]
                 batchDelete(write_requests,'comments')
-                
+
                 # delete likes
                 likes_data = dynamodb.Table('likes').scan(
                     FilterExpression=Attr('postid').eq(postId)
@@ -323,7 +381,7 @@ def lambda_handler(event, context):
                         }
                     }} for item in likes_data['Items']]
                 batchDelete(write_requests,'likes')
-                
+
                 # delete likescomment
                 likescomment_data = dynamodb.Table('likescomment').scan(
                     FilterExpression=Attr('postid').eq(postId)
@@ -334,7 +392,7 @@ def lambda_handler(event, context):
                         'userid': {'S': item['userid']}
                     }}} for item in likescomment_data['Items']]
                 batchDelete(write_requests,'likescomment')
-                
+
                 res = client.delete_item(
                     TableName=TABLE_NAME, Key={"id": {"S": postId}}
                 )

@@ -6,7 +6,6 @@ import "react-responsive-modal/styles.css";
 import Utility from "@utils";
 import { Dropdown } from "semantic-ui-react";
 import SearchInputLocation from "@components/SearchInputLocation";
-import { useParams } from "react-router-dom";
 
 const EditPost = (props) => {
   const { user } = useUserContext();

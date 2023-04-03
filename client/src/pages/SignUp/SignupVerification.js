@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import { Auth } from 'aws-amplify';
-import { axiosApiInstance } from '../../utils/axiosConfig';
+import { axiosApiInstance } from '@utils/axiosConfig';
+import { handleImageFileUpload, IMAGE_TYPE_PROFILE } from '@utils/imageService';
 import "./Signup.css";
 
 const SignupVerification = ({ values, navigateToFormCallback, navigateToSuccessCallback }) => {
@@ -14,13 +14,14 @@ const SignupVerification = ({ values, navigateToFormCallback, navigateToSuccessC
     const handleSubmit = async () => {
         try {
             console.log("VALUES: ",values)
+            // can't run them in parallel.
             const result = await Auth.confirmSignUp(values.username, code);
-            const response = await axiosApiInstance.post(`/user/api/createUser`, values);
+            const imageUrl = await handleImageFileUpload(values.file, IMAGE_TYPE_PROFILE);
+            const response = await axiosApiInstance.post(`/user/api/createUser`, {...values, profilephoto: imageUrl ?? "", file: undefined});
             console.log(result, 'auth result')
             console.log(response, "labmda response")
             navigateToSuccessCallback();
         } catch (error) {
-
             console.log("err", error);
             alert(error)
         }

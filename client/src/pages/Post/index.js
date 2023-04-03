@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
-import axios from "axios";
-import { axiosApiInstance } from "../../utils/axiosConfig";
+import { axiosApiInstance } from "@utils/axiosConfig";
+import { handleImageDelete } from "@utils/imageService";
 import Utility from "@utils";
 import { useUserContext } from "@contexts/UserContext";
 import { useHistory } from "react-router-dom";
@@ -28,9 +28,12 @@ const Post = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const onOpenModalDelete = () => setOpenDelete(true);
   const onCloseModalDelete = () => setOpenDelete(false);
-
+  let username = user ? user.id : ""
   const fetchPost = async () => {
-    const res = await axiosApiInstance.get(`/post/api/getPost/${decoded}`);
+    const res = await axiosApiInstance.get(`/post/api/getPost/${decoded}`, {
+      params: {
+        username
+      }});
     setPost(res.data);
     setSaveClicked(res.data.saveStatus);
     setTags(res.data.tags);
@@ -43,12 +46,12 @@ const Post = () => {
 
   const handleSave = async () => {
     if (saveClicked) {
-      const res = await axiosApiInstance.get(`/post/api/unsavePost/${decoded}`);
+      const res = await axiosApiInstance.get(`/post/api/unsavePost/${decoded}${user?.id ? `/${user?.id}` : ""}`);
       if (res.data.success) {
         setSaveClicked(false);
       }
     } else {
-      const res = await axiosApiInstance.get(`/post/api/savePost/${decoded}`);
+      const res = await axiosApiInstance.get(`/post/api/savePost/${decoded}${user?.id ? `/${user?.id}` : ""}`);
       if (res.data.success) {
         setSaveClicked(true);
       }
@@ -63,8 +66,7 @@ const Post = () => {
         );
         if (res.data.success) {
           if (post?.imageurl) {
-            axiosApiInstance
-              .post("/image/api/deleteOldPostImage", { imageurl: post.imageurl })
+            handleImageDelete(post.imageurl)
               .then(() => {
                 history.push("/");
               });

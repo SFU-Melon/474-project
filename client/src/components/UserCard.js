@@ -47,8 +47,8 @@ const Following = (props) => {
         style={{ textDecoration: "none", color: "black" }}
         href={
           user?.id === props.person.id
-            ? `/profile/${user?.username}`
-            : `/profile/public/${props.person.username}`
+            ? `/profile/${user?.id}`
+            : `/profile/public/${props.person.id}`
         }
       >
         <div className="d-flex flex-row mb-2">
@@ -66,7 +66,7 @@ const Following = (props) => {
             </div>
           </div>
           <div className="w-75 m-0">
-            <h6 className="m-0">{props.person.username}</h6>
+            <h6 className="m-0">{props.person.id}</h6>
             <p>{displayDate}</p>
           </div>
         </div>

@@ -43,12 +43,12 @@ const Post = () => {
 
   const handleSave = async () => {
     if (saveClicked) {
-      const res = await axiosApiInstance.get(`/post/api/unsavePost/${decoded}`);
+      const res = await axiosApiInstance.get(`/post/api/unsavePost/${decoded}${user?.id ? `/${user?.id}` : ""}`);
       if (res.data.success) {
         setSaveClicked(false);
       }
     } else {
-      const res = await axiosApiInstance.get(`/post/api/savePost/${decoded}`);
+      const res = await axiosApiInstance.get(`/post/api/savePost/${decoded}${user?.id ? `/${user?.id}` : ""}`);
       if (res.data.success) {
         setSaveClicked(true);
       }

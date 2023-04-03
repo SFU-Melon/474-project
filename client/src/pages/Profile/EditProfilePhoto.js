@@ -29,13 +29,15 @@ const EditProfilePhoto = (props) => {
     try {
       const url = user?.profilephoto;
       axiosApiInstance
-        .post(`/user/api/editProfilePhoto/${user.id}`, {
-          profilePhotoUrl: imgUrl,
+        .put(`/user/api/editProfilePhoto/${user.id}`, {
+          profilephoto: imgUrl,
         })
         .then((res) => {
           handleImageDelete(url)
             .then(() => {
               setFile(null);
+              onCloseModal();
+              setTimeout(() => window.location.reload(), 200);
             });
         });
     } catch (err) {
@@ -51,8 +53,6 @@ const EditProfilePhoto = (props) => {
         const imageUrl = await handleImageFileUpload(file, IMAGE_TYPE_PROFILE);
         if (imageUrl) {  
           sendToDatabase(imageUrl);
-          onCloseModal();
-          setTimeout(() => window.location.reload(), 200);
         }
       } catch (err) {
         console.log(err.message);

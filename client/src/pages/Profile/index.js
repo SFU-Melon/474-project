@@ -37,7 +37,7 @@ const Profile = () => {
 
   const fetchSavedPosts = async () => {
     try {
-      const res = await axiosApiInstance.get("/post/api/getAllSavedPosts");
+      const res = await axiosApiInstance.get(`/post/api/getAllSavedPosts/${user?.id}`);
       setSavedPosts(res.data.posts);
     } catch (err) {
       console.log(err);

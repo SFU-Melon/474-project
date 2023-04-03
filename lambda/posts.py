@@ -250,7 +250,7 @@ def lambda_handler(event, context):
                             ":my_value": {"L": [postId]}
                         }
                     },
-                    UpdateExpression="set postist=list_append(if_not_exists(postlist, :my_value), :my_value)",
+                    UpdateExpression="set postlist=list_append(if_not_exists(postlist, :my_value), :my_value)",
                     ReturnValues="UPDATED_NEW"
                 )
             except Exception as e:
@@ -259,7 +259,6 @@ def lambda_handler(event, context):
                     'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
-
 
         elif "unsavePost" in ENDPOINT:
             print("unsavePost")
@@ -287,6 +286,44 @@ def lambda_handler(event, context):
                     'statusCode': 500,
                     'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
+                }
+
+        elif "getAllSavedPosts" in ENDPOINT:
+            """Return all saved posts for user"""
+            userId = event["pathParameters"]["userId"]
+            print(f"getAllSavedPosts for {userId}")
+
+            try:
+                # scan users table for user userId get return all posts that match postlist
+                savedPosts = table.scan(
+                    TableName = "users",
+                    FilterExpression = "#userId = :id",
+                    ExpressionAttributeNames = { "#userId": "userId" },
+                    ExpressionAttributeValues = { ":id" : userId }
+                )["Items"]["postlist"]
+
+                # get all posts
+                data = table.scan(
+                    TableName= TABLE_NAME,
+                    FilterExpression = "#postId in :postList",
+                    ExpressionAttributeNames = { "#postId": "id" },
+                    ExpressionAttributeValues = { ":postList" : savedPosts }
+                )["Items"]
+
+                for d in data:
+                    d["numoflikes"] = str(d["numoflikes"])
+                    d["numofcomments"] = str(d["numofcomments"])
+
+                res = data
+            except Exception as e:
+                print(e)
+                return {
+                    "statusCode": 500,
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    "body": json.dumps({"error": str(e)}),
                 }
 
     elif METHOD == "POST":

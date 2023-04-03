@@ -56,7 +56,7 @@ const Nav = () => {
                   className="col display-grid-center"
                   style={{ paddingLeft: 0 }}
                 >
-                  <h3 className="brand-name">Muskmelon</h3>
+                  <h3 className="brand-name">Educational Q&A</h3>
                 </div>
               </div>
             </Link>

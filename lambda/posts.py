@@ -94,7 +94,7 @@ def lambda_handler(event, context):
                 "title": item["title"]["S"],
                 "imageurl": item["imageurl"]["S"],
                 "numoflikes": item["numoflikes"]["N"],
-                "userId": item["userId"]["S"],
+                "userid": item["userId"]["S"],
                 "authorname": item["userId"]["S"],
                 "tags": item["tags"]["L"],
             }

@@ -2,19 +2,23 @@ import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import PostCard from "./PostCard";
 import { useLocation } from "react-router-dom";
-
+import { useUserContext } from "@contexts/UserContext";
 export default function PostsList({ tags }) {
-  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
+  const { user } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
+  let username = user ? user.username : ""
+  
   const fetchPosts = useCallback(async()=> {
     try {
       const res = await axios.get("/post/api/getPosts", {
         params: {
           filterType,
-          tags // :tags.map(tag => encodeURIComponent(tag)) Might need this?
+          tags, // :tags.map(tag => encodeURIComponent(tag)) Might need this?
+          username
         },
       });
       

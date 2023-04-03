@@ -103,6 +103,39 @@ exports.getUserById = async (event) => {
   }
 };
 
+exports.getTotalAmountOfUsers = async (event) => {
+  try {
+    const baseDynamoDB = new AWS.DynamoDB();
+    // Describe a specific table
+    const describeTableParams = {
+      TableName: "users",
+    };
+
+    const describeTableResponse = await baseDynamoDB
+      .describeTable(describeTableParams)
+      .promise();
+
+    const itemCount = describeTableResponse.Table.ItemCount;
+    return {
+      statusCode: 200,
+      headers: defaultHeaders(GET),
+      body: JSON.stringify({
+        itemCount,
+      }),
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      statusCode: 500,
+      headers: defaultHeaders(GET),
+      body: JSON.stringify({
+        message: "Error",
+        error: error.message,
+      }),
+    };
+  }
+};
+
 exports.getTopUsers = async (event) => {
   const LIMIT = 10;
   try {

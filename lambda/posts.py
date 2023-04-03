@@ -98,50 +98,6 @@ def lambda_handler(event, context):
             res = parsed_data
             # res[0]["event"] = json.dumps(event['requestContext']['identity'])
 
-        elif "getPost" in ENDPOINT:
-            postId = event["pathParameters"]["postId"]
-            queryString = event["queryStringParameters"]
-            username = ''
-            if (queryString and 'username' in queryString):
-                username = queryString['username']
-            data = client.get_item(TableName=TABLE_NAME, Key={"id": {"S": postId}})
-
-            try:
-                item = data["Item"]
-                if username != "":
-                    likeStatus = client.get_item(
-                            TableName="likes",
-                            Key={'userid':{'S':username},'postid':{'S':item['id']['S']}}
-                        )
-                    if "Item" in likeStatus:
-                        item['val'] = int(likeStatus["Item"]['val']['N'])
-            except Exception as e:
-                return {
-                    "statusCode": 500,
-                    "headers": {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                    "body": json.dumps({"error": str(e)}),
-                }
-
-            parsed_data = {
-                "id": item["id"]["S"],
-                "content": item["content"]["S"],
-                "location": item["location"]["S"],
-                "datetime": item["datetime"]["S"],
-                "title": item["title"]["S"],
-                "imageurl": item["imageurl"]["S"],
-                "numoflikes": item["numoflikes"]["N"],
-                "userid": item["userId"]["S"],
-                "authorname": item["userId"]["S"],
-                "tags": item["tags"]["L"],
-                "val": 0 if "val" not in item else item['val']
-            }
-            parsed_data["tags"] = [item["S"] for item in parsed_data["tags"]]
-
-            res = parsed_data
-
         elif "getPostLikedNotOwned" in ENDPOINT:
             """Return posts that user has liked but not created"""
             print("getPostLikedNotOwned")
@@ -190,6 +146,50 @@ def lambda_handler(event, context):
                     },
                     "body": json.dumps({"error": str(e)}),
                 }
+
+        elif "getPost" in ENDPOINT:
+            postId = event["pathParameters"]["postId"]
+            queryString = event["queryStringParameters"]
+            username = ''
+            if (queryString and 'username' in queryString):
+                username = queryString['username']
+            data = client.get_item(TableName=TABLE_NAME, Key={"id": {"S": postId}})
+
+            try:
+                item = data["Item"]
+                if username != "":
+                    likeStatus = client.get_item(
+                            TableName="likes",
+                            Key={'userid':{'S':username},'postid':{'S':item['id']['S']}}
+                        )
+                    if "Item" in likeStatus:
+                        item['val'] = int(likeStatus["Item"]['val']['N'])
+            except Exception as e:
+                return {
+                    "statusCode": 500,
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    "body": json.dumps({"error": str(e)}),
+                }
+
+            parsed_data = {
+                "id": item["id"]["S"],
+                "content": item["content"]["S"],
+                "location": item["location"]["S"],
+                "datetime": item["datetime"]["S"],
+                "title": item["title"]["S"],
+                "imageurl": item["imageurl"]["S"],
+                "numoflikes": item["numoflikes"]["N"],
+                "userid": item["userId"]["S"],
+                "authorname": item["userId"]["S"],
+                "tags": item["tags"]["L"],
+                "val": 0 if "val" not in item else item['val']
+            }
+            parsed_data["tags"] = [item["S"] for item in parsed_data["tags"]]
+
+            res = parsed_data
 
         elif "getAllPosts" in ENDPOINT:
             # print("getAllPosts")

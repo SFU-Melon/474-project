@@ -4,7 +4,21 @@ import json
 
 # import the AWS SDK (for Python the package name is boto3)
 import boto3
+from boto3.dynamodb.conditions import Attr
 
+# helper
+def batchDelete(write_requests,tablename):
+    # Use the batch_write_item method to send the write requests to DynamoDB
+    while write_requests:
+        batch = write_requests[:25]  # DynamoDB supports a maximum of 25 write requests per batch
+        write_requests = write_requests[25:]
+        response = boto3.client("dynamodb").batch_write_item(RequestItems={tablename: batch})
+        
+        # If there are unprocessed items, retry them
+        unprocessed_items = response.get('UnprocessedItems', {})
+        while unprocessed_items:
+            response = boto3.client("dynamodb").batch_write_item(RequestItems=unprocessed_items)
+            unprocessed_items = response.get('UnprocessedItems', {})
 
 def lambda_handler(event, context):
     """Setup DB connection"""
@@ -31,7 +45,7 @@ def lambda_handler(event, context):
                 # print(f"tags to filter by {filterTags}")
 
                 tagsList = [{"S": tag} for tag in filterTags]
-                keyList = [f":{tags}" for tags in filterTags]
+                keyList = [f':{ tags.replace(" ", "") }' for tags in filterTags]
                 attrDict = dict(zip(keyList, tagsList))
                 filterExp = [f"contains(#tags, {key})" for key in keyList]
                 AND = " and "
@@ -151,21 +165,19 @@ def lambda_handler(event, context):
         if "editPost" in ENDPOINT:
             print("editPost")
             data = json.loads(event["body"])
-            postId = event["pathParameters"]["postId"]
 
             try:
                 res = client.update_item(
                     TableName=TABLE_NAME,
-                    Key={"id": {"S": postId}},
+                    Key={"id": {"S": data['postId']}},
                     ExpressionAttributeNames={"#L": "location"},
                     ExpressionAttributeValues={
                         ":t": {"S": data["title"]},
                         ":l": {"S": data["location"]},
-                        ":i": {"S": data["imageurl"]},
                         ":c": {"S": data["content"]},
                         ":ta": {"L": [{"S": tag} for tag in data["tags"]]},
                     },
-                    UpdateExpression="set title=:t, #L=:l, imageurl=:i, content=:c, tags=:ta",
+                    UpdateExpression="set title=:t, #L=:l, content=:c, tags=:ta",
                     ReturnValues="UPDATED_NEW",
                 )
             except Exception as e:
@@ -257,13 +269,50 @@ def lambda_handler(event, context):
         print("DELETE")
         if "deletePost" in ENDPOINT:
             print("deletePost")
-            postId = event["pathParameters"]["postId"]
-
+            postId = event["pathParameters"]["postid"]
+            userId = event["pathParameters"]["userid"]
             try:
+                # delete comments
+                comments_data = dynamodb.Table('comments').scan(
+                    FilterExpression=Attr('postid').eq(postId)
+                )
+                
+                # Create a list of write requests to delete the items with the specified comment ids
+                write_requests = [{'DeleteRequest': {
+                    'Key': {
+                        'id': {'S': item['id']}
+                    }
+                }} for item in comments_data['Items']]
+                batchDelete(write_requests,'comments')
+                
+                # delete likes
+                likes_data = dynamodb.Table('likes').scan(
+                    FilterExpression=Attr('postid').eq(postId)
+                )
+                write_requests = [{'DeleteRequest': {
+                    'Key': {
+                        'userid': {'S': item['userid']},
+                        'postid':{'S':item['postid']}
+                        }
+                    }} for item in likes_data['Items']]
+                batchDelete(write_requests,'likes')
+                
+                # delete likescomment
+                likescomment_data = dynamodb.Table('likescomment').scan(
+                    FilterExpression=Attr('postid').eq(postId)
+                )
+                write_requests = [{'DeleteRequest': {
+                    'Key': {
+                        'commentid':{'S':item['commentid']},
+                        'userid': {'S': item['userid']}
+                    }}} for item in likescomment_data['Items']]
+                batchDelete(write_requests,'likescomment')
+                
                 res = client.delete_item(
                     TableName=TABLE_NAME, Key={"id": {"S": postId}}
                 )
-
+                res['success'] = 1
+            # delete related comments, likes, and likescomment entries
             except Exception as e:
                 return {
                     "statusCode": 500,

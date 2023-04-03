@@ -114,7 +114,14 @@ def lambda_handler(event, context):
     # if user has never voted on this before, must insert new item into likes table
     else:
         new_item = likesQueryKey
-        new_item['val'] = {"N": "1"}
+        if ("upVotePost" in endpoint):
+            new_item['val'] = {"N": "1"}
+            res = "upvoted"
+        elif ("downVotePost" in endpoint):
+            new_item['val'] = {"N": "-1"}
+            res = "downvoted"
+        if (body['type']=='comment'):
+            new_item['postid'] = {'S': body['votedId']['postId']}
         numLikes = int(postExists["numoflikes"]["N"]) + 1
         client.put_item(
             TableName= likesTable,

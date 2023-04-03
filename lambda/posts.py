@@ -39,6 +39,9 @@ def lambda_handler(event, context):
             params = event["queryStringParameters"]
             filterType = params["filterType"]
 
+            username = ''
+            if ('username' in params):
+                username = params['username']
             if "tags[]" in params:
                 # filter by tags
                 filterTags = event["multiValueQueryStringParameters"]["tags[]"]
@@ -62,6 +65,15 @@ def lambda_handler(event, context):
             else:
                 data = client.scan(TableName=TABLE_NAME)
 
+   
+            if username != "":
+                for item in data["Items"]:
+                    likeStatus = client.get_item(
+                            TableName="likes",
+                            Key={'userid':{'S':username},'postid':{'S':item['id']['S']}}
+                        )
+                    if "Item" in likeStatus:
+                        item['val'] = int(likeStatus["Item"]['val']['N'])
             parsed_data = [
                 {
                     "id": item["id"]["S"],
@@ -72,6 +84,7 @@ def lambda_handler(event, context):
                     "numoflikes": item["numoflikes"]["N"],
                     "tags": item["tags"]["L"],
                     "authorname": item["userId"]["S"],
+                    "val": 0 if "val" not in item else item['val']
                 }
                 for item in data["Items"]
             ]
@@ -87,9 +100,21 @@ def lambda_handler(event, context):
 
         elif "getPost" in ENDPOINT:
             postId = event["pathParameters"]["postId"]
+            queryString = event["queryStringParameters"]
+            username = ''
+            if (queryString and 'username' in queryString):
+                username = queryString['username']
             data = client.get_item(TableName=TABLE_NAME, Key={"id": {"S": postId}})
+            
             try:
                 item = data["Item"]
+                if username != "":
+                    likeStatus = client.get_item(
+                            TableName="likes",
+                            Key={'userid':{'S':username},'postid':{'S':item['id']['S']}}
+                        )
+                    if "Item" in likeStatus:
+                        item['val'] = int(likeStatus["Item"]['val']['N'])
             except Exception as e:
                 return {
                     "statusCode": 500,
@@ -111,6 +136,7 @@ def lambda_handler(event, context):
                 "userid": item["userId"]["S"],
                 "authorname": item["userId"]["S"],
                 "tags": item["tags"]["L"],
+                "val": 0 if "val" not in item else item['val']
             }
             parsed_data["tags"] = [item["S"] for item in parsed_data["tags"]]
 
@@ -165,6 +191,7 @@ def lambda_handler(event, context):
         if "editPost" in ENDPOINT:
             print("editPost")
             data = json.loads(event["body"])
+            userid = event["pathParameters"]["userid"]
 
             try:
                 res = client.update_item(

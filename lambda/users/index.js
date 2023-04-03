@@ -19,6 +19,7 @@ const defaultHeaders = (method) => {
 const POST = 'POST';
 const GET = 'GET';
 const DELETE = 'DELETE';
+const PUT = 'PUT';
 
 // Create a user in DynamoDB
 // POST
@@ -135,6 +136,76 @@ exports.getTotalAmountOfUsers = async (event) => {
     };
   }
 };
+
+exports.editProfilePhoto = async (event) => {
+  const { id } = event.pathParameters;
+  const { profilephoto } = JSON.parse(event.body);
+
+  const params = {
+    TableName: 'users',
+    Key: {
+      id: id,
+    },
+    UpdateExpression: 'SET profilephoto = :profilephoto',
+    ExpressionAttributeValues: {
+      ':profilephoto': profilephoto,
+    },
+  };
+
+  try {
+    await dynamoDB.update(params).promise();
+    console.log(`Profile photo for user ${id} updated successfully`);
+    return {
+      statusCode: 200,
+      headers: defaultHeaders(PUT),
+      body: JSON.stringify({ message: `Profile photo for user ${id} updated successfully` }),
+    };
+  } catch (err) {
+    console.log(`Error updating profile photo for user ${id}: ${err}`);
+    return {
+      statusCode: 500,
+      headers: defaultHeaders(PUT),
+      body: JSON.stringify({ message: `Error updating profile photo for user ${id}` }),
+    };
+  }
+};
+
+exports.editProfileInfo = async (event) => {
+  const { id } = event.pathParameters;
+  const { fname, lname, email, dob } = JSON.parse(event.body);
+
+  const params = {
+    TableName: 'users',
+    Key: {
+      id: id,
+    },
+    UpdateExpression: 'SET fname = :fname, lname = :lname, email = :email, dob = :dob',
+    ExpressionAttributeValues: {
+      ':fname': fname,
+      ':lname': lname,
+      ':email': email,
+      ':dob': dob,
+    },
+  };
+
+  try {
+    await dynamoDB.update(params).promise();
+    console.log(`Profile information for user ${id} updated successfully`);
+    return {
+      statusCode: 200,
+      headers: defaultHeaders(PUT),
+      body: JSON.stringify({ message: `Profile information for user ${id} updated successfully` }),
+    };
+  } catch (err) {
+    console.log(`Error updating profile information for user ${id}: ${err}`);
+    return {
+      statusCode: 500,
+      headers: defaultHeaders(PUT),
+      body: JSON.stringify({ message: `Error updating profile information for user ${id}` }),
+    };
+  }
+};
+
 
 exports.getTopUsers = async (event) => {
   const LIMIT = 10;

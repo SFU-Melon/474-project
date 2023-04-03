@@ -42,18 +42,20 @@ const EditProfile = () => {
     if (validateForm()) {
       try {
         axios
-          .post(`/user/api/editProfileInfo/${user.id}`, {
+          .put(`/user/api/editProfileInfo/${user.id}`, {
             fname: firstName,
             lname: lastName,
             email: email,
             dob: dob,
           })
-          .then((res) => {});
+          .then((res) => {      
+            onCloseModal();
+            setTimeout(() => window.location.reload(), 400);
+          });
       } catch (err) {
         console.error(err.message);
       }
-      onCloseModal();
-      setTimeout(() => window.location.reload(), 400);
+
     }
   };
 

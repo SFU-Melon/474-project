@@ -14,11 +14,12 @@ export default function PostsList({ tags }) {
       const res = await axios.get("/post/api/getPosts", {
         params: {
           filterType,
-          tags,
+          tags // :tags.map(tag => encodeURIComponent(tag)) Might need this?
         },
       });
       
       if(res.status === 200){ 
+        console.log("WHY IS THIS NOT WORKING")
         setPosts(res.data);
       }
       setIsLoading(false);
@@ -28,11 +29,11 @@ export default function PostsList({ tags }) {
       setIsLoading(false);
       setError(true);
     }
-  }, [])
+  }, [tags, filterType])
 
   useEffect(() => {
     fetchPosts();
-  }, [filterType]);
+  }, [filterType, tags]);
 
 
   return isLoading ? (

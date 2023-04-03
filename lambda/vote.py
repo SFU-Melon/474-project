@@ -73,36 +73,30 @@ def lambda_handler(event, context):
             if (likeStatus=="1"):
                 likeStatus = 0
                 numLikes -= 1
-                res = "cancelled upvote on post"
             # if currently downvoted, action will change to upvoted and add 2 likes
             elif (likeStatus == "-1"):
                 likeStatus = 1
                 numLikes += 2
-                res = "updated to upvote from downvote"
             # if it is currently not liked aka val = 0, then it will update to liked (val = 1)
             else: # likeStatus = 0 indicating not liked yet
                 numLikes += 1
                 likeStatus = 1
-                res = "upvoted"
                 
         # handle downvote
         elif ("downVotePost" in endpoint):
             if (likeStatus == "-1"):
                 likeStatus = 0
                 numLikes += 1
-                res = "cancelled downvote on post"
             elif (likeStatus == "1"):
                 likeStatus = -1
                 numLikes -= 2
-                res = "updated to downvote from upvote"
             # if it is currently not downvoted aka val = 0, then it will update to downvoted (val = 1)
             else: # likeStatus = 0 indicating not liked yet
                 numLikes -= 1
                 likeStatus = -1
-                res = "downvoted"
         
         # update the user's like status in the like table to the correct value
-        client.update_item(
+        res = client.update_item(
             TableName=likesTable,
             Key=likesQueryKey,
             UpdateExpression="set val=:l",
@@ -116,20 +110,23 @@ def lambda_handler(event, context):
         new_item = likesQueryKey
         if ("upVotePost" in endpoint):
             new_item['val'] = {"N": "1"}
+            likeStatus = 1
             res = "upvoted"
         elif ("downVotePost" in endpoint):
             new_item['val'] = {"N": "-1"}
+            likeStatus = -1
             res = "downvoted"
         if (body['type']=='comment'):
-            new_item['postid'] = {'S': body['votedId']['postId']}
+            new_item['p'] = {'S': body['votedId']['postId']}
         numLikes = int(postExists["numoflikes"]["N"]) + 1
-        client.put_item(
+        res = client.put_item(
             TableName= likesTable,
             Item= new_item,
             ConditionExpression= "attribute_not_exists(userid)"
         )
    
-    
+    res['newVoteStatus'] = likeStatus
+    res['numoflikes'] = numLikes
     # finally, update number of likes in posts table accordingly.
     try:
         response = client.update_item(
@@ -150,5 +147,5 @@ def lambda_handler(event, context):
     return {
         "statusCode": 200,
         'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
-        "body": res
+        "body": json.dumps(res)
     }

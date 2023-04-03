@@ -125,6 +125,70 @@ def lambda_handler( event, context ):
                     'body': json.dumps({"error": str(e)})
                 }
 
+        elif "savePost" in ENDPOINT:
+            print("savePost")
+            TABLE_NAME = "users"
+            dynamodb = boto3.resource('dynamodb')
+            client = boto3.client('dynamodb')
+            table = dynamodb.Table(TABLE_NAME)
+
+            data = json.loads(event['body'])
+            postId = event["pathParameters"]["postId"]
+            userId = data['userId']
+
+            try:
+                res = client.update_item(
+                    TableName=TABLE_NAME,
+                    Key={
+                        'id': {
+                          'S': userId
+                        }
+                    },
+                    ExpressionAttributeValues={
+                        { 
+                            ":my_value": {"L": [postId]}
+                        }
+                    },
+                    UpdateExpression="set postist=list_append(if_not_exists(postlist, :my_value), :my_value)",
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
+
+
+        elif "unsavePost" in ENDPOINT:
+            print("unsavePost")
+            data = json.loads(event['body'])
+            postId = event["pathParameters"]["postId"]
+            userId = data['userId']
+            
+            try:
+                res = client.update_item(
+                    TableName=TABLE_NAME,
+                    Key={
+                        'id': {
+                          'S': postId
+                        }
+                    },
+                    ExpressionAttributeValues={
+                        { 
+                            ":my_value": {"L": [postId]}
+                        }
+                    },
+                    UpdateExpression="remove postlist :my_value)",
+                    ReturnValues="UPDATED_NEW"
+                )
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
+
         elif "createPost" in ENDPOINT:
             print("createPost")
             data = json.loads(event['body'])

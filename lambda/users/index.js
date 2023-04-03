@@ -103,6 +103,63 @@ exports.getUserById = async (event) => {
   }
 };
 
+exports.getTopUsers = async (event) => {
+  const LIMIT = 10;
+  try {
+    const params = {
+      TableName: "followers",
+      IndexName: "followee-follower-index",
+      ProjectionExpression: "followee, follower",
+      Select: "SPECIFIC_ATTRIBUTES",
+    };
+
+    const response = await dynamoDB.scan(params).promise();
+    const followCounts = {};
+
+    for (const item of response.Items) {
+      followCounts[item.followee] = (followCounts[item.followee] || 0) + 1;
+    }
+
+    const topUsers = Object.entries(followCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, LIMIT);
+      
+    const userParams = {
+      RequestItems: {
+        users: {
+          Keys: topUsers.map(([username]) => {
+            return { id: username };
+          }),
+          ProjectionExpression: "id, profilephoto",
+        },
+      },
+    };
+
+    const usersResponse = await dynamoDB.batchGet(userParams).promise();
+    const userDetails = usersResponse.Responses.users.map((user, index) => {
+      return {
+        username: user.id,
+        id: user.id,
+        profilephoto: user.profilephoto,
+        numoffollowers: topUsers[index][1],
+      };
+    });
+    return {
+      statusCode: 200,
+      headers: defaultHeaders(GET),
+      body: JSON.stringify(userDetails),
+    };
+
+  } catch (error) {
+    console.error("Error getting top users:", error);
+    return {
+      statusCode: 500,
+      headers: defaultHeaders(GET),
+      body: JSON.stringify({ error: `Error getting top users: ${error}` }),
+    };
+  }
+};
+
 exports.follow = async (event) => {
   const { follower, followee } = JSON.parse(event.body);
 

@@ -21,8 +21,7 @@ export default function Top10Users() {
   const fetchUsers = async () => {
     try {
       const res = await axios.get("/user/api/getTopUsers");
-      //setUsers(res.data.users);
-      return res.data.users;
+      return res.data;
     } catch (err) {
       console.log(err);
     }

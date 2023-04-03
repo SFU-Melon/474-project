@@ -58,7 +58,7 @@ def lambda_handler(event, context):
                         }
                     )
 
-                    parsed_data = [{"userId":item["id"]["S"], "fname":item["fname"]["S"], "lname":item["lname"]["S"]
+                    parsed_data = [{"userId":item["id"]["S"], "fname":item["fname"]["S"], "lname":item["lname"]["S"], "profilephoto":item["profilephoto"]["S"]
                     } for item in data['Items']]
                     res=parsed_data
 

@@ -250,7 +250,7 @@ def lambda_handler(event, context):
                             ":my_value": {"L": [postId]}
                         }
                     },
-                    UpdateExpression="set postist=list_append(if_not_exists(postlist, :my_value), :my_value)",
+                    UpdateExpression="set postlist=list_append(if_not_exists(postlist, :my_value), :my_value)",
                     ReturnValues="UPDATED_NEW"
                 )
             except Exception as e:
@@ -259,7 +259,6 @@ def lambda_handler(event, context):
                     'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
-
 
         elif "unsavePost" in ENDPOINT:
             print("unsavePost")
@@ -288,6 +287,62 @@ def lambda_handler(event, context):
                     'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
                     'body': json.dumps({"error": str(e)})
                 }
+
+        elif "getAllSavedPosts" in ENDPOINT:
+            """Return all saved posts for user"""
+            userId = event["pathParameters"]["userId"]
+            print(f"getAllSavedPosts for {userId}")
+            ret = { "success": True, "posts": []}
+            try:
+                # scan users table for user userId get return all posts that match postlist
+                savedPosts = table.scan(
+                    TableName = "users",
+                    FilterExpression = "#userId = :id",
+                    ExpressionAttributeNames = { "#userId": "id" },
+                    ExpressionAttributeValues = { ":id" : userId }
+                )
+                print(savedPosts)
+                savedPosts = savedPosts["Items"]
+
+                if len(savedPosts) != 0:
+                    print(savedPosts)
+                    savedPosts = savedPosts[0]["postlist"]
+
+                    # get all posts
+
+                    keyList = [f":{i}" for i in range(1, len(savedPosts)+1)]
+                    attrDict = dict(zip(keyList, savedPosts))
+                    filterExp = "#postId in (" + ",".join(keyList) + ")"
+                    # print(keyList)
+                    # print(attrDict)
+                    # print(filterExp)
+
+                    data = table.scan(
+                        TableName = TABLE_NAME,
+                        FilterExpression = filterExp,
+                        ExpressionAttributeNames = { "#postId" : "id" },
+                        ExpressionAttributeValues = attrDict
+                    )["Items"]
+
+                    for d in data:
+                        d["numoflikes"] = str(d["numoflikes"])
+                        d["numofcomments"] = str(d["numofcomments"])
+                        d["userid"] = d["userId"]
+
+                    ret["posts"] = data
+            except Exception as e:
+                print(e)
+                ret["error"] = str(e)
+                ret["success"] = False
+                return {
+                    "statusCode": 500,
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    "body": json.dumps(ret),
+                }
+            res = ret
 
     elif METHOD == "POST":
         print("POST")

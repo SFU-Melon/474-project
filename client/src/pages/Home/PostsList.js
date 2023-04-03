@@ -11,7 +11,7 @@ export default function PostsList({ tags }) {
 
   let filterType = useLocation().pathname.includes("new") ? "new" : "hot";
   let username = user ? user.id : ""
-
+  console.log("user:",user)
   const fetchPosts = useCallback(async()=> {
     try {
       const res = await axios.get("/post/api/getPosts", {

@@ -143,7 +143,53 @@ def lambda_handler(event, context):
             res = parsed_data
 
         elif "getPostLikedNotOwned" in ENDPOINT:
+            """Return posts that user has liked but not created"""
             print("getPostLikedNotOwned")
+            # print(event)
+            userId = event["pathParameters"]["id"]
+
+            likedPosts = table.scan(
+                TableName = "likes",
+                FilterExpression = "#userid = :id",
+                ExpressionAttributeNames = { "#userid" : "userid" },
+                ExpressionAttributeValues = { ":id" : userId }
+            )
+
+            try:
+                likedPosts = [ item["postid"] for item in likedPosts["Items"] ]
+                keyList = [f":{i}" for i in range(1, len(likedPosts)+1)]
+                attrDict = dict(zip(keyList, likedPosts))
+                attrDict[":id"] = userId
+                filterExp = "#userId <> :id and #postId in (" + ",".join(keyList) + ")"
+                # print(likedPosts)
+                # print(filterExp)
+                # print(attrDict)
+
+                data = table.scan(
+                    TableName = TABLE_NAME,
+                    FilterExpression = filterExp,
+                    ExpressionAttributeNames = {
+                        "#postId" : "id",
+                        "#userId" : "userId"
+                        },
+                    ExpressionAttributeValues = attrDict
+                )["Items"]
+
+                for d in data:
+                    d["numoflikes"] = str(d["numoflikes"])
+                    d["numofcomments"] = str(d["numofcomments"])
+
+                res=data
+            except Exception as e:
+                print(e)
+                return {
+                    "statusCode": 500,
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    "body": json.dumps({"error": str(e)}),
+                }
 
         elif "getAllPosts" in ENDPOINT:
             # print("getAllPosts")

@@ -134,7 +134,7 @@ def lambda_handler( event, context ):
 
             data = json.loads(event['body'])
             postId = event["pathParameters"]["postId"]
-            userId = data['userId']
+            userId = data["pathParameters"]['userId']
 
             try:
                 res = client.update_item(

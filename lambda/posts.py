@@ -106,7 +106,45 @@ def lambda_handler(event, context):
             print("getPostLikedNotOwned")
 
         elif "getAllPosts" in ENDPOINT:
-            print("getAllPosts")
+            # print("getAllPosts")
+            userId = event["pathParameters"]["userId"]
+
+            data = client.scan(
+                TableName = TABLE_NAME,
+                FilterExpression = "#userId = :id",
+                ExpressionAttributeNames = { "#userId" : "userId" },
+                ExpressionAttributeValues = { ":id": { "S" : userId } }
+            )
+
+            try:
+                data = [
+                    {
+                        "id": item["id"]["S"],
+                        "location": item["location"]["S"],
+                        "datetime": item["datetime"]["S"],
+                        "title": item["title"]["S"],
+                        "imageurl": item["imageurl"]["S"],
+                        "numoflikes": item["numoflikes"]["N"],
+                        "numofcomments": item["numofcomments"]["N"],
+                        "tags": item["tags"]["L"],
+                        "authorname": item["userId"]["S"],
+                    } for item in data["Items"]
+                ]
+
+                for post in data:
+                    post["tags"] = [item["S"] for item in post["tags"]]
+
+            except Exception as e:
+                return {
+                    "statusCode": 500,
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    "body": json.dumps({"error": str(e)}),
+                }
+
+            res=data
 
     elif METHOD == "POST":
         print("POST")

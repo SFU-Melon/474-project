@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import "./style.css";
-import { axiosApiInstance } from "../../utils/axiosConfig";
+import { axiosApiInstance } from "@utils/axiosConfig";
+import { handleImageDelete, handleImageFileUpload, IMAGE_TYPE_PROFILE } from "@utils/imageService";
 
 const EditProfilePhoto = (props) => {
   const { user } = useUserContext();
-  const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,10 +20,7 @@ const EditProfilePhoto = (props) => {
   // Handle change of target file
   const handleChange = (e) => {
     if (e.target.files[0]) {
-      const parts = e.target.files[0].name.split(".");
-      const type = parts[parts.length - 1];
       setFile(e.target.files[0]);
-      setFileType(type);
     }
   };
 
@@ -36,13 +33,9 @@ const EditProfilePhoto = (props) => {
           profilePhotoUrl: imgUrl,
         })
         .then((res) => {
-          axiosApiInstance
-            .post("/image/api/deleteOldProfile", {
-              imageurl: url,
-            })
+          handleImageDelete(url)
             .then(() => {
               setFile(null);
-              setFileType("");
             });
         });
     } catch (err) {
@@ -55,19 +48,9 @@ const EditProfilePhoto = (props) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        let res;
-        res = await axiosApiInstance.post("/image/api/profileUpload", { fileType: fileType });
-        if (res.data.success) {
-          const signedRequest = res.data.signedRequest;
-          const res_url = res.data.url;
-          const options = {
-            headers: {
-              "Content-Type": fileType,
-            },
-          };
-          //uploading to s3 bucket
-          await axiosApiInstance.put(signedRequest, file, options);
-          sendToDatabase(res_url);
+        const imageUrl = await handleImageFileUpload(file, IMAGE_TYPE_PROFILE);
+        if (imageUrl) {  
+          sendToDatabase(imageUrl);
           onCloseModal();
           setTimeout(() => window.location.reload(), 200);
         }

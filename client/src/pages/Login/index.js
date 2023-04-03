@@ -44,24 +44,28 @@ export default function Login(props) {
       // TODO: do the if-else statement in .then() function above.
       // You'll need to find out how you can check if the call succeeded or not.
       try {
-        const user = await Auth.signIn(username, password);
-        console.log(user);
-        if(user) {
-          const response = await axiosApiInstance.get(`/user/api/getUserById/${user.username}`);
-          if(response.status === 200) {
-            const lambdaData = response.data;
-            const data = {
-              id: user.username,
-              username: user.username,
-              profilephoto: lambdaData.profilephoto,
-              lname: lambdaData.lname,
-              fnmae: lambdaData.fname,
-              dob: lambdaData.dob, // might need to change to Date object
-              email: lambdaData.email,
-              joindate: lambdaData.joindate,
-              profilephoto: lambdaData.profilephoto,
-              following: lambdaData.following,
-              followers: lambdaData.followers
+        const authData = await Auth.signIn(username, password);
+        console.log(authData);
+        if(authData) {
+          const [response, followResponse] = await Promise.all([
+            axiosApiInstance.get(`/user/api/getUserById/${authData.username}`),
+            axiosApiInstance.get(`/user/api/getFollowersAndFollowingUsers/${authData.username}`)
+          ]);
+          if(response.status === 200 && followResponse.status === 200) {
+            const userData = response.data;
+            const followData = followResponse.data;
+            // temporary. We should fetch user authData through /api/user
+            const data ={
+              id: authData.username,
+              username: authData.username,
+              lname: userData.lname,
+              fname: userData.fname,
+              dob: userData.dob, // might need to change to Date object
+              email: userData.email,
+              joindate: userData.joindate,
+              profilephoto: userData.profilephoto,
+              following: followData.followees,
+              followers: followData.followers
             };
     
             setTimeout(() => {

@@ -9,7 +9,8 @@ import "@pathofdev/react-tag-input/build/index.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown } from "semantic-ui-react";
 import Utility from "@utils";
-import {axiosApiInstance} from "../../utils/axiosConfig";
+import {axiosApiInstance} from "@utils/axiosConfig";
+import {handleImageFileUpload, IMAGE_TYPE_POST} from "@utils/imageService";
 
 const CreatePost = (props) => {
   const { user } = useUserContext();
@@ -82,19 +83,9 @@ const CreatePost = (props) => {
     if (validatePost()) {
       if (file) {
         try {
-          let res;
-          res = await axiosApiInstance.post("/image/api/postUpload", { fileType: fileType });
-          if (res.data.success) {
-            const signedRequest = res.data.signedRequest;
-            const res_url = res.data.url;
-            const options = {
-              headers: {
-                "Content-Type": fileType,
-              },
-            };
-            //uploading to s3 bucket
-            await axiosApiInstance.put(signedRequest, file, options);
-            sendToDatabase(res_url);
+          const imageUrl = await handleImageFileUpload(file, IMAGE_TYPE_POST);
+          if (imageUrl) {
+            sendToDatabase(imageUrl);
             onCloseModal();
             setTimeout(() => window.location.reload(), 400);
           }

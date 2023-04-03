@@ -21,6 +21,7 @@ export default function PostCard({ post }) {
   }, []);
 
   const handleAuthorClick = (e) => {
+    e.preventDefault();
     e.stopPropagation();
     history.push(`/profile/${
       post.authorname !== user?.username ? "public/" : ""
@@ -57,7 +58,16 @@ export default function PostCard({ post }) {
           <div className="d-flex flex-row justify-content-between text-break">
             <p>
               Posted by{" "}
-              <span onClick={handleAuthorClick} style={{ cursor: "pointer" }}>
+              <span onClick={handleAuthorClick}
+                style={{
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "blue",
+                  transition: "color 0.3s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "darkblue")}
+                onMouseLeave={(e) => (e.target.style.color = "blue")}
+              >
                 {post.authorname}
               </span>{" "}
               {post.location && "from"} {post.location}

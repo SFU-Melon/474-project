@@ -14,18 +14,18 @@ export default function FollowButton(props) {
   const { user } = useUserContext();
 
   useEffect(() => {
-    if (user && user.following.includes(props.userId)) {
+    if (user && user.following.some((obj) => obj.id === props.userId)) {
       setFollowing(true);
     }
   }, [user, props.userId]);
 
   const unfollow = async () => {
     try {
-      const res = await axiosApiInstance.post("/user/api/unfollows", {
-        follower_id: user.id,
-        followee_id: props.userId,
+      const res = await axiosApiInstance.post("/user/api/unfollow", {
+        follower: user.id,
+        followee: props.userId,
       });
-      if (res.data.success) {
+      if (res.status === 200) {
         setFollowing(false);
       }
     } catch (err) {
@@ -35,11 +35,11 @@ export default function FollowButton(props) {
 
   const follow = async () => {
     try {
-      const res = await axiosApiInstance.post("/user/api/follows", {
-        follower_id: user.id,
-        followee_id: props.userId,
+      const res = await axiosApiInstance.post("/user/api/follow", {
+        follower: user.id,
+        followee: props.userId,
       });
-      if (res.data.success) {
+      if (res.status === 200) {
         setFollowing(true);
       }
     } catch (err) {

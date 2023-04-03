@@ -23,7 +23,7 @@ def lambda_handler( event, context ):
                 FilterExpression=Attr('postid').eq(PATHPARAMS['postid'])
             )
             parsed_data = [{"id": item["id"],"content": item["content"],"postid":item["postid"],"datetime":item["datetime"],
-                "username":item["userid"],"numoflikes":str(item["numoflikes"])
+                "userid":item["userid"],"username":item["userid"],"numoflikes":str(item["numoflikes"])
             } for item in data['Items']]
             
             key = 'numoflikes'
@@ -69,6 +69,7 @@ def lambda_handler( event, context ):
             # some fields to the input dict and return it instead
             comment = data
             comment["username"] = userid
+            comment["userid"] = userid
             comment["id"] = str(u_id)
             comment["datetime"] = timestamp
             comment["numoflikes"] = 0

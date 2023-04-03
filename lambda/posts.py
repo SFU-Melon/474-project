@@ -89,27 +89,22 @@ def lambda_handler( event, context ):
 
         elif "getAllPosts" in ENDPOINT:
             print("getAllPosts")
-        
+
         elif "savePost" in ENDPOINT:
             print("savePost")
-            TABLE_NAME = "users"
-            dynamodb = boto3.resource('dynamodb')
-            client = boto3.client('dynamodb')
-            table = dynamodb.Table(TABLE_NAME)
-
             postId = event["pathParameters"]["postId"]
             userId = data["pathParameters"]['userId']
 
             try:
                 res = client.update_item(
-                    TableName=TABLE_NAME,
+                    TableName="users",
                     Key={
                         'id': {
                           'S': userId
                         }
                     },
                     ExpressionAttributeValues={
-                        { 
+                        {
                             ":my_value": {"L": [postId]}
                         }
                     },
@@ -126,24 +121,19 @@ def lambda_handler( event, context ):
 
         elif "unsavePost" in ENDPOINT:
             print("unsavePost")
-            TABLE_NAME = "users"
-            dynamodb = boto3.resource('dynamodb')
-            client = boto3.client('dynamodb')
-            table = dynamodb.Table(TABLE_NAME)
-
             postId = event["pathParameters"]["postId"]
             userId = data["pathParameters"]['userId']
-            
+
             try:
                 res = client.update_item(
-                    TableName=TABLE_NAME,
+                    TableName="users",
                     Key={
                         'id': {
                           'S': userId
                         }
                     },
                     ExpressionAttributeValues={
-                        { 
+                        {
                             ":my_value": {"L": [postId]}
                         }
                     },

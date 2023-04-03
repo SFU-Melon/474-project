@@ -28,9 +28,12 @@ const Post = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const onOpenModalDelete = () => setOpenDelete(true);
   const onCloseModalDelete = () => setOpenDelete(false);
-
+  let username = user ? user.id : ""
   const fetchPost = async () => {
-    const res = await axiosApiInstance.get(`/post/api/getPost/${decoded}/${user?.id}`);
+    const res = await axiosApiInstance.get(`/post/api/getPost/${decoded}`, {
+      params: {
+        username
+      }});
     setPost(res.data);
     setSaveClicked(res.data.saveStatus);
     setTags(res.data.tags);

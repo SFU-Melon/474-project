@@ -11,9 +11,8 @@ export function useUserContext() {
 }
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem('user') || '');
   const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
-
   const { setAuth } = useAuthContext();
 
   const authenticateUser = async () => {
@@ -55,7 +54,8 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     authenticateUser();
-  }, []);
+    localStorage.setItem('user', user);
+  }, [user]);
 
   return (
     <UserContext.Provider value={providerValue}>

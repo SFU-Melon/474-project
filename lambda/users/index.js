@@ -264,6 +264,60 @@ exports.getTopUsers = async (event) => {
   }
 };
 
+exports.getUserStats = async (event) => {
+  const { id } = event.pathParameters;
+
+  const params = {
+    TableName: 'posts',
+    FilterExpression: 'userId = :userid',
+    ExpressionAttributeValues: {
+      ':userid': id,
+    },
+  };
+
+  try {
+    const results = await dynamoDB.scan(params).promise();
+
+    let mostLikes = 0;
+    let mostComments = 0;
+    let totalLikes = 0;
+    let totalComments = 0;
+
+    for (let post of results.Items) {
+      totalLikes += post.numoflikes;
+      totalComments += post.numofcomments;
+
+      if (post.numoflikes > mostLikes) {
+        mostLikes = post.numoflikes;
+      }
+
+      if (post.numofcomments > mostComments) {
+        mostComments = post.numofcomments;
+      }
+    }
+
+    const result = {
+      mostLikes: mostLikes,
+      mostComments: mostComments,
+      totalLikes: totalLikes,
+      totalComments: totalComments,
+    };
+
+    return {
+      statusCode: 200,
+      headers: defaultHeaders(GET),
+      body: JSON.stringify({success: true, stats: result}),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      headers: defaultHeaders(GET),
+      body: JSON.stringify({ message: `Error getting stats for user ${id} ${err.message}` }),
+    };
+  }
+};
+
 exports.follow = async (event) => {
   const { follower, followee } = JSON.parse(event.body);
 

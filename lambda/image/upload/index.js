@@ -16,6 +16,16 @@ exports.uploadImage = async (event) => {
 
   const result = await parser.parse(event);
   const { content, filename, contentType } = result.files[0];
+  
+  // Check if the content type is supported
+  if (!['image/jpeg', 'image/png'].includes(contentType)) {
+    const response = {
+      statusCode: 404,
+      headers: defaultHeaders(POST),
+      body: JSON.stringify({ message: `Unsupported content type: ${contentType}` }),
+    };
+    return response;
+  }
 
   const customFileName = `${Date.now()}_${filename}`; // Add a timestamp to the file name to make it unique
 

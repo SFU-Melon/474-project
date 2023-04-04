@@ -66,6 +66,19 @@ const About = () => {
                   <a href=""> Vj</a>
                 </li>
               </ul>
+              <h3>Original Creators</h3>
+              <p>This project was made by:</p>
+              <ul className="creator-list">
+                <li>
+                  <a href=""> Zwe</a>
+                </li>
+                <li>
+                  <a href=""> Calvin</a>
+                </li>
+                <li>
+                  <a href=""> Artun</a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

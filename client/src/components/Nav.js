@@ -1,7 +1,6 @@
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useUserContext } from "@contexts/UserContext";
 import { useAuthContext } from "@contexts/AuthContext";
-import axios from "axios";
 import SearchBar from "./SearchBar";
 import "./nav.css";
 import { useState } from "react";
@@ -18,7 +17,6 @@ const Nav = () => {
   const logout = async () => {
     try {
       await Auth.signOut();
-      // await axios.get("/auth/api/logout");
       setUser(null);
       setAuth(false);
       if (location === `/profile/${user.username}`) {

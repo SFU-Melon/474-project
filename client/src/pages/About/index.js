@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, Fragment, useState } from "react";
 import "./style.css";
 

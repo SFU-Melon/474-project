@@ -78,6 +78,7 @@ const EditPost = (props) => {
         })
         .then((res) => {
           console.log(res);
+          setTimeout(() => window.location.reload(), 100);
         });
     } catch (err) {
       console.error(err.message);
@@ -87,7 +88,6 @@ const EditPost = (props) => {
   const handleEdit = async (e) => {
     e.preventDefault();
     if (validatePost()) editPost();
-    setTimeout(() => window.location.reload(), 200);
   };
 
   const handleTags = (e, { value }) => {

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import Utility from "@utils";
+import {axiosApiInstance} from "@utils/axiosConfig";
 
 const EditProfile = () => {
   const { user } = useUserContext();
@@ -41,7 +42,7 @@ const EditProfile = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        axios
+        axiosApiInstance
           .put(`/user/api/editProfileInfo/${user.id}`, {
             fname: firstName,
             lname: lastName,

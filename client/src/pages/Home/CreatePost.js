@@ -71,6 +71,8 @@ const CreatePost = (props) => {
           // Use res post id to insert uid, pid and tag array
           // to Post model -- then parse and enter each tag into
           // Tags and then use that tag id
+          onCloseModal();
+          setTimeout(() => window.location.reload(), 400);
         });
     } catch (err) {
       console.error(err.message);
@@ -86,16 +88,12 @@ const CreatePost = (props) => {
           const imageUrl = await handleImageFileUpload(file, IMAGE_TYPE_POST);
           if (imageUrl) {
             sendToDatabase(imageUrl);
-            onCloseModal();
-            setTimeout(() => window.location.reload(), 400);
           }
         } catch (err) {
           console.log(err.message);
         }
       } else {
         sendToDatabase();
-        onCloseModal();
-        setTimeout(() => window.location.reload(), 400);
       }
     }
   };

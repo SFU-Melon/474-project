@@ -44,7 +44,8 @@ exports.createUser = async (event) => {
       dob: dob,
       email: email,
       joindate: joindate,
-      profilephoto: profilephoto
+      profilephoto: profilephoto,
+      postlist:[]
     },
     ConditionExpression: 'attribute_not_exists(id)'
   };

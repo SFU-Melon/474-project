@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
+import {axiosApiInstance} from "@utils/axiosConfig";
 import { useUserContext } from "@contexts/UserContext";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
@@ -68,7 +68,7 @@ const EditPost = (props) => {
   // Send new post data to database
   const editPost = () => {
     try {
-      axios
+      axiosApiInstance
         .post(`/post/api/editPost/${user.id}`, {
           title: title,
           content: description,

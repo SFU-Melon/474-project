@@ -118,7 +118,7 @@ def lambda_handler(event, context):
             res = "downvoted"
         if (body['type']=='comment'):
             new_item['p'] = {'S': body['votedId']['postId']}
-        numLikes = int(postExists["numoflikes"]["N"]) + 1
+        numLikes = int(postExists["numoflikes"]["N"]) + likeStatus
         res = client.put_item(
             TableName= likesTable,
             Item= new_item,

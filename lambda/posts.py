@@ -27,8 +27,9 @@ def lambda_handler(event, context):
     client = boto3.client("dynamodb")
     table = dynamodb.Table(TABLE_NAME)
 
-    METHOD = event["httpMethod"]
     ENDPOINT = event["path"]
+    print(ENDPOINT)
+    METHOD = event["httpMethod"]
     res = None
 
     """Handle Requests"""
@@ -151,10 +152,12 @@ def lambda_handler(event, context):
             postId = event["pathParameters"]["postId"]
             queryString = event["queryStringParameters"]
             username = ''
+            saveStatus = 0
             if (queryString and 'username' in queryString):
                 username = queryString['username']
+                
             data = client.get_item(TableName=TABLE_NAME, Key={"id": {"S": postId}})
-
+            
             try:
                 item = data["Item"]
                 if username != "":
@@ -164,6 +167,9 @@ def lambda_handler(event, context):
                         )
                     if "Item" in likeStatus:
                         item['val'] = int(likeStatus["Item"]['val']['N'])
+                    userData = client.get_item(TableName='users',Key={"id":{"S":username}})
+                    if {'S':postId} in userData['Item']['postlist']['L']:
+                        saveStatus = 1
             except Exception as e:
                 return {
                     "statusCode": 500,
@@ -190,7 +196,7 @@ def lambda_handler(event, context):
             parsed_data["tags"] = [item["S"] for item in parsed_data["tags"]]
 
             res = parsed_data
-
+            res['saveStatus'] = saveStatus
         elif "getAllPosts" in ENDPOINT:
             # print("getAllPosts")
             userId = event["pathParameters"]["userId"]
@@ -231,11 +237,38 @@ def lambda_handler(event, context):
                 }
 
             res=data
+            
+        elif "unsavePost" in ENDPOINT:
+            print("unsavePost")
+            postId = event["pathParameters"]["postId"]
+            userId = event["pathParameters"]['userId']
 
+            try:
+                userData = client.get_item(TableName='users',Key={"id":{"S":userId}})
+                postList = userData['Item']['postlist']['L']
+                postIndex = postList.index({'S':postId})
+                updateEx = "remove postlist["+str(postIndex)+"]"
+                res = client.update_item(
+                    TableName="users",
+                    Key={
+                        'id': {
+                          'S': userId
+                        }
+                    },
+                    UpdateExpression=updateEx,
+                    ReturnValues="UPDATED_NEW"
+                )
+                res['success'] = 1
+            except Exception as e:
+                return {
+                    'statusCode': 500,
+                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({"error": str(e)})
+                }
         elif "savePost" in ENDPOINT:
             print("savePost")
             postId = event["pathParameters"]["postId"]
-            userId = data["pathParameters"]['userId']
+            userId = event["pathParameters"]['userId']
 
             try:
                 res = client.update_item(
@@ -246,13 +279,12 @@ def lambda_handler(event, context):
                         }
                     },
                     ExpressionAttributeValues={
-                        {
-                            ":my_value": {"L": [postId]}
-                        }
+                            ":my_value": {'L':[{'S':postId}]}
                     },
                     UpdateExpression="set postlist=list_append(if_not_exists(postlist, :my_value), :my_value)",
                     ReturnValues="UPDATED_NEW"
                 )
+                res['success'] = 1
             except Exception as e:
                 return {
                     'statusCode': 500,
@@ -260,33 +292,7 @@ def lambda_handler(event, context):
                     'body': json.dumps({"error": str(e)})
                 }
 
-        elif "unsavePost" in ENDPOINT:
-            print("unsavePost")
-            postId = event["pathParameters"]["postId"]
-            userId = data["pathParameters"]['userId']
-
-            try:
-                res = client.update_item(
-                    TableName="users",
-                    Key={
-                        'id': {
-                          'S': userId
-                        }
-                    },
-                    ExpressionAttributeValues={
-                        {
-                            ":my_value": {"L": [postId]}
-                        }
-                    },
-                    UpdateExpression="remove postlist :my_value)",
-                    ReturnValues="UPDATED_NEW"
-                )
-            except Exception as e:
-                return {
-                    'statusCode': 500,
-                    'headers': {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'},
-                    'body': json.dumps({"error": str(e)})
-                }
+        
 
         elif "getAllSavedPosts" in ENDPOINT:
             """Return all saved posts for user"""
@@ -349,7 +355,6 @@ def lambda_handler(event, context):
         if "editPost" in ENDPOINT:
             print("editPost")
             data = json.loads(event['body'])
-            postId = event["pathParameters"]["postId"]
             userId = event["pathParameters"]['userId']
 
             try:
@@ -424,6 +429,7 @@ def lambda_handler(event, context):
                             "content": {"S": data["content"]},
                             # "authorname": {"S": data['authorname']},
                             "tags": {"L": [{"S": tag} for tag in data["tags"]]},
+                            "postlist": {"L":[]}
                         },
                         "ConditionExpression": "attribute_not_exists(id)",
                     },
@@ -455,8 +461,8 @@ def lambda_handler(event, context):
         print("DELETE")
         if "deletePost" in ENDPOINT:
             print("deletePost")
-            postId = event["pathParameters"]["postid"]
-            userId = event["pathParameters"]["userid"]
+            postId = event["pathParameters"]["postId"]
+            userId = event["pathParameters"]["userId"]
             try:
                 # delete comments
                 comments_data = dynamodb.Table('comments').scan(

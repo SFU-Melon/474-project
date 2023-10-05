@@ -1,10 +1,3 @@
-# CMPT354_Plant_SM
+This is a cloned repo of https://github.com/planter-social/Muskmelon social media website for plant lovers.
 
-# For first time cloning, run:
-- npm install (in root directory)
-- cd client && npm install 
-- cd .. (to go back to root dir)
-- npm run dev (from root dir)
-
-# For Second time cloning, run:
-- npm run dev (from root dir)
+Migrated Express.js and PostgreSQL to AWS Serverless services like Lambda, API Gateway, S3 bucket, and DynamoDB.
